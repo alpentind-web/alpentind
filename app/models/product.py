@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Mapped,mapped_column
 from .base import Base
 
-class Route(Base):
-    __tablename__ = "routes"
+class Product(Base):
+    __tablename__ = "products"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
-    direction: Mapped[str]
-    days: Mapped[int]
+    route_id: Mapped[int]
+    price_eur: Mapped[float]
