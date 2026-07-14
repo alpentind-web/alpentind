@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 from src.models.base import Base
 from src.models.booking import Booking
+from src.models.contact import Contact
 from src.models.customer import Customer
 from src.models.departure import Departure
 from src.models.facility import Facility
@@ -53,7 +54,7 @@ def test_price_has_verification_fields() -> None:
 def test_all_models_have_audit_fields() -> None:
     models = [
         Route, Stage, StagePoint, Refuge, Lodging, Product, Departure,
-        Booking, Customer, Guide, GuideNote, Price, Facility,
+        Booking, Customer, Guide, GuideNote, Price, Facility, Contact,
     ]
     for model in models:
         assert hasattr(model, "created_at"), f"{model.__name__} missing created_at"

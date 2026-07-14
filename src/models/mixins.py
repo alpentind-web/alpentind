@@ -9,9 +9,11 @@ from sqlalchemy.orm import Mapped, mapped_column
 class AuditMixin:
     """Adds created_at / updated_at audit timestamps to any model (ADR-0004)."""
 
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.utcnow()
+    )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+        DateTime, default=lambda: datetime.utcnow(), onupdate=lambda: datetime.utcnow()
     )
 
 
