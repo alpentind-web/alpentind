@@ -17,6 +17,10 @@ SQLite
 
 Business logic belongs only in Application Services.
 
+## Document Priority
+
+Before implementing changes, consult docs/governance/DOCUMENT_HIERARCHY.md. If instructions conflict, follow the hierarchy and report the conflict instead of making assumptions.
+
 ## Rules
 
 - SQLite is master.
