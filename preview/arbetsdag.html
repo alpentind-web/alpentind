@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Min arbetsdag - AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <!-- Header -->
+  <header class="header" id="header"></header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="page active" id="arbetsdag-page">
+      <!-- Dagens uppgifter -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Dagens uppgifter</h2>
+          <a href="#" class="link">Visa alla →</a>
+        </div>
+        <div class="grid grid-4" id="tasks-grid"></div>
+      </section>
+
+      <!-- Kommande avgångar -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Kommande avgångar</h2>
+          <a href="produkter.html" class="link">Visa alla →</a>
+        </div>
+        <div class="grid grid-3" id="departures-grid"></div>
+      </section>
+
+      <!-- Nya bokningar -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Nya bokningar</h2>
+          <a href="#" class="link">Visa alla →</a>
+        </div>
+        <div class="grid grid-4" id="bookings-grid"></div>
+      </section>
+
+      <!-- Väntar på bekräftelse -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Väntar på bekräftelse</h2>
+          <a href="#" class="link">Visa alla →</a>
+        </div>
+        <div class="grid grid-2" id="awaiting-grid"></div>
+      </section>
+
+      <!-- Betalningar att följa upp -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Betalningar att följa upp</h2>
+          <a href="#" class="link">Visa alla →</a>
+        </div>
+        <div id="payments-table"></div>
+      </section>
+
+      <!-- Boenden som inte är bokade -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Boenden som inte är bokade</h2>
+          <a href="#" class="link">Visa alla →</a>
+        </div>
+        <div id="accommodations-table"></div>
+      </section>
+
+      <!-- Senaste kundmeddelanden -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Senaste kundmeddelanden</h2>
+          <a href="#" class="link">Visa alla →</a>
+        </div>
+        <div id="messages-list"></div>
+      </section>
+
+      <!-- Vädervarningar -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Vädervarningar</h2>
+          <a href="#" class="link">Visa alla →</a>
+        </div>
+        <div id="weather-warnings"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-1');
+      renderDashboard();
+    });
+  </script>
+</body>
+</html>
