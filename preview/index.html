@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlpenTind Platform - Login</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="https://via.placeholder.com/120x120?text=AlpenTind+Logo" alt="AlpenTind Guiding" class="login-logo">
+        <h1>AlpenTind Platform</h1>
+        <p class="text-muted">Designsystem v1.0</p>
+      </div>
+
+      <form class="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="email" class="form-label">E-post</label>
+          <input 
+            type="email" 
+            id="email" 
+            class="form-input" 
+            placeholder="din@email.com" 
+            value="erik@alpentind.se"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Lösenord</label>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-input" 
+            placeholder="••••••••" 
+            value="demo"
+            required
+          >
+        </div>
+
+        <div class="form-group checkbox">
+          <input 
+            type="checkbox" 
+            id="remember" 
+            checked
+          >
+          <label for="remember">Kom ihåg mig</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg">
+          Logga in
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <p class="text-muted text-center">Demo-inloggning. Använd erik@alpentind.se / demo</p>
+      </div>
+    </div>
+
+    <div class="login-background">
+      <img src="https://via.placeholder.com/1920x1080?text=AlpenTind+Mountains" alt="Mountains">
+    </div>
+  </div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    function handleLogin(event) {
+      event.preventDefault();
+      localStorage.setItem('alpentind-user-logged-in', 'true');
+      window.location.href = 'arbetsdag.html';
+    }
+  </script>
+</body>
+</html>
