@@ -13,3 +13,4 @@ Guide
 Price
 Facility
 Guide Note
+Contact

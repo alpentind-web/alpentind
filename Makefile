@@ -33,7 +33,8 @@ lint:
 
 format:
 	black src tests
-	typecheck:
+
+typecheck:
 	mypy src
 
 clean:
