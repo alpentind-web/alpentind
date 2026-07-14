@@ -1,12 +1,18 @@
-"""Unified repository base – ABC + session holder in one class."""
+"""Unified generic repository base."""
 
-from abc import ABC, abstractmethod
+import logging
+from abc import abstractmethod
+from typing import Generic, Optional, TypeVar
 
 from sqlalchemy.orm import Session
 
+logger = logging.getLogger(__name__)
 
-class BaseRepository(ABC):
-    """Abstract base for all repositories.
+T = TypeVar("T")
+
+
+class Repository(Generic[T]):
+    """Generic base for all repositories.
 
     Subclasses receive a SQLAlchemy session and must implement ``get``.
     """
@@ -15,6 +21,6 @@ class BaseRepository(ABC):
         self.session = session
 
     @abstractmethod
-    def get(self, id: int):
+    def get(self, id: int) -> Optional[T]:
         """Return the entity with the given primary key, or None."""
         ...

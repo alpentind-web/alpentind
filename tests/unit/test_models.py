@@ -1,5 +1,6 @@
 """Tests for SQLAlchemy domain models."""
 
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -18,6 +19,8 @@ from src.models.refuge import Refuge
 from src.models.route import Route
 from src.models.stage import Stage
 from src.models.stage_point import StagePoint
+
+pytestmark = pytest.mark.unit
 
 _engine = create_engine("sqlite:///:memory:", future=True)
 _Session = sessionmaker(bind=_engine, future=True)

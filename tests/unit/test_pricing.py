@@ -1,6 +1,10 @@
 """Tests for the PricingService."""
 
+import pytest
+
 from src.services.pricing import PricingService
+
+pytestmark = pytest.mark.unit
 
 
 def test_break_even() -> None:

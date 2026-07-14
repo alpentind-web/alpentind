@@ -2,6 +2,10 @@
 
 import importlib
 
+import pytest
+
+pytestmark = pytest.mark.unit
+
 
 def _importable(module: str) -> bool:
     try:

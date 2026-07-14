@@ -1,6 +1,6 @@
 """Reusable SQLAlchemy column mixins for cross-cutting concerns."""
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
@@ -10,10 +10,10 @@ class AuditMixin:
     """Adds created_at / updated_at audit timestamps to any model (ADR-0004)."""
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, default=lambda: datetime.utcnow()
+        DateTime, default=lambda: datetime.now(UTC)
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=lambda: datetime.utcnow(), onupdate=lambda: datetime.utcnow()
+        DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC)
     )
 
 

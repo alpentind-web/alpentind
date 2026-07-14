@@ -1,5 +1,9 @@
 """Pricing service – financial calculations for expedition products."""
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class PricingService:
     """Service for pricing and break-even calculations."""

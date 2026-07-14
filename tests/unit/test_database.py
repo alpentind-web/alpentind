@@ -1,6 +1,10 @@
 """Tests for the database session factory."""
 
+import pytest
+
 from src.core.database import SessionLocal
+
+pytestmark = pytest.mark.unit
 
 
 def test_session_factory() -> None:
