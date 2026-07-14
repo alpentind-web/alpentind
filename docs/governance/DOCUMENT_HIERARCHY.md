@@ -1,115 +1,220 @@
-# Document Hierarchy
+# AlpenTind Platform
 
-This file maps every document in the repository by type, location, and purpose.
-It is the authoritative index for the AlpenTind documentation set.
+## Document Hierarchy v1.0
 
----
+### Purpose
 
-## 1. Project Root
+This document defines the priority order of all governing documents in AlpenTind Platform.
 
-| Document | Path | Purpose |
-|----------|------|---------|
-| README | `README.md` | Project entry point — status and sprint reference |
-| Architecture | `ARCHITECTURE.md` | Package layout, conventions, ADR index |
-| Domain Dictionary | `DOMAIN_DICTIONARY.md` | Canonical list of all domain entities |
-| Changelog | `CHANGELOG.md` | Version history; one entry per sprint |
-| Roadmap | `ROADMAP.md` | Sprint checklist and future work |
-| Copilot Instructions | `COPILOT.md` | Standing instructions and rules for GitHub Copilot |
+If two documents appear to conflict, the document with the higher priority always takes precedence.
+
+This hierarchy ensures that architectural decisions, business rules and implementation remain consistent over time.
 
 ---
 
-## 2. Architecture Decision Records
+# Priority Order
 
-Location: `docs/adr/`
+## Level 1 — Business Rules
 
-ADRs are immutable once accepted. Every architectural decision must be documented here before implementation.
+**Authority**
 
-| ADR | Path | Decision |
-|-----|------|----------|
-| ADR-0001 | `docs/adr/ADR-0001.md` | SQLite is the master database |
-| ADR-0003 | `docs/adr/ADR-0003.md` | All implementations must be reusable; no TMB dependency |
-| ADR-0004 | `docs/ADR-0004.md` | AuditMixin and VerificationMixin on persistent entities |
-| ADR-0007 | `docs/adr/ADR-0007.md` | Single codebase in `src/`; `app/` removed |
+Highest
 
-> **Process:** Propose → Review → Accept → Implement. Never implement before acceptance.
+Documents:
 
----
+* BUSINESS_RULES.md
+* Legal requirements
+* Regulatory requirements
 
-## 3. Specification
+Purpose:
 
-Location: `docs/specification/`
+Defines how AlpenTind Guiding operates as a business.
 
-| Document | Path | Purpose |
-|----------|------|---------|
-| Platform Specification v1.0 | `docs/specification/AlpenTind_Specification_v1.0.md` | Vision, principles, and Definition of Done |
+Business rules always override technical implementation.
 
 ---
 
-## 4. Domain Documentation
+## Level 2 — Architecture Decision Records (ADR)
 
-Location: `docs/`
+Documents:
 
-| Document | Path | Purpose |
-|----------|------|---------|
-| Domain Model | `docs/DOMAIN_MODEL.md` | Entity list produced in sprint CORE-004 |
-| Expedition Domain | `docs/EXPEDITION_DOMAIN.md` | Route / Stage / StagePoint / Refuge / Lodging relationships |
+```
+docs/adr/
+```
 
----
+Purpose:
 
-## 5. Design Documentation
+Defines permanent architectural decisions.
 
-Location: `docs/design/`
+Examples:
 
-| Document | Path | Purpose |
-|----------|------|---------|
-| Design README | `docs/design/README.md` | Module index and design principles |
+* Database strategy
+* Repository pattern
+* Layered architecture
+* Platform principles
 
-> New module design documents go here as `docs/design/<module>.md`.
+No implementation may contradict an accepted ADR.
 
----
+If an ADR must change, create a new ADR.
 
-## 6. Release Notes
-
-Location: `docs/`
-
-| Document | Path | Release |
-|----------|------|---------|
-| Release Notes v3.0.1 | `docs/ReleaseNotes_v3.0.1.md` | Database engine, session factory, base repository |
-| Release Notes v3.0.2 | `docs/ReleaseNotes_v3.0.2.md` | Central config, logging, dependency container |
-| Release Notes v3.0.3 | `docs/ReleaseNotes_v3.0.3.md` | AuditMixin, VerificationMixin, first relationships |
-
-> New release notes go in `docs/ReleaseNotes_vX.Y.Z.md`.
-> A consolidated summary is kept in `CHANGELOG.md` at the root.
+Never silently change architecture.
 
 ---
 
-## 7. Governance
+## Level 3 — Development Charter
 
-Location: `docs/governance/`
+Document:
 
-| Document | Path | Purpose |
-|----------|------|---------|
-| Document Hierarchy *(this file)* | `docs/governance/DOCUMENT_HIERARCHY.md` | Authoritative index of all project documentation |
+```
+docs/governance/DEVELOPMENT_CHARTER.md
+```
+
+Purpose:
+
+Defines how the software project is managed.
+
+Includes:
+
+* Roles
+* Workflow
+* Definition of Done
+* Definition of Merge
+* AI collaboration
+* Engineering responsibilities
 
 ---
 
-## 8. Supplementary READMEs
+## Level 4 — Engineering Principles
 
-| Document | Path | Purpose |
-|----------|------|---------|
-| Sprint CORE-003 notes | `README_CORE003.md` | Historical sprint notes |
-| Sprint CORE-004 notes | `README_CORE004.md` | Historical sprint notes |
-| Sprint CORE-004.1 notes | `README_CORE004_1.md` | Historical sprint notes |
-| ADR index | `docs/adr/README.md` | ADR process and index |
-| Design index | `docs/design/README.md` | Design module index |
-| Migrations README | `database/migrations/README.md` | Alembic migration instructions |
+Documents:
+
+* ENGINEERING_PRINCIPLES.md
+* CODE_STYLE.md
+* REVIEW_GUIDELINES.md
+* RELEASE_POLICY.md
+* CONTRIBUTING.md
+
+Purpose:
+
+Defines engineering standards.
+
+These documents guide implementation but never override ADRs.
 
 ---
 
-## Rules
+## Level 5 — Technical Specification
 
-1. Every new document must be registered in this file before merging.
-2. A new ADR is required before any architectural change is implemented.
-3. `CHANGELOG.md` is updated in every sprint PR.
-4. Specification documents are versioned (`v1.0`, `v1.1`, …) and never edited in place.
-5. Sprint README files (`README_*.md`) at the root are historical artifacts — no new ones shall be added; use `CHANGELOG.md` instead.
+Documents:
+
+```
+docs/specification/
+```
+
+Purpose:
+
+Describes the technical design of the platform.
+
+Includes:
+
+* Domain model
+* Database structure
+* Services
+* Repositories
+* APIs
+* Workflows
+
+Specifications implement the architecture.
+
+They do not redefine it.
+
+---
+
+## Level 6 — Pull Request Specifications
+
+Purpose:
+
+Defines the implementation work for a specific Pull Request.
+
+A Pull Request specification may only implement approved architecture.
+
+It may never redefine:
+
+* business rules
+* ADRs
+* governance
+
+---
+
+## Level 7 — Source Code
+
+Purpose:
+
+Implements the approved design.
+
+Source code must reflect:
+
+Business Rules
+
+↓
+
+ADR
+
+↓
+
+Governance
+
+↓
+
+Specification
+
+↓
+
+Pull Request
+
+↓
+
+Implementation
+
+---
+
+# AI Governance
+
+GitHub Copilot shall follow this hierarchy.
+
+If two instructions conflict:
+
+1. Follow the higher-priority document.
+2. Report the conflict.
+3. Do not invent a solution.
+
+ChatGPT shall use the same hierarchy when reviewing implementations.
+
+---
+
+# Change Management
+
+This document may only be changed when:
+
+* a new governance model is adopted;
+* document ownership changes; or
+* an accepted ADR requires it.
+
+Changes should normally be documented through a new ADR.
+
+---
+
+# Summary
+
+The platform is governed in the following order:
+
+1. Business Rules
+2. Architecture Decision Records (ADR)
+3. Development Charter
+4. Engineering Principles
+5. Technical Specification
+6. Pull Request Specifications
+7. Source Code
+
+Every implementation should be traceable back through this hierarchy.
+
+If a design decision cannot be traced to a governing document, it should be questioned before implementation.
