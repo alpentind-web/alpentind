@@ -1,10 +1,10 @@
 /* ========================================
-   AlpenTind Platform Preview v0.1
-   Navigation - Page & Menu Management
+   AlpenTind Platform Preview v0.2
+   Navigation – Sidnavigering och autentisering
    ======================================== */
 
 // ========================================
-// Initialize Navigation
+// Initiera navigation
 // ========================================
 
 function initNavigation(activeNavId) {
@@ -14,58 +14,55 @@ function initNavigation(activeNavId) {
 }
 
 // ========================================
-// Navigate Between Pages
+// Navigera till sida
 // ========================================
 
 function navigateTo(page, navId) {
-  // Get the current page
-  const currentPage = document.querySelector('.page.active');
-  
-  // Map pages to files
+  // Mappning av sidor till HTML-filer
   const pageMap = {
-    'arbetsdag': 'arbetsdag.html',
-    'produkter': 'produkter.html',
-    'departures': 'departures.html',
-    'customers': 'customers.html',
-    'guides': 'guides.html',
+    'arbetsdag':      'arbetsdag.html',
+    'upplevelser':    'upplevelser.html',
+    'departures':     'departures.html',
+    'customers':      'customers.html',
+    'guides':         'guides.html',
     'accommodations': 'accommodations.html',
-    'economy': 'economy.html',
-    'maps': 'maps.html',
-    'documents': 'documents.html',
-    'messages': 'messages.html',
-    'settings': 'settings.html',
+    'economy':        'economy.html',
+    'maps':           'maps.html',
+    'documents':      'documents.html',
+    'messages':       'messages.html',
+    'settings':       'settings.html',
   };
 
-  // If we're on the same page, don't reload
   const targetFile = pageMap[page];
   if (targetFile) {
     window.location.href = targetFile;
   }
 
-  // Set active nav item
   setActiveNavItem(navId);
 }
 
 // ========================================
-// Set Active Navigation Item
+// Markera aktiv menypost
 // ========================================
 
 function setActiveNavItem(navId) {
-  // Remove active class from all nav items
-  const navItems = document.querySelectorAll('.nav-item');
-  navItems.forEach(item => {
+  document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.remove('active');
+    item.removeAttribute('aria-current');
   });
 
-  // Add active class to selected item
-  const activeItem = document.querySelector(`[data-page="${mockData.navigationItems.find(item => item.id === navId)?.page}"]`);
+  const navItem = mockData.navigationItems.find(item => item.id === navId);
+  if (!navItem) return;
+
+  const activeItem = document.querySelector(`[data-page="${navItem.page}"]`);
   if (activeItem) {
     activeItem.classList.add('active');
+    activeItem.setAttribute('aria-current', 'page');
   }
 }
 
 // ========================================
-// Logout Function
+// Utloggning
 // ========================================
 
 function logout() {
@@ -74,18 +71,17 @@ function logout() {
 }
 
 // ========================================
-// Check Authentication
+// Autentiseringskontroll
 // ========================================
 
 function checkAuth() {
-  const isLoggedIn = localStorage.getItem('alpentind-user-logged-in');
-  if (!isLoggedIn) {
+  if (!localStorage.getItem('alpentind-user-logged-in')) {
     window.location.href = 'index.html';
   }
 }
 
 // ========================================
-// Page Setup on Load
+// Kontrollera autentisering vid sidladdning
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {

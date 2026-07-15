@@ -2,52 +2,10 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produkter - AlpenTind Platform</title>
-  <link rel="stylesheet" href="css/design-system.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/pages.css">
+  <meta http-equiv="refresh" content="0; url=upplevelser.html">
+  <title>Omdirigerar till Upplevelser – AlpenTind Platform</title>
 </head>
 <body>
-  <!-- Sidebar Navigation -->
-  <aside class="sidebar" id="sidebar"></aside>
-
-  <!-- Header -->
-  <header class="header" id="header"></header>
-
-  <!-- Main Content -->
-  <main class="main">
-    <div class="page active" id="produkter-page">
-      <div class="page-header">
-        <h1>Produkter</h1>
-        <p class="text-muted">Hantera alla guidade resor och aktiviteter</p>
-      </div>
-
-      <div class="products-toolbar">
-        <div class="search-box">
-          <span>🔍</span>
-          <input type="text" id="product-search" placeholder="Sök produkt...">
-        </div>
-        <button class="btn btn-primary">+ Ny produkt</button>
-      </div>
-
-      <div class="grid grid-3" id="products-grid"></div>
-    </div>
-  </main>
-
-  <script src="js/mock-data.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/navigation.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (!localStorage.getItem('alpentind-user-logged-in')) {
-        window.location.href = 'index.html';
-        return;
-      }
-      initNavigation('nav-2');
-      renderProducts();
-    });
-  </script>
+  <p>Sidan har flyttat. <a href="upplevelser.html">Gå till Upplevelser →</a></p>
 </body>
 </html>

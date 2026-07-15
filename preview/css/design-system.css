@@ -1,5 +1,5 @@
 /* ========================================
-   AlpenTind Platform Preview v0.1
+   AlpenTind Platform Preview v0.2
    Design System - Colors, Typography, Spacing
    ======================================== */
 
@@ -10,8 +10,8 @@
   --color-light-primary: #D4AF86;    /* Ljusare koppar */
 
   --color-bg-dark: #1F2A33;          /* Djupgrå/Kolfärg */
-  --color-bg-medium: #2E3A44;        /* Stengra */
-  --color-bg-light: #3A4550;         /* Ljus stengra */
+  --color-bg-medium: #2E3A44;        /* Stengrå */
+  --color-bg-light: #3A4550;         /* Ljus stengrå */
 
   --color-text-light: #F2F4F5;       /* Snövit */
   --color-text-medium: #C5CDD2;      /* Ljus grå */
@@ -25,6 +25,12 @@
   --color-warning: #D4A574;          /* Varningsorange */
   --color-danger: #B85C5C;           /* Röd */
   --color-info: #7A9FB5;             /* Blå */
+
+  /* Status Colors – semantiska alias för status */
+  --status-success: var(--color-success);
+  --status-warning: var(--color-warning);
+  --status-error: var(--color-danger);
+  --status-info: var(--color-info);
 
   /* Typography */
   --font-family-serif: 'Playfair Display', serif;    /* Rubriker */
@@ -63,11 +69,20 @@
   --radius-xl: 16px;
   --radius-full: 9999px;
 
+  /* Semantiska border-radius alias */
+  --border-radius-small: var(--radius-sm);
+  --border-radius-large: var(--radius-lg);
+  --border-radius-full: var(--radius-full);
+
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+
+  /* Semantiska shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-dialog: 0 8px 32px rgba(0, 0, 0, 0.4);
 
   /* Borders */
   --border-thin: 1px solid var(--color-bg-light);

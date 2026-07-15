@@ -1,18 +1,20 @@
 /* ========================================
-   AlpenTind Platform Preview
-   Pages - Page-specific Styles
+   AlpenTind Platform Preview v0.2
+   Pages – Sidspecifika stilar
    ======================================== */
 
 /* ========================================
-   Login Page
+   Inloggningssida
    ======================================== */
 
-.login-page {
+body.login-page {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   min-height: 100vh;
   background-color: var(--color-bg-dark);
+  grid-template-columns: none;
+  grid-template-rows: none;
 }
 
 .login-container {
@@ -21,16 +23,19 @@
   min-height: 100vh;
 }
 
+/* Inloggningskort */
 .login-card {
   width: 420px;
   min-width: 320px;
-  padding: var(--spacing-2xl);
+  flex-shrink: 0;
   background-color: var(--color-bg-medium);
+  padding: var(--spacing-2xl) var(--spacing-2xl);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: var(--shadow-dialog);
   border-right: var(--border-thin);
-  z-index: 1;
+  z-index: 10;
 }
 
 .login-header {
@@ -39,15 +44,15 @@
 }
 
 .login-logo {
-  margin: 0 auto var(--spacing-lg);
+  margin: 0 auto var(--spacing-lg) auto;
   max-width: 80px;
   height: auto;
 }
 
 .login-header h1 {
-  font-size: var(--font-size-2xl);
-  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xl);
   color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
 }
 
 .login-form {
@@ -57,24 +62,132 @@
 }
 
 .login-footer {
-  margin-top: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
 }
 
+/* Bergstema-bakgrund – diskret gradient med bergssilhuett */
 .login-background {
   flex: 1;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    160deg,
+    #152030 0%,
+    #1F2A33 35%,
+    #253545 65%,
+    #1a2a38 100%
+  );
 }
 
-.login-background img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.3;
+.login-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600' preserveAspectRatio='xMidYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%230d1a25' stop-opacity='0.6'/%3E%3Cstop offset='1' stop-color='transparent'/%3E%3C/linearGradient%3E%3C/defs%3E%3C!-- Bakre berg --%3E%3Cpolygon points='0,600 200,180 420,600' fill='%231a2c3d' opacity='0.7'/%3E%3Cpolygon points='300,600 550,140 800,600' fill='%23213040' opacity='0.8'/%3E%3Cpolygon points='700,600 900,200 1100,600' fill='%231e2c38' opacity='0.7'/%3E%3Cpolygon points='900,600 1100,250 1200,600' fill='%23192635' opacity='0.6'/%3E%3C!-- Främre berg --%3E%3Cpolygon points='0,600 150,320 350,600' fill='%23253545' opacity='0.9'/%3E%3Cpolygon points='250,600 500,260 720,600' fill='%232a3d50' opacity='0.95'/%3E%3Cpolygon points='600,600 820,290 1050,600' fill='%23243342' opacity='0.9'/%3E%3Cpolygon points='950,600 1100,350 1200,600' fill='%2320303e' opacity='0.85'/%3E%3C!-- Snötäckta toppar --%3E%3Cpolygon points='500,260 488,295 512,295' fill='%23c5cdd2' opacity='0.25'/%3E%3Cpolygon points='150,320 140,350 160,350' fill='%23c5cdd2' opacity='0.2'/%3E%3Cpolygon points='820,290 810,320 830,320' fill='%23c5cdd2' opacity='0.2'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.login-background::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to top, var(--color-bg-dark), transparent);
+}
+
+.login-brand {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  text-align: center;
+  z-index: 2;
+  opacity: 0.4;
+}
+
+.login-brand-name {
+  font-family: var(--font-family-serif);
+  font-size: 3rem;
+  color: var(--color-primary);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.login-brand-tagline {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-medium);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-top: var(--spacing-sm);
 }
 
 /* ========================================
-   Content Sections
+   Informationsbanner – dashboard
+   ======================================== */
+
+.info-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-top: 3px solid var(--color-primary);
+  border-radius: var(--border-radius-large);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.info-banner-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.info-banner-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--color-bg-light);
+  flex-shrink: 0;
+}
+
+.info-banner-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-medium);
+  white-space: nowrap;
+}
+
+.info-banner-item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.info-banner-item.warning svg {
+  color: var(--status-warning);
+}
+
+.info-banner-item.success svg {
+  color: var(--status-success);
+}
+
+.info-banner-item strong {
+  color: var(--color-text-light);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ========================================
+   Sektionsrubriker
    ======================================== */
 
 .content-section {
@@ -91,13 +204,33 @@
 }
 
 .section-header h2 {
-  margin: 0;
-  font-size: var(--font-size-xl);
-  color: var(--color-text-light);
+  font-size: var(--font-size-lg);
+  margin-bottom: 0;
+}
+
+.page-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.page-header h1 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-xs);
+}
+
+.link {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.link:hover {
+  color: var(--color-light-primary);
 }
 
 /* ========================================
-   Task Cards
+   Uppgiftskort
    ======================================== */
 
 .task-card {
@@ -120,7 +253,7 @@
 }
 
 /* ========================================
-   Departure Cards
+   Kort med bild (avgångar, upplevelser)
    ======================================== */
 
 .departure-card .card-image,
@@ -130,8 +263,76 @@
   object-fit: cover;
 }
 
+.card-image-placeholder {
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-medium) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-image-placeholder svg {
+  opacity: 0.25;
+  color: var(--color-text-light);
+}
+
+.card-image-label {
+  position: absolute;
+  bottom: var(--spacing-sm);
+  left: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-medium);
+  background-color: rgba(31, 42, 51, 0.7);
+  padding: 2px var(--spacing-xs);
+  border-radius: var(--border-radius-small);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* ========================================
-   Message Items
+   Upplevelsesida
+   ======================================== */
+
+.products-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.product-specs {
+  display: flex;
+  gap: var(--spacing-md);
+  margin: var(--spacing-sm) 0;
+  flex-wrap: wrap;
+}
+
+.spec {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+}
+
+.product-price {
+  margin: var(--spacing-sm) 0;
+}
+
+.price {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+/* ========================================
+   Meddelanden
    ======================================== */
 
 .message-item {
@@ -141,9 +342,13 @@
   padding: var(--spacing-md);
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-large);
   margin-bottom: var(--spacing-sm);
   transition: all var(--transition-fast);
+}
+
+.message-item:hover {
+  border-color: var(--color-primary);
 }
 
 .message-item.unread {
@@ -154,14 +359,14 @@
 .message-avatar {
   width: 40px;
   height: 40px;
-  border-radius: var(--radius-full);
+  border-radius: var(--border-radius-full);
   background-color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-bg-dark);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   flex-shrink: 0;
 }
 
@@ -174,6 +379,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
 }
 
@@ -193,48 +399,157 @@
 }
 
 /* ========================================
-   Product Cards
+   Tomma tillstånd
    ======================================== */
 
-.product-specs {
+.empty-state {
   display: flex;
-  gap: var(--spacing-md);
-  margin: var(--spacing-md) 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-dark);
 }
 
-.spec {
+.empty-state svg {
+  width: 64px;
+  height: 64px;
+  color: var(--color-bg-light);
+  margin-bottom: var(--spacing-xl);
+}
+
+.empty-state h3 {
+  color: var(--color-text-medium);
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state p {
+  font-size: var(--font-size-sm);
+  max-width: 300px;
+}
+
+/* ========================================
+   Statistikkort
+   ======================================== */
+
+.stat-card {
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--border-radius-large);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-small);
+  background-color: rgba(184, 149, 90, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.stat-card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.stat-card-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-light);
+  line-height: 1;
+}
+
+.stat-card-label {
   font-size: var(--font-size-sm);
   color: var(--color-text-medium);
 }
 
-.product-price {
-  margin-bottom: var(--spacing-md);
+.stat-card-change {
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
-.price {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+.stat-card-change.positive {
+  color: var(--status-success);
+}
+
+.stat-card-change.negative {
+  color: var(--status-error);
 }
 
 /* ========================================
-   Link Styles
+   Åtgärdskort
    ======================================== */
 
-.link {
-  color: var(--color-primary);
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--border-radius-large);
+  transition: all var(--transition-fast);
+  cursor: pointer;
   text-decoration: none;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  transition: color var(--transition-fast);
 }
 
-.link:hover {
-  color: var(--color-light-primary);
+.action-card:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(184, 149, 90, 0.05);
+}
+
+.action-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-small);
+  background-color: rgba(184, 149, 90, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.action-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.action-card-content {
+  flex: 1;
+}
+
+.action-card-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
+}
+
+.action-card-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-medium);
 }
 
 /* ========================================
-   Component Library Layout
+   Komponentbibliotek – layout
    ======================================== */
 
 .component-page {
@@ -303,7 +618,7 @@
   padding: var(--spacing-sm) var(--spacing-md);
   color: var(--color-text-medium);
   text-decoration: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-small);
   font-size: var(--font-size-sm);
   transition: all var(--transition-fast);
 }
@@ -357,7 +672,7 @@
 }
 
 /* ========================================
-   Component Showcase Sections
+   Visningssektioner – komponentbibliotek
    ======================================== */
 
 .showcase-section {
@@ -412,13 +727,13 @@
 .showcase-table-container {
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
-  border-radius: var(--radius-lg);
+  border-radius: var(--border-radius-large);
   overflow: hidden;
   margin-bottom: var(--spacing-lg);
 }
 
 /* ========================================
-   Color Swatches (Typography page)
+   Färgprov (typografisida)
    ======================================== */
 
 .color-grid {
@@ -429,7 +744,7 @@
 }
 
 .color-swatch {
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-small);
   overflow: hidden;
   border: var(--border-thin);
 }
@@ -457,7 +772,7 @@
 }
 
 /* ========================================
-   Icon Grid (Typography page)
+   Ikonrutnät (typografisida)
    ======================================== */
 
 .icon-grid {
@@ -475,7 +790,7 @@
   padding: var(--spacing-md);
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-small);
   text-align: center;
   transition: all var(--transition-fast);
 }
@@ -496,7 +811,7 @@
 }
 
 /* ========================================
-   Typography Preview
+   Typografivisning
    ======================================== */
 
 .type-scale-item {
@@ -528,193 +843,7 @@
 }
 
 /* ========================================
-   Empty States
-   ======================================== */
-
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-3xl) var(--spacing-xl);
-  text-align: center;
-  color: var(--color-text-dark);
-}
-
-.empty-state svg {
-  width: 64px;
-  height: 64px;
-  color: var(--color-bg-light);
-  margin-bottom: var(--spacing-xl);
-}
-
-.empty-state h3 {
-  color: var(--color-text-medium);
-  margin-bottom: var(--spacing-sm);
-}
-
-.empty-state p {
-  font-size: var(--font-size-sm);
-  max-width: 300px;
-}
-
-/* ========================================
-   Stat Cards
-   ======================================== */
-
-.stat-card {
-  background-color: var(--color-bg-medium);
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  transition: all var(--transition-normal);
-}
-
-.stat-card:hover {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-lg);
-}
-
-.stat-card-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  background-color: rgba(184, 149, 90, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.stat-card-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-.stat-card-value {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-light);
-  line-height: 1;
-}
-
-.stat-card-label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
-}
-
-.stat-card-change {
-  font-size: var(--font-size-xs);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-}
-
-.stat-card-change.positive {
-  color: var(--color-success);
-}
-
-.stat-card-change.negative {
-  color: var(--color-danger);
-}
-
-/* ========================================
-   Action Cards
-   ======================================== */
-
-.action-card {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-lg);
-  background-color: var(--color-bg-medium);
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-fast);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.action-card:hover {
-  border-color: var(--color-primary);
-  background-color: rgba(184, 149, 90, 0.05);
-}
-
-.action-card-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  background-color: rgba(184, 149, 90, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-
-.action-card-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.action-card-content {
-  flex: 1;
-}
-
-.action-card-title {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-light);
-  margin-bottom: var(--spacing-xs);
-}
-
-.action-card-desc {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
-}
-
-/* ========================================
-   Info Banner
-   ======================================== */
-
-.info-banner {
-  background-color: var(--color-bg-medium);
-  border: var(--border-thin);
-  border-top: 3px solid var(--color-primary);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md) var(--spacing-lg);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-  flex-wrap: wrap;
-}
-
-.info-banner-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
-}
-
-.info-banner-item svg {
-  width: 16px;
-  height: 16px;
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-
-.info-banner-item strong {
-  color: var(--color-text-light);
-}
-
-/* ========================================
-   Responsive adjustments
+   Responsiv anpassning
    ======================================== */
 
 @media (max-width: 768px) {
@@ -746,10 +875,31 @@
   .login-card {
     width: 100%;
     min-height: 100vh;
-    padding: var(--spacing-xl);
+    padding: var(--spacing-xl) var(--spacing-lg);
   }
 
   .login-background {
+    display: none;
+  }
+
+  .info-banner {
+    gap: var(--spacing-md);
+  }
+
+  .products-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .info-banner-divider {
     display: none;
   }
 }
