@@ -70,6 +70,22 @@
   border-color: var(--color-primary);
 }
 
+/* Danger Button */
+.btn-danger {
+  background-color: var(--color-danger);
+  color: var(--color-text-light);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #c96666;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-danger:active:not(:disabled) {
+  transform: translateY(0);
+}
+
 /* Icon Button */
 .btn-icon {
   padding: var(--spacing-sm);
@@ -318,6 +334,24 @@
   color: var(--color-danger);
   font-size: var(--font-size-sm);
   margin-top: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.form-help {
+  color: var(--color-text-dark);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.form-input-error {
+  border-color: var(--color-danger);
+}
+
+.form-input-error:focus {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(184, 92, 92, 0.1);
 }
 
 /* ========================================
@@ -371,6 +405,33 @@
 
 .table tbody tr:hover {
   background-color: var(--color-bg-light);
+}
+
+/* Sortable table */
+.table-sortable th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-sortable th.sortable:hover {
+  color: var(--color-primary);
+}
+
+.table-sortable th.sorted-asc,
+.table-sortable th.sorted-desc {
+  color: var(--color-primary);
+}
+
+.th-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* Selected row */
+.table-row-selected {
+  background-color: rgba(184, 149, 90, 0.1) !important;
+  border-left: 3px solid var(--color-primary);
 }
 
 /* ========================================
@@ -617,4 +678,131 @@
 .tooltip:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
+}
+
+/* ========================================
+   Breadcrumbs
+   ======================================== */
+
+.breadcrumb {
+  margin-bottom: var(--spacing-lg);
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size-sm);
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-text-dark);
+}
+
+.breadcrumb-item a {
+  color: var(--color-text-medium);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-item a:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumb-current {
+  color: var(--color-text-light);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ========================================
+   Tabs
+   ======================================== */
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid var(--color-bg-light);
+  gap: 0;
+  margin-bottom: var(--spacing-md);
+}
+
+.tab {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: var(--color-text-medium);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tab:hover {
+  color: var(--color-text-light);
+  border-bottom-color: var(--color-bg-light);
+}
+
+.tab.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.tab-content {
+  animation: fadeIn var(--transition-fast);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   Toast Notifications
+   ======================================== */
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  min-width: 280px;
+}
+
+.toast svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.toast-success {
+  border-left: 3px solid var(--color-success);
+}
+
+.toast-info {
+  border-left: 3px solid var(--color-info);
+}
+
+.toast-warning {
+  border-left: 3px solid var(--color-warning);
+}
+
+.toast-danger {
+  border-left: 3px solid var(--color-danger);
 }

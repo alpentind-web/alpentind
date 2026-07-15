@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etiketter – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item active">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Statusetiketter</h2>
+      <p>Aktiv, Utkast, Väntar, Slutförd, Inställd och Varning</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Status Badges -->
+    <section class="showcase-section" aria-labelledby="status-badges-title">
+      <h3 class="showcase-section-title" id="status-badges-title">Statusetiketter</h3>
+      <p class="showcase-section-desc">Används för att visa status på bokningar, avgångar och uppgifter. Använder designtokens för konsekvent färgkodning.</p>
+
+      <p class="showcase-label">Alla statusar</p>
+      <div class="showcase-row">
+        <span class="badge badge-success">
+          <i data-feather="check-circle" style="width:12px;height:12px;"></i>
+          Aktiv
+        </span>
+        <span class="badge badge-info">
+          <i data-feather="edit" style="width:12px;height:12px;"></i>
+          Utkast
+        </span>
+        <span class="badge badge-warning">
+          <i data-feather="clock" style="width:12px;height:12px;"></i>
+          Väntar på bekräftelse
+        </span>
+        <span class="badge badge-primary">
+          <i data-feather="check" style="width:12px;height:12px;"></i>
+          Slutförd
+        </span>
+        <span class="badge badge-danger">
+          <i data-feather="x-circle" style="width:12px;height:12px;"></i>
+          Inställd
+        </span>
+        <span class="badge badge-warning">
+          <i data-feather="alert-triangle" style="width:12px;height:12px;"></i>
+          Varning
+        </span>
+      </div>
+    </section>
+
+    <!-- Badges without icons -->
+    <section class="showcase-section" aria-labelledby="plain-badges-title">
+      <h3 class="showcase-section-title" id="plain-badges-title">Enkla etiketter</h3>
+      <p class="showcase-section-desc">Utan ikon – för kompakta utrymmen som tabellceller.</p>
+
+      <div class="showcase-row">
+        <span class="badge badge-success">Bekräftad</span>
+        <span class="badge badge-warning">Väntande</span>
+        <span class="badge badge-danger">Avbruten</span>
+        <span class="badge badge-info">Information</span>
+        <span class="badge badge-primary">Primär</span>
+      </div>
+    </section>
+
+    <!-- Chips / Filter Tags -->
+    <section class="showcase-section" aria-labelledby="chips-title">
+      <h3 class="showcase-section-title" id="chips-title">Filteretiketter (Chips)</h3>
+      <p class="showcase-section-desc">Interaktiva etiketter för filter och kategorier. Klickbara och kan ha aktivt läge.</p>
+
+      <p class="showcase-label">Normal</p>
+      <div class="showcase-row">
+        <span class="chip">Alla</span>
+        <span class="chip">Vandring</span>
+        <span class="chip">Klättring</span>
+        <span class="chip">Skidåkning</span>
+        <span class="chip">Kajak</span>
+      </div>
+
+      <p class="showcase-label">Med aktiv markering</p>
+      <div class="showcase-row">
+        <span class="chip active">Alla</span>
+        <span class="chip">Vandring</span>
+        <span class="chip">Klättring</span>
+        <span class="chip">Skidåkning</span>
+      </div>
+    </section>
+
+    <!-- Priority Badges -->
+    <section class="showcase-section" aria-labelledby="priority-badges-title">
+      <h3 class="showcase-section-title" id="priority-badges-title">Prioritetsetiketter</h3>
+      <p class="showcase-section-desc">Används på uppgifter och ärenden för att visa prioritet.</p>
+
+      <div class="showcase-row">
+        <span class="badge badge-danger">Hög</span>
+        <span class="badge badge-warning">Medel</span>
+        <span class="badge badge-info">Låg</span>
+      </div>
+    </section>
+
+    <!-- In Context -->
+    <section class="showcase-section" aria-labelledby="in-context-title">
+      <h3 class="showcase-section-title" id="in-context-title">Etiketter i sammanhang</h3>
+      <p class="showcase-section-desc">Exempel på hur etiketter används i listor och tabeller.</p>
+
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); max-width: 600px;">
+        <div class="card">
+          <div class="card-header">
+            <h4>Tour du Mont Blanc – Avgång 1</h4>
+            <span class="badge badge-success">Aktiv</span>
+          </div>
+          <div class="card-body">
+            <p class="text-sm text-muted">15 jul – 27 jul 2027 · 12 deltagare</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h4>Sarek Sommar – Avgång 2</h4>
+            <span class="badge badge-info">Utkast</span>
+          </div>
+          <div class="card-body">
+            <p class="text-sm text-muted">3 aug – 10 aug 2027 · 8 platser kvar</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h4>Klätterkurs Klippa – Avgång 1</h4>
+            <span class="badge badge-warning">Väntar på bekräftelse</span>
+          </div>
+          <div class="card-body">
+            <p class="text-sm text-muted">14 jun – 19 jun 2027 · 6 deltagare</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>

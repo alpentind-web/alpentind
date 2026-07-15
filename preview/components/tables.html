@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabeller – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item active">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Tabeller</h2>
+      <p>Standardtabell, Sorterbar tabell, Tomt läge, Markerad rad och Hover-effekt</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Standard Table -->
+    <section class="showcase-section" aria-labelledby="std-table-title">
+      <h3 class="showcase-section-title" id="std-table-title">Standardtabell</h3>
+      <p class="showcase-section-desc">Standardlayout för tabelldata. Radhover är alltid aktiverat.</p>
+
+      <div class="showcase-table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Kund</th>
+              <th scope="col">Upplevelse</th>
+              <th scope="col">Deltagare</th>
+              <th scope="col">Datum</th>
+              <th scope="col">Belopp</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Anna Andersson</td>
+              <td>Tour du Mont Blanc</td>
+              <td>2</td>
+              <td>15 jul 2027</td>
+              <td>28 500 SEK</td>
+              <td><span class="badge badge-warning">Väntande</span></td>
+            </tr>
+            <tr>
+              <td>Martin Nilsson</td>
+              <td>Sarek Sommar</td>
+              <td>1</td>
+              <td>3 aug 2027</td>
+              <td>32 950 SEK</td>
+              <td><span class="badge badge-success">Bekräftad</span></td>
+            </tr>
+            <tr>
+              <td>ACME AB</td>
+              <td>Klätterkurs Klippa</td>
+              <td>4</td>
+              <td>14 jun 2027</td>
+              <td>26 000 SEK</td>
+              <td><span class="badge badge-danger">Avbruten</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sortable Table (visual) -->
+    <section class="showcase-section" aria-labelledby="sort-table-title">
+      <h3 class="showcase-section-title" id="sort-table-title">Sorterbar tabell (visuell)</h3>
+      <p class="showcase-section-desc">Sorteringspilar visas i kolumnrubriker. I Preview är sortering visuell – ingen funktion krävs.</p>
+
+      <div class="showcase-table-container">
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th scope="col" class="sortable sorted-asc">
+                <span class="th-content">
+                  Avgång
+                  <i data-feather="chevron-up" style="width:14px;height:14px;"></i>
+                </span>
+              </th>
+              <th scope="col" class="sortable">
+                <span class="th-content">
+                  Startdatum
+                  <i data-feather="chevrons-up-down" style="width:14px;height:14px;"></i>
+                </span>
+              </th>
+              <th scope="col" class="sortable">
+                <span class="th-content">
+                  Deltagare
+                  <i data-feather="chevrons-up-down" style="width:14px;height:14px;"></i>
+                </span>
+              </th>
+              <th scope="col" class="sortable">
+                <span class="th-content">
+                  Status
+                  <i data-feather="chevrons-up-down" style="width:14px;height:14px;"></i>
+                </span>
+              </th>
+              <th scope="col">Åtgärd</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tour du Mont Blanc</td>
+              <td>15 jul 2027</td>
+              <td>12</td>
+              <td><span class="badge badge-success">Bekräftad</span></td>
+              <td>
+                <div class="flex gap-sm">
+                  <button class="btn btn-secondary btn-sm">
+                    <i data-feather="eye" style="width:14px;height:14px;"></i>
+                    Visa
+                  </button>
+                  <button class="btn btn-secondary btn-sm">
+                    <i data-feather="edit-2" style="width:14px;height:14px;"></i>
+                    Redigera
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Sarek Sommar</td>
+              <td>3 aug 2027</td>
+              <td>8</td>
+              <td><span class="badge badge-info">Utkast</span></td>
+              <td>
+                <div class="flex gap-sm">
+                  <button class="btn btn-secondary btn-sm">
+                    <i data-feather="eye" style="width:14px;height:14px;"></i>
+                    Visa
+                  </button>
+                  <button class="btn btn-secondary btn-sm">
+                    <i data-feather="edit-2" style="width:14px;height:14px;"></i>
+                    Redigera
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Klätterkurs Klippa</td>
+              <td>14 jun 2027</td>
+              <td>6</td>
+              <td><span class="badge badge-warning">Väntar</span></td>
+              <td>
+                <div class="flex gap-sm">
+                  <button class="btn btn-secondary btn-sm">
+                    <i data-feather="eye" style="width:14px;height:14px;"></i>
+                    Visa
+                  </button>
+                  <button class="btn btn-secondary btn-sm">
+                    <i data-feather="edit-2" style="width:14px;height:14px;"></i>
+                    Redigera
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Selected Row -->
+    <section class="showcase-section" aria-labelledby="selected-table-title">
+      <h3 class="showcase-section-title" id="selected-table-title">Markerad rad</h3>
+      <p class="showcase-section-desc">En rad kan markeras för att visa aktiv selektion. Klicka på en rad för att markera den.</p>
+
+      <div class="showcase-table-container">
+        <table class="table table-selectable">
+          <thead>
+            <tr>
+              <th scope="col">Namn</th>
+              <th scope="col">Produkt</th>
+              <th scope="col">Datum</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Anna Andersson</td>
+              <td>Tour du Mont Blanc</td>
+              <td>15 jul 2027</td>
+              <td><span class="badge badge-success">Bekräftad</span></td>
+            </tr>
+            <tr class="table-row-selected">
+              <td>Martin Nilsson</td>
+              <td>Sarek Sommar</td>
+              <td>3 aug 2027</td>
+              <td><span class="badge badge-warning">Väntande</span></td>
+            </tr>
+            <tr>
+              <td>ACME AB</td>
+              <td>Klätterkurs Klippa</td>
+              <td>14 jun 2027</td>
+              <td><span class="badge badge-info">Utkast</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Empty Table -->
+    <section class="showcase-section" aria-labelledby="empty-table-title">
+      <h3 class="showcase-section-title" id="empty-table-title">Tomt läge</h3>
+      <p class="showcase-section-desc">Visas när tabellen inte har något data att visa.</p>
+
+      <div class="showcase-table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Kund</th>
+              <th scope="col">Upplevelse</th>
+              <th scope="col">Datum</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4">
+                <div class="empty-state">
+                  <i data-feather="inbox" style="width: 40px; height: 40px; color: var(--color-bg-light);"></i>
+                  <h3>Inga bokningar</h3>
+                  <p>Det finns inga bokningar att visa för vald period.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item active">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Navigation</h2>
+      <p>Sidomeny, Toppnavigation, Brödsmulor och Steg-indikator</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Sidebar Navigation Preview -->
+    <section class="showcase-section" aria-labelledby="sidebar-nav-title">
+      <h3 class="showcase-section-title" id="sidebar-nav-title">Sidomeny</h3>
+      <p class="showcase-section-desc">Primär navigation i AlpenTind Platform. Alltid synlig på vänster sida. Visar aktiv sida med primärfärg.</p>
+
+      <div style="width: 220px; background-color: var(--color-bg-dark); border: var(--border-thin); border-radius: var(--radius-lg); padding: var(--spacing-lg); overflow: hidden;">
+        <div class="sidebar-logo" style="margin-bottom: var(--spacing-lg);">
+          <div style="font-family: var(--font-family-serif); font-size: var(--font-size-lg); color: var(--color-primary); margin-bottom: var(--spacing-xs);">AlpenTind</div>
+          <p style="font-size: var(--font-size-xs); color: var(--color-text-dark); text-transform: uppercase; letter-spacing: 1px; margin: 0;">Guiding Platform</p>
+        </div>
+        <nav aria-label="Sidomeny preview">
+          <button class="nav-item active" style="width: 100%;">
+            <span class="nav-icon"><i data-feather="home" style="width:18px;height:18px;"></i></span>
+            <span>Min arbetsdag</span>
+          </button>
+          <button class="nav-item" style="width: 100%;">
+            <span class="nav-icon"><i data-feather="compass" style="width:18px;height:18px;"></i></span>
+            <span>Upplevelser</span>
+          </button>
+          <button class="nav-item" style="width: 100%;">
+            <span class="nav-icon"><i data-feather="calendar" style="width:18px;height:18px;"></i></span>
+            <span>Avgångar</span>
+          </button>
+          <button class="nav-item" style="width: 100%;">
+            <span class="nav-icon"><i data-feather="users" style="width:18px;height:18px;"></i></span>
+            <span>Kunder</span>
+          </button>
+          <button class="nav-item" style="width: 100%;">
+            <span class="nav-icon"><i data-feather="user-check" style="width:18px;height:18px;"></i></span>
+            <span>Guider</span>
+          </button>
+        </nav>
+        <div style="margin-top: var(--spacing-lg); padding-top: var(--spacing-md); border-top: var(--border-thin);">
+          <div class="user-profile">
+            <div class="user-avatar">EB</div>
+            <div class="user-info">
+              <p class="user-name">Erik Bergström</p>
+              <p class="user-role">Guide & Årsguide</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Breadcrumbs -->
+    <section class="showcase-section" aria-labelledby="breadcrumb-title">
+      <h3 class="showcase-section-title" id="breadcrumb-title">Brödsmulor</h3>
+      <p class="showcase-section-desc">Visar var användaren befinner sig i hierarkin. Används på detaljsidor.</p>
+
+      <nav aria-label="Brödsmulor" class="breadcrumb">
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item">
+            <a href="#">Upplevelser</a>
+          </li>
+          <li class="breadcrumb-item">
+            <i data-feather="chevron-right" style="width:14px;height:14px;color:var(--color-text-dark);"></i>
+            <a href="#">Tour du Mont Blanc</a>
+          </li>
+          <li class="breadcrumb-item breadcrumb-current" aria-current="page">
+            <i data-feather="chevron-right" style="width:14px;height:14px;color:var(--color-text-dark);"></i>
+            Avgång 15 jul
+          </li>
+        </ol>
+      </nav>
+    </section>
+
+    <!-- Tab Navigation -->
+    <section class="showcase-section" aria-labelledby="tabs-title">
+      <h3 class="showcase-section-title" id="tabs-title">Flikar</h3>
+      <p class="showcase-section-desc">Sekundär navigation för att växla mellan vyer på samma sida.</p>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="tab-panel-1">Översikt</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-panel-2">Deltagare</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-panel-3">Boenden</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-panel-4">Dokument</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-panel-5">Ekonomi</button>
+      </div>
+      <div class="tab-content" id="tab-panel-1" role="tabpanel">
+        <p class="text-muted text-sm" style="padding: var(--spacing-lg) 0;">Innehåll för vald flik visas här. Flikarna växlar vy utan sidnavigering.</p>
+      </div>
+    </section>
+
+    <!-- Step Indicator -->
+    <section class="showcase-section" aria-labelledby="steps-title">
+      <h3 class="showcase-section-title" id="steps-title">Steg-indikator</h3>
+      <p class="showcase-section-desc">Visar progress i ett flerstegigt formulär.</p>
+
+      <p class="showcase-label">Steg 2 av 4 aktivt</p>
+      <div class="steps" aria-label="Bokningssteg">
+        <div class="step completed" aria-label="Steg 1: Kund, slutförd">
+          <span class="step-number">
+            <i data-feather="check" style="width:14px;height:14px;"></i>
+          </span>
+          <span>Kund</span>
+        </div>
+        <div class="step-separator"></div>
+        <div class="step active" aria-current="step" aria-label="Steg 2: Upplevelse, pågår">
+          <span class="step-number">2</span>
+          <span>Upplevelse</span>
+        </div>
+        <div class="step-separator"></div>
+        <div class="step" aria-label="Steg 3: Deltagare, ej påbörjad">
+          <span class="step-number">3</span>
+          <span>Deltagare</span>
+        </div>
+        <div class="step-separator"></div>
+        <div class="step" aria-label="Steg 4: Bekräftelse, ej påbörjad">
+          <span class="step-number">4</span>
+          <span>Bekräftelse</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dropdown -->
+    <section class="showcase-section" aria-labelledby="dropdown-title">
+      <h3 class="showcase-section-title" id="dropdown-title">Rullgardinsmenyer</h3>
+      <p class="showcase-section-desc">Kontextmeny som visas vid klick. Används för åtgärder och urval.</p>
+
+      <div class="flex gap-lg flex-wrap">
+        <div>
+          <p class="showcase-label">Öppen meny</p>
+          <div class="dropdown" style="position: relative;">
+            <button class="btn btn-secondary">
+              Åtgärder
+              <i data-feather="chevron-down" style="width:14px;height:14px;"></i>
+            </button>
+            <div class="dropdown-menu" style="display: block; position: relative; top: var(--spacing-sm); left: 0; margin-top: var(--spacing-sm);">
+              <button class="dropdown-item">
+                <i data-feather="eye" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:var(--spacing-sm);"></i>
+                Visa detaljer
+              </button>
+              <button class="dropdown-item">
+                <i data-feather="edit-2" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:var(--spacing-sm);"></i>
+                Redigera
+              </button>
+              <button class="dropdown-item">
+                <i data-feather="copy" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:var(--spacing-sm);"></i>
+                Kopiera
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" style="color: var(--color-danger);">
+                <i data-feather="trash-2" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:var(--spacing-sm);"></i>
+                Ta bort
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>

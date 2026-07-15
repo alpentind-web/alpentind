@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviseringar – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item active">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Aviseringar</h2>
+      <p>Information, Framgång, Varning, Fel och Tomma lägen</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Inline Alerts -->
+    <section class="showcase-section" aria-labelledby="inline-alerts-title">
+      <h3 class="showcase-section-title" id="inline-alerts-title">Inline-aviseringar</h3>
+      <p class="showcase-section-desc">Aviseringsmeddelanden som visas inline i sidan för information, framgång, varning och fel.</p>
+
+      <div class="showcase-row-vertical" style="max-width: 640px;">
+        <div class="alert alert-info" role="alert">
+          <i data-feather="info"></i>
+          <div>
+            <strong>Information:</strong> Systemunderhåll planerat 20 jul 2027, 03:00–05:00. Plattformen kan vara otillgänglig under denna tid.
+          </div>
+          <button class="alert-close" aria-label="Stäng">
+            <i data-feather="x" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+
+        <div class="alert alert-success" role="alert">
+          <i data-feather="check-circle"></i>
+          <div>
+            <strong>Klart!</strong> Bekräftelsemailet har skickats till Anna Andersson.
+          </div>
+          <button class="alert-close" aria-label="Stäng">
+            <i data-feather="x" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+
+        <div class="alert alert-warning" role="alert">
+          <i data-feather="alert-triangle"></i>
+          <div>
+            <strong>Varning:</strong> Betalningsfristen för Tour du Mont Blanc passerar om 3 dagar. Kontakta kunden.
+          </div>
+          <button class="alert-close" aria-label="Stäng">
+            <i data-feather="x" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+
+        <div class="alert alert-danger" role="alert">
+          <i data-feather="alert-circle"></i>
+          <div>
+            <strong>Fel:</strong> Formuläret kunde inte skickas. Kontrollera alla obligatoriska fält och försök igen.
+          </div>
+          <button class="alert-close" aria-label="Stäng">
+            <i data-feather="x" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alerts without icons -->
+    <section class="showcase-section" aria-labelledby="simple-alerts-title">
+      <h3 class="showcase-section-title" id="simple-alerts-title">Enkla aviseringar</h3>
+      <p class="showcase-section-desc">Utan stängknapp – för permanent information som alltid ska synas.</p>
+
+      <div class="showcase-row-vertical" style="max-width: 640px;">
+        <div class="alert alert-info" role="note">
+          <i data-feather="info"></i>
+          <div>Bokningsperioden för sommarsäsongen 2028 öppnar 1 september 2027.</div>
+        </div>
+        <div class="alert alert-warning" role="note">
+          <i data-feather="alert-triangle"></i>
+          <div>3 avgångar saknar bekräftat boende. Åtgärda innan 1 juni.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty States -->
+    <section class="showcase-section" aria-labelledby="empty-states-title">
+      <h3 class="showcase-section-title" id="empty-states-title">Tomma lägen</h3>
+      <p class="showcase-section-desc">Visas när en lista eller sektion inte har något att visa ännu.</p>
+
+      <p class="showcase-label">Inga produkter</p>
+      <div style="max-width: 480px;">
+        <div class="card">
+          <div class="empty-state">
+            <i data-feather="compass" style="width: 48px; height: 48px;"></i>
+            <h3>Inga upplevelser</h3>
+            <p>Du har inte skapat några upplevelser ännu. Kom igång genom att skapa din första.</p>
+            <button class="btn btn-primary mt-lg">
+              <i data-feather="plus"></i>
+              Skapa upplevelse
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="showcase-label mt-xl">Inga avgångar</p>
+      <div style="max-width: 480px;">
+        <div class="card">
+          <div class="empty-state">
+            <i data-feather="calendar" style="width: 48px; height: 48px;"></i>
+            <h3>Inga avgångar</h3>
+            <p>Inga avgångar matchar din sökning. Försök med ett annat filter.</p>
+            <button class="btn btn-secondary mt-lg">
+              <i data-feather="x"></i>
+              Rensa filter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="showcase-label mt-xl">Inga bokningar</p>
+      <div style="max-width: 480px;">
+        <div class="card">
+          <div class="empty-state">
+            <i data-feather="book-open" style="width: 48px; height: 48px;"></i>
+            <h3>Inga bokningar</h3>
+            <p>Det finns inga bokningar för vald period. Bokningar visas här när kunder anmäler sig.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast Notifications (visual) -->
+    <section class="showcase-section" aria-labelledby="toast-title">
+      <h3 class="showcase-section-title" id="toast-title">Toast-aviseringar (visuell)</h3>
+      <p class="showcase-section-desc">Tillfälliga meddelanden som visas i hörnet av skärmen. I Preview visas de statiskt.</p>
+
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); max-width: 360px;">
+        <div class="toast toast-success" role="status">
+          <i data-feather="check-circle" style="color: var(--color-success);"></i>
+          <span>Avgång sparad!</span>
+        </div>
+        <div class="toast toast-info" role="status">
+          <i data-feather="info" style="color: var(--color-info);"></i>
+          <span>3 nya meddelanden från kunder</span>
+        </div>
+        <div class="toast toast-warning" role="status">
+          <i data-feather="alert-triangle" style="color: var(--color-warning);"></i>
+          <span>Bekräftelse saknas för 2 bokningar</span>
+        </div>
+        <div class="toast toast-danger" role="alert">
+          <i data-feather="alert-circle" style="color: var(--color-danger);"></i>
+          <span>Kunde inte skicka e-post. Försök igen.</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>

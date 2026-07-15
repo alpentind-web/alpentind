@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dialogrutor – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item active">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Dialogrutor</h2>
+      <p>Bekräfta, Ta bort, Information och Varning</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <div class="alert alert-info mb-lg">
+      <i data-feather="info"></i>
+      <div>
+        <strong>Obs:</strong> Dialogrutorna visas inline i Preview utan bakgrundsoverlay. I produktionen öppnas de ovanpå sidan som modala rutor.
+      </div>
+    </div>
+
+    <!-- Confirmation Dialog -->
+    <section class="showcase-section" aria-labelledby="confirm-dialog-title">
+      <h3 class="showcase-section-title" id="confirm-dialog-title">Bekräftelsedialog</h3>
+      <p class="showcase-section-desc">Används för att bekräfta en viktig åtgärd, t.ex. att skicka ett e-post eller bekräfta en bokning.</p>
+
+      <div style="max-width: 500px;">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-confirm-title">
+          <div class="modal-header">
+            <div class="flex items-center gap-md">
+              <div style="width:40px;height:40px;border-radius:var(--radius-full);background:rgba(107,158,127,0.15);display:flex;align-items:center;justify-content:center;color:var(--color-success);">
+                <i data-feather="check-circle"></i>
+              </div>
+              <h3 id="modal-confirm-title" style="margin:0;">Bekräfta bokning</h3>
+            </div>
+            <button class="btn btn-icon btn-sm" aria-label="Stäng dialogruta">
+              <i data-feather="x"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Vill du bekräfta bokningsbekräftelse till <strong>Anna Andersson</strong> för <strong>Tour du Mont Blanc</strong>, 15 jul 2027?</p>
+            <p class="text-sm text-muted">Ett bekräftelsemail skickas automatiskt till kundens e-postadress.</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary">Avbryt</button>
+            <button class="btn btn-primary">
+              <i data-feather="check"></i>
+              Bekräfta bokning
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Delete Dialog -->
+    <section class="showcase-section" aria-labelledby="delete-dialog-title">
+      <h3 class="showcase-section-title" id="delete-dialog-title">Raderingsdialog</h3>
+      <p class="showcase-section-desc">Används alltid innan en destruktiv åtgärd. Innehåller tydlig varning om konsekvenserna.</p>
+
+      <div style="max-width: 500px;">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-delete-title">
+          <div class="modal-header">
+            <div class="flex items-center gap-md">
+              <div style="width:40px;height:40px;border-radius:var(--radius-full);background:rgba(184,92,92,0.15);display:flex;align-items:center;justify-content:center;color:var(--color-danger);">
+                <i data-feather="trash-2"></i>
+              </div>
+              <h3 id="modal-delete-title" style="margin:0;">Ta bort avgång</h3>
+            </div>
+            <button class="btn btn-icon btn-sm" aria-label="Stäng dialogruta">
+              <i data-feather="x"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Är du säker på att du vill ta bort avgången <strong>Sarek Sommar – 3 aug 2027</strong>?</p>
+            <div class="alert alert-danger" style="margin-bottom: 0;">
+              <i data-feather="alert-triangle"></i>
+              <div>Denna åtgärd kan inte ångras. Alla bokningar kopplade till avgången påverkas.</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary">Avbryt</button>
+            <button class="btn btn-danger">
+              <i data-feather="trash-2"></i>
+              Ta bort avgång
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Dialog -->
+    <section class="showcase-section" aria-labelledby="info-dialog-title">
+      <h3 class="showcase-section-title" id="info-dialog-title">Informationsdialog</h3>
+      <p class="showcase-section-desc">Visar detaljinformation utan att kräva en åtgärd. Kan stängas med Stäng-knappen.</p>
+
+      <div style="max-width: 500px;">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-info-title">
+          <div class="modal-header">
+            <div class="flex items-center gap-md">
+              <div style="width:40px;height:40px;border-radius:var(--radius-full);background:rgba(122,159,181,0.15);display:flex;align-items:center;justify-content:center;color:var(--color-info);">
+                <i data-feather="info"></i>
+              </div>
+              <h3 id="modal-info-title" style="margin:0;">Deltagarinformation</h3>
+            </div>
+            <button class="btn btn-icon btn-sm" aria-label="Stäng dialogruta">
+              <i data-feather="x"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Anna Andersson</strong></p>
+            <p class="text-sm text-muted">anna@example.com · +46 70 123 45 67</p>
+            <p class="text-sm mt-md">Bokning: Tour du Mont Blanc · 15 jul 2027 · 2 deltagare</p>
+            <p class="text-sm text-muted">Betalningsstatus: Väntande · Förfall 15 jun 2027</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary">Stäng</button>
+            <button class="btn btn-primary">Redigera bokning</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Warning Dialog -->
+    <section class="showcase-section" aria-labelledby="warning-dialog-title">
+      <h3 class="showcase-section-title" id="warning-dialog-title">Varningsdialog</h3>
+      <p class="showcase-section-desc">Varnar om ett potentiellt problem. Användaren kan välja att fortsätta eller avbryta.</p>
+
+      <div style="max-width: 500px;">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-warning-title">
+          <div class="modal-header">
+            <div class="flex items-center gap-md">
+              <div style="width:40px;height:40px;border-radius:var(--radius-full);background:rgba(212,165,116,0.15);display:flex;align-items:center;justify-content:center;color:var(--color-warning);">
+                <i data-feather="alert-triangle"></i>
+              </div>
+              <h3 id="modal-warning-title" style="margin:0;">Varning: Kapacitetsgräns</h3>
+            </div>
+            <button class="btn btn-icon btn-sm" aria-label="Stäng dialogruta">
+              <i data-feather="x"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Avgången <strong>Klätterkurs Klippa – 14 jun</strong> är nu fullbokad (6/6 deltagare).</p>
+            <p class="text-sm text-muted">Vill du sätta <strong>Martin Nilsson</strong> på väntelistan istället?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary">Avbryt</button>
+            <button class="btn btn-primary">
+              <i data-feather="user-plus"></i>
+              Lägg till på väntelista
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>
