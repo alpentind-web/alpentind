@@ -1,5 +1,4 @@
 /* ========================================
-<<<<<<< HEAD
    AlpenTind Platform Preview v0.2
    Pages – Sidspecifika stilar
    ======================================== */
@@ -16,22 +15,6 @@ body.login-page {
   background-color: var(--color-bg-dark);
   grid-template-columns: none;
   grid-template-rows: none;
-=======
-   AlpenTind Platform Preview
-   Pages - Page-specific Styles
-   ======================================== */
-
-/* ========================================
-   Login Page
-   ======================================== */
-
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: var(--color-bg-dark);
->>>>>>> origin/main
 }
 
 .login-container {
@@ -40,10 +23,10 @@ body.login-page {
   min-height: 100vh;
 }
 
-<<<<<<< HEAD
 /* Inloggningskort */
 .login-card {
   width: 420px;
+  min-width: 320px;
   flex-shrink: 0;
   background-color: var(--color-bg-medium);
   padding: var(--spacing-2xl) var(--spacing-2xl);
@@ -51,19 +34,8 @@ body.login-page {
   flex-direction: column;
   justify-content: center;
   box-shadow: var(--shadow-dialog);
-  z-index: 10;
-=======
-.login-card {
-  width: 420px;
-  min-width: 320px;
-  padding: var(--spacing-2xl);
-  background-color: var(--color-bg-medium);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   border-right: var(--border-thin);
-  z-index: 1;
->>>>>>> origin/main
+  z-index: 10;
 }
 
 .login-header {
@@ -72,14 +44,21 @@ body.login-page {
 }
 
 .login-logo {
-<<<<<<< HEAD
   margin: 0 auto var(--spacing-lg) auto;
+  max-width: 80px;
+  height: auto;
 }
 
 .login-header h1 {
   font-size: var(--font-size-xl);
   color: var(--color-text-light);
   margin-bottom: var(--spacing-xs);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .login-footer {
@@ -156,6 +135,7 @@ body.login-page {
   padding: var(--spacing-sm) var(--spacing-lg);
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
+  border-top: 3px solid var(--color-primary);
   border-radius: var(--border-radius-large);
   margin-bottom: var(--spacing-xl);
   flex-wrap: wrap;
@@ -187,7 +167,9 @@ body.login-page {
 }
 
 .info-banner-item svg {
-  color: var(--color-text-dark);
+  width: 16px;
+  height: 16px;
+  color: var(--color-primary);
   flex-shrink: 0;
 }
 
@@ -206,44 +188,6 @@ body.login-page {
 
 /* ========================================
    Sektionsrubriker
-=======
-  margin: 0 auto var(--spacing-lg);
-  max-width: 80px;
-  height: auto;
-}
-
-.login-header h1 {
-  font-size: var(--font-size-2xl);
-  margin-bottom: var(--spacing-sm);
-  color: var(--color-text-light);
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.login-footer {
-  margin-top: var(--spacing-xl);
-}
-
-.login-background {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-}
-
-.login-background img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.3;
-}
-
-/* ========================================
-   Content Sections
->>>>>>> origin/main
    ======================================== */
 
 .content-section {
@@ -255,7 +199,8 @@ body.login-page {
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--spacing-lg);
-<<<<<<< HEAD
+  padding-bottom: var(--spacing-md);
+  border-bottom: var(--border-thin);
 }
 
 .section-header h2 {
@@ -263,19 +208,60 @@ body.login-page {
   margin-bottom: 0;
 }
 
+.page-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.page-header h1 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-xs);
+}
+
 .link {
   font-size: var(--font-size-sm);
-  color: var(--color-text-dark);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .link:hover {
-  color: var(--color-primary);
+  color: var(--color-light-primary);
+}
+
+/* ========================================
+   Uppgiftskort
+   ======================================== */
+
+.task-card {
+  cursor: pointer;
+}
+
+.task-card .card-header {
+  padding-bottom: var(--spacing-sm);
+}
+
+.task-card .card-header h3 {
+  font-size: var(--font-size-base);
+  margin: 0;
+}
+
+.task-card .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* ========================================
    Kort med bild (avgångar, upplevelser)
    ======================================== */
+
+.departure-card .card-image,
+.product-card .card-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
 
 .card-image-placeholder {
   width: 100%;
@@ -310,15 +296,6 @@ body.login-page {
 /* ========================================
    Upplevelsesida
    ======================================== */
-
-.page-header {
-  margin-bottom: var(--spacing-xl);
-}
-
-.page-header h1 {
-  font-size: var(--font-size-2xl);
-  margin-bottom: var(--spacing-xs);
-}
 
 .products-toolbar {
   display: flex;
@@ -356,54 +333,6 @@ body.login-page {
 
 /* ========================================
    Meddelanden
-=======
-  padding-bottom: var(--spacing-md);
-  border-bottom: var(--border-thin);
-}
-
-.section-header h2 {
-  margin: 0;
-  font-size: var(--font-size-xl);
-  color: var(--color-text-light);
-}
-
-/* ========================================
-   Task Cards
-   ======================================== */
-
-.task-card {
-  cursor: pointer;
-}
-
-.task-card .card-header {
-  padding-bottom: var(--spacing-sm);
-}
-
-.task-card .card-header h3 {
-  font-size: var(--font-size-base);
-  margin: 0;
-}
-
-.task-card .card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* ========================================
-   Departure Cards
-   ======================================== */
-
-.departure-card .card-image,
-.product-card .card-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
-
-/* ========================================
-   Message Items
->>>>>>> origin/main
    ======================================== */
 
 .message-item {
@@ -413,53 +342,31 @@ body.login-page {
   padding: var(--spacing-md);
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
-<<<<<<< HEAD
   border-radius: var(--border-radius-large);
   margin-bottom: var(--spacing-sm);
-  transition: border-color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 .message-item:hover {
   border-color: var(--color-primary);
-=======
-  border-radius: var(--radius-md);
-  margin-bottom: var(--spacing-sm);
-  transition: all var(--transition-fast);
->>>>>>> origin/main
 }
 
 .message-item.unread {
   border-left: 3px solid var(--color-primary);
-<<<<<<< HEAD
-}
-
-.message-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--border-radius-full);
-  background-color: var(--color-bg-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-=======
   background-color: rgba(184, 149, 90, 0.05);
 }
 
 .message-avatar {
   width: 40px;
   height: 40px;
-  border-radius: var(--radius-full);
+  border-radius: var(--border-radius-full);
   background-color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-bg-dark);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sm);
->>>>>>> origin/main
+  font-size: var(--font-size-xs);
   flex-shrink: 0;
 }
 
@@ -472,20 +379,14 @@ body.login-page {
   display: flex;
   align-items: center;
   justify-content: space-between;
-<<<<<<< HEAD
   gap: var(--spacing-sm);
-=======
->>>>>>> origin/main
   margin-bottom: var(--spacing-xs);
 }
 
 .message-header h4 {
   margin: 0;
   font-size: var(--font-size-sm);
-<<<<<<< HEAD
-=======
   color: var(--color-text-light);
->>>>>>> origin/main
 }
 
 .message-text {
@@ -498,57 +399,157 @@ body.login-page {
 }
 
 /* ========================================
-<<<<<<< HEAD
-   Responsiv anpassning
+   Tomma tillstånd
    ======================================== */
 
-@media (max-width: 768px) {
-  .login-card {
-    width: 100%;
-    padding: var(--spacing-xl) var(--spacing-lg);
-=======
-   Product Cards
-   ======================================== */
-
-.product-specs {
+.empty-state {
   display: flex;
-  gap: var(--spacing-md);
-  margin: var(--spacing-md) 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-dark);
 }
 
-.spec {
+.empty-state svg {
+  width: 64px;
+  height: 64px;
+  color: var(--color-bg-light);
+  margin-bottom: var(--spacing-xl);
+}
+
+.empty-state h3 {
+  color: var(--color-text-medium);
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state p {
+  font-size: var(--font-size-sm);
+  max-width: 300px;
+}
+
+/* ========================================
+   Statistikkort
+   ======================================== */
+
+.stat-card {
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--border-radius-large);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-small);
+  background-color: rgba(184, 149, 90, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.stat-card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.stat-card-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-light);
+  line-height: 1;
+}
+
+.stat-card-label {
   font-size: var(--font-size-sm);
   color: var(--color-text-medium);
 }
 
-.product-price {
-  margin-bottom: var(--spacing-md);
+.stat-card-change {
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
-.price {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+.stat-card-change.positive {
+  color: var(--status-success);
+}
+
+.stat-card-change.negative {
+  color: var(--status-error);
 }
 
 /* ========================================
-   Link Styles
+   Åtgärdskort
    ======================================== */
 
-.link {
-  color: var(--color-primary);
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--border-radius-large);
+  transition: all var(--transition-fast);
+  cursor: pointer;
   text-decoration: none;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  transition: color var(--transition-fast);
 }
 
-.link:hover {
-  color: var(--color-light-primary);
+.action-card:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(184, 149, 90, 0.05);
+}
+
+.action-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-small);
+  background-color: rgba(184, 149, 90, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.action-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.action-card-content {
+  flex: 1;
+}
+
+.action-card-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
+}
+
+.action-card-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-medium);
 }
 
 /* ========================================
-   Component Library Layout
+   Komponentbibliotek – layout
    ======================================== */
 
 .component-page {
@@ -617,7 +618,7 @@ body.login-page {
   padding: var(--spacing-sm) var(--spacing-md);
   color: var(--color-text-medium);
   text-decoration: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-small);
   font-size: var(--font-size-sm);
   transition: all var(--transition-fast);
 }
@@ -671,7 +672,7 @@ body.login-page {
 }
 
 /* ========================================
-   Component Showcase Sections
+   Visningssektioner – komponentbibliotek
    ======================================== */
 
 .showcase-section {
@@ -726,13 +727,13 @@ body.login-page {
 .showcase-table-container {
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
-  border-radius: var(--radius-lg);
+  border-radius: var(--border-radius-large);
   overflow: hidden;
   margin-bottom: var(--spacing-lg);
 }
 
 /* ========================================
-   Color Swatches (Typography page)
+   Färgprov (typografisida)
    ======================================== */
 
 .color-grid {
@@ -743,7 +744,7 @@ body.login-page {
 }
 
 .color-swatch {
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-small);
   overflow: hidden;
   border: var(--border-thin);
 }
@@ -771,7 +772,7 @@ body.login-page {
 }
 
 /* ========================================
-   Icon Grid (Typography page)
+   Ikonrutnät (typografisida)
    ======================================== */
 
 .icon-grid {
@@ -789,7 +790,7 @@ body.login-page {
   padding: var(--spacing-md);
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-small);
   text-align: center;
   transition: all var(--transition-fast);
 }
@@ -810,7 +811,7 @@ body.login-page {
 }
 
 /* ========================================
-   Typography Preview
+   Typografivisning
    ======================================== */
 
 .type-scale-item {
@@ -842,193 +843,7 @@ body.login-page {
 }
 
 /* ========================================
-   Empty States
-   ======================================== */
-
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-3xl) var(--spacing-xl);
-  text-align: center;
-  color: var(--color-text-dark);
-}
-
-.empty-state svg {
-  width: 64px;
-  height: 64px;
-  color: var(--color-bg-light);
-  margin-bottom: var(--spacing-xl);
-}
-
-.empty-state h3 {
-  color: var(--color-text-medium);
-  margin-bottom: var(--spacing-sm);
-}
-
-.empty-state p {
-  font-size: var(--font-size-sm);
-  max-width: 300px;
-}
-
-/* ========================================
-   Stat Cards
-   ======================================== */
-
-.stat-card {
-  background-color: var(--color-bg-medium);
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  transition: all var(--transition-normal);
-}
-
-.stat-card:hover {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-lg);
-}
-
-.stat-card-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  background-color: rgba(184, 149, 90, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.stat-card-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-.stat-card-value {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-light);
-  line-height: 1;
-}
-
-.stat-card-label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
-}
-
-.stat-card-change {
-  font-size: var(--font-size-xs);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-}
-
-.stat-card-change.positive {
-  color: var(--color-success);
-}
-
-.stat-card-change.negative {
-  color: var(--color-danger);
-}
-
-/* ========================================
-   Action Cards
-   ======================================== */
-
-.action-card {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-lg);
-  background-color: var(--color-bg-medium);
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-fast);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.action-card:hover {
-  border-color: var(--color-primary);
-  background-color: rgba(184, 149, 90, 0.05);
-}
-
-.action-card-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  background-color: rgba(184, 149, 90, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-
-.action-card-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.action-card-content {
-  flex: 1;
-}
-
-.action-card-title {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-light);
-  margin-bottom: var(--spacing-xs);
-}
-
-.action-card-desc {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
-}
-
-/* ========================================
-   Info Banner
-   ======================================== */
-
-.info-banner {
-  background-color: var(--color-bg-medium);
-  border: var(--border-thin);
-  border-top: 3px solid var(--color-primary);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md) var(--spacing-lg);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-  flex-wrap: wrap;
-}
-
-.info-banner-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
-}
-
-.info-banner-item svg {
-  width: 16px;
-  height: 16px;
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-
-.info-banner-item strong {
-  color: var(--color-text-light);
-}
-
-/* ========================================
-   Responsive adjustments
+   Responsiv anpassning
    ======================================== */
 
 @media (max-width: 768px) {
@@ -1060,14 +875,12 @@ body.login-page {
   .login-card {
     width: 100%;
     min-height: 100vh;
-    padding: var(--spacing-xl);
->>>>>>> origin/main
+    padding: var(--spacing-xl) var(--spacing-lg);
   }
 
   .login-background {
     display: none;
   }
-<<<<<<< HEAD
 
   .info-banner {
     gap: var(--spacing-md);
@@ -1089,6 +902,4 @@ body.login-page {
   .info-banner-divider {
     display: none;
   }
-=======
->>>>>>> origin/main
 }
