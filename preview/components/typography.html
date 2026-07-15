@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typografi – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item active">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Typografi, Ikoner och Färger</h2>
+      <p>Textstilar, ikonbibliotek och designtokens</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Type Scale -->
+    <section class="showcase-section" aria-labelledby="type-scale-title">
+      <h3 class="showcase-section-title" id="type-scale-title">Typografisk skala</h3>
+      <p class="showcase-section-desc">AlpenTind Platform använder Playfair Display för rubriker och systemfont för brödtext.</p>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="type-scale-item">
+            <div class="type-scale-meta">
+              <div class="type-scale-name">--font-size-3xl</div>
+              <div class="type-scale-size">40px</div>
+            </div>
+            <h1 style="margin: 0; font-size: var(--font-size-3xl);">Rubrik 1 – AlpenTind</h1>
+          </div>
+          <div class="type-scale-item">
+            <div class="type-scale-meta">
+              <div class="type-scale-name">--font-size-2xl</div>
+              <div class="type-scale-size">32px</div>
+            </div>
+            <h2 style="margin: 0; font-size: var(--font-size-2xl);">Rubrik 2 – Min arbetsdag</h2>
+          </div>
+          <div class="type-scale-item">
+            <div class="type-scale-meta">
+              <div class="type-scale-name">--font-size-xl</div>
+              <div class="type-scale-size">24px</div>
+            </div>
+            <h3 style="margin: 0; font-size: var(--font-size-xl);">Rubrik 3 – Kommande avgångar</h3>
+          </div>
+          <div class="type-scale-item">
+            <div class="type-scale-meta">
+              <div class="type-scale-name">--font-size-lg</div>
+              <div class="type-scale-size">18px</div>
+            </div>
+            <h4 style="margin: 0; font-size: var(--font-size-lg);">Rubrik 4 – Tour du Mont Blanc</h4>
+          </div>
+          <div class="type-scale-item">
+            <div class="type-scale-meta">
+              <div class="type-scale-name">--font-size-base</div>
+              <div class="type-scale-size">16px</div>
+            </div>
+            <p style="margin: 0;">Brödtext – En klassisk rundvandring runt Mont Blanc med passage genom tre länder: Frankrike, Italien och Schweiz.</p>
+          </div>
+          <div class="type-scale-item">
+            <div class="type-scale-meta">
+              <div class="type-scale-name">--font-size-sm</div>
+              <div class="type-scale-size">14px</div>
+            </div>
+            <p style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-medium);">Hjälptext – Bokningsfristen passerar om 5 dagar. Kontakta kunden för bekräftelse.</p>
+          </div>
+          <div class="type-scale-item">
+            <div class="type-scale-meta">
+              <div class="type-scale-name">--font-size-xs</div>
+              <div class="type-scale-size">12px</div>
+            </div>
+            <p style="margin: 0; font-size: var(--font-size-xs); color: var(--color-text-dark);">Bildtext / metadata – Uppdaterat 15 jul 2027, 14:32</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Text Styles -->
+    <section class="showcase-section" aria-labelledby="text-styles-title">
+      <h3 class="showcase-section-title" id="text-styles-title">Textstilar</h3>
+      <p class="showcase-section-desc">Varianter för brödtext, hjälptexter och speciella stilar.</p>
+
+      <div class="card">
+        <div class="card-body">
+          <p>Normal brödtext. Används för all löpande text i plattformen.</p>
+          <p class="text-muted">Hjälptext / metadata. Färg: <code class="code">--color-text-dark</code></p>
+          <p><a href="#">Länktext. Navigerar till annan sida eller sektion.</a></p>
+          <p><strong>Fetstil</strong> – används för att lyfta fram nyckelord.</p>
+          <p><em>Kursiv text</em> – används sparsamt för citat eller betoning.</p>
+          <p><code class="code">Kod-stil</code> – för tekniska ID:n, databasfält och CSS-variabler.</p>
+          <p class="text-primary">Primärfärgad text – för viktiga värden och accenter.</p>
+          <p class="text-success">Framgångsfärgad text – för bekräftade status.</p>
+          <p class="text-warning">Varningsfärgad text – för uppmärksamhetskrävande information.</p>
+          <p class="text-danger">Feltext – för felmeddelanden och varningar.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Icons -->
+    <section class="showcase-section" aria-labelledby="icons-title">
+      <h3 class="showcase-section-title" id="icons-title">Ikoner</h3>
+      <p class="showcase-section-desc">AlpenTind använder <a href="https://feathericons.com" target="_blank" rel="noopener noreferrer">Feather Icons</a> – tunna linjeikoner med konsekvent stil. Ikonstorlek: 18–24px.</p>
+
+      <p class="showcase-label">Primära ikoner (använda i navigationen)</p>
+      <div class="icon-grid">
+        <div class="icon-item">
+          <i data-feather="search"></i>
+          <span>Sök</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="calendar"></i>
+          <span>Kalender</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="user"></i>
+          <span>Person</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="map-pin"></i>
+          <span>Karta</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="file-text"></i>
+          <span>Dokument</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="settings"></i>
+          <span>Inställningar</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="dollar-sign"></i>
+          <span>Ekonomi</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="compass"></i>
+          <span>Guide</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="home"></i>
+          <span>Arbetsdag</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="users"></i>
+          <span>Kunder</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="message-square"></i>
+          <span>Meddelande</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="bell"></i>
+          <span>Avisering</span>
+        </div>
+      </div>
+
+      <p class="showcase-label">Åtgärdsikoner</p>
+      <div class="icon-grid">
+        <div class="icon-item">
+          <i data-feather="plus"></i>
+          <span>Lägg till</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="edit-2"></i>
+          <span>Redigera</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="trash-2"></i>
+          <span>Ta bort</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="eye"></i>
+          <span>Visa</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="download"></i>
+          <span>Ladda ner</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="upload"></i>
+          <span>Ladda upp</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="filter"></i>
+          <span>Filtrera</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="x"></i>
+          <span>Stäng</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="check"></i>
+          <span>Bekräfta</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="chevron-right"></i>
+          <span>Nästa</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="arrow-left"></i>
+          <span>Tillbaka</span>
+        </div>
+        <div class="icon-item">
+          <i data-feather="more-vertical"></i>
+          <span>Mer</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Color Palette -->
+    <section class="showcase-section" aria-labelledby="colors-title">
+      <h3 class="showcase-section-title" id="colors-title">Färgpalett</h3>
+      <p class="showcase-section-desc">AlpenTinds designsystem baseras på bronze/koppar-primärfärg på mörkgrå bakgrund.</p>
+
+      <p class="showcase-label">Primärfärger</p>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-primary);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Koppar</div>
+            <div class="color-swatch-var">--color-primary</div>
+            <div class="color-swatch-var">#B8955A</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-dark-primary);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Mörk koppar</div>
+            <div class="color-swatch-var">--color-dark-primary</div>
+            <div class="color-swatch-var">#8B6E47</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-light-primary);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Ljus koppar</div>
+            <div class="color-swatch-var">--color-light-primary</div>
+            <div class="color-swatch-var">#D4AF86</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="showcase-label">Bakgrundsfärger</p>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-bg-dark); border: 1px solid var(--color-bg-light);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Bakgrund mörk</div>
+            <div class="color-swatch-var">--color-bg-dark</div>
+            <div class="color-swatch-var">#1F2A33</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-bg-medium);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Bakgrund medium</div>
+            <div class="color-swatch-var">--color-bg-medium</div>
+            <div class="color-swatch-var">#2E3A44</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-bg-light);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Bakgrund ljus</div>
+            <div class="color-swatch-var">--color-bg-light</div>
+            <div class="color-swatch-var">#3A4550</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="showcase-label">Statusfärger</p>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-success);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Framgång</div>
+            <div class="color-swatch-var">--color-success</div>
+            <div class="color-swatch-var">#6B9E7F</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-warning);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Varning</div>
+            <div class="color-swatch-var">--color-warning</div>
+            <div class="color-swatch-var">#D4A574</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-danger);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Fel / Fara</div>
+            <div class="color-swatch-var">--color-danger</div>
+            <div class="color-swatch-var">#B85C5C</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-info);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Information</div>
+            <div class="color-swatch-var">--color-info</div>
+            <div class="color-swatch-var">#7A9FB5</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="showcase-label">Textfärger</p>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-text-light);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Text primär</div>
+            <div class="color-swatch-var">--color-text-light</div>
+            <div class="color-swatch-var">#F2F4F5</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-text-medium);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Text sekundär</div>
+            <div class="color-swatch-var">--color-text-medium</div>
+            <div class="color-swatch-var">#C5CDD2</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-preview" style="background-color: var(--color-text-dark);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Text hjälptext</div>
+            <div class="color-swatch-var">--color-text-dark</div>
+            <div class="color-swatch-var">#8B95A1</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>

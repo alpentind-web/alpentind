@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulär – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item active">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Formulär</h2>
+      <p>Textfält, Datumfält, Välj-lista, Kryssruta, Radioknapp och Textområde</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Text Input -->
+    <section class="showcase-section" aria-labelledby="text-input-title">
+      <h3 class="showcase-section-title" id="text-input-title">Textfält</h3>
+      <p class="showcase-section-desc">Standardtextfält med etikett, platshållartext och hjälptext.</p>
+
+      <div style="max-width: 500px;">
+        <p class="showcase-label">Normal</p>
+        <div class="form-group">
+          <label for="input-normal" class="form-label">Namn</label>
+          <input type="text" id="input-normal" class="form-input" placeholder="Ange ditt namn">
+          <span class="form-help">Ange ditt för- och efternamn.</span>
+        </div>
+
+        <p class="showcase-label">Med förifyllt värde</p>
+        <div class="form-group">
+          <label for="input-filled" class="form-label">E-postadress</label>
+          <input type="email" id="input-filled" class="form-input" value="erik@alpentind.se">
+        </div>
+
+        <p class="showcase-label">Felmeddelande</p>
+        <div class="form-group">
+          <label for="input-error" class="form-label">Telefonnummer</label>
+          <input type="tel" id="input-error" class="form-input form-input-error" value="123">
+          <span class="form-error">
+            <i data-feather="alert-circle" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i>
+            Ange ett giltigt telefonnummer.
+          </span>
+        </div>
+
+        <p class="showcase-label">Inaktiverat</p>
+        <div class="form-group">
+          <label for="input-disabled" class="form-label">ID-nummer</label>
+          <input type="text" id="input-disabled" class="form-input" value="USER-001" disabled>
+        </div>
+      </div>
+    </section>
+
+    <!-- Date Input -->
+    <section class="showcase-section" aria-labelledby="date-input-title">
+      <h3 class="showcase-section-title" id="date-input-title">Datumfält</h3>
+      <p class="showcase-section-desc">Datumväljare och datumintervall för bokningar och avgångar.</p>
+
+      <div style="max-width: 500px;">
+        <p class="showcase-label">Enskilt datum</p>
+        <div class="form-group">
+          <label for="date-single" class="form-label">Startdatum</label>
+          <input type="date" id="date-single" class="form-input" value="2027-07-15">
+        </div>
+
+        <p class="showcase-label">Datumintervall</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+          <div class="form-group">
+            <label for="date-from" class="form-label">Från</label>
+            <input type="date" id="date-from" class="form-input" value="2027-07-15">
+          </div>
+          <div class="form-group">
+            <label for="date-to" class="form-label">Till</label>
+            <input type="date" id="date-to" class="form-input" value="2027-07-27">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Select -->
+    <section class="showcase-section" aria-labelledby="select-title">
+      <h3 class="showcase-section-title" id="select-title">Välj-lista (Select)</h3>
+      <p class="showcase-section-desc">Rullgardinsmeny för val av ett alternativ från en lista.</p>
+
+      <div style="max-width: 500px;">
+        <p class="showcase-label">Normal</p>
+        <div class="form-group">
+          <label for="select-normal" class="form-label">Upplevelsekategori</label>
+          <select id="select-normal" class="form-input">
+            <option value="">Välj kategori...</option>
+            <option value="vandring">Vandring</option>
+            <option value="klattring">Klättring</option>
+            <option value="skidakning">Skidåkning</option>
+            <option value="kajak">Kajak</option>
+          </select>
+        </div>
+
+        <p class="showcase-label">Förvalt alternativ</p>
+        <div class="form-group">
+          <label for="select-preselected" class="form-label">Status</label>
+          <select id="select-preselected" class="form-input">
+            <option value="active" selected>Aktiv</option>
+            <option value="draft">Utkast</option>
+            <option value="archived">Arkiverad</option>
+          </select>
+        </div>
+
+        <p class="showcase-label">Inaktiverat</p>
+        <div class="form-group">
+          <label for="select-disabled" class="form-label">Valuta</label>
+          <select id="select-disabled" class="form-input" disabled>
+            <option value="sek" selected>SEK – Svensk krona</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Checkbox -->
+    <section class="showcase-section" aria-labelledby="checkbox-title">
+      <h3 class="showcase-section-title" id="checkbox-title">Kryssrutor</h3>
+      <p class="showcase-section-desc">Används för val av ett eller flera alternativ.</p>
+
+      <div style="max-width: 500px;">
+        <p class="showcase-label">Normal</p>
+        <div class="form-group">
+          <label class="checkbox">
+            <input type="checkbox" name="activities" value="vandring" checked>
+            Vandring
+          </label>
+          <label class="checkbox mt-sm">
+            <input type="checkbox" name="activities" value="klattring">
+            Klättring
+          </label>
+          <label class="checkbox mt-sm">
+            <input type="checkbox" name="activities" value="skidakning" checked>
+            Skidåkning
+          </label>
+          <label class="checkbox mt-sm" aria-disabled="true">
+            <input type="checkbox" name="activities" value="kajak" disabled>
+            Kajak (ej tillgänglig)
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Radio Buttons -->
+    <section class="showcase-section" aria-labelledby="radio-title">
+      <h3 class="showcase-section-title" id="radio-title">Radioknappar</h3>
+      <p class="showcase-section-desc">Används för att välja ett alternativ ur en grupp.</p>
+
+      <div style="max-width: 500px;">
+        <p class="showcase-label">Svårighetsgrad</p>
+        <div class="form-group">
+          <label class="radio">
+            <input type="radio" name="difficulty" value="beginner" checked>
+            Nybörjare
+          </label>
+          <label class="radio mt-sm">
+            <input type="radio" name="difficulty" value="medium">
+            Mellannivå
+          </label>
+          <label class="radio mt-sm">
+            <input type="radio" name="difficulty" value="advanced">
+            Avancerad
+          </label>
+          <label class="radio mt-sm">
+            <input type="radio" name="difficulty" value="expert" disabled>
+            Expert (ej tillgänglig)
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Textarea -->
+    <section class="showcase-section" aria-labelledby="textarea-title">
+      <h3 class="showcase-section-title" id="textarea-title">Textområde</h3>
+      <p class="showcase-section-desc">Flerradigt textfält för längre texter, t.ex. beskrivningar och meddelanden.</p>
+
+      <div style="max-width: 500px;">
+        <p class="showcase-label">Normal</p>
+        <div class="form-group">
+          <label for="textarea-desc" class="form-label">Produktbeskrivning</label>
+          <textarea id="textarea-desc" class="form-input" rows="4" placeholder="Beskriv upplevelsen..."></textarea>
+          <span class="form-help">Beskrivningen visas för kunder vid bokning.</span>
+        </div>
+
+        <p class="showcase-label">Felmeddelande</p>
+        <div class="form-group">
+          <label for="textarea-error" class="form-label">Intern anteckning</label>
+          <textarea id="textarea-error" class="form-input form-input-error" rows="3"></textarea>
+          <span class="form-error">
+            <i data-feather="alert-circle" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i>
+            Fältet får inte vara tomt.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Complete Form Example -->
+    <section class="showcase-section" aria-labelledby="complete-form-title">
+      <h3 class="showcase-section-title" id="complete-form-title">Komplett formulär</h3>
+      <p class="showcase-section-desc">Exempel på ett komplett bokningsformulär med alla fälttyper.</p>
+
+      <div style="max-width: 600px;">
+        <div class="card">
+          <div class="card-header">
+            <h4>Ny bokning</h4>
+          </div>
+          <div class="card-body">
+            <form novalidate>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                <div class="form-group">
+                  <label for="form-fname" class="form-label">Förnamn <span style="color: var(--color-danger);">*</span></label>
+                  <input type="text" id="form-fname" class="form-input" placeholder="Anna" required>
+                </div>
+                <div class="form-group">
+                  <label for="form-lname" class="form-label">Efternamn <span style="color: var(--color-danger);">*</span></label>
+                  <input type="text" id="form-lname" class="form-input" placeholder="Andersson" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="form-email" class="form-label">E-postadress <span style="color: var(--color-danger);">*</span></label>
+                <input type="email" id="form-email" class="form-input" placeholder="anna@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label for="form-product" class="form-label">Upplevelse <span style="color: var(--color-danger);">*</span></label>
+                <select id="form-product" class="form-input" required>
+                  <option value="">Välj upplevelse...</option>
+                  <option value="tmb">Tour du Mont Blanc</option>
+                  <option value="sarek">Sarek Sommar</option>
+                  <option value="klattring">Klätterkurs Klippa</option>
+                </select>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                <div class="form-group">
+                  <label for="form-date" class="form-label">Startdatum</label>
+                  <input type="date" id="form-date" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label for="form-participants" class="form-label">Antal deltagare</label>
+                  <input type="number" id="form-participants" class="form-input" min="1" max="20" value="1">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="form-note" class="form-label">Anteckning</label>
+                <textarea id="form-note" class="form-input" rows="3" placeholder="Eventuella önskemål eller information..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox">
+                  <input type="checkbox" name="terms" required>
+                  Jag accepterar bokningsvillkoren
+                </label>
+              </div>
+
+              <div class="flex gap-md justify-end">
+                <button type="button" class="btn btn-secondary">Avbryt</button>
+                <button type="submit" class="btn btn-primary">
+                  <i data-feather="check"></i>
+                  Bekräfta bokning
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>

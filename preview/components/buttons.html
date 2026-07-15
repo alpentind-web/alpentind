@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knappar – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item active">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Knappar</h2>
+      <p>Primär, Sekundär, Neutral, Fara och Ikonknappar</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Primary Button -->
+    <section class="showcase-section" aria-labelledby="primary-btn-title">
+      <h3 class="showcase-section-title" id="primary-btn-title">Primär knapp</h3>
+      <p class="showcase-section-desc">Används för den viktigaste åtgärden på sidan. Högst en primär knapp per sektion.</p>
+
+      <p class="showcase-label">Storlekar</p>
+      <div class="showcase-row">
+        <button class="btn btn-primary btn-sm">
+          <i data-feather="plus"></i>
+          Liten
+        </button>
+        <button class="btn btn-primary">Medel</button>
+        <button class="btn btn-primary btn-lg">
+          <i data-feather="plus"></i>
+          Stor
+        </button>
+      </div>
+
+      <p class="showcase-label">Tillstånd</p>
+      <div class="showcase-row">
+        <button class="btn btn-primary">Normal</button>
+        <button class="btn btn-primary" disabled>Inaktiverad</button>
+      </div>
+
+      <p class="showcase-label">Full bredd</p>
+      <div style="max-width: 400px;">
+        <button class="btn btn-primary btn-full">Full bredd</button>
+      </div>
+    </section>
+
+    <!-- Secondary Button -->
+    <section class="showcase-section" aria-labelledby="secondary-btn-title">
+      <h3 class="showcase-section-title" id="secondary-btn-title">Sekundär knapp</h3>
+      <p class="showcase-section-desc">Används för sekundära åtgärder. Kan kombineras med en primär knapp.</p>
+
+      <p class="showcase-label">Storlekar</p>
+      <div class="showcase-row">
+        <button class="btn btn-secondary btn-sm">Liten</button>
+        <button class="btn btn-secondary">Medel</button>
+        <button class="btn btn-secondary btn-lg">Stor</button>
+      </div>
+
+      <p class="showcase-label">Tillstånd</p>
+      <div class="showcase-row">
+        <button class="btn btn-secondary">Normal</button>
+        <button class="btn btn-secondary" disabled>Inaktiverad</button>
+      </div>
+    </section>
+
+    <!-- Neutral Button -->
+    <section class="showcase-section" aria-labelledby="neutral-btn-title">
+      <h3 class="showcase-section-title" id="neutral-btn-title">Neutral knapp</h3>
+      <p class="showcase-section-desc">Transparent bakgrund med primärfärgad text. Används för tertiära åtgärder.</p>
+
+      <div class="showcase-row">
+        <button class="btn btn-tertiary btn-sm">Liten</button>
+        <button class="btn btn-tertiary">Medel</button>
+        <button class="btn btn-tertiary btn-lg">Stor</button>
+        <button class="btn btn-tertiary" disabled>Inaktiverad</button>
+      </div>
+    </section>
+
+    <!-- Danger Button -->
+    <section class="showcase-section" aria-labelledby="danger-btn-title">
+      <h3 class="showcase-section-title" id="danger-btn-title">Faraknapp</h3>
+      <p class="showcase-section-desc">Används för destruktiva åtgärder som radering. Alltid med bekräftelsedialog.</p>
+
+      <div class="showcase-row">
+        <button class="btn btn-danger btn-sm">
+          <i data-feather="trash-2"></i>
+          Radera
+        </button>
+        <button class="btn btn-danger">
+          <i data-feather="trash-2"></i>
+          Radera
+        </button>
+        <button class="btn btn-danger btn-lg">
+          <i data-feather="trash-2"></i>
+          Radera
+        </button>
+        <button class="btn btn-danger" disabled>Inaktiverad</button>
+      </div>
+    </section>
+
+    <!-- Icon Buttons -->
+    <section class="showcase-section" aria-labelledby="icon-btn-title">
+      <h3 class="showcase-section-title" id="icon-btn-title">Ikonknappar</h3>
+      <p class="showcase-section-desc">Cirkelformade knappar med enbart ikon. Alltid med title-attribut för tillgänglighet.</p>
+
+      <p class="showcase-label">Runda ikonknappar</p>
+      <div class="showcase-row">
+        <button class="btn btn-icon" title="Sök" aria-label="Sök">
+          <i data-feather="search"></i>
+        </button>
+        <button class="btn btn-icon" title="Kalender" aria-label="Kalender">
+          <i data-feather="calendar"></i>
+        </button>
+        <button class="btn btn-icon" title="Inställningar" aria-label="Inställningar">
+          <i data-feather="settings"></i>
+        </button>
+        <button class="btn btn-icon" title="Stäng" aria-label="Stäng">
+          <i data-feather="x"></i>
+        </button>
+        <button class="btn btn-icon" title="Mer" aria-label="Mer">
+          <i data-feather="more-vertical"></i>
+        </button>
+      </div>
+
+      <p class="showcase-label">Knappar med ikon och text</p>
+      <div class="showcase-row">
+        <button class="btn btn-primary">
+          <i data-feather="plus"></i>
+          Ny avgång
+        </button>
+        <button class="btn btn-secondary">
+          <i data-feather="download"></i>
+          Exportera
+        </button>
+        <button class="btn btn-tertiary">
+          <i data-feather="filter"></i>
+          Filtrera
+        </button>
+        <button class="btn btn-secondary">
+          <i data-feather="edit-2"></i>
+          Redigera
+        </button>
+      </div>
+    </section>
+
+    <!-- Button Groups -->
+    <section class="showcase-section" aria-labelledby="btn-groups-title">
+      <h3 class="showcase-section-title" id="btn-groups-title">Knappkombinationer</h3>
+      <p class="showcase-section-desc">Typiska kombinationer av knappar i gränssnittsmönster.</p>
+
+      <p class="showcase-label">Bekräfta / Avbryt</p>
+      <div class="showcase-row">
+        <button class="btn btn-primary">Spara ändringar</button>
+        <button class="btn btn-secondary">Avbryt</button>
+      </div>
+
+      <p class="showcase-label">Primär + Fara</p>
+      <div class="showcase-row">
+        <button class="btn btn-primary">
+          <i data-feather="check"></i>
+          Bekräfta bokning
+        </button>
+        <button class="btn btn-danger">
+          <i data-feather="x"></i>
+          Avboka
+        </button>
+      </div>
+
+      <p class="showcase-label">Åtgärdsrad i tabell</p>
+      <div class="showcase-row">
+        <button class="btn btn-secondary btn-sm">
+          <i data-feather="eye"></i>
+          Visa
+        </button>
+        <button class="btn btn-secondary btn-sm">
+          <i data-feather="edit-2"></i>
+          Redigera
+        </button>
+        <button class="btn btn-danger btn-sm">
+          <i data-feather="trash-2"></i>
+          Ta bort
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>

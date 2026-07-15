@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kort – AlpenTind Komponentbibliotek</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="component-page">
+
+  <!-- Sidebar -->
+  <aside class="component-sidebar">
+    <div class="component-sidebar-header">
+      <h1>AlpenTind</h1>
+      <p>Komponentbibliotek v1.0</p>
+    </div>
+    <nav class="component-nav" aria-label="Komponentnavigation">
+      <a href="buttons.html" class="component-nav-item">
+        <i data-feather="square"></i>
+        Knappar
+      </a>
+      <a href="cards.html" class="component-nav-item active">
+        <i data-feather="credit-card"></i>
+        Kort
+      </a>
+      <a href="badges.html" class="component-nav-item">
+        <i data-feather="tag"></i>
+        Etiketter
+      </a>
+      <a href="tables.html" class="component-nav-item">
+        <i data-feather="grid"></i>
+        Tabeller
+      </a>
+      <a href="forms.html" class="component-nav-item">
+        <i data-feather="edit-3"></i>
+        Formulär
+      </a>
+      <a href="navigation.html" class="component-nav-item">
+        <i data-feather="menu"></i>
+        Navigation
+      </a>
+      <a href="modals.html" class="component-nav-item">
+        <i data-feather="layers"></i>
+        Dialogrutor
+      </a>
+      <a href="alerts.html" class="component-nav-item">
+        <i data-feather="bell"></i>
+        Aviseringar
+      </a>
+      <a href="typography.html" class="component-nav-item">
+        <i data-feather="type"></i>
+        Typografi
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="component-header">
+    <div class="component-header-left">
+      <h2>Informationskort</h2>
+      <p>Standardkort, Statistikkort, Åtgärdskort och Informationskort</p>
+    </div>
+    <a href="../arbetsdag.html" class="btn btn-secondary btn-sm">
+      <i data-feather="arrow-left"></i>
+      Tillbaka till plattformen
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="component-main">
+
+    <!-- Standard Card -->
+    <section class="showcase-section" aria-labelledby="standard-card-title">
+      <h3 class="showcase-section-title" id="standard-card-title">Standardkort</h3>
+      <p class="showcase-section-desc">Baslayout för alla kort. Används för att presentera ett objekt eller en grupp av information.</p>
+
+      <div class="showcase-card-grid">
+        <article class="card">
+          <div class="card-header">
+            <h4>Tour du Mont Blanc</h4>
+            <span class="badge badge-success">Bekräftad</span>
+          </div>
+          <div class="card-body">
+            <p class="text-muted">En klassisk vandring runt Mont Blanc med passage genom tre länder.</p>
+            <p class="text-sm text-muted">
+              <i data-feather="calendar" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i>
+              15 jul – 27 jul 2027
+            </p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary btn-sm">Se detaljer</button>
+            <button class="btn btn-secondary btn-sm">Redigera</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h4>Sarek Sommar</h4>
+            <span class="badge badge-warning">Utkast</span>
+          </div>
+          <div class="card-body">
+            <p class="text-muted">Vildmarksvandring i Sarek nationalpark under sommaren.</p>
+            <p class="text-sm text-muted">
+              <i data-feather="users" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i>
+              8 deltagare
+            </p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary btn-sm">Se detaljer</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h4>Klätterkurs Klippa</h4>
+            <span class="badge badge-info">Kommande</span>
+          </div>
+          <div class="card-body">
+            <p class="text-muted">Introduktionskurs i klättring för nybörjare vid Klippa.</p>
+            <p class="text-sm text-muted">
+              <i data-feather="map-pin" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i>
+              Klippa, Sverige
+            </p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary btn-sm">Se detaljer</button>
+            <button class="btn btn-secondary btn-sm">Redigera</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Stat Cards -->
+    <section class="showcase-section" aria-labelledby="stat-card-title">
+      <h3 class="showcase-section-title" id="stat-card-title">Statistikkort</h3>
+      <p class="showcase-section-desc">Kompakta kort för nyckeltal och statistik. Används i dashboardvyn.</p>
+
+      <div class="showcase-card-grid">
+        <div class="stat-card">
+          <div class="stat-card-icon">
+            <i data-feather="calendar"></i>
+          </div>
+          <div class="stat-card-value">12</div>
+          <div class="stat-card-label">Aktiva avgångar</div>
+          <div class="stat-card-change positive">
+            <i data-feather="trending-up" style="width:12px;height:12px;"></i>
+            +3 sedan förra månaden
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-icon">
+            <i data-feather="users"></i>
+          </div>
+          <div class="stat-card-value">48</div>
+          <div class="stat-card-label">Bokade deltagare</div>
+          <div class="stat-card-change positive">
+            <i data-feather="trending-up" style="width:12px;height:12px;"></i>
+            +12 sedan förra veckan
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-icon">
+            <i data-feather="dollar-sign"></i>
+          </div>
+          <div class="stat-card-value">287 500</div>
+          <div class="stat-card-label">Intäkter SEK</div>
+          <div class="stat-card-change negative">
+            <i data-feather="trending-down" style="width:12px;height:12px;"></i>
+            -5% mot budget
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-icon">
+            <i data-feather="alert-triangle"></i>
+          </div>
+          <div class="stat-card-value">3</div>
+          <div class="stat-card-label">Väntande åtgärder</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Cards -->
+    <section class="showcase-section" aria-labelledby="action-card-title">
+      <h3 class="showcase-section-title" id="action-card-title">Åtgärdskort</h3>
+      <p class="showcase-section-desc">Klickbara kort för snabb navigering. Används som genvägar.</p>
+
+      <div style="display: grid; gap: var(--spacing-md); max-width: 600px;">
+        <a href="#" class="action-card">
+          <div class="action-card-icon">
+            <i data-feather="plus-circle"></i>
+          </div>
+          <div class="action-card-content">
+            <div class="action-card-title">Ny avgång</div>
+            <div class="action-card-desc">Skapa en ny avgång för en upplevelse</div>
+          </div>
+          <i data-feather="chevron-right" style="color: var(--color-text-dark);"></i>
+        </a>
+
+        <a href="#" class="action-card">
+          <div class="action-card-icon">
+            <i data-feather="user-plus"></i>
+          </div>
+          <div class="action-card-content">
+            <div class="action-card-title">Ny bokning</div>
+            <div class="action-card-desc">Lägg till en ny kundbooking manuellt</div>
+          </div>
+          <i data-feather="chevron-right" style="color: var(--color-text-dark);"></i>
+        </a>
+
+        <a href="#" class="action-card">
+          <div class="action-card-icon">
+            <i data-feather="file-text"></i>
+          </div>
+          <div class="action-card-content">
+            <div class="action-card-title">Skicka deltagarbrev</div>
+            <div class="action-card-desc">Skicka information till anmälda deltagare</div>
+          </div>
+          <i data-feather="chevron-right" style="color: var(--color-text-dark);"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- Info Cards (border variants) -->
+    <section class="showcase-section" aria-labelledby="info-card-title">
+      <h3 class="showcase-section-title" id="info-card-title">Informationskort med statusfärg</h3>
+      <p class="showcase-section-desc">Kort med vänsterborderfärg som indikerar status. Används för uppgifter och meddelanden.</p>
+
+      <div style="display: grid; gap: var(--spacing-md); max-width: 700px;">
+        <div class="card card-info">
+          <div class="card-body">
+            <h4>Information: Ny packlista tillgänglig</h4>
+            <p class="text-muted text-sm">Packlistan för Tour du Mont Blanc har uppdaterats inför sommarsäsongen 2027.</p>
+          </div>
+        </div>
+
+        <div class="card card-success">
+          <div class="card-body">
+            <h4>Bokningsbekräftelse skickad</h4>
+            <p class="text-muted text-sm">Bekräftelsemail har skickats till Anna Andersson för Tour du Mont Blanc 15 jul.</p>
+          </div>
+        </div>
+
+        <div class="card card-warning">
+          <div class="card-body">
+            <h4>Vädervarning: TMB 14–16 jul</h4>
+            <p class="text-muted text-sm">Kraftig regn väntas i Mont Blanc-området. Kontrollera rutten och informera deltagarna.</p>
+          </div>
+        </div>
+
+        <div class="card card-danger">
+          <div class="card-body">
+            <h4>Boende ej bokat: Refuge Bonatti</h4>
+            <p class="text-muted text-sm">Avgången Tour du Mont Blanc 15 jul saknar bokad övernattning för natt 3.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty State Card -->
+    <section class="showcase-section" aria-labelledby="empty-card-title">
+      <h3 class="showcase-section-title" id="empty-card-title">Tomt läge (Empty State)</h3>
+      <p class="showcase-section-desc">Visas när en sektion inte har något innehåll ännu.</p>
+
+      <div style="max-width: 500px;">
+        <div class="card">
+          <div class="empty-state">
+            <i data-feather="inbox" style="width: 48px; height: 48px; color: var(--color-bg-light);"></i>
+            <h3>Inga avgångar</h3>
+            <p>Det finns inga avgångar att visa. Skapa en ny avgång för att komma igång.</p>
+            <button class="btn btn-primary mt-lg">
+              <i data-feather="plus"></i>
+              Skapa avgång
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>feather.replace();</script>
+</body>
+</html>
