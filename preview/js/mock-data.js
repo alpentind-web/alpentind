@@ -1,9 +1,9 @@
 /* ========================================
-   AlpenTind Platform Preview v0.1
-   Mock Data - All Example Data
+   AlpenTind Platform Preview v0.2
+   Mock-data – Exempeldata för demo
    ======================================== */
 
-// User Information
+// Inloggad användare
 const currentUser = {
   id: 'USER-001',
   name: 'Erik Bergström',
@@ -11,17 +11,17 @@ const currentUser = {
   email: 'erik@alpentind.se',
   phone: '+46 70 123 45 67',
   avatar: 'EB',
-  department: 'Guides',
+  department: 'Guider',
 };
 
 // ========================================
-// Tasks (Dagens uppgifter)
+// Uppgifter (Dagens uppgifter)
 // ========================================
 
 const tasks = [
   {
     id: 'TASK-001',
-    title: 'Bekrafta boende',
+    title: 'Bekräfta boende',
     description: 'Refuge Bonatti',
     dueDate: '2027-07-15',
     status: 'pending',
@@ -30,7 +30,7 @@ const tasks = [
   },
   {
     id: 'TASK-002',
-    title: 'Skicka deltgarbrev',
+    title: 'Skicka deltagarbrev',
     description: 'Sarek Sommar 3 aug',
     dueDate: '2027-07-20',
     status: 'pending',
@@ -39,7 +39,7 @@ const tasks = [
   },
   {
     id: 'TASK-003',
-    title: 'Ring Guide Johan',
+    title: 'Ring guide Johan',
     description: 'Klätterkurs 14 juni',
     dueDate: '2027-07-14',
     status: 'completed',
@@ -49,7 +49,7 @@ const tasks = [
 ];
 
 // ========================================
-// Departures (Kommande avgångar)
+// Avgångar (Kommande avgångar)
 // ========================================
 
 const departures = [
@@ -60,7 +60,7 @@ const departures = [
     participants: 12,
     guides: ['Erik Bergström', 'Anna Andersson'],
     status: 'confirmed',
-    image: 'https://via.placeholder.com/200x150?text=Tour+du+Mont+Blanc',
+    category: 'Vandring',
   },
   {
     id: 'DEP-002',
@@ -69,7 +69,7 @@ const departures = [
     participants: 8,
     guides: ['Erik Bergström'],
     status: 'confirmed',
-    image: 'https://via.placeholder.com/200x150?text=Sarek+Sommar',
+    category: 'Vildmark',
   },
   {
     id: 'DEP-003',
@@ -78,12 +78,12 @@ const departures = [
     participants: 6,
     guides: ['Johan Svensson'],
     status: 'confirmed',
-    image: 'https://via.placeholder.com/200x150?text=Klatterkurs',
+    category: 'Klättring',
   },
 ];
 
 // ========================================
-// Bookings (Nya bokningar)
+// Bokningar (Nya bokningar)
 // ========================================
 
 const bookings = [
@@ -108,7 +108,7 @@ const bookings = [
 ];
 
 // ========================================
-// Awaiting Confirmation (Väntar på bekräftelse)
+// Väntar på bekräftelse
 // ========================================
 
 const awaitingConfirmation = [
@@ -131,7 +131,7 @@ const awaitingConfirmation = [
 ];
 
 // ========================================
-// Payments to Follow Up (Betalningar att följa upp)
+// Betalningar att följa upp
 // ========================================
 
 const payments = [
@@ -165,7 +165,7 @@ const payments = [
 ];
 
 // ========================================
-// Accommodations Not Booked (Boenden som inte är bokade)
+// Boenden som inte är bokade
 // ========================================
 
 const accommodations = [
@@ -173,7 +173,7 @@ const accommodations = [
     id: 'ACC-001',
     name: 'Refuge Bonatti',
     departure: 'Tour du Mont Blanc',
-    dates: '2027-07-15 - 2027-07-20',
+    dates: '2027-07-15 – 2027-07-20',
     beds: 12,
     status: 'not_booked',
     contact: 'booking@bonatti.it',
@@ -182,7 +182,7 @@ const accommodations = [
     id: 'ACC-002',
     name: 'Sarek Lodge',
     departure: 'Sarek Sommar',
-    dates: '2027-08-03 - 2027-08-05',
+    dates: '2027-08-03 – 2027-08-05',
     beds: 8,
     status: 'not_booked',
     contact: 'info@sarek-lodge.se',
@@ -190,14 +190,14 @@ const accommodations = [
 ];
 
 // ========================================
-// Customer Messages (Senaste kundmeddelanden)
+// Kundmeddelanden
 // ========================================
 
 const customerMessages = [
   {
     id: 'MSG-001',
     customerName: 'Anna Andersson',
-    message: 'Hej! Jag undrar över packlistan för TMB. Behöver över packlistin för TMB. Behöver jag medbringardag större ryggsäck?',
+    message: 'Hej! Jag undrar om packlistan för TMB. Behöver jag ha med en större ryggsäck?',
     timestamp: '2 h sedan',
     status: 'unread',
     avatar: 'AA',
@@ -205,7 +205,7 @@ const customerMessages = [
   {
     id: 'MSG-002',
     customerName: 'Peter Nilsson',
-    message: 'Se fram emot resan! Kan vi få snabba svar!',
+    message: 'Ser fram emot resan! Kan ni bekräfta avgångstiden?',
     timestamp: '5 h sedan',
     status: 'unread',
     avatar: 'PN',
@@ -213,15 +213,15 @@ const customerMessages = [
   {
     id: 'MSG-003',
     customerName: 'ACME AB',
-    message: 'Hej, kan vi fakturan med vår organisationsnummer?',
+    message: 'Hej, kan ni skicka fakturan med vårt organisationsnummer?',
     timestamp: '1 dag sedan',
     status: 'read',
-    avatar: 'AA',
+    avatar: 'AB',
   },
 ];
 
 // ========================================
-// Weather Warnings (Vädervarningar)
+// Vädervarningar
 // ========================================
 
 const weatherWarnings = [
@@ -229,24 +229,24 @@ const weatherWarnings = [
     id: 'WEATHER-001',
     title: 'Kraftigt regn',
     departure: 'Tour du Mont Blanc',
-    dates: '2027-07-14 - 16 juli',
+    dates: '2027-07-14 – 2027-07-16',
     severity: 'warning',
-    description: 'Lokalt kraftig regn fall och risk för små i höjd.',
-    icon: '⚠️',
+    description: 'Lokalt kraftigt regn och risk för stenfall i höjdläge.',
+    featherIcon: 'cloud-rain',
   },
   {
     id: 'WEATHER-002',
     title: 'Snöfall i Sarek',
     departure: 'Sarek Sommar',
-    dates: '2027-08-02 - 04 augusti',
+    dates: '2027-08-02 – 2027-08-04',
     severity: 'info',
-    description: 'Förväntad vid 800 m o.h.',
-    icon: '❄️',
+    description: 'Förväntade snöfall ovan 800 m ö.h.',
+    featherIcon: 'cloud-snow',
   },
 ];
 
 // ========================================
-// Products (Produkter)
+// Upplevelser (ersätter Produkter)
 // ========================================
 
 const products = [
@@ -254,15 +254,14 @@ const products = [
     id: 'PROD-001',
     name: 'Vandringsresa A',
     title: 'Tour du Mont Blanc',
-    category: 'Walking',
+    category: 'Vandring',
     status: 'active',
     variant: 'Standard',
-    description: 'En klassisk vandring runt Mont Blanc med tre länder.',
+    description: 'En klassisk vandring runt Mont Blanc genom tre länder.',
     duration: '12 dagar',
-    difficulty: 'Mittelnivå',
+    difficulty: 'Mellannivå',
     price: 28500,
     currency: 'SEK',
-    image: 'https://via.placeholder.com/400x300?text=Mont+Blanc',
     guides: ['Erik Bergström', 'Anna Andersson'],
     dates: [
       {
@@ -278,15 +277,14 @@ const products = [
     id: 'PROD-002',
     name: 'Vandringsresa B',
     title: 'Sarek Sommar',
-    category: 'Walking',
+    category: 'Vildmark',
     status: 'active',
     variant: 'Standard',
     description: 'Vildmarksvandring i Sarek nationalpark.',
     duration: '8 dagar',
-    difficulty: 'Högnivå',
+    difficulty: 'Avancerad',
     price: 32950,
     currency: 'SEK',
-    image: 'https://via.placeholder.com/400x300?text=Sarek',
     guides: ['Erik Bergström'],
     dates: [
       {
@@ -302,15 +300,14 @@ const products = [
     id: 'PROD-003',
     name: 'Klätterkurs A',
     title: 'Klätterkurs Klippa',
-    category: 'Climbing',
+    category: 'Klättring',
     status: 'active',
-    variant: 'Introductory',
+    variant: 'Introduktion',
     description: 'Introduktionskurs i klättring för nybörjare.',
     duration: '6 dagar',
     difficulty: 'Nybörjare',
     price: 26000,
     currency: 'SEK',
-    image: 'https://via.placeholder.com/400x300?text=Klattring',
     guides: ['Johan Svensson'],
     dates: [
       {
@@ -325,25 +322,25 @@ const products = [
 ];
 
 // ========================================
-// Navigation Menu Items
+// Menystruktur
 // ========================================
 
 const navigationItems = [
-  { id: 'nav-1', label: 'Min arbetsdag', icon: '🏠', page: 'arbetsdag' },
-  { id: 'nav-2', label: 'Produkter', icon: '🎒', page: 'produkter' },
-  { id: 'nav-3', label: 'Avgångar', icon: '📅', page: 'departures' },
-  { id: 'nav-4', label: 'Kunder', icon: '👥', page: 'customers' },
-  { id: 'nav-5', label: 'Guider', icon: '🧗', page: 'guides' },
-  { id: 'nav-6', label: 'Boenden', icon: '🏠', page: 'accommodations' },
-  { id: 'nav-7', label: 'Ekonomi', icon: '💰', page: 'economy' },
-  { id: 'nav-8', label: 'Kartor', icon: '🗺️', page: 'maps' },
-  { id: 'nav-9', label: 'Dokument', icon: '📄', page: 'documents' },
-  { id: 'nav-10', label: 'Meddelanden', icon: '💬', page: 'messages' },
-  { id: 'nav-11', label: 'Inställningar', icon: '⚙️', page: 'settings' },
+  { id: 'nav-1',  label: 'Min arbetsdag', featherIcon: 'home',          page: 'arbetsdag'     },
+  { id: 'nav-2',  label: 'Upplevelser',   featherIcon: 'compass',       page: 'upplevelser'   },
+  { id: 'nav-3',  label: 'Avgångar',      featherIcon: 'navigation',    page: 'departures'    },
+  { id: 'nav-4',  label: 'Kunder',        featherIcon: 'users',         page: 'customers'     },
+  { id: 'nav-5',  label: 'Guider',        featherIcon: 'user-check',    page: 'guides'        },
+  { id: 'nav-6',  label: 'Boenden',       featherIcon: 'layers',        page: 'accommodations'},
+  { id: 'nav-7',  label: 'Ekonomi',       featherIcon: 'bar-chart-2',   page: 'economy'       },
+  { id: 'nav-8',  label: 'Kartor',        featherIcon: 'map',           page: 'maps'          },
+  { id: 'nav-9',  label: 'Dokument',      featherIcon: 'file-text',     page: 'documents'     },
+  { id: 'nav-10', label: 'Meddelanden',   featherIcon: 'message-square',page: 'messages'      },
+  { id: 'nav-11', label: 'Inställningar', featherIcon: 'settings',      page: 'settings'      },
 ];
 
 // ========================================
-// Dashboard Statistics
+// Dashboard-statistik
 // ========================================
 
 const dashboardStats = {
@@ -354,7 +351,7 @@ const dashboardStats = {
 };
 
 // ========================================
-// Export all data
+// Exporterat datapaket
 // ========================================
 
 const mockData = {

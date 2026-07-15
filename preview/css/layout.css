@@ -40,16 +40,16 @@ body {
   border-bottom: var(--border-thin);
 }
 
-.sidebar-logo img {
-  max-width: 120px;
-  height: auto;
-  margin-bottom: var(--spacing-sm);
+.sidebar-logo .logo-svg {
+  display: block;
+  margin: 0 auto var(--spacing-sm) auto;
 }
 
 .sidebar-logo h1 {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-serif);
   color: var(--color-text-light);
-  margin: var(--spacing-sm) 0;
+  margin: 0 0 var(--spacing-xs) 0;
 }
 
 .sidebar-logo p {

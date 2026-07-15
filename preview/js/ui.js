@@ -1,10 +1,30 @@
 /* ========================================
-   AlpenTind Platform Preview v0.1
-   UI Functions - Rendering & DOM Management
+   AlpenTind Platform Preview v0.2
+   UI – Rendering och DOM-hantering
    ======================================== */
 
 // ========================================
-// Sidebar Rendering
+// SVG-logotyp – AlpenTind bergssilhuett
+// ========================================
+
+const logoSVG = `
+<svg class="logo-svg" viewBox="0 0 80 52" width="80" height="52"
+     xmlns="http://www.w3.org/2000/svg" aria-label="AlpenTind logotyp">
+  <polyline
+    points="40,4 10,40 70,40"
+    fill="none"
+    stroke="var(--color-primary)"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+    stroke-linecap="round"/>
+  <polygon
+    points="40,4 32,20 48,20"
+    fill="var(--color-primary)"
+    opacity="0.5"/>
+</svg>`;
+
+// ========================================
+// Sidopanel
 // ========================================
 
 function renderSidebar() {
@@ -13,19 +33,23 @@ function renderSidebar() {
 
   sidebar.innerHTML = `
     <div class="sidebar-logo">
-      <img src="https://via.placeholder.com/120x60?text=AlpenTind" alt="AlpenTind">
+      ${logoSVG}
       <h1>AlpenTind</h1>
-      <p>Guiding Platform</p>
+      <p>Guideplattform</p>
     </div>
-    <nav class="sidebar-nav" id="nav-menu"></nav>
+    <nav class="sidebar-nav" id="nav-menu" aria-label="Huvudmeny"></nav>
     <div class="sidebar-footer">
       <div class="user-profile">
-        <div class="user-avatar">${mockData.currentUser.avatar}</div>
+        <div class="user-avatar" aria-hidden="true">${mockData.currentUser.avatar}</div>
         <div class="user-info">
           <p class="user-name">${mockData.currentUser.name}</p>
           <p class="user-role">${mockData.currentUser.role}</p>
         </div>
       </div>
+      <button class="btn btn-secondary btn-full mt-md" onclick="logout()" style="margin-top:var(--spacing-sm)">
+        <i data-feather="log-out" style="width:14px;height:14px"></i>
+        Logga ut
+      </button>
     </div>
   `;
 
@@ -34,17 +58,23 @@ function renderSidebar() {
     const button = document.createElement('button');
     button.className = 'nav-item';
     button.dataset.page = item.page;
+    button.setAttribute('aria-label', item.label);
     button.innerHTML = `
-      <span class="nav-icon">${item.icon}</span>
+      <span class="nav-icon" aria-hidden="true">
+        <i data-feather="${item.featherIcon}" style="width:16px;height:16px"></i>
+      </span>
       <span>${item.label}</span>
     `;
     button.onclick = () => navigateTo(item.page, item.id);
     navMenu.appendChild(button);
   });
+
+  // Aktivera Feather-ikoner i sidopanelen
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Header Rendering
+// Sidhuvud
 // ========================================
 
 function renderHeader() {
@@ -61,44 +91,100 @@ function renderHeader() {
       </div>
     </div>
     <div class="header-right">
-      <div class="header-stats">
+      <div class="header-stats" aria-label="Daglig statistik">
         <div class="stat-item">
-          <span class="stat-icon">📋</span>
+          <span class="stat-icon" aria-hidden="true">
+            <i data-feather="check-square" style="width:18px;height:18px"></i>
+          </span>
           <p class="stat-label">Uppgifter</p>
           <p class="stat-value">${mockData.dashboardStats.tasks}</p>
         </div>
         <div class="stat-item">
-          <span class="stat-icon">📅</span>
+          <span class="stat-icon" aria-hidden="true">
+            <i data-feather="calendar" style="width:18px;height:18px"></i>
+          </span>
           <p class="stat-label">Bokningar</p>
           <p class="stat-value">${mockData.dashboardStats.bookings}</p>
         </div>
         <div class="stat-item">
-          <span class="stat-icon">⚠️</span>
+          <span class="stat-icon" aria-hidden="true">
+            <i data-feather="alert-triangle" style="width:18px;height:18px"></i>
+          </span>
           <p class="stat-label">Varningar</p>
           <p class="stat-value">${mockData.dashboardStats.warnings}</p>
         </div>
       </div>
       <div class="header-actions">
-        <div class="search-box">
-          <span>🔍</span>
-          <input type="text" placeholder="Sök...">
-        </div>
-        <div class="notification-bell">
-          🔔
-          <span class="notification-badge">${mockData.bookings.length}</span>
+        <label class="search-box" for="header-search">
+          <i data-feather="search" style="width:16px;height:16px;color:var(--color-text-dark)" aria-hidden="true"></i>
+          <input type="search" id="header-search" placeholder="Sök..." aria-label="Sök i AlpenTind">
+        </label>
+        <div class="notification-bell" role="button" aria-label="Aviseringar" tabindex="0">
+          <i data-feather="bell" style="width:18px;height:18px"></i>
+          <span class="notification-badge" aria-label="${mockData.bookings.length} nya bokningar">
+            ${mockData.bookings.length}
+          </span>
         </div>
       </div>
     </div>
   `;
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Dashboard Rendering
+// Informationsbanner (diskret dagsöversikt)
+// ========================================
+
+function renderInfoBanner() {
+  const banner = document.getElementById('info-banner');
+  if (!banner) return;
+
+  const daysUntilNext = daysBetween(new Date(), new Date(mockData.dashboardStats.nextDeparture));
+  const daysLabel = daysUntilNext === 0
+    ? 'Avgång idag'
+    : daysUntilNext === 1
+      ? 'Nästa avgång imorgon'
+      : `Nästa avgång om ${daysUntilNext} dagar`;
+
+  banner.innerHTML = `
+    <span class="info-banner-label">Idag</span>
+    <div class="info-banner-divider" aria-hidden="true"></div>
+    <div class="info-banner-item">
+      <i data-feather="check-circle" style="width:14px;height:14px"></i>
+      <strong>${mockData.dashboardStats.tasks}</strong>&nbsp;uppgifter
+    </div>
+    <div class="info-banner-divider" aria-hidden="true"></div>
+    <div class="info-banner-item">
+      <i data-feather="bookmark" style="width:14px;height:14px"></i>
+      <strong>${mockData.dashboardStats.bookings}</strong>&nbsp;nya bokningar
+    </div>
+    <div class="info-banner-divider" aria-hidden="true"></div>
+    <div class="info-banner-item">
+      <i data-feather="navigation" style="width:14px;height:14px"></i>
+      ${daysLabel}
+    </div>
+    <div class="info-banner-divider" aria-hidden="true"></div>
+    <div class="info-banner-item ${mockData.dashboardStats.warnings > 0 ? 'warning' : 'success'}">
+      <i data-feather="${mockData.dashboardStats.warnings > 0 ? 'alert-triangle' : 'sun'}"
+         style="width:14px;height:14px"></i>
+      ${mockData.dashboardStats.warnings > 0
+        ? `<strong>${mockData.dashboardStats.warnings}</strong>&nbsp;vädervarning${mockData.dashboardStats.warnings !== 1 ? 'ar' : ''}`
+        : 'Inga vädervarningar'}
+    </div>
+  `;
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+// ========================================
+// Dashboard
 // ========================================
 
 function renderDashboard() {
   renderSidebar();
   renderHeader();
+  renderInfoBanner();
   renderTasksGrid();
   renderDeparturesGrid();
   renderBookingsGrid();
@@ -110,32 +196,43 @@ function renderDashboard() {
 }
 
 // ========================================
-// Tasks Grid
+// Uppgiftskort
 // ========================================
 
 function renderTasksGrid() {
   const grid = document.getElementById('tasks-grid');
   if (!grid) return;
 
+  const priorityLabel = { high: 'Hög', medium: 'Medel', low: 'Låg' };
+
   grid.innerHTML = mockData.tasks.map(task => `
-    <div class="card task-card">
+    <article class="card task-card">
       <div class="card-header">
         <h3>${task.title}</h3>
-        <span class="badge badge-${task.priority}">${task.priority}</span>
-      </div>
-      <p class="text-muted">${task.description}</p>
-      <div class="card-footer">
-        <span class="text-xs">📅 ${task.dueDate}</span>
-        <span class="badge ${task.status === 'completed' ? 'badge-success' : 'badge-warning'}">
-          ${task.status === 'completed' ? '✓ Slutförd' : '⏳ Väntande'}
+        <span class="badge badge-${task.priority === 'high' ? 'danger' : task.priority === 'medium' ? 'warning' : 'info'}">
+          ${priorityLabel[task.priority] || task.priority}
         </span>
       </div>
-    </div>
+      <div class="card-body">
+        <p class="text-muted">${task.description}</p>
+      </div>
+      <div class="card-footer">
+        <span class="text-xs" style="display:flex;align-items:center;gap:4px">
+          <i data-feather="calendar" style="width:12px;height:12px"></i>
+          ${task.dueDate}
+        </span>
+        <span class="badge ${task.status === 'completed' ? 'badge-success' : 'badge-warning'}">
+          ${task.status === 'completed' ? 'Slutförd' : 'Väntande'}
+        </span>
+      </div>
+    </article>
   `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Departures Grid
+// Avgångskort
 // ========================================
 
 function renderDeparturesGrid() {
@@ -143,22 +240,33 @@ function renderDeparturesGrid() {
   if (!grid) return;
 
   grid.innerHTML = mockData.departures.map(dep => `
-    <div class="card departure-card">
-      <img src="${dep.image}" alt="${dep.name}" class="card-image">
+    <article class="card departure-card">
+      <div class="card-image-placeholder" aria-hidden="true">
+        <i data-feather="map" style="width:48px;height:48px"></i>
+        <span class="card-image-label">${dep.category}</span>
+      </div>
       <div class="card-body">
         <h3>${dep.name}</h3>
-        <p class="text-muted">📅 ${dep.startDate}</p>
-        <p class="text-muted">👥 ${dep.participants} deltagare</p>
-        <div class="card-footer">
-          <span class="badge badge-success">Bekräftad</span>
-        </div>
+        <p class="text-muted" style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+          <i data-feather="calendar" style="width:13px;height:13px"></i>
+          ${dep.startDate}
+        </p>
+        <p class="text-muted" style="display:flex;align-items:center;gap:6px">
+          <i data-feather="users" style="width:13px;height:13px"></i>
+          ${dep.participants} deltagare
+        </p>
       </div>
-    </div>
+      <div class="card-footer">
+        <span class="badge badge-success">Bekräftad</span>
+      </div>
+    </article>
   `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Bookings Grid
+// Bokningskort
 // ========================================
 
 function renderBookingsGrid() {
@@ -166,22 +274,32 @@ function renderBookingsGrid() {
   if (!grid) return;
 
   grid.innerHTML = mockData.bookings.map(booking => `
-    <div class="card booking-card">
+    <article class="card booking-card">
       <div class="card-header">
         <h3>${booking.customerName}</h3>
       </div>
-      <p class="text-muted">${booking.product}</p>
-      <p class="text-muted">👥 ${booking.participants} ${booking.participants === 1 ? 'deltagare' : 'deltagare'}</p>
-      <p class="text-muted">📅 ${booking.date}</p>
+      <div class="card-body">
+        <p class="text-muted">${booking.product}</p>
+        <p class="text-muted" style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+          <i data-feather="users" style="width:13px;height:13px"></i>
+          ${booking.participants} deltagare
+        </p>
+        <p class="text-muted" style="display:flex;align-items:center;gap:6px">
+          <i data-feather="calendar" style="width:13px;height:13px"></i>
+          ${booking.date}
+        </p>
+      </div>
       <div class="card-footer">
         <span class="badge badge-warning">Väntande</span>
       </div>
-    </div>
+    </article>
   `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Awaiting Confirmation Grid
+// Väntar på bekräftelse
 // ========================================
 
 function renderAwaitingGrid() {
@@ -189,22 +307,32 @@ function renderAwaitingGrid() {
   if (!grid) return;
 
   grid.innerHTML = mockData.awaitingConfirmation.map(item => `
-    <div class="card awaiting-card">
+    <article class="card awaiting-card">
       <div class="card-header">
         <h3>${item.customerName}</h3>
       </div>
-      <p class="text-muted">${item.product}</p>
-      <p class="text-muted">📅 ${item.date}</p>
-      <p class="alert-info">⏳ ${item.daysLeft} dagar kvar</p>
+      <div class="card-body">
+        <p class="text-muted">${item.product}</p>
+        <p class="text-muted" style="display:flex;align-items:center;gap:6px;margin-bottom:var(--spacing-sm)">
+          <i data-feather="calendar" style="width:13px;height:13px"></i>
+          ${item.date}
+        </p>
+        <p class="text-muted" style="display:flex;align-items:center;gap:6px">
+          <i data-feather="clock" style="width:13px;height:13px"></i>
+          ${item.daysLeft} dagar kvar
+        </p>
+      </div>
       <div class="card-footer">
         <button class="btn btn-sm btn-primary">Skicka påminnelse</button>
       </div>
-    </div>
+    </article>
   `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Payments Table
+// Betalningstabell
 // ========================================
 
 function renderPaymentsTable() {
@@ -212,14 +340,14 @@ function renderPaymentsTable() {
   if (!container) return;
 
   container.innerHTML = `
-    <table class="table">
+    <table class="table" aria-label="Betalningar att följa upp">
       <thead>
         <tr>
-          <th>Kund</th>
-          <th>Produkt</th>
-          <th>Belopp</th>
-          <th>Förfallodatum</th>
-          <th>Status</th>
+          <th scope="col">Kund</th>
+          <th scope="col">Upplevelse</th>
+          <th scope="col">Belopp</th>
+          <th scope="col">Förfallodatum</th>
+          <th scope="col">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -238,7 +366,7 @@ function renderPaymentsTable() {
 }
 
 // ========================================
-// Accommodations Table
+// Boendetabell
 // ========================================
 
 function renderAccommodationsTable() {
@@ -246,14 +374,14 @@ function renderAccommodationsTable() {
   if (!container) return;
 
   container.innerHTML = `
-    <table class="table">
+    <table class="table" aria-label="Boenden att boka">
       <thead>
         <tr>
-          <th>Boende</th>
-          <th>Avgang</th>
-          <th>Datum</th>
-          <th>Säng</th>
-          <th>Åtgärd</th>
+          <th scope="col">Boende</th>
+          <th scope="col">Avgång</th>
+          <th scope="col">Datum</th>
+          <th scope="col">Sängar</th>
+          <th scope="col">Åtgärd</th>
         </tr>
       </thead>
       <tbody>
@@ -272,7 +400,7 @@ function renderAccommodationsTable() {
 }
 
 // ========================================
-// Messages List
+// Kundmeddelandelista
 // ========================================
 
 function renderMessagesList() {
@@ -280,22 +408,23 @@ function renderMessagesList() {
   if (!container) return;
 
   container.innerHTML = mockData.customerMessages.map(msg => `
-    <div class="message-item ${msg.status === 'unread' ? 'unread' : ''}">
-      <div class="message-avatar">${msg.avatar}</div>
+    <div class="message-item ${msg.status === 'unread' ? 'unread' : ''}"
+         role="listitem">
+      <div class="message-avatar" aria-hidden="true">${msg.avatar}</div>
       <div class="message-content">
         <div class="message-header">
           <h4>${msg.customerName}</h4>
-          <span class="text-xs text-muted">${msg.timestamp}</span>
+          <time class="text-xs text-muted">${msg.timestamp}</time>
         </div>
         <p class="message-text">${msg.message}</p>
       </div>
-      <button class="btn btn-sm btn-outline">Svar</button>
+      <button class="btn btn-sm btn-secondary">Svara</button>
     </div>
   `).join('');
 }
 
 // ========================================
-// Weather Warnings
+// Vädervarningar
 // ========================================
 
 function renderWeatherWarnings() {
@@ -303,20 +432,28 @@ function renderWeatherWarnings() {
   if (!container) return;
 
   container.innerHTML = mockData.weatherWarnings.map(warning => `
-    <div class="alert alert-${warning.severity}">
-      <div class="alert-header">
-        <span class="alert-icon">${warning.icon}</span>
-        <h4>${warning.title}</h4>
+    <div class="alert alert-${warning.severity}" role="alert">
+      <div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm)">
+        <i data-feather="${warning.featherIcon}" style="width:18px;height:18px;flex-shrink:0"></i>
+        <h4 style="margin:0">${warning.title}</h4>
       </div>
-      <p>${warning.description}</p>
-      <p class="text-xs text-muted">📅 ${warning.dates}</p>
-      <p class="text-xs text-muted">📍 ${warning.departure}</p>
+      <p style="margin-bottom:var(--spacing-xs)">${warning.description}</p>
+      <p class="text-xs" style="display:flex;align-items:center;gap:4px;margin-bottom:2px">
+        <i data-feather="calendar" style="width:11px;height:11px"></i>
+        ${warning.dates}
+      </p>
+      <p class="text-xs" style="display:flex;align-items:center;gap:4px;margin:0">
+        <i data-feather="map-pin" style="width:11px;height:11px"></i>
+        ${warning.departure}
+      </p>
     </div>
   `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Products Grid
+// Upplevelsegrid
 // ========================================
 
 function renderProducts() {
@@ -326,36 +463,54 @@ function renderProducts() {
   if (!grid) return;
 
   grid.innerHTML = mockData.products.map(product => `
-    <div class="card product-card">
-      <img src="${product.image}" alt="${product.title}" class="card-image">
+    <article class="card product-card">
+      <div class="card-image-placeholder" aria-hidden="true">
+        <i data-feather="compass" style="width:48px;height:48px"></i>
+        <span class="card-image-label">${product.category}</span>
+      </div>
       <div class="card-body">
         <h3>${product.title}</h3>
-        <p class="text-muted">${product.category}</p>
-        <p class="text-sm">${product.description}</p>
+        <p class="text-muted" style="font-size:var(--font-size-sm);margin-bottom:var(--spacing-sm)">
+          ${product.description}
+        </p>
         <div class="product-specs">
-          <span class="spec">⏱️ ${product.duration}</span>
-          <span class="spec">📊 ${product.difficulty}</span>
+          <span class="spec">
+            <i data-feather="clock" style="width:12px;height:12px"></i>
+            ${product.duration}
+          </span>
+          <span class="spec">
+            <i data-feather="trending-up" style="width:12px;height:12px"></i>
+            ${product.difficulty}
+          </span>
         </div>
         <div class="product-price">
           <span class="price">${product.price.toLocaleString('sv-SE')} ${product.currency}</span>
         </div>
-        <div class="card-footer">
-          <button class="btn btn-sm btn-primary">Se detaljer</button>
-        </div>
       </div>
-    </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-primary">Se detaljer</button>
+      </div>
+    </article>
   `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
-// Helper Functions
+// Hjälpfunktioner
 // ========================================
 
 function getGreeting() {
   const hour = new Date().getHours();
-  if (hour < 12) return `Godmorgon, ${mockData.currentUser.name.split(' ')[0]}! 🌅`;
-  if (hour < 18) return `Godmiddag, ${mockData.currentUser.name.split(' ')[0]}! ☀️`;
-  return `Godkväll, ${mockData.currentUser.name.split(' ')[0]}! 🌙`;
+  const firstName = mockData.currentUser.name.split(' ')[0];
+  if (hour < 12) return `God morgon, ${firstName}`;
+  if (hour < 18) return `God dag, ${firstName}`;
+  return `God kväll, ${firstName}`;
+}
+
+function daysBetween(from, to) {
+  const msPerDay = 1000 * 60 * 60 * 24;
+  return Math.max(0, Math.ceil((to - from) / msPerDay));
 }
 
 function formatDate(date) {

@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AlpenTind Platform - Login</title>
+  <title>AlpenTind Platform – Inloggning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -11,44 +12,60 @@
 </head>
 <body class="login-page">
   <div class="login-container">
-    <div class="login-card">
+
+    <!-- Inloggningskort -->
+    <main class="login-card" aria-label="Inloggning">
       <div class="login-header">
-        <img src="https://via.placeholder.com/120x120?text=AlpenTind+Logo" alt="AlpenTind Guiding" class="login-logo">
+        <!-- AlpenTind logotyp – SVG bergssilhuett -->
+        <div class="login-logo" aria-label="AlpenTind logotyp">
+          <svg viewBox="0 0 100 65" width="100" height="65"
+               xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polyline
+              points="50,5 12,52 88,52"
+              fill="none"
+              stroke="#B8955A"
+              stroke-width="2.5"
+              stroke-linejoin="round"
+              stroke-linecap="round"/>
+            <polygon
+              points="50,5 40,26 60,26"
+              fill="#B8955A"
+              opacity="0.5"/>
+          </svg>
+        </div>
         <h1>AlpenTind Platform</h1>
-        <p class="text-muted">Designsystem v1.0</p>
+        <p class="text-muted">Guideplattform v0.2</p>
       </div>
 
-      <form class="login-form" onsubmit="handleLogin(event)">
+      <form class="login-form" onsubmit="handleLogin(event)" novalidate>
         <div class="form-group">
-          <label for="email" class="form-label">E-post</label>
-          <input 
-            type="email" 
-            id="email" 
-            class="form-input" 
-            placeholder="din@email.com" 
+          <label for="email" class="form-label">E-postadress</label>
+          <input
+            type="email"
+            id="email"
+            class="form-input"
+            placeholder="din@email.com"
             value="erik@alpentind.se"
+            autocomplete="email"
             required
           >
         </div>
 
         <div class="form-group">
           <label for="password" class="form-label">Lösenord</label>
-          <input 
-            type="password" 
-            id="password" 
-            class="form-input" 
-            placeholder="••••••••" 
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder="••••••••"
             value="demo"
+            autocomplete="current-password"
             required
           >
         </div>
 
         <div class="form-group checkbox">
-          <input 
-            type="checkbox" 
-            id="remember" 
-            checked
-          >
+          <input type="checkbox" id="remember" checked>
           <label for="remember">Kom ihåg mig</label>
         </div>
 
@@ -58,18 +75,23 @@
       </form>
 
       <div class="login-footer">
-        <p class="text-muted text-center">Demo-inloggning. Använd erik@alpentind.se / demo</p>
+        <p class="text-muted text-center">
+          Demo-inloggning &mdash; erik@alpentind.se / demo
+        </p>
+      </div>
+    </main>
+
+    <!-- Bergstema-bakgrund (CSS-genererad) -->
+    <div class="login-background" aria-hidden="true">
+      <div class="login-brand">
+        <div class="login-brand-name">AlpenTind</div>
+        <div class="login-brand-tagline">Guiding &amp; Expeditioner</div>
       </div>
     </div>
 
-    <div class="login-background">
-      <img src="https://via.placeholder.com/1920x1080?text=AlpenTind+Mountains" alt="Mountains">
-    </div>
   </div>
 
   <script src="js/mock-data.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/navigation.js"></script>
   <script>
     function handleLogin(event) {
       event.preventDefault();
