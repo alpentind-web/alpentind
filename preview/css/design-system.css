@@ -72,6 +72,7 @@
   /* Semantiska border-radius alias */
   --border-radius-small: var(--radius-sm);
   --border-radius-large: var(--radius-lg);
+  --border-radius-full: var(--radius-full);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);

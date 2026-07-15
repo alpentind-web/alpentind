@@ -311,7 +311,7 @@ body.login-page {
 .message-avatar {
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-full);
+  border-radius: var(--border-radius-full);
   background-color: var(--color-bg-light);
   display: flex;
   align-items: center;
