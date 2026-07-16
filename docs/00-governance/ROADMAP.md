@@ -4,6 +4,8 @@
 
 Dokumentation och beslut följer alltid denna ordning:
 
+Prioriteringar i roadmap och sprintplanering styrs av AlpenTind Way som högsta styrande referens.
+
 ```
 Governance
     ↓
