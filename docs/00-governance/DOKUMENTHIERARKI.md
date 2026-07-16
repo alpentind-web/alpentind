@@ -9,9 +9,9 @@ AlpenTind Way är utgångspunkten för dokumenthierarkin och projektets högsta 
 ## Hierarkin
 
 ```
-AlpenTind Way
-    ↓
 Affärsplan
+    ↓
+AlpenTind Way
     ↓
 Produktkrav
     ↓
@@ -21,7 +21,7 @@ Arkitektur
     ↓
 Designsystem
     ↓
-Kod
+Implementation
 ```
 
 ---
@@ -41,23 +41,23 @@ Vid konflikt:
 
 ## Dokumentbeskrivningar
 
-### 1. AlpenTind Way
-
-**Plats:** [ALPENTIND_WAY.md](./ALPENTIND_WAY.md)
-
-Definierar grundvärderingar, designprinciper och tekniska regler. Det här är "The AlpenTind Way" – hur vi bygger och varför.
-
-*Stabilt grunddokument. Ändringar kräver brett samförstånd.*
-
----
-
-### 2. Affärsplan
+### 1. Affärsplan
 
 **Plats:** [../10-business/AFFARSPLAN.md](../10-business/AFFARSPLAN.md)
 
-Beskriver vad AlpenTind Platform ska åstadkomma ur ett affärsperspektiv. Definierar vision, principer och definition of done på projektnivå.
+Beskriver affärens mål, riktning och varför plattformen byggs.
 
 *Kan bara ändras av produktägaren.*
+
+---
+
+### 2. AlpenTind Way
+
+**Plats:** [ALPENTIND_WAY.md](./ALPENTIND_WAY.md)
+
+Projektets högsta styrdokument som definierar grundvärderingar, designprinciper och arbetssätt.
+
+*Stabilt grunddokument. Ändringar kräver egen Pull Request.*
 
 ---
 
@@ -65,7 +65,7 @@ Beskriver vad AlpenTind Platform ska åstadkomma ur ett affärsperspektiv. Defin
 
 **Plats:** [../10-business/PRODUKTKRAV.md](../10-business/PRODUKTKRAV.md)
 
-Specificerar vad systemet ska göra ur användarens perspektiv. Funktionella och icke-funktionella krav som måste uppfyllas.
+Specificerar vilka behov och krav som ska uppfyllas i produkten.
 
 *Uppdateras när nya krav identifieras eller prioriteras om.*
 
@@ -75,7 +75,7 @@ Specificerar vad systemet ska göra ur användarens perspektiv. Funktionella och
 
 **Plats:** [../10-business/AFFARSREGLER.md](../10-business/AFFARSREGLER.md)
 
-Regler som styr affärslogiken i systemet. Dessa regler reflekterar verksamhetens processer och begränsningar.
+Regler som styr affärslogiken och verksamhetens processer i systemet.
 
 *Definieras av verksamheten, implementeras i Application Services.*
 
@@ -86,7 +86,7 @@ Regler som styr affärslogiken i systemet. Dessa regler reflekterar verksamheten
 **Plats:** [../20-architecture/ARCHITECTURE.md](../20-architecture/ARCHITECTURE.md)  
 **ADRs:** [../20-architecture/ADR-*.md](../20-architecture/)
 
-Teknisk arkitektur och alla arkitekturella beslut (ADRs). Definierar systemets struktur och tekniska ramar.
+Teknisk arkitektur och ADR:er som definierar systemets struktur och tekniska ramar.
 
 *Ändringar kräver ett nytt godkänt ADR.*
 
@@ -96,17 +96,17 @@ Teknisk arkitektur och alla arkitekturella beslut (ADRs). Definierar systemets s
 
 **Plats:** [../30-design/DESIGN_SYSTEM.md](../30-design/DESIGN_SYSTEM.md)
 
-Färger, typografi, komponenter och UX-riktlinjer. Designsystemet implementerar AlpenTind Way visuellt.
+Färger, typografi, komponenter och UX-riktlinjer som styr produktens visuella uttryck.
 
 *Uppdateras via designbeslut, aldrig utan förankring i varumärket.*
 
 ---
 
-### 7. Kod
+### 7. Implementation
 
 **Plats:** `src/`
 
-Källkoden implementerar allt ovanstående. Koden är det sista ledet i hierarkin och måste följa alla nivåer ovan.
+Källkod och implementation som realiserar alla nivåer ovan i hierarkin.
 
 *Inga kodändringar utan godkänd ADR om de rör arkitektur.*
 

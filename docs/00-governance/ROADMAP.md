@@ -22,6 +22,17 @@ Preview ingår i **Design/Frontend-spåret** och levereras parallellt med design
 
 ---
 
+## Governance
+
+Governance-spåret omfattar:
+
+- AlpenTind Way
+- Utvecklingsstadga
+- ADR
+- Dokumenthierarki
+
+---
+
 ## Sprintstruktur
 
 ### Governance-spår

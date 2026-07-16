@@ -77,3 +77,14 @@ När krav eller beslut konfliktar gäller följande ordning:
 6. **Ekonomi**
 
 > Hållbarhet innebär att vi fattar beslut som är bra för människan, naturen och verksamheten – både idag och i framtiden. Vi tar ansvar för de miljöer vi verkar i, de människor vi möter och den verksamhet vi bygger.
+
+# Versionshistorik
+
+## v1.1
+
+- Beslutsprincipen "Långsiktighet" ersatt med "Hållbarhet"
+- Definition av hållbarhet tillagd
+
+## v1.0
+
+- Första officiella versionen

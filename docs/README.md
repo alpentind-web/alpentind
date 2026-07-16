@@ -9,6 +9,7 @@
 Detta är AlpenTind Platforms kunskapssystem. Dokumenten beskriver varför plattformen byggs, hur den är uppbyggd och hur den ska utvecklas.
 
 **AlpenTind Way är projektets högsta styrande referens.**
+> Läs alltid AlpenTind Way innan övriga dokument.
 
 Dokumentationen ska vara **konsekvent**, **lätt att navigera** och **läsas i ordning** – från övergripande mål ned till tekniska detaljer.
 
