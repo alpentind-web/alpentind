@@ -4,7 +4,9 @@ This directory contains Architecture Decision Records as described in [ADRs](htt
 
 ## Index
 
-- [001 - Locked Architecture](./001-locked-architecture.md)
+- [ADR-0001 – SQLite as master database](./ADR-0001.md)
+- [ADR-0003 – Reusable business logic](./ADR-0003.md)
+- [ADR-0004 – Audit fields on persistent entities](./ADR-0004.md)
 
 ## Process
 

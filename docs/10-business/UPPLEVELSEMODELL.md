@@ -1,6 +1,6 @@
-# AlpenTind Platform – Vision
+# AlpenTind Platform – Upplevelsemodell
 
-*Dokument: VISION.md  
+*Dokument: UPPLEVELSEMODELL.md  
 Version: 0.2  
 Sprint: PREVIEW-002*
 
