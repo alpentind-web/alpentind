@@ -1,4 +1,4 @@
-# COPILOT.md
+# Utvecklingsstadga
 
 ## Mission
 Build AlpenTind Platform for AlpenTind Guiding.
