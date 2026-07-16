@@ -65,16 +65,15 @@ Semantisk HTML, korrekta ARIA-etiketter och tillräckliga kontraster gör system
 
 ---
 
-## Prioriteringsordning
+## Beslutsprinciper
 
 När krav eller beslut konfliktar gäller följande ordning:
 
-1. Affärsplan
-2. AlpenTind Way (detta dokument)
-3. Produktkrav
-4. Affärsregler
-5. Arkitektur (ADRs)
-6. Designsystem
-7. Kod
+1. **Säkerhet**
+2. **Människan**
+3. **Kvalitet**
+4. **Hållbarhet**
+5. **Effektivitet**
+6. **Ekonomi**
 
-Se [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) för fullständig beskrivning.
+> Hållbarhet innebär att vi fattar beslut som är bra för människan, naturen och verksamheten – både idag och i framtiden. Vi tar ansvar för de miljöer vi verkar i, de människor vi möter och den verksamhet vi bygger.

@@ -22,6 +22,8 @@ Governance-dokumenten ger projektet ett stabilt fundament.
 
 Governance definierar spelreglerna. Arkitektur, design och kod måste följa dessa regler – inte tvärtom.
 
+**AlpenTind Way är den högsta styrande referensen i projektet.**
+
 Se [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) för hela kedjan.
 
 ---

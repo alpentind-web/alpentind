@@ -2,14 +2,16 @@
 
 *Dokumentens beroenden och prioriteringsordning för AlpenTind Platform.*
 
+AlpenTind Way är utgångspunkten för dokumenthierarkin och projektets högsta styrande referens.
+
 ---
 
 ## Hierarkin
 
 ```
-Affärsplan
-    ↓
 AlpenTind Way
+    ↓
+Affärsplan
     ↓
 Produktkrav
     ↓
@@ -39,23 +41,23 @@ Vid konflikt:
 
 ## Dokumentbeskrivningar
 
-### 1. Affärsplan
-
-**Plats:** [../10-business/AFFARSPLAN.md](../10-business/AFFARSPLAN.md)
-
-Beskriver vad AlpenTind Platform ska åstadkomma ur ett affärsperspektiv. Definierar vision, principer och definition of done på projektnivå.
-
-*Kan bara ändras av produktägaren.*
-
----
-
-### 2. AlpenTind Way
+### 1. AlpenTind Way
 
 **Plats:** [ALPENTIND_WAY.md](./ALPENTIND_WAY.md)
 
 Definierar grundvärderingar, designprinciper och tekniska regler. Det här är "The AlpenTind Way" – hur vi bygger och varför.
 
 *Stabilt grunddokument. Ändringar kräver brett samförstånd.*
+
+---
+
+### 2. Affärsplan
+
+**Plats:** [../10-business/AFFARSPLAN.md](../10-business/AFFARSPLAN.md)
+
+Beskriver vad AlpenTind Platform ska åstadkomma ur ett affärsperspektiv. Definierar vision, principer och definition of done på projektnivå.
+
+*Kan bara ändras av produktägaren.*
 
 ---
 
