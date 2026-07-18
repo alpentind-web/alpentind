@@ -827,6 +827,7 @@ function createRecommendationCard(dialogue) {
 // ========================================
 
 let activeDialogueId = null;
+let dialogSelectorInitialized = false;
 
 function renderDialog() {
   renderSidebar();
@@ -840,6 +841,18 @@ function renderDialog() {
 
   renderDialogSelector(dialogues);
   renderDialogWorkspace(dialogues.find(d => d.id === activeDialogueId) || dialogues[0]);
+
+  // Attach delegated click listener once
+  if (!dialogSelectorInitialized) {
+    const selector = document.getElementById('dialog-selector');
+    if (selector) {
+      selector.addEventListener('click', function(e) {
+        const btn = e.target.closest('[data-dialogue-id]');
+        if (btn) selectDialogue(btn.dataset.dialogueId);
+      });
+      dialogSelectorInitialized = true;
+    }
+  }
 }
 
 function renderDialogSelector(dialogues) {
@@ -858,7 +871,6 @@ function renderDialogSelector(dialogues) {
     return `
       <button class="dialog-selector-item${isActive ? ' active' : ''}"
               data-dialogue-id="${d.id}"
-              onclick="selectDialogue('${d.id}')"
               aria-pressed="${isActive}"
               type="button">
         <span class="dialog-selector-avatar" aria-hidden="true">${d.person.avatar}</span>
