@@ -452,11 +452,127 @@ const followUpItems = [
 ];
 
 // ========================================
+// Dialoger (Dialogue Workspace)
+// ========================================
+
+const dialogues = [
+  {
+    id: 'DIA-001',
+    person: {
+      name: 'Anna Andersson',
+      avatar: 'AA',
+      email: 'anna.andersson@example.com',
+      phone: '+46 70 234 56 78',
+      organization: null,
+    },
+    status: 'in_progress',
+    goal: 'Bestiga Galdhøpiggen',
+    motivation: 'Drömmer om att bestiga toppen tillsammans med sin far.',
+    experience: 'Flera fjällvandringar i Sverige och Norge.',
+    questions: 'Utrustning – vad behövs för en säker bestigning?',
+    observations: 'Motiverad men osäker på tekniska krav. Verkar sakna erfarenhet av isyxa och crampons.',
+    notes: 'Far är i 60-årsåldern. Viktigt att ta hänsyn till kondition och tempo.',
+    nextAction: 'call',
+    timeline: [
+      {
+        id: 'TL-001',
+        date: '2027-07-10',
+        type: 'inbound',
+        summary: 'Första kontakt via e-post. Frågade om Galdhøpiggen-bestigning.',
+      },
+      {
+        id: 'TL-002',
+        date: '2027-07-12',
+        type: 'outbound',
+        summary: 'Svarade och bad om mer information om erfarenhet och mål.',
+      },
+      {
+        id: 'TL-003',
+        date: '2027-07-14',
+        type: 'inbound',
+        summary: 'Berättade om fjällvandringserfarenhet. Nämner far som medföljer.',
+      },
+    ],
+  },
+  {
+    id: 'DIA-002',
+    person: {
+      name: 'Peter Nilsson',
+      avatar: 'PN',
+      email: 'peter.nilsson@example.com',
+      phone: '+46 70 345 67 89',
+      organization: null,
+    },
+    status: 'ready_for_recommendation',
+    goal: 'Tour du Mont Blanc',
+    motivation: 'Långsiktigt mål – vill slutföra ett av Europas klassiska fjällrundturer.',
+    experience: 'Har genomfört Haute Route (Chamonix–Zermatt). God kondition.',
+    questions: '',
+    observations: 'Redo för rekommendation. Vet vad han vill. Behöver datum och pris.',
+    notes: 'Flexibel på datum. Föredrar juli eller augusti.',
+    nextAction: 'create_recommendation',
+    timeline: [
+      {
+        id: 'TL-004',
+        date: '2027-06-20',
+        type: 'inbound',
+        summary: 'Kontaktade via telefon. Intresserad av TMB.',
+      },
+      {
+        id: 'TL-005',
+        date: '2027-06-22',
+        type: 'outbound',
+        summary: 'Genomförd dialog om erfarenhet och förväntningar. Haute Route bekräftad.',
+      },
+      {
+        id: 'TL-006',
+        date: '2027-07-01',
+        type: 'note',
+        summary: 'Anteckning: Klar för rekommendation. Datum och prisförslag saknas.',
+      },
+    ],
+  },
+  {
+    id: 'DIA-003',
+    person: {
+      name: 'ACME AB',
+      avatar: 'AB',
+      email: 'kontakt@acme.se',
+      phone: '+46 8 123 456 78',
+      organization: 'ACME AB',
+    },
+    status: 'needs_followup',
+    goal: 'Ledarskapsretreat i fjällmiljö',
+    motivation: 'Stärka ledarskapet och teamkänslan inför en organisationsförändring.',
+    experience: 'Okänd – behöver kartläggas.',
+    questions: 'Antal deltagare? Datum? Budget? Nivå på fysisk aktivitet?',
+    observations: 'Kontakten kom via en rekommendation. Oklart vem inom organisationen som är beslutsfattare.',
+    notes: 'Behöver uppföljningsmöte för att förstå scope och deltagarnas förutsättningar.',
+    nextAction: 'schedule_meeting',
+    timeline: [
+      {
+        id: 'TL-007',
+        date: '2027-07-08',
+        type: 'inbound',
+        summary: 'E-post från Anna Lindgren, HR-chef. Frågar om teambuilding i fjällen.',
+      },
+      {
+        id: 'TL-008',
+        date: '2027-07-09',
+        type: 'outbound',
+        summary: 'Svarade med frågor om grupp, datum och förväntningar. Inget svar ännu.',
+      },
+    ],
+  },
+];
+
+// ========================================
 // Menystruktur
 // ========================================
 
 const navigationItems = [
   { id: 'nav-1',  label: 'Arbetsdag',     featherIcon: 'home',          page: 'arbetsdag'     },
+  { id: 'nav-12', label: 'Dialoger',       featherIcon: 'message-circle', page: 'dialog'       },
   { id: 'nav-2',  label: 'Upplevelser',   featherIcon: 'compass',       page: 'upplevelser'   },
   { id: 'nav-3',  label: 'Avgångar',      featherIcon: 'navigation',    page: 'departures'    },
   { id: 'nav-4',  label: 'Kunder',        featherIcon: 'users',         page: 'customers'     },
@@ -501,4 +617,5 @@ const mockData = {
   todaysExperiences,
   ongoingDialogues,
   followUpItems,
+  dialogues,
 };

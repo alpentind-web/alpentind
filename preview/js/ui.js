@@ -643,6 +643,268 @@ function renderProducts() {
 }
 
 // ========================================
+// Dialog – PersonCard
+// ========================================
+
+function createPersonCard(dialogue) {
+  const { person, status, notes } = dialogue;
+
+  const statusMap = {
+    in_progress:             { label: 'Dialog pågår',          cls: 'badge-primary'  },
+    ready_for_recommendation:{ label: 'Redo för rekommendation', cls: 'badge-success' },
+    needs_followup:          { label: 'Behöver uppföljning',    cls: 'badge-warning'  },
+  };
+  const statusInfo = statusMap[status] || { label: status, cls: 'badge-info' };
+
+  return `
+    <article class="card dialog-person-card" aria-label="Personkort: ${person.name}">
+      <div class="card-body">
+        <div class="dialog-person-header">
+          <div class="dialog-person-avatar" aria-hidden="true">${person.avatar}</div>
+          <div class="dialog-person-meta">
+            <h3 class="dialog-person-name">${person.name}</h3>
+            ${person.organization ? `<p class="dialog-person-org">${person.organization}</p>` : ''}
+            <span class="badge ${statusInfo.cls}">${statusInfo.label}</span>
+          </div>
+        </div>
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Kontakt</p>
+          <p class="dialog-info-value">
+            <i data-feather="mail" style="width:13px;height:13px"></i>
+            ${person.email}
+          </p>
+          <p class="dialog-info-value">
+            <i data-feather="phone" style="width:13px;height:13px"></i>
+            ${person.phone}
+          </p>
+        </div>
+        ${notes ? `
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Anteckningar</p>
+          <p class="dialog-info-value">${notes}</p>
+        </div>` : ''}
+      </div>
+    </article>
+  `;
+}
+
+// ========================================
+// Dialog – ConversationCard
+// ========================================
+
+function createConversationCard(dialogue) {
+  const { goal, motivation, experience, questions, observations, timeline } = dialogue;
+
+  const timelineTypeMap = {
+    inbound:  { icon: 'arrow-down-left', cls: 'timeline-inbound',  label: 'Inkommande' },
+    outbound: { icon: 'arrow-up-right',  cls: 'timeline-outbound', label: 'Utgående'   },
+    note:     { icon: 'edit-2',          cls: 'timeline-note',     label: 'Anteckning' },
+  };
+
+  const timelineHTML = timeline.map(entry => {
+    const t = timelineTypeMap[entry.type] || { icon: 'circle', cls: '', label: entry.type };
+    return `
+      <li class="dialog-timeline-item ${t.cls}" role="listitem">
+        <div class="dialog-timeline-icon" aria-label="${t.label}">
+          <i data-feather="${t.icon}" style="width:12px;height:12px"></i>
+        </div>
+        <div class="dialog-timeline-content">
+          <p class="dialog-timeline-date">${entry.date}</p>
+          <p class="dialog-timeline-summary">${entry.summary}</p>
+        </div>
+      </li>
+    `;
+  }).join('');
+
+  return `
+    <article class="card dialog-conversation-card" aria-label="Dialogkort">
+      <div class="card-body">
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Mål</p>
+          <p class="dialog-info-value dialog-info-value--prominent">${goal}</p>
+        </div>
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Motivation</p>
+          <p class="dialog-info-value">${motivation}</p>
+        </div>
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Erfarenhet</p>
+          <p class="dialog-info-value">${experience}</p>
+        </div>
+        ${questions ? `
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Öppna frågor</p>
+          <p class="dialog-info-value dialog-info-value--highlight">${questions}</p>
+        </div>` : ''}
+        ${observations ? `
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Observationer</p>
+          <p class="dialog-info-value">${observations}</p>
+        </div>` : ''}
+        <div class="dialog-info-group">
+          <p class="dialog-info-label">Tidslinje</p>
+          <ol class="dialog-timeline" aria-label="Konversationshistorik">
+            ${timelineHTML}
+          </ol>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// ========================================
+// Dialog – NextStepCard
+// ========================================
+
+function createNextStepCard(dialogue) {
+  const nextActionMap = {
+    call:                    { icon: 'phone',        label: 'Ring',                   primary: true  },
+    send_email:              { icon: 'mail',         label: 'Skicka e-post',           primary: false },
+    continue_dialogue:       { icon: 'message-circle', label: 'Fortsätt dialog',       primary: false },
+    schedule_meeting:        { icon: 'calendar',     label: 'Boka möte',              primary: true  },
+    create_recommendation:   { icon: 'star',         label: 'Skapa rekommendation',   primary: true  },
+    waiting_for_reply:       { icon: 'clock',        label: 'Väntar på svar',         primary: false },
+  };
+
+  const actions = [
+    'call', 'send_email', 'continue_dialogue',
+    'schedule_meeting', 'create_recommendation', 'waiting_for_reply',
+  ];
+
+  const actionsHTML = actions.map(key => {
+    const a = nextActionMap[key];
+    const isNext = key === dialogue.nextAction;
+    const btnClass = isNext ? 'btn btn-primary btn-full' : 'btn btn-secondary btn-full';
+    return `
+      <button class="${btnClass}" type="button" aria-pressed="${isNext}">
+        <i data-feather="${a.icon}" style="width:15px;height:15px"></i>
+        ${a.label}
+        ${isNext ? '<span class="dialog-next-indicator" aria-label="Nästa steg"></span>' : ''}
+      </button>
+    `;
+  }).join('');
+
+  return `
+    <article class="card dialog-nextstep-card" aria-label="Nästa steg">
+      <div class="card-header">
+        <h3>Nästa steg</h3>
+      </div>
+      <div class="card-body dialog-nextstep-actions">
+        ${actionsHTML}
+      </div>
+    </article>
+  `;
+}
+
+// ========================================
+// Dialog – RecommendationCard (placeholder)
+// ========================================
+
+function createRecommendationCard(dialogue) {
+  const isReady = dialogue.status === 'ready_for_recommendation';
+  return `
+    <article class="card dialog-recommendation-card${isReady ? ' dialog-recommendation-card--ready' : ''}"
+             aria-label="Rekommendation (platshållare)">
+      <details ${isReady ? 'open' : ''}>
+        <summary class="dialog-recommendation-summary">
+          <i data-feather="star" style="width:15px;height:15px"></i>
+          Rekommendation
+          ${isReady ? '<span class="badge badge-success" style="margin-left:auto">Redo</span>' : '<span class="badge badge-info" style="margin-left:auto">Ej påbörjad</span>'}
+        </summary>
+        <div class="dialog-recommendation-body">
+          <p class="text-muted" style="font-size:var(--font-size-sm)">
+            Rekommendationsfunktionen är inte implementerad.
+            Den visas här som platshållare.
+          </p>
+        </div>
+      </details>
+    </article>
+  `;
+}
+
+// ========================================
+// Dialog – renderDialog
+// ========================================
+
+let activeDialogueId = null;
+let dialogSelectorInitialized = false;
+
+function renderDialog() {
+  renderSidebar();
+  renderHeader();
+
+  const dialogues = mockData.dialogues;
+  if (!dialogues || dialogues.length === 0) return;
+
+  // Default to first dialogue
+  if (!activeDialogueId) activeDialogueId = dialogues[0].id;
+
+  renderDialogSelector(dialogues);
+  renderDialogWorkspace(dialogues.find(d => d.id === activeDialogueId) || dialogues[0]);
+
+  // Attach delegated click listener once
+  if (!dialogSelectorInitialized) {
+    const selector = document.getElementById('dialog-selector');
+    if (selector) {
+      selector.addEventListener('click', function(e) {
+        const btn = e.target.closest('[data-dialogue-id]');
+        if (btn) selectDialogue(btn.dataset.dialogueId);
+      });
+      dialogSelectorInitialized = true;
+    }
+  }
+}
+
+function renderDialogSelector(dialogues) {
+  const selector = document.getElementById('dialog-selector');
+  if (!selector) return;
+
+  const statusMap = {
+    in_progress:              { label: 'Dialog pågår',          cls: 'badge-primary'  },
+    ready_for_recommendation: { label: 'Redo för rekommendation', cls: 'badge-success' },
+    needs_followup:           { label: 'Behöver uppföljning',    cls: 'badge-warning'  },
+  };
+
+  selector.innerHTML = dialogues.map(d => {
+    const s = statusMap[d.status] || { label: d.status, cls: 'badge-info' };
+    const isActive = d.id === activeDialogueId;
+    return `
+      <button class="dialog-selector-item${isActive ? ' active' : ''}"
+              data-dialogue-id="${d.id}"
+              aria-pressed="${isActive}"
+              type="button">
+        <span class="dialog-selector-avatar" aria-hidden="true">${d.person.avatar}</span>
+        <span class="dialog-selector-info">
+          <span class="dialog-selector-name">${d.person.name}</span>
+          <span class="badge ${s.cls}">${s.label}</span>
+        </span>
+      </button>
+    `;
+  }).join('');
+}
+
+function renderDialogWorkspace(dialogue) {
+  const personSlot   = document.getElementById('dialog-person-slot');
+  const convSlot     = document.getElementById('dialog-conversation-slot');
+  const nextstepSlot = document.getElementById('dialog-nextstep-slot');
+  const recSlot      = document.getElementById('dialog-recommendation-slot');
+
+  if (personSlot)   personSlot.innerHTML   = createPersonCard(dialogue);
+  if (convSlot)     convSlot.innerHTML     = createConversationCard(dialogue);
+  if (nextstepSlot) nextstepSlot.innerHTML = createNextStepCard(dialogue);
+  if (recSlot)      recSlot.innerHTML      = createRecommendationCard(dialogue);
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+function selectDialogue(id) {
+  activeDialogueId = id;
+  const dialogues = mockData.dialogues;
+  renderDialogSelector(dialogues);
+  renderDialogWorkspace(dialogues.find(d => d.id === id) || dialogues[0]);
+}
+
+// ========================================
 // Hjälpfunktioner
 // ========================================
 
