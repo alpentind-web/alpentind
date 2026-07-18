@@ -1,117 +1,85 @@
 # Engineering Constitution
 
-## AlpenTind Platform – Authoritative Engineering Process
+## AlpenTind Platform – Authoritative Engineering Governance
 
 ---
 
 ## 1. Purpose
 
-Engineering Specifications (ESR) exist to ensure that every implementation decision is grounded in business intent and reviewed against architectural standards before it is merged into the platform.
+The Engineering Constitution exists to define how engineering work is performed at AlpenTind Platform.
 
-### Relationship Between Artefacts
+It does not define business rules. It does not define coding standards. It defines the engineering process.
 
-```
-Business Architecture
-        │
-        │  defines requirements and intent
-        ▼
-Engineering Specification (ESR)
-        │
-        │  defines exactly what shall be built
-        ▼
-Implementation
-        │
-        │  realises the specification
-        ▼
-Architecture Review
-        │
-        │  verifies correctness and alignment
-        ▼
-Merge
-        │
-        │  permanent record in the repository
-        ▼
-  Merged ESR (status: Merged)
-```
-
-**Business Architecture** owns the business requirements. It describes what the platform must do and why.
-
-**Engineering Specification (ESR)** is the contract between Business Architecture and Implementation. It translates business intent into a precise, reviewable description of what shall be built. No implementation work begins without an approved ESR.
-
-**Implementation** is the technical work performed to satisfy the ESR. It does not invent requirements. It does not change business behaviour beyond what the ESR defines.
-
-**Architecture Review** verifies that the implementation conforms to the ESR, respects architectural standards, and introduces no undocumented changes.
-
-**Merge** is the permanent acceptance of the implementation. A merged commit always references the ESR it satisfies.
+Engineering Specifications (ESR) are the implementation contract between Business Architecture and Software Engineering. Every implementation decision is grounded in business intent, specified in an approved ESR, and reviewed against architectural standards before it is merged into the platform.
 
 ---
 
-## 2. Roles
+## 2. Mission
+
+Engineering exists to faithfully implement the business.
+
+Engineering shall never reinterpret business behaviour. It shall never invent requirements. It shall never substitute its own judgement for an approved business decision.
+
+---
+
+## 3. Roles
 
 ### Product Owner
 
-- Owns all business decisions.
-- Approves ESR documents before implementation begins.
-- Is the final authority on business terminology and business behaviour.
-- Decides on any business question that cannot be resolved during implementation.
+Responsible for:
 
-### Chief Software Architect
+- Business
+- Priorities
+- Product direction
 
-- Owns the architecture of the AlpenTind Platform.
-- Owns Engineering Specifications — authors, reviews, and approves them.
-- Reviews implementations against the ESR before merge.
-- Conducts the Architecture Review at the end of every implementation cycle.
-- Rejects implementations that deviate from the approved specification.
+The Product Owner is the final authority on business terminology and business behaviour. All business questions are resolved by the Product Owner.
+
+### Technical Lead & Chief Software Architect
+
+Responsible for:
+
+- Architecture
+- Engineering specifications
+- Implementation reviews
+- Technical direction
+
+The Technical Lead & Chief Software Architect authors, reviews, and approves Engineering Specifications. No implementation is accepted without Architecture Review.
 
 ### Senior Software Engineer
 
-- Implements the work defined in an approved ESR.
-- Does not change business behaviour beyond what the ESR defines.
-- Reports technical risks and blockers to the Chief Software Architect.
-- If implementation reveals a decision that requires business input, stops work and documents the issue.
-- Does not proceed past a business decision point without Product Owner approval.
+Responsible for:
+
+- Implementation
+- Technical quality
+- Reporting risks
+
+The Senior Software Engineer is never responsible for business decisions. If implementation reveals a question that requires business input, work stops until the Product Owner has decided.
 
 ---
 
-## 3. Development Lifecycle
+## 4. Development Lifecycle
 
 ```
 Business Need
-      │
-      │  Product Owner identifies a business need
-      ▼
-Engineering Specification
-      │
-      │  Chief Software Architect authors the ESR
-      ▼
+      ↓
+Engineering Specification (ESR)
+      ↓
 Approval
-      │
-      │  Product Owner approves the ESR
-      ▼
+      ↓
 Implementation
-      │
-      │  Senior Software Engineer implements the ESR
-      ▼
+      ↓
 Engineering Review
-      │
-      │  Senior Software Engineer self-reviews against ESR
-      ▼
+      ↓
 Architecture Review
-      │
-      │  Chief Software Architect reviews the implementation
-      ▼
+      ↓
 Merge
-      │
-      │  Commit references ESR — implementation is final
-      ▼
-  ESR status updated to: Merged
 ```
 
 No step may be skipped. Each step produces a verifiable artefact or decision record.
 
 ---
 
-## 4. Engineering Principles
+## 5. Engineering Principles
 
 **Business before Technology**
 Every technical decision serves a business purpose. Technology is a means, not an end.
@@ -139,42 +107,63 @@ Any change to observable business behaviour must be explicitly specified in an E
 
 ---
 
-## 5. Engineering Rules
+## 6. Engineering Rules
 
 **Every implementation starts with an ESR.**
 No implementation work begins without an approved Engineering Specification. Work started without an ESR is not accepted for review.
 
 **Every implementation ends with Architecture Review.**
-No implementation is complete until the Chief Software Architect has reviewed it against the ESR. Self-review does not satisfy this requirement.
+No implementation is complete until the Technical Lead & Chief Software Architect has reviewed it against the ESR.
 
-**Every merge references an ESR.**
+**Every Merge references an ESR.**
 The commit message and merge record must identify the ESR being satisfied. Commits without an ESR reference are not accepted.
 
-**Business terminology is canonical.**
-The language defined in Business Architecture documents is the only authoritative terminology. Engineers use the same terms. No synonyms, abbreviations, or invented names are introduced in code, documentation, or communication.
-
-**No implementation may invent business concepts.**
+**No implementation invents business concepts.**
 If a business concept does not exist in the approved ESR, it may not be introduced during implementation. Invented concepts require a new or amended ESR before they may be used.
 
-**If implementation requires a business decision:**
+**No implementation changes business terminology.**
+The language defined in Business Architecture documents is the only authoritative terminology. No synonyms, abbreviations, or invented names are introduced in code, documentation, or communication.
+
+**When implementation requires business clarification:**
 1. **STOP.** Do not proceed with assumptions.
-2. **Document the issue.** Record the blocking question clearly in writing.
+2. **Document the question.** Record the blocking question clearly in writing.
 3. **Wait for Product Owner decision.** Implementation resumes only after the Product Owner has provided a documented answer.
 
 ---
 
-## 6. Definition of Done
+## 7. Definition of Done
 
-An implementation is complete only when all of the following conditions are satisfied:
+Implementation is complete only when:
 
 - ✅ ESR implemented — all acceptance criteria in the ESR are met.
-- ✅ Architecture Review completed — Chief Software Architect has reviewed and approved the implementation.
+- ✅ Engineering Review completed — the implementation has been reviewed against the ESR.
+- ✅ Architecture Review approved — the Technical Lead & Chief Software Architect has approved the implementation.
 - ✅ Documentation updated — ESR status updated to Merged; any affected documentation reflects the current state.
 - ✅ Commit approved — the commit references the ESR and has been accepted by the Architecture Review.
 - ✅ Merge completed — the implementation has been merged into the repository.
 
-Until all five conditions are satisfied, the implementation is not done.
+Until all six conditions are satisfied, the implementation is not done.
 
 ---
 
-*This document is the engineering constitution of the AlpenTind Platform. It supersedes informal agreements and verbal decisions. All implementation work is governed by this document.*
+## 8. Repository Philosophy
+
+The repository is a long-term knowledge asset.
+
+Engineering shall improve the repository. Not only the software.
+
+Every contribution — specification, implementation, review, or documentation — shall leave the repository in a better state than it was found.
+
+---
+
+## 9. Future Evolution
+
+The Engineering Constitution evolves through review.
+
+Changes shall be deliberate. No section may be amended without an approved ESR that explicitly describes the change and its rationale.
+
+History shall be preserved. Previous versions of this constitution are part of the repository record.
+
+---
+
+*This document is the authoritative engineering governance of the AlpenTind Platform. It supersedes informal agreements and verbal decisions. All implementation work is governed by this document.*
