@@ -903,3 +903,19 @@ body.login-page {
     display: none;
   }
 }
+
+/* ========================================
+   Snabbåtgärder – Quick Actions
+   ======================================== */
+
+.quick-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.quick-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
