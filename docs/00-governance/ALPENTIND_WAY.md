@@ -1,79 +1,78 @@
 # AlpenTind Way
 
-*Grundvärderingar, designprinciper och arbetssätt för AlpenTind Platform.*
+Verksamhetsfilosofi och arbetssätt för AlpenTind Guiding.
 
----
+# Förord
 
-## Vision
+AlpenTind Guiding finns för att vi genuint bryr oss om både våra gästers upplevelse och upplevelsen av att vara guide.
 
-AlpenTind Platform är det operativa navet för ett professionellt guideföretag. Systemet ska göra det enkelt för guider och administratörer att planera expeditioner, hantera bokningar och koordinera resurser.
+Vi tror att den bästa upplevelsen skapas när både gästen och guiden trivs. En guide som har rätt förutsättningar kan vara närvarande, skapa trygghet och dela sin kunskap. En gäst som känner sig sedd, trygg och delaktig får större möjlighet att utvecklas och uppskatta naturen.
 
-Målet är att en guide kan öppna **"Min arbetsdag"** på morgonen och omedelbart förstå vad som krävs av dem idag.
+AlpenTind Way beskriver de principer som vägleder hur vi arbetar, fattar beslut och utvecklar vår verksamhet. Den gäller lika mycket ute på fjället som på kontoret.
 
----
+Alla beslut vi fattar ska bidra till en verksamhet där människor, natur och kvalitet står i centrum.
 
-## Grundvärderingar
+# Kapitel 1 – Vår filosofi
 
-### Lugnt
+• Människan före processen
+• Dialog före bokning
+• Guiden skapar upplevelsen
+• Kvalitet före volym
+• Vi hjälper människor att utvecklas
 
-Gränssnittet ska aldrig stressa användaren. Information visas tydligt och i rätt sammanhang, utan onödiga distraktioner.
+# Kapitel 2 – Våra kärnvärden
 
-### Premium
+• Trygghet
+• Närvaro
+• Professionalitet
+• Gemenskap
+• Hållbarhet
+• Kvalitet
 
-AlpenTind arrangerar premiumexpeditioner. Systemet ska spegla det. Kvalitet och trovärdighet i varje detalj.
+Hållbarhet innebär att vi fattar beslut som är bra för människan, naturen och verksamheten – både idag och i framtiden. Vi tar ansvar för de miljöer vi verkar i, de människor vi möter och den verksamhet vi bygger.
 
-### Skandinaviskt
+# Kapitel 3 – Gästupplevelsen
 
-Enkelhet, funktionalitet och välarbetat hantverk. Inget element finns utan ett syfte. Ingen funktion läggs till utan att den löser ett verkligt behov.
+Varje kontakt med AlpenTind är en del av gästens upplevelse. Vi vill skapa relationer före transaktioner.
 
-### Professionellt
+# Kapitel 4 – Guidens roll
 
-Systemet används av guider med hög kompetens och ansvar. Gränssnittet behandlar dem som proffs: tydlig information, korta arbetsflöden.
+Guiden är AlpenTinds viktigaste resurs. Guiden leder med trygghet, ser människan bakom deltagaren, delar med sig av sin kunskap, är en förebild och fortsätter utvecklas genom hela sitt yrkesliv.
 
-### Tillgängligt
+# Kapitel 5 – Administrationens roll
 
-Semantisk HTML, korrekta ARIA-etiketter och tillräckliga kontraster gör systemet användbart för alla.
+Administrationens uppgift är att skapa förutsättningar för guiderna att lyckas. Rutiner och processer ska göra arbetet enklare, men de får aldrig bli viktigare än människorna eller omdömet hos den guide som leder turen.
 
----
+# Kapitel 6 – Att fatta beslut
 
-## Tekniska principer
+Prioriteringsordning:
 
-- **SQLite är masterdatabas** – all persistent data lagras i SQLite.
-- **Verifierad data** – importera aldrig opålitlig data.
-- **Excel och PDF är genererade artefakter** – aldrig källdata.
-- **Affärslogik tillhör Application Services** – aldrig i CLI, repositories eller templates.
-- **Återanvändbarhet** – varje implementation ska kunna användas av fler produkter än Tour du Mont Blanc.
-- **Inga arkitekturella beslut utan ADR** – förändringar i arkitekturen kräver ett godkänt ADR.
+1. Säkerhet
+2. Människan
+3. Kvalitet
+4. Hållbarhet
+5. Effektivitet
+6. Ekonomi
 
----
+Vid osäkerhet frågar vi:
+"Vilket beslut ligger närmast AlpenTinds filosofi och värderingar?"
 
-## Verksamhetsprinciper
+# Kapitel 7 – Vårt löfte
 
-- AlpenTind Platform byggs för AlpenTind Guiding.
-- Tour du Mont Blanc är den **första** produkten, inte den enda.
-- Systemet ska kunna hantera vilken guidad expedition som helst.
-- Affärsdata tillhör verksamheten och ska aldrig hårdkodas i systemet.
+Vi lovar att möta gäster, guider, kollegor och samarbetspartners med respekt, professionalism och långsiktighet. Vi lovar att värna naturen och fortsätta utvecklas som människor och verksamhet.
 
----
+# Versionshistorik
 
-## Arbetssätt
+## v2.0
 
-- **Scrum** med semantisk versionshantering.
-- **Definition of Done:** kod + tester + dokumentation + ändringslogg.
-- **Sprintstruktur:** governance → business → architecture → design → implementation.
-- **Varje sprint levererar ett fullständigt, fungerande inkrement.**
+- Renodlat verksamhetsdokument.
+- Kapitelstruktur.
+- Tekniska principer flyttas till kommande Platform Principles.
 
----
+## v1.1
 
-## Beslutsprinciper
+- Hållbarhet ersätter Långsiktighet.
 
-När krav eller beslut konfliktar gäller följande ordning:
+## v1.0
 
-1. **Säkerhet**
-2. **Människan**
-3. **Kvalitet**
-4. **Hållbarhet**
-5. **Effektivitet**
-6. **Ekonomi**
-
-> Hållbarhet innebär att vi fattar beslut som är bra för människan, naturen och verksamheten – både idag och i framtiden. Vi tar ansvar för de miljöer vi verkar i, de människor vi möter och den verksamhet vi bygger.
+- Första officiella versionen.
