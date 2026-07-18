@@ -197,7 +197,12 @@ function renderDashboard() {
 // ========================================
 
 function createAttentionCard({ id, title, subtitle, status, description, action, badge, priority }) {
-  const priorityClass = priority === 'high' ? 'card-danger' : priority === 'medium' ? 'card-warning' : '';
+  const priorityClassMap = {
+    high:   'card-danger',
+    medium: 'card-warning',
+    low:    '',
+  };
+  const priorityClass = priorityClassMap[priority] || '';
 
   const statusMap = {
     waiting_recommendation: { label: 'Väntar på rekommendation', cls: 'badge-warning' },
@@ -209,7 +214,8 @@ function createAttentionCard({ id, title, subtitle, status, description, action,
   };
   const statusInfo = statusMap[status] || { label: status, cls: 'badge-info' };
 
-  const priorityTitle = priority === 'high' ? 'Hög' : priority === 'medium' ? 'Medel' : 'Låg';
+  const priorityLabelMap = { high: 'Hög', medium: 'Medel', low: 'Låg' };
+  const priorityTitle = priorityLabelMap[priority] || priority;
 
   return `
     <article class="card attention-card ${priorityClass}" data-id="${id}">
@@ -327,7 +333,7 @@ function renderQuickActions() {
 
   container.innerHTML = actions.map(a => `
     <button class="btn btn-secondary" type="button">
-      <i data-feather="${a.icon}" style="width:16px;height:16px"></i>
+      <i data-feather="${a.icon}"></i>
       ${a.label}
     </button>
   `).join('');

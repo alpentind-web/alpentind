@@ -919,3 +919,9 @@ body.login-page {
   align-items: center;
   gap: var(--spacing-sm);
 }
+
+.quick-actions .btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
