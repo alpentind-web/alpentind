@@ -322,11 +322,141 @@ const products = [
 ];
 
 // ========================================
+// Kräver uppmärksamhet (Requires Attention)
+// ========================================
+
+const attentionItems = [
+  {
+    id: 'ATT-001',
+    title: 'Anna Andersson',
+    subtitle: 'Tour du Mont Blanc',
+    status: 'waiting_recommendation',
+    description: 'Väntar på rekommendation inför avgång 2027-07-15.',
+    priority: 'high',
+    badge: 'Väntar',
+    action: 'Öppna',
+  },
+  {
+    id: 'ATT-002',
+    title: 'Refuge Bonatti',
+    subtitle: 'Tour du Mont Blanc – boende ej bekräftat',
+    status: 'pending',
+    description: 'Boende måste bekräftas – 7 dagar till avgång.',
+    priority: 'high',
+    badge: '7 dagar',
+    action: 'Öppna',
+  },
+  {
+    id: 'ATT-003',
+    title: 'Martin Nilsson',
+    subtitle: 'Sarek Sommar – betalning förfallen',
+    status: 'overdue',
+    description: 'Betalning 32 950 SEK förfallen 2 dagar sedan.',
+    priority: 'medium',
+    badge: 'Förfallen',
+    action: 'Öppna',
+  },
+];
+
+// ========================================
+// Dagens upplevelser (Today's Experiences)
+// ========================================
+
+const todaysExperiences = [
+  {
+    id: 'EXP-001',
+    title: 'Tour du Mont Blanc',
+    subtitle: 'Guide: Linda Svensson',
+    status: 'active',
+    description: '8 deltagare · Dag 3 av 12 · Chamonix → Refuge Bonatti',
+    participants: 8,
+    guide: 'Linda Svensson',
+  },
+  {
+    id: 'EXP-002',
+    title: 'Klätterkurs Klippa',
+    subtitle: 'Guide: Johan Svensson',
+    status: 'active',
+    description: '6 deltagare · Avgår idag 09:00 · Samling vid klätterväggen',
+    participants: 6,
+    guide: 'Johan Svensson',
+  },
+];
+
+// ========================================
+// Pågående dialoger (Ongoing Dialogues)
+// ========================================
+
+const ongoingDialogues = [
+  {
+    id: 'DLG-001',
+    title: 'Anna Andersson',
+    subtitle: 'Tour du Mont Blanc',
+    status: 'unread',
+    description: 'Fråga om packlistan – behöver jag ha med en större ryggsäck?',
+    timestamp: '2h sedan',
+    avatar: 'AA',
+  },
+  {
+    id: 'DLG-002',
+    title: 'Peter Nilsson',
+    subtitle: 'Sarek Sommar',
+    status: 'unread',
+    description: 'Kan ni bekräfta avgångstiden?',
+    timestamp: '5h sedan',
+    avatar: 'PN',
+  },
+  {
+    id: 'DLG-003',
+    title: 'ACME AB',
+    subtitle: 'Klätterkurs Klippa',
+    status: 'read',
+    description: 'Kan ni skicka fakturan med organisationsnummer?',
+    timestamp: '1 dag sedan',
+    avatar: 'AB',
+  },
+];
+
+// ========================================
+// Att följa upp (Follow-up)
+// ========================================
+
+const followUpItems = [
+  {
+    id: 'FU-001',
+    title: 'Ring hotell',
+    subtitle: 'Refuge Bonatti – Tour du Mont Blanc',
+    status: 'pending',
+    description: 'Bekräfta boende för 12 deltagare.',
+    priority: 'high',
+    action: 'Ring',
+  },
+  {
+    id: 'FU-002',
+    title: 'Skicka deltagarbrev',
+    subtitle: 'Sarek Sommar – avgång 3 aug',
+    status: 'pending',
+    description: 'Sista dag att skicka deltagarbrev.',
+    priority: 'medium',
+    action: 'Öppna',
+  },
+  {
+    id: 'FU-003',
+    title: 'Betalningspåminnelse',
+    subtitle: 'Martin Nilsson – 32 950 SEK',
+    status: 'overdue',
+    description: 'Förfallen betalning – 2 dagar sedan.',
+    priority: 'high',
+    action: 'Öppna',
+  },
+];
+
+// ========================================
 // Menystruktur
 // ========================================
 
 const navigationItems = [
-  { id: 'nav-1',  label: 'Min arbetsdag', featherIcon: 'home',          page: 'arbetsdag'     },
+  { id: 'nav-1',  label: 'Arbetsdag',     featherIcon: 'home',          page: 'arbetsdag'     },
   { id: 'nav-2',  label: 'Upplevelser',   featherIcon: 'compass',       page: 'upplevelser'   },
   { id: 'nav-3',  label: 'Avgångar',      featherIcon: 'navigation',    page: 'departures'    },
   { id: 'nav-4',  label: 'Kunder',        featherIcon: 'users',         page: 'customers'     },
@@ -367,4 +497,8 @@ const mockData = {
   products,
   navigationItems,
   dashboardStats,
+  attentionItems,
+  todaysExperiences,
+  ongoingDialogues,
+  followUpItems,
 };

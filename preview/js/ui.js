@@ -185,14 +185,160 @@ function renderDashboard() {
   renderSidebar();
   renderHeader();
   renderInfoBanner();
-  renderTasksGrid();
-  renderDeparturesGrid();
-  renderBookingsGrid();
-  renderAwaitingGrid();
-  renderPaymentsTable();
-  renderAccommodationsTable();
-  renderMessagesList();
-  renderWeatherWarnings();
+  renderAttentionSection();
+  renderTodaysExperiences();
+  renderOngoingDialogues();
+  renderFollowUpSection();
+  renderQuickActions();
+}
+
+// ========================================
+// AttentionCard – reusable component
+// ========================================
+
+function createAttentionCard({ id, title, subtitle, status, description, action, badge, priority }) {
+  const priorityClassMap = {
+    high:   'card-danger',
+    medium: 'card-warning',
+    low:    '',
+  };
+  const priorityClass = priorityClassMap[priority] || '';
+
+  const statusMap = {
+    waiting_recommendation: { label: 'Väntar på rekommendation', cls: 'badge-warning' },
+    pending:                { label: 'Väntande',                  cls: 'badge-warning' },
+    overdue:                { label: 'Förfallen',                 cls: 'badge-danger'  },
+    active:                 { label: 'Aktiv',                     cls: 'badge-success' },
+    unread:                 { label: 'Oläst',                     cls: 'badge-primary' },
+    read:                   { label: 'Läst',                      cls: 'badge-info'    },
+  };
+  const statusInfo = statusMap[status] || { label: status, cls: 'badge-info' };
+
+  const priorityLabelMap = { high: 'Hög', medium: 'Medel', low: 'Låg' };
+  const priorityTitle = priorityLabelMap[priority] || priority;
+
+  return `
+    <article class="card attention-card ${priorityClass}" data-id="${id}">
+      <div class="card-body">
+        <div class="attention-card-header">
+          ${priority ? `<span class="attention-priority priority-${priority}" aria-label="Prioritet: ${priorityTitle}" title="Prioritet: ${priorityTitle}"></span>` : ''}
+          <div class="attention-card-titles">
+            <h3 class="attention-card-title">${title}</h3>
+            ${subtitle ? `<p class="attention-card-subtitle">${subtitle}</p>` : ''}
+          </div>
+          ${badge ? `<span class="badge badge-warning">${badge}</span>` : ''}
+        </div>
+        <p class="attention-card-description">${description}</p>
+        <div class="attention-card-footer">
+          <span class="badge ${statusInfo.cls}">${statusInfo.label}</span>
+          ${action ? `<button class="btn btn-sm btn-primary" type="button">${action}</button>` : ''}
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// ========================================
+// Kräver uppmärksamhet
+// ========================================
+
+function renderAttentionSection() {
+  const grid = document.getElementById('attention-grid');
+  if (!grid) return;
+  grid.innerHTML = mockData.attentionItems.map(item => createAttentionCard(item)).join('');
+}
+
+// ========================================
+// Dagens upplevelser
+// ========================================
+
+function renderTodaysExperiences() {
+  const grid = document.getElementById('experiences-grid');
+  if (!grid) return;
+
+  const statusMap = {
+    active:    { label: 'Aktiv',    cls: 'badge-success' },
+    completed: { label: 'Avslutad', cls: 'badge-info'    },
+    cancelled: { label: 'Avbruten', cls: 'badge-danger'  },
+  };
+
+  grid.innerHTML = mockData.todaysExperiences.map(exp => {
+    const s = statusMap[exp.status] || { label: exp.status, cls: 'badge-info' };
+    return `
+      <article class="card">
+        <div class="card-body">
+          <div class="attention-card-header">
+            <div class="attention-card-titles">
+              <h3 class="attention-card-title">${exp.title}</h3>
+              <p class="attention-card-subtitle">${exp.subtitle}</p>
+            </div>
+            <span class="badge ${s.cls}">${s.label}</span>
+          </div>
+          <p class="attention-card-description">${exp.description}</p>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+// ========================================
+// Pågående dialoger
+// ========================================
+
+function renderOngoingDialogues() {
+  const container = document.getElementById('dialogues-list');
+  if (!container) return;
+
+  container.innerHTML = mockData.ongoingDialogues.map(dlg => `
+    <div class="message-item ${dlg.status === 'unread' ? 'unread' : ''}" role="listitem">
+      <div class="message-avatar" aria-hidden="true">${dlg.avatar}</div>
+      <div class="message-content">
+        <div class="message-header">
+          <h4>${dlg.title}</h4>
+          <time class="text-xs text-muted">${dlg.timestamp}</time>
+        </div>
+        <p class="message-text">${dlg.subtitle} – ${dlg.description}</p>
+      </div>
+      <button class="btn btn-sm btn-secondary" type="button">Svara</button>
+    </div>
+  `).join('');
+}
+
+// ========================================
+// Att följa upp
+// ========================================
+
+function renderFollowUpSection() {
+  const grid = document.getElementById('followup-grid');
+  if (!grid) return;
+  grid.innerHTML = mockData.followUpItems.map(item => createAttentionCard(item)).join('');
+}
+
+// ========================================
+// Snabbåtgärder
+// ========================================
+
+function renderQuickActions() {
+  const container = document.getElementById('quick-actions');
+  if (!container) return;
+
+  const actions = [
+    { label: 'Ny dialog',     icon: 'message-circle' },
+    { label: 'Ny upplevelse', icon: 'compass'         },
+    { label: 'Ny person',     icon: 'user-plus'       },
+    { label: 'Ny guide',      icon: 'user-check'      },
+  ];
+
+  container.innerHTML = actions.map(a => `
+    <button class="btn btn-secondary" type="button">
+      <i data-feather="${a.icon}"></i>
+      ${a.label}
+    </button>
+  `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================

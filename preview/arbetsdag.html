@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Min arbetsdag – AlpenTind Platform</title>
+  <title>Arbetsdag – AlpenTind Platform</title>
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -24,76 +24,46 @@
       <!-- Informationsbanner – diskret dagsöversikt -->
       <div class="info-banner" id="info-banner" role="status" aria-label="Dagens översikt"></div>
 
-      <!-- Dagens uppgifter -->
-      <section class="content-section" aria-labelledby="tasks-heading">
+      <!-- Kräver uppmärksamhet -->
+      <section class="content-section" aria-labelledby="attention-heading">
         <div class="section-header">
-          <h2 id="tasks-heading">Dagens uppgifter</h2>
-          <a href="#" class="link">Visa alla →</a>
+          <h2 id="attention-heading">Kräver uppmärksamhet</h2>
         </div>
-        <div class="grid grid-4" id="tasks-grid"></div>
+        <div class="grid grid-3" id="attention-grid"></div>
       </section>
 
-      <!-- Kommande avgångar -->
-      <section class="content-section" aria-labelledby="departures-heading">
+      <!-- Dagens upplevelser -->
+      <section class="content-section" aria-labelledby="experiences-heading">
         <div class="section-header">
-          <h2 id="departures-heading">Kommande avgångar</h2>
+          <h2 id="experiences-heading">Dagens upplevelser</h2>
           <a href="upplevelser.html" class="link">Visa alla →</a>
         </div>
-        <div class="grid grid-3" id="departures-grid"></div>
+        <div class="grid grid-3" id="experiences-grid"></div>
       </section>
 
-      <!-- Nya bokningar -->
-      <section class="content-section" aria-labelledby="bookings-heading">
+      <!-- Pågående dialoger -->
+      <section class="content-section" aria-labelledby="dialogues-heading">
         <div class="section-header">
-          <h2 id="bookings-heading">Nya bokningar</h2>
+          <h2 id="dialogues-heading">Pågående dialoger</h2>
           <a href="#" class="link">Visa alla →</a>
         </div>
-        <div class="grid grid-4" id="bookings-grid"></div>
+        <div id="dialogues-list" role="list"></div>
       </section>
 
-      <!-- Väntar på bekräftelse -->
-      <section class="content-section" aria-labelledby="awaiting-heading">
+      <!-- Att följa upp -->
+      <section class="content-section" aria-labelledby="followup-heading">
         <div class="section-header">
-          <h2 id="awaiting-heading">Väntar på bekräftelse</h2>
-          <a href="#" class="link">Visa alla →</a>
+          <h2 id="followup-heading">Att följa upp</h2>
         </div>
-        <div class="grid grid-2" id="awaiting-grid"></div>
+        <div class="grid grid-3" id="followup-grid"></div>
       </section>
 
-      <!-- Betalningar att följa upp -->
-      <section class="content-section" aria-labelledby="payments-heading">
+      <!-- Snabbåtgärder -->
+      <section class="content-section" aria-labelledby="quickactions-heading">
         <div class="section-header">
-          <h2 id="payments-heading">Betalningar att följa upp</h2>
-          <a href="#" class="link">Visa alla →</a>
+          <h2 id="quickactions-heading">Snabbåtgärder</h2>
         </div>
-        <div id="payments-table"></div>
-      </section>
-
-      <!-- Boenden som inte är bokade -->
-      <section class="content-section" aria-labelledby="accommodations-heading">
-        <div class="section-header">
-          <h2 id="accommodations-heading">Boenden att boka</h2>
-          <a href="#" class="link">Visa alla →</a>
-        </div>
-        <div id="accommodations-table"></div>
-      </section>
-
-      <!-- Senaste kundmeddelanden -->
-      <section class="content-section" aria-labelledby="messages-heading">
-        <div class="section-header">
-          <h2 id="messages-heading">Senaste kundmeddelanden</h2>
-          <a href="#" class="link">Visa alla →</a>
-        </div>
-        <div id="messages-list" role="list"></div>
-      </section>
-
-      <!-- Vädervarningar -->
-      <section class="content-section" aria-labelledby="weather-heading">
-        <div class="section-header">
-          <h2 id="weather-heading">Vädervarningar</h2>
-          <a href="#" class="link">Visa alla →</a>
-        </div>
-        <div id="weather-warnings"></div>
+        <div class="quick-actions" id="quick-actions"></div>
       </section>
 
     </div>
