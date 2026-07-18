@@ -22,7 +22,7 @@ Governance-dokumenten ger projektet ett stabilt fundament.
 
 Governance definierar spelreglerna. Arkitektur, design och kod måste följa dessa regler – inte tvärtom.
 
-**AlpenTind Way är den högsta styrande referensen i projektet.**
+**AlpenTind Way är projektets högsta verksamhetsdokument och ägs av Produktägaren.**
 
 Se [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) för hela kedjan.
 
@@ -32,7 +32,7 @@ Se [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) för hela kedjan.
 
 | Dokument | Beskrivning |
 |----------|-------------|
-| [ALPENTIND_WAY.md](./ALPENTIND_WAY.md) | AlpenTinds grundvärderingar, designprinciper och arbetssätt |
+| [ALPENTIND_WAY.md](./ALPENTIND_WAY.md) | AlpenTinds verksamhetsfilosofi och arbetssätt (ägs av Produktägaren) |
 | [UTVECKLINGSSTADGA.md](./UTVECKLINGSSTADGA.md) | Tekniska regler och arkitekturella ramar för all utveckling |
 | [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) | Dokumentens beroenden och prioriteringsordning |
 | [ROADMAP.md](./ROADMAP.md) | Projektets färdplan och sprintstruktur |
