@@ -125,7 +125,7 @@ The same Workspace Block component may appear in multiple Workspaces.
 Examples:
 - Work Queue (Arbetsdag, Resa)
 - Dialogue List (Dialog, Resa)
-- Timeline (multiple Workspaces)
+- Milstolpar (multiple Workspaces)
 - Documents (multiple Workspaces)
 - Quick Actions (all Workspaces)
 
@@ -133,7 +133,7 @@ Reuse is preferred over creating Workspace-specific implementations.
 
 ### Benefits of Reuse
 
-- **Consistency** – Users recognize the component
+- **Consistency** – Team members recognize the component
 - **Maintenance** – Changes propagate across Workspaces
 - **Development** – Faster implementation
 - **Support** – Fewer components to train on
@@ -148,13 +148,13 @@ Reuse is preferred over creating Workspace-specific implementations.
 
 Immediate orientation and understanding.
 
-The user should understand the current situation within five seconds.
+The team member should understand the current situation within five seconds.
 
 **Typical Content**
 
 - Operational overview (Lägesbild)
 - Readiness indicators
-- Health status
+- Operational status
 - Summary metrics
 - Current state
 
@@ -229,7 +229,7 @@ Context does not compete with work.
 
 - Documents
 - Participants
-- Timeline
+- Milstolpar and operational planning context
 - History or audit trail
 - Related information
 - Supporting details
@@ -313,7 +313,7 @@ Every Workspace should prioritize information in this order:
 
 ### Why This Order?
 
-- Users need to understand the situation before they can identify work
+- Team members need to understand the situation before they can identify work
 - Work is more important than context
 - Context supports work, not the reverse
 - Actions are the outcome of understanding and work
@@ -376,7 +376,7 @@ If you can't answer that question, remove the element.
 
 ### Only Display Information That Supports Decisions
 
-Every piece of information displayed must support the user in making a decision or taking an action.
+Every piece of information displayed must support the active role in making a decision or taking an action.
 
 Informational items are not actionable.
 
@@ -414,9 +414,9 @@ If you can't answer these questions, the section doesn't belong.
 
 ### Every Workspace Should Feel Predictable
 
-- Users should recognize the operational structure immediately
-- Regular users should know where to look for information
-- New users should understand the logic
+- Team members should recognize the operational structure immediately
+- Regular team members should know where to look for information
+- New team members should understand the logic
 - The mental model should be consistent with other Workspaces
 
 ---
@@ -427,7 +427,7 @@ If you can't answer these questions, the section doesn't belong.
 
 Workspace Blocks are the vocabulary of AlpenTind Platform.
 
-The same block used consistently across Workspaces teaches users the platform.
+The same block used consistently across Workspaces teaches team members the platform.
 
 Creating new blocks for each Workspace teaches fragmentation.
 
@@ -446,7 +446,7 @@ Creating new blocks for each Workspace teaches fragmentation.
 - Used in: Resa (dialoger), Dialog (workspace)
 
 **Document Card**
-- Type, status, updated, download/view button
+- Type, status, updated, open button
 - Used in: Resa (dokument), multiple Workspaces
 
 **Action Button Grid**
@@ -457,7 +457,7 @@ Creating new blocks for each Workspace teaches fragmentation.
 - Name, status, reason for attention, action button
 - Used in: Resa (attention participants), Arbetsdag (team)
 
-**Timeline Card**
+**Milstolpe Card**
 - Event, timestamp, status
 - Used in: Resa (milestones), Dialog (history)
 
@@ -485,7 +485,7 @@ Situation → Work → Context → Actions
 
 ### 3. Prioritize Understanding Over Information
 
-Users should understand the situation first.
+Team members should understand the situation first.
 
 ### 4. Show Only Actionable Work
 
@@ -519,9 +519,9 @@ Every visible item should answer "Why am I here?"
 
 ## Consistency Across Workspaces
 
-### The User Experience
+### The Operational Perspective
 
-Users should never need to relearn the platform.
+Team members should never need to relearn the platform.
 
 Once they understand the pattern in one Workspace, they understand it in all.
 
@@ -560,15 +560,15 @@ Workspaces are entered from context:
 - **Dialog** → From a conversation or participant → Enter Workspace
 - **Resa** → From trip list or participant context → Enter Workspace
 
-Users should always know how they entered and how to return.
+Team members should always know how they entered and how to return.
 
 ---
 
 ## Anti-Patterns to Avoid
 
-### 1. Dashboard Thinking
+### 1. Dashboard Thinking (legacy pattern, now Workspace thinking)
 
-Dashboards show everything.
+Dashboard-style layouts (historical pattern) show everything.
 
 Workspaces show what's relevant.
 
@@ -576,7 +576,7 @@ Avoid displaying all possible information.
 
 ### 2. Information Overload
 
-Multiple competing visual priorities confuse users.
+Multiple competing visual priorities confuse team members.
 
 Simplify instead.
 
@@ -626,7 +626,7 @@ Before approving a Workspace, ask:
   The operational question should be clear and singular.
 
 - ✅ **Can it be understood within five seconds?**  
-  A regular user should know the situation without reading documentation.
+  A regular team member should know the situation without reading documentation.
 
 - ✅ **Is work prioritized over information?**  
   Actionable items come before supporting information.
@@ -731,10 +731,10 @@ Tasks or items requiring attention (actionable only).
 Supporting information needed to complete work (documents, history, details).
 
 **Actions**  
-Contextual commands available to the user (never generic toolbars).
+Contextual commands available to the active role (never generic toolbars).
 
 **Operational Mindset**  
-The psychological frame or focus the user adopts in a Workspace.
+The psychological frame or focus a team member adopts in a Workspace.
 
 **Primary Question**  
 The single operational question each Workspace answers.

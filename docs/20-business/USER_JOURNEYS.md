@@ -56,7 +56,7 @@ User Journeys are business documentation, not implementation specifications.
 
 ### UJ-005 — Booking
 
-**Purpose:** Register the agreed experience
+**Purpose:** Register the agreed resa
 
 **Outcome:** Operational booking
 
@@ -66,7 +66,7 @@ User Journeys are business documentation, not implementation specifications.
 
 ### UJ-006 — Planning
 
-**Purpose:** Prepare the experience
+**Purpose:** Prepare the resa
 
 **Outcome:** Everyone is ready
 
@@ -74,13 +74,13 @@ User Journeys are business documentation, not implementation specifications.
 
 ---
 
-### UJ-007 — Experience
+### UJ-007 — Resa
 
-**Purpose:** Deliver the experience
+**Purpose:** Deliver the resa
 
 **Outcome:** Professional execution
 
-**Future ESR:** ESR-008 Experience
+**Future ESR:** ESR-008 Resa
 
 ---
 
@@ -103,7 +103,7 @@ UJ-001 First Contact
   -> UJ-004 Shared Decision
   -> UJ-005 Booking
   -> UJ-006 Planning
-  -> UJ-007 Experience
+  -> UJ-007 Resa
   -> UJ-008 Reflection
 ```
 
@@ -121,5 +121,5 @@ The ESR roadmap implements this flow incrementally:
 - UJ-004 maps to future ESR-005 Shared Decision.
 - UJ-005 maps to future ESR-006 Booking.
 - UJ-006 maps to future ESR-007 Planning.
-- UJ-007 maps to future ESR-008 Experience.
+- UJ-007 maps to future ESR-008 Resa.
 - UJ-008 maps to future ESR-009 Reflection.

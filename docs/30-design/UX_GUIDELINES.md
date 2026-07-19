@@ -8,7 +8,7 @@
 
 ### Visa rätt information i rätt sammanhang
 
-En guide ska inte behöva söka efter vad som är viktigt idag. Dashboard ("Min arbetsdag") ska presentera prioriterad information direkt.
+En guide ska inte behöva söka efter vad som är viktigt idag. Workspace ("Min arbetsdag") ska presentera prioriterad information direkt.
 
 ### Korta arbetsflöden
 
@@ -37,7 +37,7 @@ Systemet använder en persistent sidopanel med huvudnavigering:
 
 ```
 Sidopanel (alltid synlig)
-├── Min arbetsdag (dashboard)
+├── Min arbetsdag (Workspace)
 ├── Upplevelser
 ├── Avgångar
 ├── Kunder

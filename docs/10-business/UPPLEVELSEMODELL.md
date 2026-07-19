@@ -86,7 +86,7 @@ Menyn följer domänmodellen för ett guideföretag:
 
 | Menypost | Beskrivning |
 |----------|-------------|
-| Min arbetsdag | Dashboard med dagens viktigaste information |
+| Min arbetsdag | Workspace med dagens viktigaste information |
 | Upplevelser | Produktkatalog – guidade resor och aktiviteter |
 | Avgångar | Planerade och bekräftade resor |
 | Kunder | Kundregister och bokningshistorik |
