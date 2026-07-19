@@ -19,7 +19,7 @@
     <div class="page active person-workspace" id="person-page">
       <div class="person-workspace-shell">
         <nav class="workspace-nav" aria-label="Brödsmulor">
-          <a class="link" href="person-list.html">Kontakter</a>
+          <a class="link" href="kontakter-gaster.html" id="breadcrumb-link">Kontakter</a>
           <span class="workspace-nav-divider" aria-hidden="true">/</span>
           <span id="person-breadcrumb-name">Person Workspace</span>
         </nav>
@@ -28,7 +28,7 @@
           <div class="workspace-header-main">
             <div class="workspace-avatar" id="person-avatar" aria-hidden="true">A</div>
             <div class="workspace-header-content">
-              <a class="btn btn-secondary btn-sm" href="person-list.html" id="back-link">← Tillbaka till Kontakter</a>
+              <a class="btn btn-secondary btn-sm" href="kontakter-gaster.html" id="back-link">← Tillbaka till Gäster</a>
               <div>
                 <h1 class="workspace-title" id="person-title">Person Workspace</h1>
                 <div class="workspace-header-meta">
@@ -38,7 +38,7 @@
               </div>
             </div>
           </div>
-          <p class="workspace-supporting-text">Skelett för att besvara frågan: vad är den aktuella relationen med den här personen?</p>
+          <p class="workspace-supporting-text">Situation, arbetskö och senaste dialoger för den här personen.</p>
         </section>
 
         <div class="workspace-grid">
@@ -51,7 +51,7 @@
             </div>
           </section>
 
-          <section class="card workspace-block arbetsko" aria-labelledby="arbetsko-heading">
+          <section class="card workspace-block workspace-block--wide arbetsko" aria-labelledby="arbetsko-heading">
             <div class="card-header">
               <h2 id="arbetsko-heading">Personens arbetskö</h2>
             </div>
@@ -60,56 +60,12 @@
             </div>
           </section>
 
-          <section class="card workspace-block dialoger" aria-labelledby="dialoger-heading">
+          <section class="card workspace-block workspace-block--wide dialoger" aria-labelledby="dialoger-heading">
             <div class="card-header">
               <h2 id="dialoger-heading">Dialoger</h2>
             </div>
             <div class="card-body" id="dialoger-content">
               <!-- Populated by renderDialoger() -->
-            </div>
-          </section>
-
-          <section class="card workspace-block historik" aria-labelledby="historik-heading">
-            <div class="card-header">
-              <h2 id="historik-heading">Relation &amp; Historik</h2>
-            </div>
-            <div class="card-body">
-              <div class="placeholder stage-4">
-                <p>Relationship history will be implemented in Stage 4</p>
-              </div>
-            </div>
-          </section>
-
-          <section class="card workspace-block kontakt" aria-labelledby="kontakt-heading">
-            <div class="card-header">
-              <h2 id="kontakt-heading">Kontaktinformation</h2>
-            </div>
-            <div class="card-body">
-              <div class="placeholder stage-4">
-                <p>Contact details will be implemented in Stage 4</p>
-              </div>
-            </div>
-          </section>
-
-          <section class="card workspace-block workspace-block--wide dokument" aria-labelledby="dokument-heading">
-            <div class="card-header">
-              <h2 id="dokument-heading">Samtycken &amp; Dokument</h2>
-            </div>
-            <div class="card-body">
-              <div class="placeholder stage-4">
-                <p>Consents and documents will be implemented in Stage 4</p>
-              </div>
-            </div>
-          </section>
-
-          <section class="card workspace-block workspace-block--wide snabbatgarder" aria-labelledby="snabbatgarder-heading">
-            <div class="card-header">
-              <h2 id="snabbatgarder-heading">Snabbåtgärder</h2>
-            </div>
-            <div class="card-body">
-              <div class="placeholder stage-4">
-                <p>Contextual actions will be implemented in Stage 4</p>
-              </div>
             </div>
           </section>
         </div>
@@ -206,26 +162,38 @@
           {
             id: 'conv-2',
             participant: 'Anna Andersson',
+            lastMessage: 'I sent the insurance certificate this morning.',
+            time: '1 day ago',
+            status: 'waiting-for-person',
+            coordinator: 'Marcus Bergström',
+            sortOrder: 4,
+          },
+          {
+            id: 'conv-3',
+            participant: 'Anna Andersson',
             lastMessage: 'Received the itinerary, looks great!',
             time: '2 days ago',
             status: 'waiting-for-us',
             coordinator: 'Maria Johansson',
+            sortOrder: 3,
           },
           {
-            id: 'conv-3',
+            id: 'conv-4',
             participant: 'Anna Andersson',
             lastMessage: 'Can you explain the altitude acclimatization plan?',
             time: '1 week ago',
             status: 'completed',
             coordinator: 'Marcus Bergström',
+            sortOrder: 2,
           },
           {
-            id: 'conv-4',
+            id: 'conv-5',
             participant: 'Anna Andersson',
             lastMessage: 'Is the accommodation included in the price?',
             time: '2 weeks ago',
             status: 'completed',
             coordinator: 'Lisa Norberg',
+            sortOrder: 1,
           },
         ],
       },
@@ -532,9 +500,13 @@
         return;
       }
 
+      const conversations = [...person.conversations]
+        .map((conversation, index) => ({ ...conversation, sortOrder: conversation.sortOrder ?? (person.conversations.length - index) }))
+        .sort((a, b) => b.sortOrder - a.sortOrder);
+
       container.innerHTML = `
         <div class="dialoger-container">
-          ${person.conversations.map(conv => `
+          ${conversations.map(conv => `
             <div class="dialogue-card ${escapeHtml(conv.status)}">
               <div class="dialogue-header">
                 <h3 class="dialogue-participant">
@@ -542,7 +514,7 @@
                 </h3>
                 <div style="display:flex;align-items:center;gap:var(--spacing-sm)">
                   <span class="dialogue-status-badge ${escapeHtml(conv.status)}">${formatConvStatus(conv.status)}</span>
-                  <button class="btn btn-sm btn-secondary dialogue-open-btn" aria-label="Open conversation">→</button>
+                  <button class="btn btn-sm btn-secondary dialogue-open-btn" aria-label="Open conversation with ${escapeHtml(conv.participant)}">→ Open</button>
                 </div>
               </div>
               <p class="dialogue-message">"${escapeHtml(conv.lastMessage)}"</p>
@@ -656,8 +628,16 @@
       document.getElementById('person-trip').textContent = person.trip;
       document.getElementById('person-avatar').textContent = person.avatar;
 
+      const breadcrumbLink = document.getElementById('breadcrumb-link');
       const backLink = document.getElementById('back-link');
+      const defaultBackHref = person.type === 'Gäst' ? 'kontakter-gaster.html' : 'kontakter.html';
+      const defaultBackLabel = person.type === 'Gäst' ? '← Tillbaka till Gäster' : '← Tillbaka till Kontakter';
+      breadcrumbLink.href = defaultBackHref;
+      backLink.href = defaultBackHref;
+      backLink.textContent = defaultBackLabel;
+
       if (document.referrer && document.referrer.includes('/preview/')) {
+        breadcrumbLink.href = document.referrer;
         backLink.href = document.referrer;
       }
 
