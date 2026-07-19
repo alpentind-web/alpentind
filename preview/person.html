@@ -126,53 +126,106 @@
       'anna-andersson': {
         id: 'anna-andersson',
         name: 'Anna Andersson',
-        type: 'Deltagare',
-        trip: 'AlpenTind Sommerkurs 2026',
+        type: 'Gäst',
+        trip: 'Tour du Mont Blanc 2026',
         avatar: 'A',
         // Relationsöversikt
-        tripDates: 'July 19–27, 2026',
-        coordinator: 'Sarah Johnson',
+        tripDates: 'August 2–10, 2026',
+        coordinator: 'Marcus Bergström',
         relationshipStatus: 'Active',
-        lastContact: { date: 'July 18, 2024', time: '2 hours ago', type: 'Dialogue', status: 'Completed' },
+        lastContact: { date: 'July 14, 2026', time: '5 min ago', type: 'Dialogue', status: 'Waiting for response' },
         operationalStatus: [
-          { label: 'Medical information', status: 'complete' },
-          { label: 'Passport', status: 'complete' },
-          { label: 'Payment', status: 'complete' },
-          { label: 'Equipment', status: 'complete' },
+          { label: 'Medical information', status: 'warning' },
+          { label: 'Passport', status: 'warning' },
+          { label: 'Payment', status: 'warning' },
+          { label: 'Equipment rental', status: 'warning' },
         ],
-        nextStep: 'Ready for departure (July 19)',
-        nextStepUrgent: false,
-        // Personens arbetskö
-        workQueue: [],
-        // Dialoger (most recent first)
+        nextStep: '🏃 Follow-up: Passport copy required by July 25 (URGENT)',
+        nextStepUrgent: true,
+        // Personens arbetskö (only active work — never completed)
+        workQueue: [
+          {
+            id: 'wq-1',
+            title: 'Passport information missing',
+            reason: 'Guest needs to provide passport copy by July 25',
+            priority: 'urgent',
+            relatedObject: 'Tour du Mont Blanc 2026',
+            actions: ['Send reminder', 'View dialogue'],
+          },
+          {
+            id: 'wq-2',
+            title: 'Medical form incomplete',
+            reason: 'Medical declaration required for high altitude exposure',
+            priority: 'urgent',
+            relatedObject: 'Tour du Mont Blanc 2026',
+            actions: ['Complete form', 'View document'],
+          },
+          {
+            id: 'wq-3',
+            title: 'Payment confirmation waiting',
+            reason: 'Awaiting bank transfer confirmation (due July 20)',
+            priority: 'scheduled',
+            relatedObject: 'Tour du Mont Blanc 2026',
+            actions: ['Check status', 'Send payment link'],
+          },
+          {
+            id: 'wq-4',
+            title: 'Follow-up call required',
+            reason: 'Guest has questions about itinerary and gear',
+            priority: 'urgent',
+            relatedObject: 'Latest dialogue (5 days ago)',
+            actions: ['Start dialogue', 'View last conversation'],
+          },
+          {
+            id: 'wq-5',
+            title: 'Insurance documentation incomplete',
+            reason: 'Insurance certificate needed before departure',
+            priority: 'scheduled',
+            relatedObject: 'Tour du Mont Blanc 2026',
+            actions: ['Request document', 'View requirements'],
+          },
+          {
+            id: 'wq-6',
+            title: 'Equipment rental confirmation needed',
+            reason: 'Crampons and ice axe rental – waiting for confirmation',
+            priority: 'standard',
+            relatedObject: 'Dialogue (2 days ago)',
+            actions: ['Confirm', 'View details'],
+          },
+        ],
+        // Dialoger (most recent first — newest ALWAYS first)
         conversations: [
           {
             id: 'conv-1',
             participant: 'Anna Andersson',
-            lastMessage: 'Ready for departure — all equipment here',
-            time: 'Today, 2 hours ago',
-            status: 'completed',
-            type: 'Dialogue',
-            unread: 0,
+            lastMessage: 'Can I bring my own climbing gear?',
+            time: '5 min ago',
+            status: 'waiting-for-us',
+            coordinator: 'Marcus Bergström',
           },
           {
             id: 'conv-2',
-            participant: 'Sarah Johnson',
-            role: 'Coordinator',
-            lastMessage: 'Confirmed attendance for Sommerkurs',
-            time: 'July 18, 1 day ago',
-            status: 'completed',
-            type: 'Dialogue',
-            unread: 0,
+            participant: 'Anna Andersson',
+            lastMessage: 'Received the itinerary, looks great!',
+            time: '2 days ago',
+            status: 'waiting-for-us',
+            coordinator: 'Maria Johansson',
           },
           {
             id: 'conv-3',
-            participant: 'Trip organizer',
-            lastMessage: 'Equipment list confirmed',
-            time: 'July 17, 2 days ago',
+            participant: 'Anna Andersson',
+            lastMessage: 'Can you explain the altitude acclimatization plan?',
+            time: '1 week ago',
             status: 'completed',
-            type: 'System message',
-            unread: 0,
+            coordinator: 'Marcus Bergström',
+          },
+          {
+            id: 'conv-4',
+            participant: 'Anna Andersson',
+            lastMessage: 'Is the accommodation included in the price?',
+            time: '2 weeks ago',
+            status: 'completed',
+            coordinator: 'Lisa Norberg',
           },
         ],
       },
@@ -398,23 +451,8 @@
     // Stage 3 — Personens arbetskö
     // ========================================
 
-    function getWorkStatusColor(status) {
-      const colors = {
-        overdue: 'var(--color-danger)',
-        urgent: 'var(--color-warning)',
-        upcoming: 'var(--color-info)',
-      };
-      return colors[status] || 'var(--color-primary)';
-    }
-
-    function formatWorkStatus(status) {
-      const map = {
-        overdue: '🔴 Overdue',
-        urgent: '🟠 Urgent',
-        upcoming: '🟡 Upcoming',
-      };
-      return map[status] || status;
-    }
+    const PRIORITY_ICON = { urgent: '🏃', scheduled: '⏰', standard: '✓' };
+    const PRIORITY_LABEL = { urgent: 'Urgent', scheduled: 'Scheduled', standard: 'Standard' };
 
     function renderArbetskö(person) {
       const container = document.getElementById('arbetsko-content');
@@ -434,25 +472,26 @@
 
       container.innerHTML = `
         <div class="arbetsko-container">
-          ${person.workQueue.map(item => `
-            <div class="arbetsko-card ${item.status}">
+          ${person.workQueue.map(item => {
+            const icon = PRIORITY_ICON[item.priority] || '✓';
+            const actions = (item.actions || []).map(label =>
+              `<a href="#" class="btn btn-sm btn-secondary">${label}</a>`
+            ).join('');
+            const related = item.relatedObject
+              ? `<div class="arbetsko-related">${item.relatedObject}</div>`
+              : '';
+            return `
+            <div class="arbetsko-card ${item.priority}">
               <div class="arbetsko-header">
+                <span class="arbetsko-priority-icon ${item.priority}" aria-label="${PRIORITY_LABEL[item.priority]}">${icon}</span>
                 <h3 class="arbetsko-title">${item.title}</h3>
-                <span class="arbetsko-priority-badge ${item.priority}">${item.priority.toUpperCase()}</span>
+                <span class="arbetsko-priority-badge ${item.priority}">${PRIORITY_LABEL[item.priority]}</span>
               </div>
               <p class="arbetsko-reason">${item.reason}</p>
-              <div class="arbetsko-meta">
-                <span class="arbetsko-status">
-                  <span class="arbetsko-status-dot" style="background:${getWorkStatusColor(item.status)};"></span>
-                  ${formatWorkStatus(item.status)}${item.deadline ? ` (due ${item.deadline})` : ''}
-                </span>
-                <span class="arbetsko-related">${item.relatedTrip}</span>
-              </div>
-              <div class="arbetsko-action">
-                <a href="${item.actionUrl}" class="btn btn-sm btn-secondary">${item.action}</a>
-              </div>
-            </div>
-          `).join('')}
+              ${related}
+              <div class="arbetsko-action">${actions}</div>
+            </div>`;
+          }).join('')}
         </div>
       `;
     }
@@ -465,7 +504,7 @@
       const map = {
         completed: '✓ Completed',
         'waiting-for-us': '⏰ Waiting for us',
-        'waiting-for-person': '💬 Waiting for person',
+        'waiting-for-person': '💬 Waiting for them',
       };
       return map[status] || status;
     }
@@ -483,35 +522,27 @@
         return;
       }
 
-      const recentConvs = person.conversations.slice(0, 5);
-      const total = person.conversations.length;
-
       container.innerHTML = `
         <div class="dialoger-container">
-          ${recentConvs.map(conv => `
+          ${person.conversations.map(conv => `
             <div class="dialogue-card ${conv.status}">
               <div class="dialogue-header">
                 <h3 class="dialogue-participant">
                   ${conv.participant}${conv.role ? ` <span class="dialogue-role">(${conv.role})</span>` : ''}
                 </h3>
-                <span class="dialogue-status-badge ${conv.status}">${formatConvStatus(conv.status)}</span>
+                <div style="display:flex;align-items:center;gap:var(--spacing-sm)">
+                  <span class="dialogue-status-badge ${conv.status}">${formatConvStatus(conv.status)}</span>
+                  <button class="btn btn-sm btn-secondary dialogue-open-btn" aria-label="Open conversation">→</button>
+                </div>
               </div>
               <p class="dialogue-message">"${conv.lastMessage}"</p>
               <div class="dialogue-meta">
                 <span class="dialogue-time">${conv.time}</span>
                 ${conv.unread > 0 ? `<span class="dialogue-unread">${conv.unread} unread</span>` : ''}
               </div>
-              <div class="dialogue-action">
-                <button class="btn btn-sm btn-secondary">Open conversation</button>
-              </div>
+              ${conv.coordinator ? `<div class="dialogue-coordinator">Handled by ${conv.coordinator}</div>` : ''}
             </div>
           `).join('')}
-          ${total > 5 ? `
-            <div class="dialoger-footer">
-              <p>${total} conversations total</p>
-              <a href="#all-conversations" class="link">Show all conversations →</a>
-            </div>
-          ` : ''}
         </div>
       `;
     }
