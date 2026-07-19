@@ -20,18 +20,22 @@
 
       <section class="page-header" aria-labelledby="accommodation-workspace-title">
         <nav class="workspace-nav" id="accommodation-workspace-nav" aria-label="Navigeringsstig"></nav>
-        <h1 id="accommodation-workspace-title">Accommodation Workspace</h1>
-        <p class="text-muted" id="accommodation-workspace-description"></p>
       </section>
 
-      <section class="content-section" aria-labelledby="accommodation-workspace-summary-heading">
-        <div class="section-header">
-          <h2 id="accommodation-workspace-summary-heading">Handoff target</h2>
-        </div>
-        <p class="text-muted">
-          Workspace-implementationen ligger utanför ESR-007 Stage 1. Detta mål verifierar en komplett navigationskedja från register till workspace.
-        </p>
-      </section>
+      <div class="register-workspace" id="register-workspace-container"></div>
+
+      <div id="register-workspace-error" hidden>
+        <section class="content-section" aria-labelledby="workspace-error-heading">
+          <div class="section-header">
+            <h2 id="workspace-error-heading">Boende hittades inte</h2>
+          </div>
+          <p class="text-muted">Boendet kunde inte identifieras i mock-data. Kontrollera att region och boende-ID är korrekta.</p>
+          <a href="accommodations.html" class="btn btn-secondary" style="margin-top:var(--spacing-md)">
+            <i data-feather="arrow-left" style="width:16px;height:16px" aria-hidden="true"></i>
+            Tillbaka till Boenden
+          </a>
+        </section>
+      </div>
 
     </div>
   </main>
@@ -40,13 +44,9 @@
   <script src="js/mock-data.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/register-selection.js"></script>
+  <script src="js/register-workspace.js"></script>
   <script>
-    function findAccommodationById(region, accommodationId) {
-      return ((region && region.accommodations) || []).find(function(accommodation) {
-        return accommodation.id === accommodationId;
-      }) || null;
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
       if (!localStorage.getItem('alpentind-user-logged-in')) {
         window.location.href = 'index.html';
@@ -54,40 +54,46 @@
       }
       initNavigation('nav-6');
 
-      const params = new URLSearchParams(window.location.search);
-      const regionSlug = params.get('region');
-      const accommodationId = params.get('accommodation');
-      const regions = (mockData && mockData.accommodationRegister && mockData.accommodationRegister.regions) || [];
-      const region = regions.find(function(item) { return item.slug === regionSlug; }) || null;
-      const accommodation = findAccommodationById(region, accommodationId);
+      var params          = new URLSearchParams(window.location.search);
+      var regionSlug      = params.get('region');
+      var accommodationId = params.get('accommodation');
+      var regions         = (mockData.accommodationRegister && mockData.accommodationRegister.regions) || [];
+      var region          = regions.find(function(r) { return r.slug === regionSlug; }) || null;
+      var accommodation   = region
+        ? (region.accommodations || []).find(function(a) { return a.id === accommodationId; }) || null
+        : null;
 
-      const nav = document.getElementById('accommodation-workspace-nav');
-      const title = document.getElementById('accommodation-workspace-title');
-      const description = document.getElementById('accommodation-workspace-description');
-
-      if (!nav || !title || !description) return;
+      var nav      = document.getElementById('accommodation-workspace-nav');
+      var wsContainer = document.getElementById('register-workspace-container');
+      var errorBlock  = document.getElementById('register-workspace-error');
 
       if (!region || !accommodation) {
-        nav.innerHTML = `
-          <a href="accommodations.html" class="link">Boenden</a>
-          <span aria-hidden="true">›</span>
-          <span>Workspace</span>
-        `;
-        title.textContent = 'Accommodation Workspace';
-        description.textContent = 'Boendet kunde inte identifieras i mock-data.';
+        if (nav) {
+          nav.innerHTML =
+            '<a href="accommodations.html" class="link">Boenden</a>'
+            + '<span aria-hidden="true">›</span>'
+            + '<span>Workspace</span>';
+        }
+        if (wsContainer) wsContainer.hidden = true;
+        if (errorBlock)  errorBlock.hidden  = false;
+        if (typeof feather !== 'undefined') feather.replace();
         return;
       }
 
-      nav.innerHTML = `
-        <a href="accommodations.html" class="link">Boenden</a>
-        <span aria-hidden="true">›</span>
-        <a href="accommodations.html?region=${encodeURIComponent(region.slug)}" class="link">${region.name}</a>
-        <span aria-hidden="true">›</span>
-        <span>${accommodation.name}</span>
-      `;
-      title.textContent = accommodation.name;
-      description.textContent = `${accommodation.type} i ${accommodation.place}. Workspace kommer i nästa steg efter Product Owner-gate.`;
+      if (nav) {
+        nav.innerHTML =
+          '<a href="accommodations.html" class="link">Boenden</a>'
+          + '<span aria-hidden="true">›</span>'
+          + '<a href="accommodations.html?region=' + encodeURIComponent(region.slug) + '" class="link">' + region.name + '</a>'
+          + '<span aria-hidden="true">›</span>'
+          + '<span>' + accommodation.name + '</span>';
+      }
+
+      var detail = (mockData.accommodationWorkspaceData && mockData.accommodationWorkspaceData[accommodation.id]) || null;
+      var config  = buildAccommodationWorkspaceConfig(region, accommodation, detail);
+      renderRegisterWorkspace(wsContainer, config);
     });
   </script>
 </body>
 </html>
+
