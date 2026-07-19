@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Person Workspace – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active person-workspace" id="person-page">
+      <div class="person-workspace-shell">
+        <nav class="workspace-nav" aria-label="Brödsmulor">
+          <a class="link" href="person-list.html">Kontakter</a>
+          <span class="workspace-nav-divider" aria-hidden="true">/</span>
+          <span id="person-breadcrumb-name">Person Workspace</span>
+        </nav>
+
+        <section class="workspace-header" aria-labelledby="person-title">
+          <div class="workspace-header-main">
+            <div class="workspace-avatar" id="person-avatar" aria-hidden="true">A</div>
+            <div class="workspace-header-content">
+              <a class="btn btn-secondary btn-sm" href="person-list.html" id="back-link">← Tillbaka till Kontakter</a>
+              <div>
+                <h1 class="workspace-title" id="person-title">Person Workspace</h1>
+                <div class="workspace-header-meta">
+                  <span class="badge badge-primary" id="person-type">Deltagare</span>
+                  <span class="workspace-supporting-text" id="person-trip">AlpenTind Sommerkurs 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="workspace-supporting-text">Skelett för att besvara frågan: vad är den aktuella relationen med den här personen?</p>
+        </section>
+
+        <div class="workspace-grid">
+          <section class="card workspace-block workspace-block--wide relationsoversikt" aria-labelledby="relationsoversikt-heading">
+            <div class="card-header">
+              <h2 id="relationsoversikt-heading">Relationsöversikt</h2>
+            </div>
+            <div class="card-body">
+              <div class="placeholder stage-2">
+                <p>Relationship overview will be implemented in Stage 2</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card workspace-block arbetsko" aria-labelledby="arbetsko-heading">
+            <div class="card-header">
+              <h2 id="arbetsko-heading">Personens arbetskö</h2>
+            </div>
+            <div class="card-body">
+              <div class="placeholder stage-3">
+                <p>Operational work queue will be implemented in Stage 3</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card workspace-block dialoger" aria-labelledby="dialoger-heading">
+            <div class="card-header">
+              <h2 id="dialoger-heading">Dialoger</h2>
+            </div>
+            <div class="card-body">
+              <div class="placeholder stage-3">
+                <p>Conversation context will be implemented in Stage 3</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card workspace-block historik" aria-labelledby="historik-heading">
+            <div class="card-header">
+              <h2 id="historik-heading">Relation &amp; Historik</h2>
+            </div>
+            <div class="card-body">
+              <div class="placeholder stage-4">
+                <p>Relationship history will be implemented in Stage 4</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card workspace-block kontakt" aria-labelledby="kontakt-heading">
+            <div class="card-header">
+              <h2 id="kontakt-heading">Kontaktinformation</h2>
+            </div>
+            <div class="card-body">
+              <div class="placeholder stage-4">
+                <p>Contact details will be implemented in Stage 4</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card workspace-block workspace-block--wide dokument" aria-labelledby="dokument-heading">
+            <div class="card-header">
+              <h2 id="dokument-heading">Samtycken &amp; Dokument</h2>
+            </div>
+            <div class="card-body">
+              <div class="placeholder stage-4">
+                <p>Consents and documents will be implemented in Stage 4</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card workspace-block workspace-block--wide snabbatgarder" aria-labelledby="snabbatgarder-heading">
+            <div class="card-header">
+              <h2 id="snabbatgarder-heading">Snabbåtgärder</h2>
+            </div>
+            <div class="card-body">
+              <div class="placeholder stage-4">
+                <p>Contextual actions will be implemented in Stage 4</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    const mockPeople = {
+      'anna-andersson': {
+        id: 'anna-andersson',
+        name: 'Anna Andersson',
+        type: 'Deltagare',
+        trip: 'AlpenTind Sommerkurs 2026',
+        avatar: 'A',
+      },
+      'peter-nilsson': {
+        id: 'peter-nilsson',
+        name: 'Peter Nilsson',
+        type: 'Guide',
+        trip: 'AlpenTind Sommerkurs 2026',
+        avatar: 'P',
+      },
+      'lisa-berg': {
+        id: 'lisa-berg',
+        name: 'Lisa Berg',
+        type: 'Deltagare',
+        trip: 'Haute Route',
+        avatar: 'L',
+      },
+      'johan-eriksson': {
+        id: 'johan-eriksson',
+        name: 'Johan Eriksson',
+        type: 'Deltagare',
+        trip: 'AlpenTind Sommerkurs 2026',
+        avatar: 'J',
+      },
+    };
+
+    function loadPersonWorkspace() {
+      const params = new URLSearchParams(window.location.search);
+      const personId = params.get('id') || 'anna-andersson';
+      const fallbackName = personId
+        .split('-')
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ');
+      const person = mockPeople[personId] || {
+        id: personId,
+        name: fallbackName,
+        type: 'Kontakt',
+        trip: 'Ingen resa vald ännu',
+        avatar: fallbackName.charAt(0) || '?',
+      };
+
+      document.title = `${person.name} – Person Workspace – AlpenTind Platform`;
+      document.getElementById('person-breadcrumb-name').textContent = person.name;
+      document.getElementById('person-title').textContent = person.name;
+      document.getElementById('person-type').textContent = person.type;
+      document.getElementById('person-trip').textContent = person.trip;
+      document.getElementById('person-avatar').textContent = person.avatar;
+
+      const backLink = document.getElementById('back-link');
+      if (document.referrer && document.referrer.includes('/preview/')) {
+        backLink.href = document.referrer;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-4');
+      loadPersonWorkspace();
+    });
+  </script>
+</body>
+</html>
