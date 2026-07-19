@@ -108,7 +108,7 @@ Provides immediate operational understanding.
 **Examples:**
 - Lägesbild (operational overview)
 - Readiness indicators
-- Health status
+- Operational status
 - Summary metrics
 
 **Implementation:**
@@ -153,7 +153,7 @@ Provides supporting information required to complete work identified in Layer 2.
 
 **Examples:**
 - Documents
-- Timeline information
+- Milstolpar and operational planning information
 - History or audit trail
 - Participant details
 - Related items
@@ -196,7 +196,7 @@ Provides contextual actions relevant to the current Workspace.
 
 1. **Situation before Work**
    - Provide context before showing tasks
-   - Help users understand the state before asking for action
+   - Help team members understand the state before asking for action
 
 2. **Work before Context**
    - Show actionable items before supporting information
@@ -223,17 +223,17 @@ Provides contextual actions relevant to the current Workspace.
    - Fewer interactions = faster decisions
    - Clean layout = calm operation
 
-### User Experience
+### Operational Perspective
 
 7. **Every Workspace answers one primary question**
    - The primary question guides all design decisions
    - Secondary questions are answered by subsequent layers
-   - Users always know the purpose of the Workspace
+   - Team members always know the purpose of the Workspace
 
 8. **Every Workspace should be understandable within five seconds**
    - First impression must communicate the state
    - No learning curve for regulars
-   - New users understand the purpose immediately
+   - New team members understand the purpose immediately
 
 9. **Reuse Workspace Blocks**
    - Consistent components across Workspaces
@@ -266,7 +266,7 @@ The operational pattern remains consistent.
 
 ### Learning & Adoption
 
-Users should never need to relearn how a Workspace works.
+Team members should never need to relearn how a Workspace works.
 
 Once they understand the pattern in one Workspace, they understand it in all.
 
@@ -316,7 +316,7 @@ Reusable components across Workspaces:
 
 ## Architecture Benefits
 
-### For Users
+### For Operational Roles
 
 - **Consistency** – Same mental model across Workspaces
 - **Speed** – No learning curve between Workspaces
@@ -332,7 +332,7 @@ Reusable components across Workspaces:
 
 ### For Product
 
-- **Coherence** – Unified user experience
+- **Coherence** – Unified operational experience
 - **Intentionality** – Each element serves a purpose
 - **Extensibility** – New Workspaces can follow the same model
 - **Quality** – Focused design improves daily
@@ -365,8 +365,8 @@ Workspaces may implement layers differently, but the conceptual order remains co
 
 **Context** – Supporting information needed to complete work (documents, history, details).
 
-**Actions** – Contextual commands available to the user (never generic toolbars).
+**Actions** – Contextual commands available to the active role (never generic toolbars).
 
-**Operational Mindset** – The psychological frame or focus the user adopts in a Workspace (e.g., "daily execution" in Arbetsdag, "trip coordination" in Resa).
+**Operational Mindset** – The psychological frame or focus a team member adopts in a Workspace (e.g., "daily execution" in Arbetsdag, "trip coordination" in Resa).
 
 **Primary Question** – The single operational question each Workspace answers.

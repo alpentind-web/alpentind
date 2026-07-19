@@ -596,7 +596,7 @@ Varianter: `alert-info`, `alert-success`, `alert-warning`, `alert-danger`
 ```
 preview/
 ├── index.html               # Inloggningssida
-├── arbetsdag.html           # Dashboard / Min arbetsdag
+├── arbetsdag.html           # Workspace / Min arbetsdag
 ├── produkter.html           # Upplevelsekatalog
 │
 ├── components/              # Komponentbibliotek (showcase-sidor)

@@ -27,13 +27,13 @@ Every Workspace should reduce uncertainty, increase understanding and support pr
 
 - Arbetsdag
 - Dialog
-- Experience
+- Resa
 - Person
 - Guide
 
 ## Operational Goals
 
-Help users:
+Help guides, coordinators, and administrators:
 
 - understand the current situation
 - identify what requires attention
