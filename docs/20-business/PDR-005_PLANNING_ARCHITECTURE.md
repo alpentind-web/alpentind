@@ -1,0 +1,654 @@
+# PDR-005 – Planning Architecture
+
+**Status:** Approved
+
+---
+
+## 1. Executive Summary
+
+Planning is the process of transforming an idea into a sellable, operationally viable journey.
+
+Planning is question-driven, non-linear, and ends when all operational questions have been answered.
+
+Planning is a separate architectural concept alongside Register Architecture and Workspace Architecture because it addresses a fundamentally different business problem.
+
+---
+
+## 2. Purpose
+
+Planning bridges the gap between product conception and operational execution.
+
+Without Planning:
+
+- Journeys lack clear definition
+- Operational unknowns remain unresolved
+- Economic viability is unclear
+- Participant communication is incomplete
+
+With Planning:
+
+- All operational questions are answered
+- Journey becomes economically viable
+- Participants are informed
+- Operations can execute with confidence
+
+---
+
+## 3. What is Planning?
+
+Planning is the structured process of transforming a journey idea into a fully defined, operationally ready, and economically viable product.
+
+### Core Characteristics
+
+- **Question-driven:** Planning asks and answers operational questions
+- **Non-linear:** Decision points may loop back; questions may be discovered during planning
+- **Uncertainty reduction:** Each planning step reduces operational uncertainty
+- **End condition:** Planning ends when all operational questions have been answered
+- **Output-focused:** Planning produces artefacts necessary for operations
+
+---
+
+## 4. Planning vs Registers
+
+**Registers discover existing objects.**
+
+```text
+Register Purpose: "What exists?"
+
+User Flow:
+Browse Contacts Register
+    ↓
+Locate a guest
+    ↓
+Open Person Workspace
+```
+
+**Planning creates new objects.**
+
+```text
+Planning Purpose: "What should exist?"
+
+User Flow:
+Conceive journey idea
+    ↓
+Answer operational questions
+    ↓
+Define sellable journey
+    ↓
+Journey becomes operational object
+```
+
+**Key Difference:**
+
+Registers answer: "Where can I find X?"
+
+Planning answers: "How do I create Y?"
+
+---
+
+## 5. Planning vs Workspaces
+
+**Workspaces perform operational work.**
+
+```text
+Workspace Purpose: "How do I manage this?"
+
+User Flow:
+Open Person Workspace
+    ↓
+See work queue
+    ↓
+Perform operational actions
+```
+
+**Planning defines what work needs to be done.**
+
+```text
+Planning Purpose: "What work needs to happen?"
+
+User Flow:
+Plan journey
+    ↓
+Define guide requirements
+    ↓
+Define participant requirements
+    ↓
+Define operational timeline
+    ↓
+Operational work is now defined
+```
+
+**Key Difference:**
+
+Workspaces execute defined work.
+
+Planning defines the work that needs to be executed.
+
+---
+
+## 6. Journey Lifecycle
+
+**A journey follows a lifecycle from conception to completion:**
+
+```text
+┌─────────────────────────────────────┐
+│         JOURNEY LIFECYCLE           │
+├─────────────────────────────────────┤
+│                                     │
+│ 1. IDEA                             │
+│    ("Let's create a summer trek")   │
+│    State: Concept only              │
+│    Owner: Product, Marketing        │
+│                                     │
+│ 2. PLANNING                         │
+│    (Question-driven process)        │
+│    State: Defining operational      │
+│    Owner: Planning coordinator      │
+│                                     │
+│ 3. OPERATIONAL READINESS            │
+│    (All questions answered)         │
+│    State: Ready for bookings        │
+│    Conditions: Economic viability   │
+│    Conditions: Sufficient capacity  │
+│    Owner: Operations                │
+│                                     │
+│ 4. ACTIVE                           │
+│    (Participants enrolled)          │
+│    State: Running journeys          │
+│    Owner: Guide, Coordinator        │
+│                                     │
+│ 5. COMPLETED                        │
+│    (Journey finished)               │
+│    State: Historical record         │
+│    Owner: Archive                   │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+### Stage 1: Idea
+
+- **What:** A concept for a new journey
+- **Questions:** What type of journey? Where? When?
+- **Output:** Journey outline
+- **Participants:** Product team, marketing
+- **Duration:** Hours to days
+- **Next Gate:** Approved for planning?
+
+### Stage 2: Planning
+
+- **What:** Structured questioning and definition
+- **Questions:** See Planning Model
+- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Information, Operational Runbook
+- **Participants:** Planning coordinator, guides, operations
+- **Duration:** Days to weeks
+- **Next Gate:** All operational questions answered? Economic viability confirmed? Sufficient participant interest?
+
+### Stage 3: Operational Readiness
+
+- **What:** Journey is ready for booking and operation
+- **Conditions:**
+  - All planning questions answered
+  - Economic model validated
+  - Guide availability confirmed
+  - Participant requirements defined
+  - Operational procedures documented
+- **Output:** Approved journey ready for participants
+- **Participants:** Operations, guides
+- **Duration:** Ongoing until Stage 4
+
+### Stage 4: Active
+
+- **What:** Journey is actively running
+- **Participants:** Enrolled guests, guides, coordinators
+- **Operations:** Person Workspaces manage individual participant needs
+- **Duration:** Journey execution period
+
+### Stage 5: Completed
+
+- **What:** Journey has finished
+- **Outcome:** Historical record maintained
+- **Participants:** Archive
+- **Duration:** Indefinite (reference)
+
+---
+
+## 7. Planning Model
+
+Planning is structured around answering operational questions.
+
+### Planning Questions
+
+#### Geographic & Route Questions
+
+- Where exactly does the journey take place?
+- What is the route profile?
+- What are the altitude challenges?
+- Are there natural hazards or restrictions?
+- What is the technical difficulty rating?
+
+#### Participant Questions
+
+- Who is the target participant?
+- What fitness level is required?
+- What experience level is required?
+- Are there age restrictions?
+- What special training is needed?
+
+#### Guide Questions
+
+- How many guides are required?
+- What certifications must guides have?
+- What is the required guide-to-participant ratio?
+- What languages must guides speak?
+- What special skills are needed?
+
+#### Equipment Questions
+
+- What equipment must participants provide?
+- What equipment will AlpenTind provide?
+- What rental equipment is available?
+- What emergency equipment is required?
+- What is the equipment cost?
+
+#### Accommodation Questions
+
+- Where will participants stay?
+- What accommodation quality/type?
+- Are there special needs (dietary, accessibility)?
+- What is the accommodation cost?
+
+#### Transport Questions
+
+- How do participants get to the start?
+- What transport is included in the package?
+- What are transport costs?
+- What are luggage restrictions?
+
+#### Timing Questions
+
+- When does the journey run?
+- What is the total duration?
+- What is the daily schedule?
+- What rest days are included?
+- What is the departure pattern?
+
+#### Safety Questions
+
+- What is the medical protocol?
+- What emergency procedures exist?
+- What insurance is required?
+- What evacuation options exist?
+- What communication systems are in place?
+
+#### Economic Questions
+
+- What is the cost per participant?
+- What is the minimum viable participant count?
+- What is the cost structure (fixed vs variable)?
+- What is the pricing?
+- What discounts or variations apply?
+
+#### Communication Questions
+
+- What information do participants need?
+- What is the participant letter format?
+- What pre-journey communication happens?
+- What post-journey communication happens?
+
+#### Operational Questions
+
+- Who coordinates this journey?
+- What is the operational runbook?
+- What checklists are required?
+- What contingencies exist?
+- How are changes managed?
+
+---
+
+## 8. Planning Readiness
+
+A journey is operationally ready when:
+
+1. **All operational questions have been answered**
+   - Geographic definition complete
+   - Route defined and validated
+   - Route difficulty assessed
+
+2. **Participant requirements are clear**
+   - Fitness level specified
+   - Experience level specified
+   - Special training identified
+   - Equipment list finalized
+   - Medical requirements documented
+
+3. **Guide requirements are defined**
+   - Number of guides confirmed
+   - Certifications required
+   - Skills required
+   - Languages required
+   - Availability confirmed
+
+4. **Economic model is validated**
+   - Cost per participant calculated
+   - Minimum viable participant count confirmed
+   - Pricing strategy approved
+   - Break-even analysis completed
+
+5. **Accommodation & Transport are confirmed**
+   - All stops booked or confirmed available
+   - Transport providers confirmed
+   - Contingency options exist
+
+6. **Safety & Insurance protocols are established**
+   - Medical protocol defined
+   - Emergency procedures documented
+   - Insurance requirements specified
+   - Evacuation options confirmed
+
+7. **Operational artefacts are produced**
+   - Journey Plan created
+   - Cost Calculation documented
+   - Pricing defined
+   - Participant Letter prepared
+   - Guide Information sheet prepared
+   - Operational Runbook (Körschema) created
+
+8. **Stakeholder approval is obtained**
+   - Guide(s) approve plan
+   - Operations approve plan
+   - Product/Marketing approve plan
+   - Finance approve pricing
+
+---
+
+## 9. Planning Outputs
+
+Planning produces the following artefacts:
+
+### 9.1 Journey Plan
+
+- Complete definition of the journey
+- Route description with waypoints
+- Daily itinerary
+- Altitude profile
+- Technical difficulty assessment
+- Risk assessment
+
+### 9.2 Cost Calculation
+
+- Fixed costs (guide, transport, accommodation)
+- Variable costs (equipment, meals, contingency)
+- Cost per participant
+- Minimum viable participant count
+- Break-even analysis
+
+### 9.3 Pricing
+
+- Price per participant
+- Early-bird pricing (if applicable)
+- Group discounts (if applicable)
+- Seasonal variations (if applicable)
+- Cancellation policy
+
+### 9.4 Participant Letter
+
+- Welcome message
+- Journey overview
+- Fitness requirements
+- Experience requirements
+- What to bring
+- What AlpenTind provides
+- Safety information
+- Schedule
+- Contact information
+- FAQ
+
+### 9.5 Guide Information
+
+- Guide assignments
+- Guide responsibilities
+- Guide checklists
+- Guide communication protocols
+- Contingency procedures
+- Emergency contacts
+
+### 9.6 Operational Runbook (Körschema)
+
+- Day-by-day operational procedures
+- Timing requirements
+- Check-in procedures
+- Equipment distribution
+- Meals and breaks
+- Camp setup procedures
+- Emergency procedures
+- Contingency options
+- Participant communication schedule
+
+---
+
+## 10. Planning Principles
+
+### Principle 1: Question-Driven Decision Making
+
+Planning progresses by asking and answering operational questions.
+
+Every decision should be traceable back to a question it answers.
+
+Questions may be discovered during planning; planning may loop back.
+
+### Principle 2: Non-Linear Progression
+
+Planning is not strictly sequential.
+
+Decisions may depend on other decisions.
+
+New questions may emerge as earlier questions are answered.
+
+Planning tools should support iteration and dependency management.
+
+### Principle 3: Uncertainty Reduction
+
+Each planning step reduces operational uncertainty.
+
+The goal is to reach a state where all operational unknowns have been identified and answered.
+
+### Principle 4: Viability Gating
+
+A journey becomes operational only when:
+
+- It is economically viable
+- Sufficient participant demand exists (or is forecasted)
+- All operational questions have been answered
+
+These conditions must be validated before moving to Active stage.
+
+### Principle 5: Artefact Generation
+
+Planning produces tangible artefacts that guide operations.
+
+These artefacts (Plan, Pricing, Participant Letter, Runbook) become the source of truth for operational execution.
+
+### Principle 6: Coordinator Ownership
+
+Planning is owned and driven by a Planning Coordinator.
+
+The coordinator ensures all questions are asked, answered, and documented.
+
+The coordinator drives stakeholder alignment (guides, operations, product, finance).
+
+---
+
+## 11. Relationship to Workspace Architecture
+
+Workspaces perform operational work. Planning defines what work needs to happen.
+
+### Example
+
+During Planning:
+
+- Question: "How many guides do we need?"
+- Answer: "2 guides"
+- Operational consequence: "We must hire 2 guides"
+
+In Workspace:
+
+- Guide Workspace displays: "You are assigned to journey X"
+- Work queue shows: "Complete pre-journey briefing"
+- Actions: Mark briefing complete, upload documents, etc.
+
+### Relationship
+
+Planning produces the requirements that become Person Workspace work items.
+
+Person Workspace executes the work that Planning defined.
+
+```text
+Planning
+    ↓
+(Defines: Guide needed, Participant needs, Equipment, Accommodation)
+    ↓
+Workspace
+    ↓
+(Executes: Coordinate guide, Confirm participant, Procure equipment, Book accommodation)
+```
+
+---
+
+## 12. Relationship to Register Architecture
+
+Registers discover existing objects. Planning may create new objects.
+
+### Example
+
+During Planning:
+
+- Question: "Do we have a guide available for this journey?"
+- Answer: "Yes, but we need to hire a second guide"
+- Consequence: "A new Guide contact needs to be created"
+
+After Planning:
+
+- New guide appears in Contacts Register (Guider)
+- Can be discovered and opened in Person Workspace
+
+### Relationship
+
+Planning may discover that new Contacts are needed.
+
+New Contacts become discoverable in Registers after Planning completes.
+
+```text
+Planning
+    ↓
+(Identifies need for new guide)
+    ↓
+Create Guide contact
+    ↓
+Registers
+    ↓
+(Guider register now includes new guide)
+```
+
+---
+
+## 13. Architectural Separation
+
+Three distinct architectural concepts:
+
+### Register Architecture (PDR-004)
+
+- **Purpose:** Discover existing objects
+- **Question:** "Where can I find X?"
+- **User flow:** Browse → Locate → Open Workspace
+
+### Workspace Architecture
+
+- **Purpose:** Perform operational work on objects
+- **Question:** "How do I manage this?"
+- **User flow:** Open object → See work queue → Perform actions
+
+### Planning Architecture (PDR-005)
+
+- **Purpose:** Define new operational objects
+- **Question:** "How do I create Y?"
+- **User flow:** Conceive idea → Answer questions → Produce plan → Object becomes operational
+
+These concepts are distinct but interconnected:
+
+```text
+Planning
+(Create new journey)
+    ↓
+Journey Plan + Operational Requirements
+    ↓
+Registers
+(Discover people/contacts needed for journey)
+    ↓
+Workspaces
+(Coordinate individuals to execute journey)
+    ↓
+Journey Execution
+```
+
+---
+
+## 14. Future Architectural Implications
+
+Planning Architecture will impact future Engineering Specifications:
+
+### ESR-10x: Planning Coordinator Workspace
+
+- Planning tool interface
+- Question templates
+- Decision tracking
+- Artefact generation
+- Stakeholder alignment tools
+
+### ESR-20x: Planning Dashboard
+
+- Journey planning status
+- Question resolution tracking
+- Cost and pricing management
+- Participant interest aggregation
+
+### ESR-30x: Integration with Experiences Register
+
+- Links between journeys and plans
+- Historical planning data
+- Plan versioning
+
+### ESR-40x: Automation & Templates
+
+- Question templates for journey types
+- Pre-filled planning workflows
+- Automatic artefact generation
+
+---
+
+## 15. Out of Scope
+
+This PDR does not address:
+
+- User interface design for Planning
+- Implementation of Planning tools
+- Database schema
+- API design
+- Workflow automation
+- Specific planning tools or software
+- Financial forecasting algorithms
+- Pricing strategy
+
+These will be addressed in future Engineering Specifications and Product Decisions.
+
+---
+
+## 16. Next Steps
+
+Planning Architecture is now documented as a core AlpenTind concept.
+
+Future work:
+
+1. **ESR-10x:** Implement Planning Coordinator Workspace
+2. **ESR-20x:** Implement Planning Dashboard
+3. **ESR-30x:** Implement Experiences domain
+4. **Ongoing:** Update product strategy based on Planning model
