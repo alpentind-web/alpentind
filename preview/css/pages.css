@@ -385,6 +385,10 @@ body.login-page {
   opacity: 0.8;
 }
 
+.placeholder-note {
+  font-style: italic;
+}
+
 @media (max-width: 768px) {
   .kontakter-categories {
     grid-template-columns: 1fr;
