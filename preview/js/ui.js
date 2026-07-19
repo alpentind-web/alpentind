@@ -91,40 +91,11 @@ function renderHeader() {
       </div>
     </div>
     <div class="header-right">
-      <div class="header-stats" aria-label="Daglig statistik">
-        <div class="stat-item">
-          <span class="stat-icon" aria-hidden="true">
-            <i data-feather="check-square" style="width:18px;height:18px"></i>
-          </span>
-          <p class="stat-label">Uppgifter</p>
-          <p class="stat-value">${mockData.dashboardStats.tasks}</p>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon" aria-hidden="true">
-            <i data-feather="calendar" style="width:18px;height:18px"></i>
-          </span>
-          <p class="stat-label">Bokningar</p>
-          <p class="stat-value">${mockData.dashboardStats.bookings}</p>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon" aria-hidden="true">
-            <i data-feather="alert-triangle" style="width:18px;height:18px"></i>
-          </span>
-          <p class="stat-label">Varningar</p>
-          <p class="stat-value">${mockData.dashboardStats.warnings}</p>
-        </div>
-      </div>
       <div class="header-actions">
         <label class="search-box" for="header-search">
           <i data-feather="search" style="width:16px;height:16px;color:var(--color-text-dark)" aria-hidden="true"></i>
           <input type="search" id="header-search" placeholder="Sök..." aria-label="Sök i AlpenTind">
         </label>
-        <div class="notification-bell" role="button" aria-label="Aviseringar" tabindex="0">
-          <i data-feather="bell" style="width:18px;height:18px"></i>
-          <span class="notification-badge" aria-label="${mockData.bookings.length} nya bokningar">
-            ${mockData.bookings.length}
-          </span>
-        </div>
       </div>
     </div>
   `;
@@ -133,48 +104,23 @@ function renderHeader() {
 }
 
 // ========================================
-// Informationsbanner (diskret dagsöversikt)
+// Lägesbild (Operationell översikt)
 // ========================================
 
-function renderInfoBanner() {
-  const banner = document.getElementById('info-banner');
-  if (!banner) return;
+function renderLagesbild() {
+  const el = document.getElementById('lagesbild');
+  if (!el) return;
 
-  const daysUntilNext = daysBetween(new Date(), new Date(mockData.dashboardStats.nextDeparture));
-  const daysLabel = daysUntilNext === 0
-    ? 'Avgång idag'
-    : daysUntilNext === 1
-      ? 'Nästa avgång imorgon'
-      : `Nästa avgång om ${daysUntilNext} dagar`;
+  const count = mockData.attentionItems.length;
+  const label = count === 1
+    ? '1 sak kräver din uppmärksamhet idag'
+    : `${count} saker kräver din uppmärksamhet idag`;
 
-  banner.innerHTML = `
-    <span class="info-banner-label">Idag</span>
-    <div class="info-banner-divider" aria-hidden="true"></div>
-    <div class="info-banner-item">
-      <i data-feather="check-circle" style="width:14px;height:14px"></i>
-      <strong>${mockData.dashboardStats.tasks}</strong>&nbsp;uppgifter
-    </div>
-    <div class="info-banner-divider" aria-hidden="true"></div>
-    <div class="info-banner-item">
-      <i data-feather="bookmark" style="width:14px;height:14px"></i>
-      <strong>${mockData.dashboardStats.bookings}</strong>&nbsp;nya bokningar
-    </div>
-    <div class="info-banner-divider" aria-hidden="true"></div>
-    <div class="info-banner-item">
-      <i data-feather="navigation" style="width:14px;height:14px"></i>
-      ${daysLabel}
-    </div>
-    <div class="info-banner-divider" aria-hidden="true"></div>
-    <div class="info-banner-item ${mockData.dashboardStats.warnings > 0 ? 'warning' : 'success'}">
-      <i data-feather="${mockData.dashboardStats.warnings > 0 ? 'alert-triangle' : 'sun'}"
-         style="width:14px;height:14px"></i>
-      ${mockData.dashboardStats.warnings > 0
-        ? `<strong>${mockData.dashboardStats.warnings}</strong>&nbsp;vädervarning${mockData.dashboardStats.warnings !== 1 ? 'ar' : ''}`
-        : 'Inga vädervarningar'}
-    </div>
+  el.innerHTML = `
+    <span class="lagesbild-label">Lägesbild</span>
+    <span class="lagesbild-text">${label}</span>
+    <a href="#attention-heading" class="lagesbild-link">Visa detaljer →</a>
   `;
-
-  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
@@ -184,56 +130,41 @@ function renderInfoBanner() {
 function renderDashboard() {
   renderSidebar();
   renderHeader();
-  renderInfoBanner();
+  renderLagesbild();
   renderOperationalCalendar();
+  renderWeekAgenda();
   renderAttentionSection();
   renderUpcomingExperiences();
-  renderOngoingDialogues();
   renderWorkQueue();
-  renderTodoList();
   renderQuickActions();
 }
 
 // ========================================
-// AttentionCard – reusable component
+// AttentionCard – simplified scannable component
 // ========================================
 
-function createAttentionCard({ id, title, subtitle, status, description, action, badge, priority }) {
-  const priorityClassMap = {
-    high:   'card-danger',
-    medium: 'card-warning',
-    low:    '',
+function createAttentionCard({ id, title, subtitle, badge, priority, action }) {
+  const priorityMap = {
+    high:   { cls: 'attention-card--high',   dot: 'priority-high'   },
+    medium: { cls: 'attention-card--medium', dot: 'priority-medium' },
+    low:    { cls: 'attention-card--low',    dot: 'priority-low'    },
   };
-  const priorityClass = priorityClassMap[priority] || '';
+  const p = priorityMap[priority] || { cls: '', dot: '' };
 
-  const statusMap = {
-    waiting_recommendation: { label: 'Väntar på rekommendation', cls: 'badge-warning' },
-    pending:                { label: 'Väntande',                  cls: 'badge-warning' },
-    overdue:                { label: 'Förfallen',                 cls: 'badge-danger'  },
-    active:                 { label: 'Aktiv',                     cls: 'badge-success' },
-    unread:                 { label: 'Oläst',                     cls: 'badge-primary' },
-    read:                   { label: 'Läst',                      cls: 'badge-info'    },
-  };
-  const statusInfo = statusMap[status] || { label: status, cls: 'badge-info' };
-
-  const priorityLabelMap = { high: 'Hög', medium: 'Medel', low: 'Låg' };
-  const priorityTitle = priorityLabelMap[priority] || priority;
+  const priorityLabelMap = { high: 'HÖG', medium: 'MEDIUM', low: 'LÅG' };
+  const priorityLabel = priorityLabelMap[priority] || priority;
 
   return `
-    <article class="card attention-card ${priorityClass}" data-id="${id}">
-      <div class="card-body">
-        <div class="attention-card-header">
-          ${priority ? `<span class="attention-priority priority-${priority}" aria-label="Prioritet: ${priorityTitle}" title="Prioritet: ${priorityTitle}"></span>` : ''}
-          <div class="attention-card-titles">
-            <h3 class="attention-card-title">${title}</h3>
-            ${subtitle ? `<p class="attention-card-subtitle">${subtitle}</p>` : ''}
-          </div>
-          ${badge ? `<span class="badge badge-warning">${badge}</span>` : ''}
+    <article class="attention-card ${p.cls}" data-id="${id}">
+      <div class="attention-card-row">
+        <span class="attention-priority-dot ${p.dot}" aria-label="Prioritet: ${priorityLabel}" title="Prioritet: ${priorityLabel}"></span>
+        <div class="attention-card-body">
+          <p class="attention-card-title">${title}</p>
+          ${subtitle ? `<p class="attention-card-subtitle">${subtitle}</p>` : ''}
         </div>
-        <p class="attention-card-description">${description}</p>
-        <div class="attention-card-footer">
-          <span class="badge ${statusInfo.cls}">${statusInfo.label}</span>
-          ${action ? `<button class="btn btn-sm btn-primary" type="button">${action}</button>` : ''}
+        <div class="attention-card-meta">
+          ${badge ? `<span class="attention-badge">${badge}</span>` : ''}
+          ${action ? `<button class="btn btn-xs btn-secondary" type="button">${action}</button>` : ''}
         </div>
       </div>
     </article>
@@ -248,8 +179,8 @@ function renderOperationalCalendar() {
   const container = document.getElementById('operational-calendar');
   if (!container) return;
 
-  // Build calendar for current month view (centered on July 2027 for mock data)
-  const viewYear = 2027;
+  // Build calendar for current month view – July 2026
+  const viewYear = 2026;
   const viewMonth = 6; // July (0-indexed)
   const monthNames = [
     'Januari','Februari','Mars','April','Maj','Juni',
@@ -279,9 +210,8 @@ function renderOperationalCalendar() {
     success: 'var(--color-success)',
   };
 
-  // Build day cells
-  // Mock "today" within the calendar month to demonstrate the today-highlight feature
-  const mockToday = 14; // 14 July 2027
+  // Today = 19 July 2026
+  const mockToday = 19;
 
   let cells = '';
 
@@ -311,30 +241,77 @@ function renderOperationalCalendar() {
   }
 
   container.innerHTML = `
-    <div class="cal-wrapper" style="background:var(--color-bg-card);border-radius:var(--border-radius-lg);padding:var(--spacing-lg);border:1px solid var(--color-border)">
-      <div class="cal-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--spacing-md)">
-        <h3 style="margin:0;font-size:var(--font-size-base);font-weight:600">${monthNames[viewMonth]} ${viewYear}</h3>
+    <div class="cal-wrapper" style="background:var(--color-bg-medium);border-radius:var(--border-radius-lg);padding:var(--spacing-md);border:var(--border-thin)">
+      <div class="cal-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--spacing-sm)">
+        <h3 style="margin:0;font-size:var(--font-size-sm);font-weight:600;color:var(--color-text-light)">${monthNames[viewMonth]} ${viewYear}</h3>
         <div class="cal-legend" style="display:flex;gap:var(--spacing-sm);flex-wrap:wrap">
-          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
-            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-primary);display:inline-block"></span>Upplevelse
+          <span style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--color-text-dark)">
+            <span style="width:8px;height:8px;border-radius:2px;background:var(--color-primary);display:inline-block"></span>Upplevelse
           </span>
-          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
-            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-info);display:inline-block"></span>Möte
+          <span style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--color-text-dark)">
+            <span style="width:8px;height:8px;border-radius:2px;background:var(--color-info);display:inline-block"></span>Möte
           </span>
-          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
-            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-warning);display:inline-block"></span>Uppföljning
+          <span style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--color-text-dark)">
+            <span style="width:8px;height:8px;border-radius:2px;background:var(--color-warning);display:inline-block"></span>Uppföljning
           </span>
-          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
-            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-danger);display:inline-block"></span>Deadline
+          <span style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--color-text-dark)">
+            <span style="width:8px;height:8px;border-radius:2px;background:var(--color-danger);display:inline-block"></span>Deadline
           </span>
         </div>
       </div>
-      <div class="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">
-        ${dayNames.map(n => `<div class="cal-day-name" style="text-align:center;font-size:var(--font-size-xs);font-weight:600;color:var(--color-text-muted);padding:var(--spacing-xs) 0">${n}</div>`).join('')}
+      <div class="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px">
+        ${dayNames.map(n => `<div class="cal-day-name" style="text-align:center;font-size:10px;font-weight:600;color:var(--color-text-dark);padding:4px 0">${n}</div>`).join('')}
         ${cells}
       </div>
     </div>
   `;
+}
+
+// ========================================
+// Veckoagenda
+// ========================================
+
+function renderWeekAgenda() {
+  const container = document.getElementById('week-agenda');
+  if (!container) return;
+
+  const colorMap = {
+    primary: 'var(--color-primary)',
+    danger:  'var(--color-danger)',
+    warning: 'var(--color-warning)',
+    info:    'var(--color-info)',
+    success: 'var(--color-success)',
+  };
+
+  const typeIconMap = {
+    experience: 'compass',
+    deadline:   'alert-circle',
+    meeting:    'users',
+    followup:   'clock',
+    today:      'sun',
+  };
+
+  const items = mockData.weekAgendaItems || [];
+
+  if (!items.length) {
+    container.innerHTML = `<p style="font-size:var(--font-size-sm);color:var(--color-text-dark);padding:var(--spacing-sm) 0">Inga planerade händelser denna vecka.</p>`;
+    return;
+  }
+
+  container.innerHTML = items.map(item => {
+    const col = colorMap[item.color] || 'var(--color-text-muted)';
+    const icon = typeIconMap[item.type] || 'circle';
+    const isToday = item.type === 'today';
+    return `
+      <div class="week-agenda-item${isToday ? ' week-agenda-item--today' : ''}" data-id="${item.id}">
+        <span class="week-agenda-day">${item.dayLabel}</span>
+        <span class="week-agenda-dot" style="background:${col}" aria-hidden="true"></span>
+        <span class="week-agenda-title">${item.title}</span>
+      </div>
+    `;
+  }).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================
@@ -356,39 +333,37 @@ function renderUpcomingExperiences() {
   if (!grid) return;
 
   const statusMap = {
-    confirmed: { label: 'Bekräftad', cls: 'badge-success' },
-    draft:     { label: 'Utkast',    cls: 'badge-warning' },
-    cancelled: { label: 'Avbruten',  cls: 'badge-danger'  },
+    active:    { label: 'AKTIV',    cls: 'badge-success' },
+    planned:   { label: 'PLANERAD', cls: 'badge-warning' },
+    cancelled: { label: 'AVBRUTEN', cls: 'badge-danger'  },
   };
 
   const sorted = [...mockData.upcomingExperiences].sort((a, b) => a.date.localeCompare(b.date));
 
   grid.innerHTML = sorted.map(exp => {
-    const s = statusMap[exp.status] || { label: exp.status, cls: 'badge-info' };
+    const s = statusMap[exp.status] || { label: exp.status.toUpperCase(), cls: 'badge-info' };
+    const dateRange = exp.endDate && exp.endDate !== exp.date
+      ? `${formatDateShort(exp.date)} – ${formatDateShort(exp.endDate)}`
+      : formatDateShort(exp.date);
     return `
-      <article class="card">
-        <div class="card-body">
-          <div class="attention-card-header">
-            <div class="attention-card-titles">
-              <h3 class="attention-card-title">${exp.title}</h3>
-              <p class="attention-card-subtitle">${exp.category}</p>
-            </div>
-            <span class="badge ${s.cls}">${s.label}</span>
-          </div>
-          <ul class="experience-meta" style="list-style:none;padding:0;margin:var(--spacing-sm) 0 0;display:flex;flex-direction:column;gap:4px">
-            <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
-              <i data-feather="calendar" style="width:13px;height:13px;flex-shrink:0"></i>
-              ${exp.date}
-            </li>
-            <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
-              <i data-feather="user-check" style="width:13px;height:13px;flex-shrink:0"></i>
+      <article class="experience-card">
+        <div class="experience-card-row">
+          <div class="experience-card-body">
+            <p class="experience-card-title">${exp.title}</p>
+            <p class="experience-card-meta">
+              <i data-feather="user-check" style="width:12px;height:12px;flex-shrink:0"></i>
               ${exp.guide}
-            </li>
-            <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
-              <i data-feather="users" style="width:13px;height:13px;flex-shrink:0"></i>
+            </p>
+            <p class="experience-card-meta">
+              <i data-feather="calendar" style="width:12px;height:12px;flex-shrink:0"></i>
+              ${dateRange}
+            </p>
+            <p class="experience-card-meta">
+              <i data-feather="users" style="width:12px;height:12px;flex-shrink:0"></i>
               ${exp.participants} deltagare
-            </li>
-          </ul>
+            </p>
+          </div>
+          <span class="badge ${s.cls}">${s.label}</span>
         </div>
       </article>
     `;
@@ -428,54 +403,42 @@ function renderWorkQueue() {
   const container = document.getElementById('work-queue-list');
   if (!container) return;
 
-  const typeMap = {
-    phone:         { icon: 'phone',        label: 'Telefon'      },
-    email:         { icon: 'mail',         label: 'E-post'       },
-    payment:       { icon: 'credit-card',  label: 'Betalning'    },
-    dialogue:      { icon: 'message-circle', label: 'Dialog'     },
-    accommodation: { icon: 'layers',       label: 'Boende'       },
-    planning:      { icon: 'clipboard',    label: 'Planering'    },
-  };
+  const priorityLabelMap = { high: 'HÖG', medium: 'MEDIUM', low: 'LÅG' };
 
-  const priorityClassMap = {
-    high:   'card-danger',
-    medium: 'card-warning',
-    low:    '',
-  };
-
-  const statusMap = {
-    pending: { label: 'Att göra',  cls: 'badge-warning' },
-    overdue: { label: 'Förfallen', cls: 'badge-danger'  },
-    done:    { label: 'Klar',      cls: 'badge-success' },
+  const statusClassMap = {
+    pending: 'wq-status--pending',
+    overdue: 'wq-status--overdue',
+    done:    'wq-status--done',
   };
 
   container.innerHTML = mockData.workQueue.map(item => {
-    const t = typeMap[item.type] || { icon: 'circle', label: item.type };
-    const s = statusMap[item.status] || { label: item.status, cls: 'badge-info' };
-    const pClass = priorityClassMap[item.priority] || '';
+    const priorityLabel = priorityLabelMap[item.priority] || item.priority.toUpperCase();
+    const statusCls = statusClassMap[item.status] || '';
+    const isOverdue = item.status === 'overdue';
     return `
-      <div class="card work-queue-item ${pClass}" data-id="${item.id}" style="margin-bottom:var(--spacing-sm)">
-        <div class="card-body" style="display:flex;align-items:flex-start;gap:var(--spacing-md)">
-          <div class="wq-type-icon" aria-label="${t.label}" title="${t.label}"
-               style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center">
-            <i data-feather="${t.icon}" style="width:15px;height:15px"></i>
+      <div class="wq-item ${isOverdue ? 'wq-item--overdue' : ''}" data-id="${item.id}">
+        <div class="wq-item-row">
+          <input type="checkbox" class="wq-checkbox" data-id="${item.id}"
+                 aria-label="Markera som klar" style="flex-shrink:0;width:15px;height:15px;cursor:pointer;accent-color:var(--color-primary)">
+          <div class="wq-item-body">
+            <p class="wq-item-title">${item.title}</p>
+            <p class="wq-item-context">${item.person} – ${item.context}</p>
           </div>
-          <div style="flex:1;min-width:0">
-            <div style="display:flex;align-items:center;gap:var(--spacing-sm);flex-wrap:wrap;margin-bottom:4px">
-              <h4 style="margin:0;font-size:var(--font-size-sm);font-weight:600">${item.title}</h4>
-              <span class="badge ${s.cls}">${s.label}</span>
-            </div>
-            <p style="margin:0;font-size:var(--font-size-xs);color:var(--color-text-muted)">${item.context}</p>
-            <p style="margin:4px 0 0;font-size:var(--font-size-xs);color:var(--color-text-muted);display:flex;align-items:center;gap:4px">
-              <i data-feather="calendar" style="width:11px;height:11px"></i>
-              ${item.dueDate}
-            </p>
+          <div class="wq-item-meta">
+            <span class="wq-priority wq-priority--${item.priority}">${priorityLabel}</span>
+            <span class="wq-due ${statusCls}">${item.dueDate}</span>
           </div>
-          <button class="btn btn-sm btn-secondary" type="button" style="flex-shrink:0">Öppna</button>
         </div>
       </div>
     `;
   }).join('');
+
+  container.querySelectorAll('.wq-checkbox').forEach(cb => {
+    cb.onchange = function() {
+      const row = this.closest('.wq-item');
+      if (row) row.classList.toggle('wq-item--done', this.checked);
+    };
+  });
 
   if (typeof feather !== 'undefined') feather.replace();
 }
@@ -609,17 +572,17 @@ function renderQuickActions() {
   if (!container) return;
 
   const actions = [
-    { label: 'Ny dialog',     icon: 'message-circle' },
-    { label: 'Ny upplevelse', icon: 'compass'         },
-    { label: 'Ny person',     icon: 'user-plus'       },
-    { label: 'Ny guide',      icon: 'user-check'      },
+    { label: 'Ny dialog',     icon: 'message-circle', href: 'dialog.html'    },
+    { label: 'Ny upplevelse', icon: 'compass',         href: 'upplevelser.html' },
+    { label: 'Ny person',     icon: 'user-plus',       href: '#'              },
+    { label: 'Ny guide',      icon: 'user-check',      href: '#'              },
   ];
 
   container.innerHTML = actions.map(a => `
-    <button class="btn btn-secondary" type="button">
-      <i data-feather="${a.icon}"></i>
+    <a class="quick-action-link" href="${a.href}" role="button">
+      <i data-feather="${a.icon}" style="width:14px;height:14px"></i>
       ${a.label}
-    </button>
+    </a>
   `).join('');
 
   if (typeof feather !== 'undefined') feather.replace();
