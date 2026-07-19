@@ -477,6 +477,78 @@ function renderWorkQueue() {
 }
 
 // ========================================
+// Min arbetskö – sammandrag (hög prioritet)
+// ========================================
+
+function renderWorkQueueSummary() {
+  const container = document.getElementById('oversikt-work-queue');
+  if (!container) return;
+
+  const typeMap = {
+    phone:         { icon: 'phone',          label: 'Telefon'   },
+    email:         { icon: 'mail',            label: 'E-post'    },
+    payment:       { icon: 'credit-card',     label: 'Betalning' },
+    dialogue:      { icon: 'message-circle',  label: 'Dialog'    },
+    accommodation: { icon: 'layers',          label: 'Boende'    },
+    planning:      { icon: 'clipboard',       label: 'Planering' },
+  };
+
+  const statusMap = {
+    pending: { label: 'Att göra',  cls: 'badge-warning' },
+    overdue: { label: 'Förfallen', cls: 'badge-danger'  },
+    done:    { label: 'Klar',      cls: 'badge-success' },
+  };
+
+  const highPriorityItems = mockData.workQueue.filter(item => item.priority === 'high' && item.status !== 'done');
+
+  const statusCardClassMap = {
+    overdue: 'card-danger',
+    pending: 'card-warning',
+  };
+
+  container.innerHTML = highPriorityItems.map(item => {
+    const t = typeMap[item.type] || { icon: 'circle', label: item.type };
+    const s = statusMap[item.status] || { label: item.status, cls: 'badge-info' };
+    const cardCls = statusCardClassMap[item.status] || '';
+    return `
+      <div class="card ${cardCls}" data-id="${item.id}" style="margin-bottom:var(--spacing-sm)">
+        <div class="card-body" style="display:flex;align-items:flex-start;gap:var(--spacing-md)">
+          <div class="wq-type-icon" aria-label="${t.label}" title="${t.label}"
+               style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center">
+            <i data-feather="${t.icon}" style="width:15px;height:15px"></i>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:var(--spacing-sm);flex-wrap:wrap;margin-bottom:4px">
+              <h4 style="margin:0;font-size:var(--font-size-sm);font-weight:600">${item.title}</h4>
+              <span class="badge ${s.cls}">${s.label}</span>
+            </div>
+            <p style="margin:0;font-size:var(--font-size-xs);color:var(--color-text-muted)">${item.context}</p>
+          </div>
+          <button class="btn btn-sm btn-tertiary" data-action="open" data-id="${item.id}" type="button">Öppna</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+// ========================================
+// Översikt – sammansättning av workspace
+// ========================================
+
+function renderOversikt() {
+  renderSidebar();
+  renderHeader();
+  renderInfoBanner();
+  renderOperationalCalendar();
+  renderWeekAgenda();
+  renderUpcomingExperiences();
+  renderWorkQueueSummary();
+  renderQuickActions();
+}
+
+// ========================================
 // Dagliga uppgifter – inline redigerbara
 // ========================================
 

@@ -721,6 +721,7 @@ const dialogues = [
 // ========================================
 
 const navigationItems = [
+  { id: 'nav-0',  label: 'Översikt',      featherIcon: 'layout',        page: 'oversikt'      },
   { id: 'nav-1',  label: 'Arbetsdag',     featherIcon: 'home',          page: 'arbetsdag'     },
   { id: 'nav-12', label: 'Dialoger',       featherIcon: 'message-circle', page: 'dialog'       },
   { id: 'nav-2',  label: 'Upplevelser',   featherIcon: 'compass',       page: 'upplevelser'   },
