@@ -25,12 +25,16 @@
       </section>
 
       <section class="content-section" aria-labelledby="accommodation-register-heading">
+        <div id="register-selection-banner" hidden></div>
         <div class="products-toolbar">
-          <label class="search-box" for="accommodation-search">
-            <i data-feather="search" style="width:16px;height:16px;color:var(--color-text-dark)" aria-hidden="true"></i>
-            <input type="search" id="accommodation-search" placeholder="Sök region eller boende..." aria-label="Sök i boenderegister">
-          </label>
-          <a href="accommodations-add.html" class="btn btn-primary">
+          <div class="register-toolbar-controls">
+            <label class="search-box" for="accommodation-search">
+              <i data-feather="search" style="width:16px;height:16px;color:var(--color-text-dark)" aria-hidden="true"></i>
+              <input type="search" id="accommodation-search" placeholder="Sök region eller boende..." aria-label="Sök i boenderegister">
+            </label>
+            <select id="accommodation-filter" class="form-input" aria-label="Filtrera registerinnehåll" hidden></select>
+          </div>
+          <a href="accommodations-add.html" class="btn btn-primary" id="accommodation-create-action">
             <i data-feather="plus" style="width:16px;height:16px"></i>
             Lägg till boende
           </a>
@@ -50,6 +54,7 @@
   <script src="js/mock-data.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/register-selection.js"></script>
   <script src="js/accommodation-register.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {

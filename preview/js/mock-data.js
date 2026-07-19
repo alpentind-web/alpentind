@@ -812,6 +812,10 @@ const planningProjects = [
     openQuestionsLabel: '3 frågor återstår',
     planningAreas: {
       accommodation: {
+        selectedAccommodationRefs: [
+          { registerId: 'accommodation', regionSlug: 'franska-alperna', objectId: 'hotel-bonatti' },
+          { registerId: 'accommodation', regionSlug: 'franska-alperna', objectId: 'auberge-la-nova' },
+        ],
         questions: {
           'bookable-all-stages': 'answered',
           'sufficient-capacity': 'unanswered',

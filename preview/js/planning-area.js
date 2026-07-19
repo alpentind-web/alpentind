@@ -3,6 +3,7 @@ const planningEnvironmentState = {
   projectTitle: '',
   area: null,
   questionStatus: {},
+  selectedAccommodationRefs: [],
 };
 
 function getPlanningProject(projectId) {
@@ -10,15 +11,50 @@ function getPlanningProject(projectId) {
   return projects.find(project => project.id === projectId) || null;
 }
 
-function buildQuestionStatus(areaTemplate, projectAreaState) {
+function getAccommodationRegisterData() {
+  return (mockData && mockData.accommodationRegister) || { regions: [] };
+}
+
+function buildQuestionStatus(areaTemplate, projectAreaState, selectionState) {
   const result = {};
   const projectQuestions = (projectAreaState && projectAreaState.questions) || {};
+  const selectionQuestions = (selectionState && selectionState.questionStatus) || {};
 
   areaTemplate.questions.forEach(question => {
-    result[question.id] = projectQuestions[question.id] === 'answered' ? 'answered' : 'unanswered';
+    const sourceValue = selectionQuestions[question.id] || projectQuestions[question.id];
+    result[question.id] = sourceValue === 'answered' ? 'answered' : 'unanswered';
   });
 
   return result;
+}
+
+function getSelectedAccommodationRefs(projectAreaState, selectionState) {
+  const sourceRefs = (selectionState && selectionState.selectedAccommodationRefs)
+    || (projectAreaState && projectAreaState.selectedAccommodationRefs)
+    || [];
+
+  return sourceRefs.map(function(reference) {
+    return Object.assign({}, reference);
+  });
+}
+
+function resolveAccommodationReference(reference) {
+  const regions = getAccommodationRegisterData().regions || [];
+  const region = regions.find(function(regionItem) {
+    if (reference && reference.regionSlug) {
+      return regionItem.slug === reference.regionSlug;
+    }
+
+    return (regionItem.accommodations || []).some(function(accommodation) {
+      return accommodation.id === (reference && reference.objectId);
+    });
+  }) || null;
+
+  const accommodation = ((region && region.accommodations) || []).find(function(accommodationItem) {
+    return accommodationItem.id === (reference && reference.objectId);
+  }) || null;
+
+  return region && accommodation ? { region, accommodation } : null;
 }
 
 function getUnansweredQuestions(area, questionStatus) {
@@ -36,13 +72,15 @@ function renderPlanningProjectEnvironment(projectId) {
   const project = getPlanningProject(projectId);
   const area = (mockData && mockData.planningAreaTemplates && mockData.planningAreaTemplates.accommodation) || null;
   const projectAreaState = project && project.planningAreas ? project.planningAreas.accommodation : null;
+  const selectionState = typeof getSelectionStateFromUrl === 'function' ? getSelectionStateFromUrl() : null;
 
   if (!area) return;
 
   planningEnvironmentState.projectId = projectId;
   planningEnvironmentState.projectTitle = project ? project.title : 'Nytt planeringsuppdrag';
   planningEnvironmentState.area = area;
-  planningEnvironmentState.questionStatus = buildQuestionStatus(area, projectAreaState);
+  planningEnvironmentState.questionStatus = buildQuestionStatus(area, projectAreaState, selectionState);
+  planningEnvironmentState.selectedAccommodationRefs = getSelectedAccommodationRefs(projectAreaState, selectionState);
 
   renderPlanningProjectHeader();
   renderPlanningArea();
@@ -69,6 +107,9 @@ function renderPlanningArea() {
   const unansweredQuestions = getUnansweredQuestions(area, planningEnvironmentState.questionStatus);
   const currentSituation = getCurrentSituationLabel(area, planningEnvironmentState.questionStatus);
   const blockerItems = unansweredQuestions.map(question => '<li>' + question.blocker + '</li>').join('');
+  const selectedAccommodationItems = planningEnvironmentState.selectedAccommodationRefs
+    .map(renderSelectedAccommodationReference)
+    .join('');
 
   const purposeSection = `
     <article class="card planning-area-card" aria-labelledby="planning-purpose-heading">
@@ -90,6 +131,24 @@ function renderPlanningArea() {
         <ul class="planning-question-list">
           ${area.questions.map(question => renderPlanningQuestion(question)).join('')}
         </ul>
+      </div>
+    </article>
+  `;
+
+  const selectedAccommodationSection = `
+    <article class="card planning-area-card" aria-labelledby="selected-accommodation-heading">
+      <div class="card-header">
+        <h3 id="selected-accommodation-heading">Selected Accommodation</h3>
+        <span class="badge ${planningEnvironmentState.selectedAccommodationRefs.length > 0 ? 'badge-success' : 'badge-warning'}">
+          ${planningEnvironmentState.selectedAccommodationRefs.length > 0 ? planningEnvironmentState.selectedAccommodationRefs.length + ' referenser' : 'Inga valda referenser'}
+        </span>
+      </div>
+      <div class="card-body">
+        <p class="text-sm text-muted">Planning references register objects. Accommodation Register remains source of truth.</p>
+        ${selectedAccommodationItems ? `<ul class="planning-selection-list">${selectedAccommodationItems}</ul>` : '<p class="planning-selection-empty">Inga boendereferenser har valts ännu.</p>'}
+        <div class="planning-selection-actions">
+          <button class="btn btn-primary" type="button" onclick="openAccommodationSelection()">Select Accommodation</button>
+        </div>
       </div>
     </article>
   `;
@@ -133,6 +192,7 @@ function renderPlanningArea() {
   container.innerHTML = `
     <section class="planning-area-layout" aria-label="Accommodation Planning Area">
       ${purposeSection}
+      ${selectedAccommodationSection}
       ${questionsSection}
       ${currentSituationSection}
       ${dependenciesSection}
@@ -162,8 +222,57 @@ function renderPlanningQuestion(question) {
   `;
 }
 
+function renderSelectedAccommodationReference(reference) {
+  const resolvedReference = resolveAccommodationReference(reference);
+
+  if (!resolvedReference) {
+    return `
+      <li class="planning-selection-item">
+        <div>
+          <p class="planning-selection-title">Okänd referens</p>
+          <p class="planning-selection-context">Accommodation reference kunde inte lösas från registret.</p>
+        </div>
+      </li>
+    `;
+  }
+
+  return `
+    <li class="planning-selection-item">
+      <div>
+        <p class="planning-selection-title">${resolvedReference.accommodation.name}</p>
+        <p class="planning-selection-context">${resolvedReference.region.name} · ${resolvedReference.accommodation.type} · ${resolvedReference.accommodation.place}</p>
+      </div>
+      <span class="planning-selection-status">${resolvedReference.accommodation.readiness}</span>
+    </li>
+  `;
+}
+
 function togglePlanningQuestion(questionId) {
   const currentValue = planningEnvironmentState.questionStatus[questionId];
   planningEnvironmentState.questionStatus[questionId] = currentValue === 'answered' ? 'unanswered' : 'answered';
   renderPlanningArea();
+}
+
+function openAccommodationSelection() {
+  const selectionContext = {
+    returnTo: 'planering-projekt.html',
+    returnLabel: 'Return to Planning',
+    source: {
+      type: 'planning-area',
+      label: planningEnvironmentState.projectTitle,
+      areaId: planningEnvironmentState.area ? planningEnvironmentState.area.id : 'accommodation',
+      areaLabel: planningEnvironmentState.area ? planningEnvironmentState.area.title : 'Accommodation',
+    },
+    state: {
+      projectId: planningEnvironmentState.projectId,
+      questionStatus: planningEnvironmentState.questionStatus,
+      selectedAccommodationRefs: planningEnvironmentState.selectedAccommodationRefs,
+    },
+  };
+
+  const href = typeof buildRegisterSelectionUrl === 'function'
+    ? buildRegisterSelectionUrl('accommodations.html', selectionContext)
+    : 'accommodations.html?mode=select';
+
+  window.location.href = href;
 }
