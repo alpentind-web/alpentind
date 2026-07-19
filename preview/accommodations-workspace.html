@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accommodation Workspace – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="accommodations-workspace-page">
+
+      <section class="page-header" aria-labelledby="accommodation-workspace-title">
+        <nav class="workspace-nav" id="accommodation-workspace-nav" aria-label="Navigeringsstig"></nav>
+        <h1 id="accommodation-workspace-title">Accommodation Workspace</h1>
+        <p class="text-muted" id="accommodation-workspace-description"></p>
+      </section>
+
+      <section class="content-section" aria-labelledby="accommodation-workspace-summary-heading">
+        <div class="section-header">
+          <h2 id="accommodation-workspace-summary-heading">Handoff target</h2>
+        </div>
+        <p class="text-muted">
+          Workspace-implementationen ligger utanför ESR-007 Stage 1. Detta mål verifierar en komplett navigationskedja från register till workspace.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    function findAccommodationById(region, accommodationId) {
+      return ((region && region.accommodations) || []).find(function(accommodation) {
+        return accommodation.id === accommodationId;
+      }) || null;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-6');
+
+      const params = new URLSearchParams(window.location.search);
+      const regionSlug = params.get('region');
+      const accommodationId = params.get('accommodation');
+      const regions = (mockData && mockData.accommodationRegister && mockData.accommodationRegister.regions) || [];
+      const region = regions.find(function(item) { return item.slug === regionSlug; }) || null;
+      const accommodation = findAccommodationById(region, accommodationId);
+
+      const nav = document.getElementById('accommodation-workspace-nav');
+      const title = document.getElementById('accommodation-workspace-title');
+      const description = document.getElementById('accommodation-workspace-description');
+
+      if (!nav || !title || !description) return;
+
+      if (!region || !accommodation) {
+        nav.innerHTML = `
+          <a href="accommodations.html" class="link">Boenden</a>
+          <span aria-hidden="true">›</span>
+          <span>Workspace</span>
+        `;
+        title.textContent = 'Accommodation Workspace';
+        description.textContent = 'Boendet kunde inte identifieras i mock-data.';
+        return;
+      }
+
+      nav.innerHTML = `
+        <a href="accommodations.html" class="link">Boenden</a>
+        <span aria-hidden="true">›</span>
+        <a href="accommodations.html?region=${encodeURIComponent(region.slug)}" class="link">${region.name}</a>
+        <span aria-hidden="true">›</span>
+        <span>${accommodation.name}</span>
+      `;
+      title.textContent = accommodation.name;
+      description.textContent = `${accommodation.type} i ${accommodation.place}. Workspace kommer i nästa steg efter Product Owner-gate.`;
+    });
+  </script>
+</body>
+</html>

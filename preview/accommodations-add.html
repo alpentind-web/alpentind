@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lägg till boende – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="accommodations-add-page">
+
+      <section class="page-header" aria-labelledby="accommodation-add-title">
+        <nav class="workspace-nav" aria-label="Navigeringsstig">
+          <a href="accommodations.html" class="link">Boenden</a>
+          <span aria-hidden="true">›</span>
+          <span>Lägg till boende</span>
+        </nav>
+        <h1 id="accommodation-add-title">Lägg till boende</h1>
+        <p class="text-muted">Deliberat manuell registrering för kvalitetssäkrad katalogförvaltning.</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="accommodation-add-summary-heading">
+        <div class="section-header">
+          <h2 id="accommodation-add-summary-heading">Manuell registrering</h2>
+        </div>
+        <p class="text-muted">
+          Denna ingångspunkt representerar manuell tillförsel till registret. Synkronisering, import och AI-generering är avsiktligt uteslutet i detta steg.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-6');
+    });
+  </script>
+</body>
+</html>

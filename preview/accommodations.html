@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boenden – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="accommodations-page">
+
+      <section class="page-header" aria-labelledby="accommodations-title">
+        <nav class="workspace-nav" id="accommodation-breadcrumb" aria-label="Navigeringsstig"></nav>
+        <h1 id="accommodations-title"></h1>
+        <p class="text-muted" id="accommodations-description"></p>
+      </section>
+
+      <section class="content-section" aria-labelledby="accommodation-register-heading">
+        <div class="products-toolbar">
+          <label class="search-box" for="accommodation-search">
+            <i data-feather="search" style="width:16px;height:16px;color:var(--color-text-dark)" aria-hidden="true"></i>
+            <input type="search" id="accommodation-search" placeholder="Sök region eller boende..." aria-label="Sök i boenderegister">
+          </label>
+          <a href="accommodations-add.html" class="btn btn-primary">
+            <i data-feather="plus" style="width:16px;height:16px"></i>
+            Lägg till boende
+          </a>
+        </div>
+
+        <div class="section-header">
+          <h2 id="accommodation-register-heading"></h2>
+        </div>
+        <p class="text-muted" id="accommodation-register-meta"></p>
+        <div class="register-list" id="accommodation-register-list" role="list"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/accommodation-register.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-6');
+      renderAccommodationRegister();
+    });
+  </script>
+</body>
+</html>
