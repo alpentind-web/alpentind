@@ -141,9 +141,12 @@ function renderRegisterSelectionBanner(containerId, config) {
   }
 
   const source = selectionContext.source || {};
-  const sourceParts = [source.label, source.areaLabel].filter(Boolean).map(escapePreviewHtml);
+  const sourceParts = [source.label, source.areaLabel]
+    .map(function(part) { return String(part || '').trim(); })
+    .filter(Boolean)
+    .map(escapePreviewHtml);
   const description = (config && config.description)
-    || 'Locate existing register objects and return references without leaving the originating workflow.';
+    || 'Locate existing register objects and return references without leaving the original workflow.';
   const returnLabel = (selectionContext && selectionContext.returnLabel) || 'Return';
   const returnHref = buildRegisterReturnUrl(
     selectionContext,

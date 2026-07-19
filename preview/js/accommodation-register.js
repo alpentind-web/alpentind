@@ -6,20 +6,24 @@ function normalizeRegisterText(value) {
   return (value || '').toLocaleLowerCase('sv-SE');
 }
 
-function buildRegisterRow(link, primary, context, status, openLabel) {
-  const escapeHtml = typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
+function getEscapeHtml() {
+  return typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
+}
+
+function buildRegisterRow(options) {
+  const escapeHtml = getEscapeHtml();
   return `
-    <a href="${escapeHtml(link)}" class="register-row" role="listitem">
-      <div class="register-row-primary">${escapeHtml(primary)}</div>
-      <div class="register-row-context">${escapeHtml(context)}</div>
-      <div class="register-row-status">${escapeHtml(status)}</div>
-      <div class="register-row-open">${escapeHtml(openLabel || '→')}</div>
+    <a href="${escapeHtml(options.link)}" class="register-row" role="listitem">
+      <div class="register-row-primary">${escapeHtml(options.primary)}</div>
+      <div class="register-row-context">${escapeHtml(options.context)}</div>
+      <div class="register-row-status">${escapeHtml(options.status)}</div>
+      <div class="register-row-open">${escapeHtml(options.openLabel || '→')}</div>
     </a>
   `;
 }
 
 function renderRegisterRows(container, rows, emptyState) {
-  const escapeHtml = typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
+  const escapeHtml = getEscapeHtml();
   container.innerHTML = rows.length > 0
     ? rows.join('')
     : `
@@ -125,7 +129,7 @@ function renderAccommodationRegister() {
   createAction.hidden = isSelectionMode;
 
   const filterOptions = getAccommodationFilterOptions(selectedRegion);
-  const escapeHtml = typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
+  const escapeHtml = getEscapeHtml();
   filter.innerHTML = filterOptions.map(function(option) {
     return `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`;
   }).join('');
@@ -160,15 +164,15 @@ function renderAccommodationRegister() {
         })
         .map(function(region) {
           const countLabel = `${region.accommodations.length} boenden`;
-          return buildRegisterRow(
-            typeof buildRegisterViewUrl === 'function'
+          return buildRegisterRow({
+            link: typeof buildRegisterViewUrl === 'function'
               ? buildRegisterViewUrl('accommodations.html', viewState, { region: region.slug })
               : `accommodations.html?region=${encodeURIComponent(region.slug)}`,
-            region.name,
-            `${countLabel} registrerade`,
-            isSelectionMode ? 'Fortsätt till val' : 'Öppna region',
-            '→'
-          );
+            primary: region.name,
+            context: `${countLabel} registrerade`,
+            status: isSelectionMode ? 'Fortsätt till val' : 'Öppna region',
+            openLabel: '→',
+          });
         });
 
       renderRegisterRows(list, rows, {
@@ -228,13 +232,13 @@ function renderAccommodationRegister() {
           ? buildRegisterReturnUrl(selectionContext, returnState)
           : workspaceHref;
 
-        return buildRegisterRow(
-          isSelectionMode ? selectionHref : workspaceHref,
-          accommodation.name,
-          `${accommodation.type} · ${accommodation.place}`,
-          isSelectionMode ? `Select · ${accommodation.readiness}` : accommodation.readiness,
-          isSelectionMode ? '↩' : '→'
-        );
+        return buildRegisterRow({
+          link: isSelectionMode ? selectionHref : workspaceHref,
+          primary: accommodation.name,
+          context: `${accommodation.type} · ${accommodation.place}`,
+          status: isSelectionMode ? `Select · ${accommodation.readiness}` : accommodation.readiness,
+          openLabel: isSelectionMode ? '↩' : '→',
+        });
       });
 
     renderRegisterRows(list, rows, {

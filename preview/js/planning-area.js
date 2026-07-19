@@ -147,7 +147,7 @@ function renderPlanningArea() {
         <p class="text-sm text-muted">Planning references register objects. Accommodation Register remains source of truth.</p>
         ${selectedAccommodationItems ? `<ul class="planning-selection-list">${selectedAccommodationItems}</ul>` : '<p class="planning-selection-empty">Inga boendereferenser har valts ännu.</p>'}
         <div class="planning-selection-actions">
-          <button class="btn btn-primary" type="button" onclick="openAccommodationSelection()">Select Accommodation</button>
+          <button class="btn btn-primary" type="button" onclick="openAccommodationSelection()" aria-label="Open accommodation selection mode">Select Accommodation</button>
         </div>
       </div>
     </article>
@@ -224,6 +224,7 @@ function renderPlanningQuestion(question) {
 
 function renderSelectedAccommodationReference(reference) {
   const resolvedReference = resolveAccommodationReference(reference);
+  const escapeHtml = typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
 
   if (!resolvedReference) {
     return `
@@ -239,10 +240,10 @@ function renderSelectedAccommodationReference(reference) {
   return `
     <li class="planning-selection-item">
       <div>
-        <p class="planning-selection-title">${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.name) : resolvedReference.accommodation.name}</p>
-        <p class="planning-selection-context">${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.region.name) : resolvedReference.region.name} · ${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.type) : resolvedReference.accommodation.type} · ${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.place) : resolvedReference.accommodation.place}</p>
+        <p class="planning-selection-title">${escapeHtml(resolvedReference.accommodation.name)}</p>
+        <p class="planning-selection-context">${escapeHtml(resolvedReference.region.name)} · ${escapeHtml(resolvedReference.accommodation.type)} · ${escapeHtml(resolvedReference.accommodation.place)}</p>
       </div>
-      <span class="planning-selection-status">${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.readiness) : resolvedReference.accommodation.readiness}</span>
+      <span class="planning-selection-status">${escapeHtml(resolvedReference.accommodation.readiness)}</span>
     </li>
   `;
 }
