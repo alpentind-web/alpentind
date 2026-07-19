@@ -91,29 +91,6 @@ function renderHeader() {
       </div>
     </div>
     <div class="header-right">
-      <div class="header-stats" aria-label="Daglig statistik">
-        <div class="stat-item">
-          <span class="stat-icon" aria-hidden="true">
-            <i data-feather="check-square" style="width:18px;height:18px"></i>
-          </span>
-          <p class="stat-label">Uppgifter</p>
-          <p class="stat-value">${mockData.dashboardStats.tasks}</p>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon" aria-hidden="true">
-            <i data-feather="calendar" style="width:18px;height:18px"></i>
-          </span>
-          <p class="stat-label">Bokningar</p>
-          <p class="stat-value">${mockData.dashboardStats.bookings}</p>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon" aria-hidden="true">
-            <i data-feather="alert-triangle" style="width:18px;height:18px"></i>
-          </span>
-          <p class="stat-label">Varningar</p>
-          <p class="stat-value">${mockData.dashboardStats.warnings}</p>
-        </div>
-      </div>
       <div class="header-actions">
         <label class="search-box" for="header-search">
           <i data-feather="search" style="width:16px;height:16px;color:var(--color-text-dark)" aria-hidden="true"></i>
@@ -140,37 +117,26 @@ function renderInfoBanner() {
   const banner = document.getElementById('info-banner');
   if (!banner) return;
 
-  const daysUntilNext = daysBetween(new Date(), new Date(mockData.dashboardStats.nextDeparture));
-  const daysLabel = daysUntilNext === 0
-    ? 'Avgång idag'
-    : daysUntilNext === 1
-      ? 'Nästa avgång imorgon'
-      : `Nästa avgång om ${daysUntilNext} dagar`;
+  const attentionCount = (mockData.attentionItems || []).length;
+  const highPriority = (mockData.workQueue || []).filter(item => item.priority === 'high' && item.status !== 'done').length;
+  const todayItems = (mockData.workQueue || []).filter(item => item.dueDate === '2026-07-19').length;
 
   banner.innerHTML = `
-    <span class="info-banner-label">Idag</span>
+    <span class="info-banner-label">Lägesbild</span>
     <div class="info-banner-divider" aria-hidden="true"></div>
     <div class="info-banner-item">
-      <i data-feather="check-circle" style="width:14px;height:14px"></i>
-      <strong>${mockData.dashboardStats.tasks}</strong>&nbsp;uppgifter
+      <i data-feather="alert-circle" style="width:14px;height:14px"></i>
+      <strong>${attentionCount}</strong>&nbsp;saker kräver din uppmärksamhet idag
     </div>
     <div class="info-banner-divider" aria-hidden="true"></div>
     <div class="info-banner-item">
-      <i data-feather="bookmark" style="width:14px;height:14px"></i>
-      <strong>${mockData.dashboardStats.bookings}</strong>&nbsp;nya bokningar
+      <i data-feather="flag" style="width:14px;height:14px"></i>
+      <strong>${highPriority}</strong>&nbsp;ärenden med hög prioritet
     </div>
     <div class="info-banner-divider" aria-hidden="true"></div>
     <div class="info-banner-item">
-      <i data-feather="navigation" style="width:14px;height:14px"></i>
-      ${daysLabel}
-    </div>
-    <div class="info-banner-divider" aria-hidden="true"></div>
-    <div class="info-banner-item ${mockData.dashboardStats.warnings > 0 ? 'warning' : 'success'}">
-      <i data-feather="${mockData.dashboardStats.warnings > 0 ? 'alert-triangle' : 'sun'}"
-         style="width:14px;height:14px"></i>
-      ${mockData.dashboardStats.warnings > 0
-        ? `<strong>${mockData.dashboardStats.warnings}</strong>&nbsp;vädervarning${mockData.dashboardStats.warnings !== 1 ? 'ar' : ''}`
-        : 'Inga vädervarningar'}
+      <i data-feather="clock" style="width:14px;height:14px"></i>
+      <strong>${todayItems}</strong>&nbsp;saker planerade idag
     </div>
   `;
 
@@ -186,11 +152,10 @@ function renderDashboard() {
   renderHeader();
   renderInfoBanner();
   renderOperationalCalendar();
+  renderWeekAgenda();
   renderAttentionSection();
   renderUpcomingExperiences();
-  renderOngoingDialogues();
   renderWorkQueue();
-  renderTodoList();
   renderQuickActions();
 }
 
@@ -230,10 +195,10 @@ function createAttentionCard({ id, title, subtitle, status, description, action,
           </div>
           ${badge ? `<span class="badge badge-warning">${badge}</span>` : ''}
         </div>
-        <p class="attention-card-description">${description}</p>
+        ${description ? `<p class="attention-card-description">${description}</p>` : ''}
         <div class="attention-card-footer">
           <span class="badge ${statusInfo.cls}">${statusInfo.label}</span>
-          ${action ? `<button class="btn btn-sm btn-primary" type="button">${action}</button>` : ''}
+          ${action ? `<button class="btn btn-sm btn-tertiary" type="button">${action}</button>` : ''}
         </div>
       </div>
     </article>
@@ -248,8 +213,8 @@ function renderOperationalCalendar() {
   const container = document.getElementById('operational-calendar');
   if (!container) return;
 
-  // Build calendar for current month view (centered on July 2027 for mock data)
-  const viewYear = 2027;
+  // Build calendar for current month view (centered on July 2026 for mock data)
+  const viewYear = 2026;
   const viewMonth = 6; // July (0-indexed)
   const monthNames = [
     'Januari','Februari','Mars','April','Maj','Juni',
@@ -281,7 +246,7 @@ function renderOperationalCalendar() {
 
   // Build day cells
   // Mock "today" within the calendar month to demonstrate the today-highlight feature
-  const mockToday = 14; // 14 July 2027
+  const mockToday = 19; // 19 July 2026
 
   let cells = '';
 
@@ -337,6 +302,33 @@ function renderOperationalCalendar() {
   `;
 }
 
+function renderWeekAgenda() {
+  const container = document.getElementById('week-agenda-list');
+  if (!container) return;
+
+  const agenda = mockData.weekAgenda || [];
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-body">
+        <p class="text-xs text-muted" style="margin:0 0 var(--spacing-sm)">v. 29 • 13–19 juli 2026</p>
+        <div class="week-agenda-list">
+          ${agenda.map(item => `
+            <article class="week-agenda-item">
+              <div>
+                <p class="week-agenda-date">${item.dateLabel}</p>
+                <h4 class="week-agenda-title">${item.title}</h4>
+                <p class="week-agenda-meta">${item.assignment}</p>
+              </div>
+              <span class="badge ${item.status === 'planned' ? 'badge-info' : 'badge-warning'}">${item.status === 'planned' ? 'Planerad' : 'Pågår'}</span>
+            </article>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 // ========================================
 // Kräver uppmärksamhet
 // ========================================
@@ -356,9 +348,8 @@ function renderUpcomingExperiences() {
   if (!grid) return;
 
   const statusMap = {
-    confirmed: { label: 'Bekräftad', cls: 'badge-success' },
-    draft:     { label: 'Utkast',    cls: 'badge-warning' },
-    cancelled: { label: 'Avbruten',  cls: 'badge-danger'  },
+    active:  { label: 'AKTIV',    cls: 'badge-success' },
+    planned: { label: 'PLANERAD', cls: 'badge-info'    },
   };
 
   const sorted = [...mockData.upcomingExperiences].sort((a, b) => a.date.localeCompare(b.date));
@@ -378,11 +369,11 @@ function renderUpcomingExperiences() {
           <ul class="experience-meta" style="list-style:none;padding:0;margin:var(--spacing-sm) 0 0;display:flex;flex-direction:column;gap:4px">
             <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
               <i data-feather="calendar" style="width:13px;height:13px;flex-shrink:0"></i>
-              ${exp.date}
+              ${exp.dateRange || exp.date}
             </li>
             <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
               <i data-feather="user-check" style="width:13px;height:13px;flex-shrink:0"></i>
-              ${exp.guide}
+              Guide: ${exp.guide}
             </li>
             <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
               <i data-feather="users" style="width:13px;height:13px;flex-shrink:0"></i>
@@ -456,6 +447,7 @@ function renderWorkQueue() {
     return `
       <div class="card work-queue-item ${pClass}" data-id="${item.id}" style="margin-bottom:var(--spacing-sm)">
         <div class="card-body" style="display:flex;align-items:flex-start;gap:var(--spacing-md)">
+          <input type="checkbox" aria-label="Markera ${item.title} som klar" ${item.status === 'done' ? 'checked' : ''} style="margin-top:2px;cursor:pointer">
           <div class="wq-type-icon" aria-label="${t.label}" title="${t.label}"
                style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center">
             <i data-feather="${t.icon}" style="width:15px;height:15px"></i>
@@ -470,8 +462,12 @@ function renderWorkQueue() {
               <i data-feather="calendar" style="width:11px;height:11px"></i>
               ${item.dueDate}
             </p>
+            <p style="margin:4px 0 0;font-size:var(--font-size-xs);color:var(--color-text-muted)">${item.association}</p>
           </div>
-          <button class="btn btn-sm btn-secondary" type="button" style="flex-shrink:0">Öppna</button>
+          <div style="display:flex;gap:var(--spacing-xs);flex-shrink:0">
+            <button class="btn btn-sm btn-tertiary" type="button">Öppna</button>
+            <button class="btn btn-sm btn-secondary" type="button">Påminn</button>
+          </div>
         </div>
       </div>
     `;
@@ -616,7 +612,7 @@ function renderQuickActions() {
   ];
 
   container.innerHTML = actions.map(a => `
-    <button class="btn btn-secondary" type="button">
+    <button class="btn btn-tertiary btn-sm" type="button">
       <i data-feather="${a.icon}"></i>
       ${a.label}
     </button>

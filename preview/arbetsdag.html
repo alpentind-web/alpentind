@@ -21,65 +21,51 @@
   <main class="main" id="main-content">
     <div class="page active" id="arbetsdag-page">
 
-      <!-- Informationsbanner – diskret dagsöversikt -->
-      <div class="info-banner" id="info-banner" role="status" aria-label="Dagens översikt"></div>
+      <!-- Lägesbild -->
+      <div class="info-banner" id="info-banner" role="status" aria-label="Lägesbild"></div>
 
-      <!-- Operationell kalender -->
-      <section class="content-section" aria-labelledby="calendar-heading">
-        <div class="section-header">
-          <h2 id="calendar-heading">Kalender</h2>
+      <div class="arbetsdag-workspace">
+        <div class="arbetsdag-column">
+          <section class="content-section" aria-labelledby="attention-heading">
+            <div class="section-header">
+              <h2 id="attention-heading">Kräver din uppmärksamhet</h2>
+            </div>
+            <div id="attention-grid"></div>
+          </section>
         </div>
-        <div id="operational-calendar"></div>
-      </section>
 
-      <!-- Kräver uppmärksamhet -->
-      <section class="content-section" aria-labelledby="attention-heading">
-        <div class="section-header">
-          <h2 id="attention-heading">Kräver uppmärksamhet</h2>
-        </div>
-        <div class="grid grid-3" id="attention-grid"></div>
-      </section>
+        <div class="arbetsdag-column">
+          <section class="content-section" aria-labelledby="calendar-heading">
+            <div class="section-header">
+              <h2 id="calendar-heading">Planeringskalender</h2>
+            </div>
+            <div id="operational-calendar"></div>
+          </section>
 
-      <!-- Kommande upplevelser -->
-      <section class="content-section" aria-labelledby="experiences-heading">
-        <div class="section-header">
-          <h2 id="experiences-heading">Kommande upplevelser</h2>
-          <a href="upplevelser.html" class="link">Visa alla →</a>
+          <section class="content-section" aria-labelledby="agenda-heading">
+            <div class="section-header">
+              <h2 id="agenda-heading">Veckoagenda</h2>
+            </div>
+            <div id="week-agenda-list"></div>
+          </section>
         </div>
-        <div class="grid grid-3" id="experiences-grid"></div>
-      </section>
 
-      <!-- Pågående dialoger -->
-      <section class="content-section" aria-labelledby="dialogues-heading">
-        <div class="section-header">
-          <h2 id="dialogues-heading">Pågående dialoger</h2>
-          <a href="#" class="link">Visa alla →</a>
-        </div>
-        <div id="dialogues-list" role="list"></div>
-      </section>
+        <div class="arbetsdag-column">
+          <section class="content-section" aria-labelledby="workqueue-heading">
+            <div class="section-header">
+              <h2 id="workqueue-heading">Min arbetskö</h2>
+            </div>
+            <div id="work-queue-list"></div>
+          </section>
 
-      <!-- Min arbetskö -->
-      <section class="content-section" aria-labelledby="workqueue-heading">
-        <div class="section-header">
-          <h2 id="workqueue-heading">Min arbetskö</h2>
+          <section class="content-section" aria-labelledby="experiences-heading">
+            <div class="section-header">
+              <h2 id="experiences-heading">Kommande upplevelser</h2>
+            </div>
+            <div id="experiences-grid"></div>
+          </section>
         </div>
-        <div id="work-queue-list"></div>
-      </section>
-
-      <!-- Dagens uppgifter – inline redigerbara -->
-      <section class="content-section" aria-labelledby="todos-heading">
-        <div class="section-header">
-          <h2 id="todos-heading">Dagens uppgifter</h2>
-        </div>
-        <div id="todo-list" class="todo-list" aria-label="Dagens uppgifter"></div>
-        <div class="todo-add-row">
-          <input type="text" id="todo-new-input" class="todo-new-input" placeholder="Lägg till uppgift…" aria-label="Ny uppgift">
-          <button class="btn btn-sm btn-primary" id="todo-add-btn" type="button">
-            <i data-feather="plus" style="width:14px;height:14px"></i>
-            Lägg till
-          </button>
-        </div>
-      </section>
+      </div>
 
       <!-- Snabbåtgärder -->
       <section class="content-section" aria-labelledby="quickactions-heading">
