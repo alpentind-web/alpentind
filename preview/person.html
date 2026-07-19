@@ -46,10 +46,8 @@
             <div class="card-header">
               <h2 id="relationsoversikt-heading">Relationsöversikt</h2>
             </div>
-            <div class="card-body">
-              <div class="placeholder stage-2">
-                <p>Relationship overview will be implemented in Stage 2</p>
-              </div>
+            <div class="card-body" id="relationsöversikt-content">
+              <!-- Populated by renderRelationsöversikt() -->
             </div>
           </section>
 
@@ -135,20 +133,59 @@
         type: 'Deltagare',
         trip: 'AlpenTind Sommerkurs 2026',
         avatar: 'A',
+        // Relationsöversikt
+        tripDates: 'July 19–27, 2026',
+        coordinator: 'Sarah Johnson',
+        relationshipStatus: 'Active',
+        lastContact: { date: 'July 18, 2024', time: '2 hours ago', type: 'Dialogue', status: 'Completed' },
+        operationalStatus: [
+          { label: 'Medical information', status: 'complete' },
+          { label: 'Passport', status: 'complete' },
+          { label: 'Payment', status: 'complete' },
+          { label: 'Equipment', status: 'complete' },
+        ],
+        nextStep: 'Ready for departure (July 19)',
+        nextStepUrgent: false,
       },
       'peter-nilsson': {
         id: 'peter-nilsson',
         name: 'Peter Nilsson',
-        type: 'Guide',
+        type: 'Deltagare',
         trip: 'AlpenTind Sommerkurs 2026',
         avatar: 'P',
+        // Relationsöversikt
+        tripDates: 'July 19–27, 2026',
+        coordinator: 'Marcus Chen',
+        relationshipStatus: 'Active',
+        lastContact: { date: 'July 17, 2024', time: '1 day ago', type: 'Email', status: 'Waiting for person' },
+        operationalStatus: [
+          { label: 'Medical information', status: 'complete' },
+          { label: 'Passport', status: 'warning' },
+          { label: 'Payment', status: 'complete' },
+          { label: 'Equipment', status: 'complete' },
+        ],
+        nextStep: '🏃 Follow-up: Request passport copy by July 18 (URGENT)',
+        nextStepUrgent: true,
       },
       'lisa-berg': {
         id: 'lisa-berg',
         name: 'Lisa Berg',
-        type: 'Deltagare',
-        trip: 'Haute Route',
+        type: 'Guide',
+        trip: 'AlpenTind Sommerkurs 2026 · Haute Route',
         avatar: 'L',
+        // Relationsöversikt
+        role: 'Mountain Guide',
+        tripDates: 'July 19–27 · Aug 10–20',
+        employed: 'Since 2022',
+        relationshipStatus: 'Staff',
+        lastContact: { date: 'July 19, 2024', time: 'Today', type: 'System', status: 'Active' },
+        operationalStatus: [
+          { label: 'Documents', status: 'complete' },
+          { label: 'Certifications', status: 'complete' },
+          { label: 'Availability', status: 'complete' },
+        ],
+        nextStep: 'Depart today (July 19)',
+        nextStepUrgent: false,
       },
       'johan-eriksson': {
         id: 'johan-eriksson',
@@ -157,7 +194,136 @@
         trip: 'AlpenTind Sommerkurs 2026',
         avatar: 'J',
       },
+      'klaus-müller': {
+        id: 'klaus-müller',
+        name: 'Klaus Müller',
+        type: 'Partner Contact',
+        trip: 'Refuge Bonatti',
+        avatar: 'K',
+        // Relationsöversikt
+        organization: 'Refuge Bonatti',
+        role: 'Accommodation Provider',
+        relationshipStatus: 'Active partnership since 2022',
+        lastContact: { date: 'July 16, 2024', time: '3 days ago', type: 'Email', status: 'Completed' },
+        operationalStatus: [
+          { label: 'Booking (12 rooms, July 20–22)', status: 'complete' },
+          { label: 'Special requirements noted', status: 'complete' },
+        ],
+        nextStep: 'Expecting arrival July 20 (12 rooms booked)',
+        nextStepUrgent: false,
+      },
     };
+
+    function getRoStatusIcon(status) {
+      if (status === 'complete') return '✓';
+      if (status === 'warning') return '!';
+      return '✕';
+    }
+
+    function getRoStatusLabel(status) {
+      if (status === 'complete') return 'Complete';
+      if (status === 'warning') return 'Attention needed';
+      return 'Missing';
+    }
+
+    function getContactStatusClass(status) {
+      if (status === 'Completed' || status === 'Active') return 'complete';
+      if (status.startsWith('Waiting')) return 'warning';
+      return 'error';
+    }
+
+    function getContactStatusIcon(status) {
+      if (status === 'Completed' || status === 'Active') return '✓';
+      if (status.startsWith('Waiting')) return '⏱';
+      return '✕';
+    }
+
+    function getContactStatusLabel(status) {
+      const map = {
+        'Completed': 'Completed',
+        'Active': 'Active',
+        'Waiting for person': 'Waiting for person response',
+        'Waiting for response': 'Awaiting our response',
+      };
+      return map[status] || status;
+    }
+
+    function renderRelationsöversikt(person) {
+      const container = document.getElementById('relationsöversikt-content');
+      if (!container) return;
+
+      // Relationship context rows
+      const contextRows = [];
+      if (person.coordinator) {
+        contextRows.push(`<div class="ro-row"><span class="ro-label">Coordinator</span><span class="ro-value">${person.coordinator}</span></div>`);
+      }
+      if (person.role) {
+        contextRows.push(`<div class="ro-row"><span class="ro-label">Role</span><span class="ro-value">${person.role}</span></div>`);
+      }
+      if (person.organization) {
+        contextRows.push(`<div class="ro-row"><span class="ro-label">Organization</span><span class="ro-value">${person.organization}</span></div>`);
+      }
+      if (person.tripDates) {
+        contextRows.push(`<div class="ro-row"><span class="ro-label">Dates</span><span class="ro-value">${person.tripDates}</span></div>`);
+      }
+      if (person.employed) {
+        contextRows.push(`<div class="ro-row"><span class="ro-label">Employed</span><span class="ro-value">${person.employed}</span></div>`);
+      }
+      contextRows.push(`<div class="ro-row"><span class="ro-label">Status</span><span class="ro-value">${person.relationshipStatus}</span></div>`);
+
+      // Operational status rows
+      const opRows = (person.operationalStatus || []).map(item => `
+        <div class="ro-row">
+          <span class="ro-label">${item.label}</span>
+          <span class="ro-value">
+            <span class="ro-status-badge">
+              <span class="ro-status-icon ${item.status}">${getRoStatusIcon(item.status)}</span>
+              ${getRoStatusLabel(item.status)}
+            </span>
+          </span>
+        </div>`).join('');
+
+      // Communication status
+      const lc = person.lastContact;
+      const contactStatusClass = getContactStatusClass(lc.status);
+      const contactStatusIcon = getContactStatusIcon(lc.status);
+      const contactStatusLabel = getContactStatusLabel(lc.status);
+
+      container.innerHTML = `
+        <div class="ro-section">
+          <p class="ro-section-title">Relationship Context</p>
+          ${contextRows.join('')}
+        </div>
+        <div class="ro-section">
+          <p class="ro-section-title">Recent Communication</p>
+          <div class="ro-row">
+            <span class="ro-label">Last Contact</span>
+            <span class="ro-value">${lc.date} · ${lc.time}</span>
+          </div>
+          <div class="ro-row">
+            <span class="ro-label">Type</span>
+            <span class="ro-value">${lc.type}</span>
+          </div>
+          <div class="ro-row">
+            <span class="ro-label">Status</span>
+            <span class="ro-value">
+              <span class="ro-status-badge">
+                <span class="ro-status-icon ${contactStatusClass}">${contactStatusIcon}</span>
+                ${contactStatusLabel}
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="ro-section">
+          <p class="ro-section-title">Operational Status</p>
+          ${opRows}
+        </div>
+        <div class="ro-next-step">
+          <p class="ro-next-step-title">Next Step</p>
+          <p class="ro-next-step-text${person.nextStepUrgent ? ' urgent' : ''}">${person.nextStep}</p>
+        </div>
+      `;
+    }
 
     function loadPersonWorkspace() {
       const params = new URLSearchParams(window.location.search);
@@ -184,6 +350,10 @@
       const backLink = document.getElementById('back-link');
       if (document.referrer && document.referrer.includes('/preview/')) {
         backLink.href = document.referrer;
+      }
+
+      if (person.lastContact) {
+        renderRelationsöversikt(person);
       }
     }
 
