@@ -47,9 +47,7 @@
               <h2 id="relationsoversikt-heading">Relationsöversikt</h2>
             </div>
             <div class="card-body">
-              <div class="placeholder stage-2">
-                <p>Relationship overview will be implemented in Stage 2</p>
-              </div>
+              <div class="relationsöversikt-card" id="relationsöversikt-content"></div>
             </div>
           </section>
 
@@ -133,58 +131,235 @@
         id: 'anna-andersson',
         name: 'Anna Andersson',
         type: 'Deltagare',
-        trip: 'AlpenTind Sommerkurs 2026',
         avatar: 'A',
+        trip: 'AlpenTind Sommerkurs 2026',
+        tripDates: '19\u201327 juli 2026',
+        coordinator: 'Sarah Johnson',
+        relationshipStatus: 'Aktiv',
+        lastContact: {
+          date: '18 juli 2026',
+          time: '2 timmar sedan',
+          type: 'Dialog',
+          status: 'Avslutad',
+          statusType: 'complete',
+        },
+        operationalStatus: [
+          { label: 'Medicinsk information', status: 'complete' },
+          { label: 'Pass', status: 'complete' },
+          { label: 'Betalning', status: 'complete' },
+          { label: 'Utrustning', status: 'complete' },
+        ],
+        nextStep: 'Redo f\u00f6r avresa (19 juli)',
+        nextStepUrgency: null,
       },
       'peter-nilsson': {
         id: 'peter-nilsson',
         name: 'Peter Nilsson',
-        type: 'Guide',
-        trip: 'AlpenTind Sommerkurs 2026',
+        type: 'Deltagare',
         avatar: 'P',
+        trip: 'AlpenTind Sommerkurs 2026',
+        tripDates: '19\u201327 juli 2026',
+        coordinator: 'Marcus Chen',
+        relationshipStatus: 'Aktiv',
+        lastContact: {
+          date: '17 juli 2026',
+          time: '1 dag sedan',
+          type: 'E-post',
+          status: 'V\u00e4ntar p\u00e5 svar',
+          statusType: 'warning',
+        },
+        operationalStatus: [
+          { label: 'Medicinsk information', status: 'complete' },
+          { label: 'Pass', status: 'warning' },
+          { label: 'Betalning', status: 'complete' },
+          { label: 'Utrustning', status: 'complete' },
+        ],
+        nextStep: 'Uppf\u00f6ljning: Beg\u00e4r passkopia senast 18 juli',
+        nextStepUrgency: '\u23f0 Br\u00e5dskande',
       },
       'lisa-berg': {
         id: 'lisa-berg',
         name: 'Lisa Berg',
-        type: 'Deltagare',
-        trip: 'Haute Route',
+        type: 'Guide',
         avatar: 'L',
+        trip: 'AlpenTind Sommerkurs 2026, Haute Route',
+        tripDates: '19\u201327 jul, 10\u201320 aug',
+        role: 'Bergsguide',
+        employed: 'Sedan 2022',
+        relationshipStatus: 'Personal',
+        lastContact: {
+          date: '19 juli 2026',
+          time: 'Idag',
+          type: 'System',
+          status: 'Aktiv',
+          statusType: 'complete',
+        },
+        operationalStatus: [
+          { label: 'Dokument', status: 'complete' },
+          { label: 'Certifieringar', status: 'complete' },
+          { label: 'Tillg\u00e4nglighet', status: 'complete' },
+        ],
+        nextStep: 'Avresa idag (19 juli)',
+        nextStepUrgency: null,
       },
-      'johan-eriksson': {
-        id: 'johan-eriksson',
-        name: 'Johan Eriksson',
+      'johann-eriksson': {
+        id: 'johann-eriksson',
+        name: 'Johann Eriksson',
         type: 'Deltagare',
         trip: 'AlpenTind Sommerkurs 2026',
         avatar: 'J',
       },
+      'klaus-m\u00fcller': {
+        id: 'klaus-m\u00fcller',
+        name: 'Klaus M\u00fcller',
+        type: 'Partnerkontakt',
+        avatar: 'K',
+        trip: null,
+        organization: 'Refuge Bonatti',
+        role: 'Boendepartner',
+        relationshipStatus: 'Aktivt partnerskap sedan 2022',
+        lastContact: {
+          date: '16 juli 2026',
+          time: '3 dagar sedan',
+          type: 'E-post',
+          status: 'Avslutad',
+          statusType: 'complete',
+        },
+        operationalStatus: [
+          { label: 'Bokning', status: 'complete' },
+          { label: 'Specialkrav', status: 'complete' },
+        ],
+        nextStep: 'Bekr\u00e4ftelsemejl skickat \u2014 ankomst f\u00f6rv\u00e4ntas 20 juli (12 rum bokade)',
+        nextStepUrgency: null,
+      },
     };
 
+    function getStatusIcon(statusType) {
+      if (statusType === 'complete') {
+        return '<span class="ro-status-icon complete" aria-hidden="true">\u2713</span>';
+      } else if (statusType === 'warning') {
+        return '<span class="ro-status-icon warning" aria-hidden="true">!</span>';
+      } else if (statusType === 'error') {
+        return '<span class="ro-status-icon error" aria-hidden="true">\u2715</span>';
+      }
+      return '';
+    }
+
+    function formatStatusLabel(status) {
+      const map = {
+        complete: 'Komplett',
+        warning: '\u00c5tg\u00e4rd kr\u00e4vs',
+        error: 'Saknas',
+      };
+      return map[status] || status;
+    }
+
+    function renderRelationsöversikt(person) {
+      var container = document.getElementById('relationsöversikt-content');
+      if (!container) return;
+
+      if (!person.relationshipStatus) {
+        container.innerHTML = '<div class="placeholder"><p>Ingen relationsinformation tillg\u00e4nglig</p></div>';
+        return;
+      }
+
+      var tripLine = person.trip
+        ? person.type + ' &bull; ' + person.trip
+        : person.type;
+
+      var contextRows = [
+        person.coordinator
+          ? '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Koordinator</span><span class="relationsöversikt-value">' + person.coordinator + '</span></div>'
+          : '',
+        person.role
+          ? '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Roll</span><span class="relationsöversikt-value">' + person.role + '</span></div>'
+          : '',
+        person.organization
+          ? '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Organisation</span><span class="relationsöversikt-value">' + person.organization + '</span></div>'
+          : '',
+        person.tripDates
+          ? '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Datum</span><span class="relationsöversikt-value">' + person.tripDates + '</span></div>'
+          : '',
+        '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Status</span><span class="relationsöversikt-value">' + person.relationshipStatus + '</span></div>',
+      ].join('');
+
+      var opStatusRows = person.operationalStatus.map(function(item) {
+        return '<div class="relationsöversikt-row">'
+          + '<span class="relationsöversikt-label">' + item.label + '</span>'
+          + '<span class="relationsöversikt-value ro-status-indicator">'
+          + getStatusIcon(item.status)
+          + formatStatusLabel(item.status)
+          + '</span></div>';
+      }).join('');
+
+      var urgencyHtml = person.nextStepUrgency
+        ? '<p class="ro-next-step-urgency">' + person.nextStepUrgency + '</p>'
+        : '';
+
+      container.innerHTML =
+        '<div class="relationsöversikt-header">'
+        + '<div class="relationsöversikt-avatar" aria-hidden="true">' + person.avatar + '</div>'
+        + '<div class="relationsöversikt-identity">'
+        + '<h2>' + person.name + '</h2>'
+        + '<p>' + tripLine + '</p>'
+        + '</div>'
+        + '</div>'
+
+        + '<div class="relationsöversikt-section">'
+        + '<h3 class="relationsöversikt-section-title">Relationskontext</h3>'
+        + contextRows
+        + '</div>'
+
+        + '<div class="relationsöversikt-section">'
+        + '<h3 class="relationsöversikt-section-title">Senaste kommunikation</h3>'
+        + '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Senaste kontakt</span><span class="relationsöversikt-value">' + person.lastContact.date + '</span></div>'
+        + '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Tid sedan</span><span class="relationsöversikt-value">' + person.lastContact.time + '</span></div>'
+        + '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Typ</span><span class="relationsöversikt-value">' + person.lastContact.type + '</span></div>'
+        + '<div class="relationsöversikt-row"><span class="relationsöversikt-label">Status</span>'
+        + '<span class="relationsöversikt-value ro-status-indicator">' + getStatusIcon(person.lastContact.statusType) + person.lastContact.status + '</span>'
+        + '</div>'
+        + '</div>'
+
+        + '<div class="relationsöversikt-section">'
+        + '<h3 class="relationsöversikt-section-title">Operationell status</h3>'
+        + opStatusRows
+        + '</div>'
+
+        + '<div class="ro-next-step">'
+        + '<p class="ro-next-step-title">N\u00e4sta steg</p>'
+        + '<p class="ro-next-step-text">' + person.nextStep + '</p>'
+        + urgencyHtml
+        + '</div>';
+    }
+
     function loadPersonWorkspace() {
-      const params = new URLSearchParams(window.location.search);
-      const personId = params.get('id') || 'anna-andersson';
-      const fallbackName = personId
+      var params = new URLSearchParams(window.location.search);
+      var personId = params.get('id') || 'anna-andersson';
+      var fallbackName = personId
         .split('-')
-        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .map(function(part) { return part.charAt(0).toUpperCase() + part.slice(1); })
         .join(' ');
-      const person = mockPeople[personId] || {
+      var person = mockPeople[personId] || {
         id: personId,
         name: fallbackName,
         type: 'Kontakt',
-        trip: 'Ingen resa vald ännu',
+        trip: 'Ingen resa vald \u00e4nnu',
         avatar: fallbackName.charAt(0) || '?',
       };
 
-      document.title = `${person.name} – Person Workspace – AlpenTind Platform`;
+      document.title = person.name + ' \u2013 Person Workspace \u2013 AlpenTind Platform';
       document.getElementById('person-breadcrumb-name').textContent = person.name;
       document.getElementById('person-title').textContent = person.name;
       document.getElementById('person-type').textContent = person.type;
-      document.getElementById('person-trip').textContent = person.trip;
+      document.getElementById('person-trip').textContent = person.trip || '';
       document.getElementById('person-avatar').textContent = person.avatar;
 
-      const backLink = document.getElementById('back-link');
+      var backLink = document.getElementById('back-link');
       if (document.referrer && document.referrer.includes('/preview/')) {
         backLink.href = document.referrer;
       }
+
+      renderRelationsöversikt(person);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
