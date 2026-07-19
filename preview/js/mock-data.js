@@ -933,6 +933,82 @@ const planningAreaTemplates = {
 };
 
 // ========================================
+// Accommodation Workspace Data (ESR-008)
+// ========================================
+
+const accommodationWorkspaceData = {
+  'hotel-bonatti': {
+    status: 'Aktiv',
+    purpose: 'Primärt boende för TMB och Haute Route. Etablerad partnerrelation sedan 2019.',
+    workItems: [
+      { id: 'w-bonatti-1', label: 'Saknar direkt bokningskontakt – uppdatera kontaktinformation', priority: 'high' },
+      { id: 'w-bonatti-2', label: 'Granska priser inför säsong 2027', priority: 'medium' },
+      { id: 'w-bonatti-3', label: 'Bekräfta kapacitet för grupper ≥ 12 personer', priority: 'medium' },
+      { id: 'w-bonatti-4', label: 'Granska säsongsöppning och stängningsdatum', priority: 'low' },
+    ],
+    contact: {
+      name: 'Marco Bonatti',
+      phone: '+39 0165 869 113',
+      email: 'booking@hotelbonatti.it',
+      language: 'Italienska / Franska / Engelska',
+    },
+    pricing: {
+      halfBoard: '85–110 EUR / natt',
+      fullBoard: '110–140 EUR / natt',
+      groupDiscount: '10% för grupper ≥ 8 personer',
+      notes: 'Priser gäller sommarsäsong 2026. Granskning inför 2027 öppen.',
+    },
+    capacity: {
+      totalBeds: 28,
+      groupMaximum: 14,
+      roomTypes: 'Dubbelrum, enkrum och 6-bäddssovsal',
+    },
+    season: {
+      openPeriod: 'Mitten juni – Slutet september',
+      peakPeriod: 'Juli – Augusti (tidig bokning rekommenderas)',
+    },
+    documents: [
+      { label: 'Bokningsvillkor 2026', note: 'PDF · granskad 2026-03-10' },
+      { label: 'Prislista sommarsäsong 2026', note: 'Excel · uppdaterad 2026-03-10' },
+    ],
+    notes: 'Pålitlig partner etablerad 2019. Ägare Marco Bonatti talar god franska och engelska. Familjedrivet hotell med konsekvent hög standard för TMB-grupper.',
+    history: [
+      { date: '2026-03-10', text: 'Priser bekräftade för sommarsäsong 2026.' },
+      { date: '2024-09-10', text: 'Säsong 2024 avslutad utan avvikelse.' },
+      { date: '2024-07-15', text: 'TMB-grupp (12 pers) genomförd. Positivt omdöme.' },
+      { date: '2019-06-01', text: 'Partnerrelation etablerad.' },
+    ],
+  },
+  'hotel-edelweiss': {
+    status: 'Aktiv',
+    purpose: 'Sekundärt alternativ i Franska Alperna. Används för TMB-grupper.',
+    workItems: [
+      { id: 'w-edelweiss-1', label: 'Granska bokningsvillkor inför säsong 2027', priority: 'medium' },
+    ],
+    contact: { name: '', phone: '', email: 'info@hoteledelweiss.fr', language: 'Franska' },
+    pricing: { notes: 'Prislista saknas. Begär offert.' },
+    capacity: { totalBeds: 22, groupMaximum: 10 },
+    season: { openPeriod: 'Juni – September' },
+    notes: '',
+    history: [],
+  },
+  'hotel-monte-rosa': {
+    status: 'Aktiv',
+    purpose: 'Primärt val i Schweiz för Haute Route.',
+    workItems: [
+      { id: 'w-rosa-1', label: 'Uppdatera kontaktinformation', priority: 'high' },
+      { id: 'w-rosa-2', label: 'Bekräfta kapacitet inför säsong 2027', priority: 'medium' },
+    ],
+    contact: { name: '', phone: '', email: 'info@hotelmontarosa.ch', language: 'Tyska / Engelska' },
+    pricing: { notes: 'Se prislista 2026.' },
+    capacity: { totalBeds: 40, groupMaximum: 16 },
+    season: { openPeriod: 'Maj – Oktober' },
+    notes: '',
+    history: [],
+  },
+};
+
+// ========================================
 // Exporterat datapaket
 // ========================================
 
@@ -960,4 +1036,5 @@ const mockData = {
   dialogues,
   planningProjects,
   planningAreaTemplates,
+  accommodationWorkspaceData,
 };
