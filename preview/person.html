@@ -413,6 +413,16 @@
       },
     };
 
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function getRoStatusIcon(status) {
       if (status === 'complete') return '✓';
       if (status === 'warning') return '!';
@@ -475,19 +485,19 @@
           ${person.workQueue.map(item => {
             const icon = PRIORITY_ICON[item.priority] || '✓';
             const actions = (item.actions || []).map(label =>
-              `<a href="#" class="btn btn-sm btn-secondary">${label}</a>`
+              `<a href="#" class="btn btn-sm btn-secondary">${escapeHtml(label)}</a>`
             ).join('');
             const related = item.relatedObject
-              ? `<div class="arbetsko-related">${item.relatedObject}</div>`
+              ? `<div class="arbetsko-related">${escapeHtml(item.relatedObject)}</div>`
               : '';
             return `
-            <div class="arbetsko-card ${item.priority}">
+            <div class="arbetsko-card ${escapeHtml(item.priority)}">
               <div class="arbetsko-header">
-                <span class="arbetsko-priority-icon ${item.priority}" aria-label="${PRIORITY_LABEL[item.priority]}">${icon}</span>
-                <h3 class="arbetsko-title">${item.title}</h3>
-                <span class="arbetsko-priority-badge ${item.priority}">${PRIORITY_LABEL[item.priority]}</span>
+                <span class="arbetsko-priority-icon ${escapeHtml(item.priority)}" aria-label="${escapeHtml(PRIORITY_LABEL[item.priority])}">${icon}</span>
+                <h3 class="arbetsko-title">${escapeHtml(item.title)}</h3>
+                <span class="arbetsko-priority-badge ${escapeHtml(item.priority)}">${escapeHtml(PRIORITY_LABEL[item.priority])}</span>
               </div>
-              <p class="arbetsko-reason">${item.reason}</p>
+              <p class="arbetsko-reason">${escapeHtml(item.reason)}</p>
               ${related}
               <div class="arbetsko-action">${actions}</div>
             </div>`;
@@ -525,22 +535,22 @@
       container.innerHTML = `
         <div class="dialoger-container">
           ${person.conversations.map(conv => `
-            <div class="dialogue-card ${conv.status}">
+            <div class="dialogue-card ${escapeHtml(conv.status)}">
               <div class="dialogue-header">
                 <h3 class="dialogue-participant">
-                  ${conv.participant}${conv.role ? ` <span class="dialogue-role">(${conv.role})</span>` : ''}
+                  ${escapeHtml(conv.participant)}${conv.role ? ` <span class="dialogue-role">(${escapeHtml(conv.role)})</span>` : ''}
                 </h3>
                 <div style="display:flex;align-items:center;gap:var(--spacing-sm)">
-                  <span class="dialogue-status-badge ${conv.status}">${formatConvStatus(conv.status)}</span>
+                  <span class="dialogue-status-badge ${escapeHtml(conv.status)}">${formatConvStatus(conv.status)}</span>
                   <button class="btn btn-sm btn-secondary dialogue-open-btn" aria-label="Open conversation">→</button>
                 </div>
               </div>
-              <p class="dialogue-message">"${conv.lastMessage}"</p>
+              <p class="dialogue-message">"${escapeHtml(conv.lastMessage)}"</p>
               <div class="dialogue-meta">
-                <span class="dialogue-time">${conv.time}</span>
+                <span class="dialogue-time">${escapeHtml(conv.time)}</span>
                 ${conv.unread > 0 ? `<span class="dialogue-unread">${conv.unread} unread</span>` : ''}
               </div>
-              ${conv.coordinator ? `<div class="dialogue-coordinator">Handled by ${conv.coordinator}</div>` : ''}
+              ${conv.coordinator ? `<div class="dialogue-coordinator">Handled by ${escapeHtml(conv.coordinator)}</div>` : ''}
             </div>
           `).join('')}
         </div>
