@@ -28,7 +28,6 @@ function navigateTo(page, navId) {
     'guides':         'guides.html',
     'accommodations': 'accommodations.html',
     'economy':        'economy.html',
-    'maps':           'maps.html',
     'documents':      'documents.html',
     'messages':       'messages.html',
     'settings':       'settings.html',

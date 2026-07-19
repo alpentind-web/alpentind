@@ -359,27 +359,45 @@ const attentionItems = [
 ];
 
 // ========================================
-// Dagens upplevelser (Today's Experiences)
+// Kommande upplevelser (Upcoming Experiences)
 // ========================================
 
-const todaysExperiences = [
+const upcomingExperiences = [
   {
     id: 'EXP-001',
-    title: 'Tour du Mont Blanc',
-    subtitle: 'Guide: Linda Svensson',
-    status: 'active',
-    description: '8 deltagare · Dag 3 av 12 · Chamonix → Refuge Bonatti',
-    participants: 8,
-    guide: 'Linda Svensson',
+    title: 'Klätterkurs Klippa',
+    date: '2027-06-14',
+    guide: 'Johan Svensson',
+    status: 'confirmed',
+    participants: 6,
+    category: 'Klättring',
   },
   {
     id: 'EXP-002',
-    title: 'Klätterkurs Klippa',
-    subtitle: 'Guide: Johan Svensson',
-    status: 'active',
-    description: '6 deltagare · Avgår idag 09:00 · Samling vid klätterväggen',
-    participants: 6,
-    guide: 'Johan Svensson',
+    title: 'Tour du Mont Blanc',
+    date: '2027-07-15',
+    guide: 'Linda Svensson',
+    status: 'confirmed',
+    participants: 12,
+    category: 'Vandring',
+  },
+  {
+    id: 'EXP-003',
+    title: 'Sarek Sommar',
+    date: '2027-08-03',
+    guide: 'Erik Bergström',
+    status: 'confirmed',
+    participants: 8,
+    category: 'Vildmark',
+  },
+  {
+    id: 'EXP-004',
+    title: 'Alperna Höst',
+    date: '2027-09-12',
+    guide: 'Anna Andersson',
+    status: 'draft',
+    participants: 10,
+    category: 'Vandring',
   },
 ];
 
@@ -418,37 +436,138 @@ const ongoingDialogues = [
 ];
 
 // ========================================
-// Att följa upp (Follow-up)
+// Min arbetskö (Work Queue)
 // ========================================
 
-const followUpItems = [
+const workQueue = [
   {
-    id: 'FU-001',
-    title: 'Ring hotell',
-    subtitle: 'Refuge Bonatti – Tour du Mont Blanc',
+    id: 'WQ-001',
+    type: 'phone',
+    title: 'Ring Refuge Bonatti',
+    context: 'Tour du Mont Blanc – boende ej bekräftat',
     status: 'pending',
-    description: 'Bekräfta boende för 12 deltagare.',
     priority: 'high',
-    action: 'Ring',
+    dueDate: '2027-07-14',
   },
   {
-    id: 'FU-002',
+    id: 'WQ-002',
+    type: 'email',
     title: 'Skicka deltagarbrev',
-    subtitle: 'Sarek Sommar – avgång 3 aug',
+    context: 'Sarek Sommar – avgång 3 aug',
     status: 'pending',
-    description: 'Sista dag att skicka deltagarbrev.',
     priority: 'medium',
-    action: 'Öppna',
+    dueDate: '2027-07-20',
   },
   {
-    id: 'FU-003',
-    title: 'Betalningspåminnelse',
-    subtitle: 'Martin Nilsson – 32 950 SEK',
+    id: 'WQ-003',
+    type: 'payment',
+    title: 'Betalningspåminnelse – Martin Nilsson',
+    context: '32 950 SEK förfallen sedan 2 dagar',
     status: 'overdue',
-    description: 'Förfallen betalning – 2 dagar sedan.',
     priority: 'high',
-    action: 'Öppna',
+    dueDate: '2027-07-12',
   },
+  {
+    id: 'WQ-004',
+    type: 'dialogue',
+    title: 'Följ upp ACME AB',
+    context: 'Ledarskapsretreat – väntar på svar om datum och scope',
+    status: 'pending',
+    priority: 'medium',
+    dueDate: '2027-07-18',
+  },
+  {
+    id: 'WQ-005',
+    type: 'accommodation',
+    title: 'Boka Sarek Lodge',
+    context: 'Sarek Sommar – 8 platser – avgång 3 aug',
+    status: 'pending',
+    priority: 'medium',
+    dueDate: '2027-07-25',
+  },
+  {
+    id: 'WQ-006',
+    type: 'planning',
+    title: 'Bekräfta guideuppdrag – Anna Andersson',
+    context: 'Tour du Mont Blanc – guidekontrakt ej signerat',
+    status: 'pending',
+    priority: 'low',
+    dueDate: '2027-07-28',
+  },
+];
+
+// ========================================
+// Kalender – händelser (Calendar Events)
+// ========================================
+
+const calendarEvents = [
+  {
+    id: 'CAL-001',
+    date: '2027-07-14',
+    type: 'deadline',
+    title: 'Sista dag – deltagarbrev Sarek',
+    color: 'danger',
+  },
+  {
+    id: 'CAL-002',
+    date: '2027-07-15',
+    type: 'experience',
+    title: 'Tour du Mont Blanc – avgång',
+    color: 'primary',
+  },
+  {
+    id: 'CAL-003',
+    date: '2027-07-16',
+    type: 'meeting',
+    title: 'Möte: Säsongsplanering höst',
+    color: 'info',
+  },
+  {
+    id: 'CAL-004',
+    date: '2027-07-18',
+    type: 'followup',
+    title: 'Uppföljning ACME AB',
+    color: 'warning',
+  },
+  {
+    id: 'CAL-005',
+    date: '2027-07-20',
+    type: 'deadline',
+    title: 'Betalning – Peter Nilsson',
+    color: 'danger',
+  },
+  {
+    id: 'CAL-006',
+    date: '2027-07-22',
+    type: 'meeting',
+    title: 'Guidemöte – inför Sarek',
+    color: 'info',
+  },
+  {
+    id: 'CAL-007',
+    date: '2027-08-03',
+    type: 'experience',
+    title: 'Sarek Sommar – avgång',
+    color: 'primary',
+  },
+  {
+    id: 'CAL-008',
+    date: '2027-08-01',
+    type: 'deadline',
+    title: 'Boende Sarek Lodge – senast',
+    color: 'warning',
+  },
+];
+
+// ========================================
+// Dagliga uppgifter – inline redigerbara
+// ========================================
+
+const todoItems = [
+  { id: 'TODO-001', text: 'Ring Refuge Bonatti och bekräfta 12 platser', done: false },
+  { id: 'TODO-002', text: 'Skicka deltagarbrev Sarek Sommar', done: false },
+  { id: 'TODO-003', text: 'Granska packlista TMB med Linda', done: true  },
+  { id: 'TODO-004', text: 'Faktura ACME AB – lägg till org-nummer', done: false },
 ];
 
 // ========================================
@@ -579,7 +698,6 @@ const navigationItems = [
   { id: 'nav-5',  label: 'Guider',        featherIcon: 'user-check',    page: 'guides'        },
   { id: 'nav-6',  label: 'Boenden',       featherIcon: 'layers',        page: 'accommodations'},
   { id: 'nav-7',  label: 'Ekonomi',       featherIcon: 'bar-chart-2',   page: 'economy'       },
-  { id: 'nav-8',  label: 'Kartor',        featherIcon: 'map',           page: 'maps'          },
   { id: 'nav-9',  label: 'Dokument',      featherIcon: 'file-text',     page: 'documents'     },
   { id: 'nav-10', label: 'Meddelanden',   featherIcon: 'message-square',page: 'messages'      },
   { id: 'nav-11', label: 'Inställningar', featherIcon: 'settings',      page: 'settings'      },
@@ -614,8 +732,10 @@ const mockData = {
   navigationItems,
   dashboardStats,
   attentionItems,
-  todaysExperiences,
+  upcomingExperiences,
   ongoingDialogues,
-  followUpItems,
+  workQueue,
+  calendarEvents,
+  todoItems,
   dialogues,
 };

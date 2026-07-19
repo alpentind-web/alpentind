@@ -185,10 +185,12 @@ function renderDashboard() {
   renderSidebar();
   renderHeader();
   renderInfoBanner();
+  renderOperationalCalendar();
   renderAttentionSection();
-  renderTodaysExperiences();
+  renderUpcomingExperiences();
   renderOngoingDialogues();
-  renderFollowUpSection();
+  renderWorkQueue();
+  renderTodoList();
   renderQuickActions();
 }
 
@@ -239,6 +241,103 @@ function createAttentionCard({ id, title, subtitle, status, description, action,
 }
 
 // ========================================
+// Operationell kalender
+// ========================================
+
+function renderOperationalCalendar() {
+  const container = document.getElementById('operational-calendar');
+  if (!container) return;
+
+  // Build calendar for current month view (centered on July 2027 for mock data)
+  const viewYear = 2027;
+  const viewMonth = 6; // July (0-indexed)
+  const monthNames = [
+    'Januari','Februari','Mars','April','Maj','Juni',
+    'Juli','Augusti','September','Oktober','November','December',
+  ];
+  const dayNames = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+
+  const firstDay = new Date(viewYear, viewMonth, 1);
+  const lastDay  = new Date(viewYear, viewMonth + 1, 0);
+
+  // ISO week: Monday = 0
+  let startOffset = (firstDay.getDay() + 6) % 7;
+  const totalDays = lastDay.getDate();
+
+  // Group events by date string
+  const eventsByDate = {};
+  (mockData.calendarEvents || []).forEach(ev => {
+    if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
+    eventsByDate[ev.date].push(ev);
+  });
+
+  const colorMap = {
+    primary: 'var(--color-primary)',
+    danger:  'var(--color-danger)',
+    warning: 'var(--color-warning)',
+    info:    'var(--color-info)',
+    success: 'var(--color-success)',
+  };
+
+  // Build day cells
+  // Mock "today" within the calendar month to demonstrate the today-highlight feature
+  const mockToday = 14; // 14 July 2027
+
+  let cells = '';
+
+  // Empty cells before first day
+  for (let i = 0; i < startOffset; i++) {
+    cells += `<div class="cal-cell cal-cell--empty"></div>`;
+  }
+
+  for (let d = 1; d <= totalDays; d++) {
+    const dateStr = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const dayEvents = eventsByDate[dateStr] || [];
+    const isToday = (d === mockToday);
+
+    const eventsHTML = dayEvents.map(ev => {
+      const col = colorMap[ev.color] || 'var(--color-primary)';
+      return `<span class="cal-event" title="${ev.title}"
+                style="display:block;background:${col};color:#fff;font-size:10px;border-radius:3px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px"
+              >${ev.title}</span>`;
+    }).join('');
+
+    cells += `
+      <div class="cal-cell${isToday ? ' cal-cell--today' : ''}${dayEvents.length ? ' cal-cell--has-events' : ''}">
+        <span class="cal-day-num">${d}</span>
+        ${eventsHTML}
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div class="cal-wrapper" style="background:var(--color-bg-card);border-radius:var(--border-radius-lg);padding:var(--spacing-lg);border:1px solid var(--color-border)">
+      <div class="cal-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--spacing-md)">
+        <h3 style="margin:0;font-size:var(--font-size-base);font-weight:600">${monthNames[viewMonth]} ${viewYear}</h3>
+        <div class="cal-legend" style="display:flex;gap:var(--spacing-sm);flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
+            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-primary);display:inline-block"></span>Upplevelse
+          </span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
+            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-info);display:inline-block"></span>Möte
+          </span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
+            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-warning);display:inline-block"></span>Uppföljning
+          </span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:var(--font-size-xs);color:var(--color-text-muted)">
+            <span style="width:10px;height:10px;border-radius:2px;background:var(--color-danger);display:inline-block"></span>Deadline
+          </span>
+        </div>
+      </div>
+      <div class="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">
+        ${dayNames.map(n => `<div class="cal-day-name" style="text-align:center;font-size:var(--font-size-xs);font-weight:600;color:var(--color-text-muted);padding:var(--spacing-xs) 0">${n}</div>`).join('')}
+        ${cells}
+      </div>
+    </div>
+  `;
+}
+
+// ========================================
 // Kräver uppmärksamhet
 // ========================================
 
@@ -249,20 +348,22 @@ function renderAttentionSection() {
 }
 
 // ========================================
-// Dagens upplevelser
+// Kommande upplevelser
 // ========================================
 
-function renderTodaysExperiences() {
+function renderUpcomingExperiences() {
   const grid = document.getElementById('experiences-grid');
   if (!grid) return;
 
   const statusMap = {
-    active:    { label: 'Aktiv',    cls: 'badge-success' },
-    completed: { label: 'Avslutad', cls: 'badge-info'    },
-    cancelled: { label: 'Avbruten', cls: 'badge-danger'  },
+    confirmed: { label: 'Bekräftad', cls: 'badge-success' },
+    draft:     { label: 'Utkast',    cls: 'badge-warning' },
+    cancelled: { label: 'Avbruten',  cls: 'badge-danger'  },
   };
 
-  grid.innerHTML = mockData.todaysExperiences.map(exp => {
+  const sorted = [...mockData.upcomingExperiences].sort((a, b) => a.date.localeCompare(b.date));
+
+  grid.innerHTML = sorted.map(exp => {
     const s = statusMap[exp.status] || { label: exp.status, cls: 'badge-info' };
     return `
       <article class="card">
@@ -270,11 +371,24 @@ function renderTodaysExperiences() {
           <div class="attention-card-header">
             <div class="attention-card-titles">
               <h3 class="attention-card-title">${exp.title}</h3>
-              <p class="attention-card-subtitle">${exp.subtitle}</p>
+              <p class="attention-card-subtitle">${exp.category}</p>
             </div>
             <span class="badge ${s.cls}">${s.label}</span>
           </div>
-          <p class="attention-card-description">${exp.description}</p>
+          <ul class="experience-meta" style="list-style:none;padding:0;margin:var(--spacing-sm) 0 0;display:flex;flex-direction:column;gap:4px">
+            <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
+              <i data-feather="calendar" style="width:13px;height:13px;flex-shrink:0"></i>
+              ${exp.date}
+            </li>
+            <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
+              <i data-feather="user-check" style="width:13px;height:13px;flex-shrink:0"></i>
+              ${exp.guide}
+            </li>
+            <li style="display:flex;align-items:center;gap:6px;font-size:var(--font-size-sm);color:var(--color-text-muted)">
+              <i data-feather="users" style="width:13px;height:13px;flex-shrink:0"></i>
+              ${exp.participants} deltagare
+            </li>
+          </ul>
         </div>
       </article>
     `;
@@ -307,13 +421,183 @@ function renderOngoingDialogues() {
 }
 
 // ========================================
-// Att följa upp
+// Min arbetskö
 // ========================================
 
-function renderFollowUpSection() {
-  const grid = document.getElementById('followup-grid');
-  if (!grid) return;
-  grid.innerHTML = mockData.followUpItems.map(item => createAttentionCard(item)).join('');
+function renderWorkQueue() {
+  const container = document.getElementById('work-queue-list');
+  if (!container) return;
+
+  const typeMap = {
+    phone:         { icon: 'phone',        label: 'Telefon'      },
+    email:         { icon: 'mail',         label: 'E-post'       },
+    payment:       { icon: 'credit-card',  label: 'Betalning'    },
+    dialogue:      { icon: 'message-circle', label: 'Dialog'     },
+    accommodation: { icon: 'layers',       label: 'Boende'       },
+    planning:      { icon: 'clipboard',    label: 'Planering'    },
+  };
+
+  const priorityClassMap = {
+    high:   'card-danger',
+    medium: 'card-warning',
+    low:    '',
+  };
+
+  const statusMap = {
+    pending: { label: 'Att göra',  cls: 'badge-warning' },
+    overdue: { label: 'Förfallen', cls: 'badge-danger'  },
+    done:    { label: 'Klar',      cls: 'badge-success' },
+  };
+
+  container.innerHTML = mockData.workQueue.map(item => {
+    const t = typeMap[item.type] || { icon: 'circle', label: item.type };
+    const s = statusMap[item.status] || { label: item.status, cls: 'badge-info' };
+    const pClass = priorityClassMap[item.priority] || '';
+    return `
+      <div class="card work-queue-item ${pClass}" data-id="${item.id}" style="margin-bottom:var(--spacing-sm)">
+        <div class="card-body" style="display:flex;align-items:flex-start;gap:var(--spacing-md)">
+          <div class="wq-type-icon" aria-label="${t.label}" title="${t.label}"
+               style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center">
+            <i data-feather="${t.icon}" style="width:15px;height:15px"></i>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:var(--spacing-sm);flex-wrap:wrap;margin-bottom:4px">
+              <h4 style="margin:0;font-size:var(--font-size-sm);font-weight:600">${item.title}</h4>
+              <span class="badge ${s.cls}">${s.label}</span>
+            </div>
+            <p style="margin:0;font-size:var(--font-size-xs);color:var(--color-text-muted)">${item.context}</p>
+            <p style="margin:4px 0 0;font-size:var(--font-size-xs);color:var(--color-text-muted);display:flex;align-items:center;gap:4px">
+              <i data-feather="calendar" style="width:11px;height:11px"></i>
+              ${item.dueDate}
+            </p>
+          </div>
+          <button class="btn btn-sm btn-secondary" type="button" style="flex-shrink:0">Öppna</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+// ========================================
+// Dagliga uppgifter – inline redigerbara
+// ========================================
+
+let _todos = null;
+let _todoCounter = 0;
+
+function getTodos() {
+  if (!_todos) {
+    _todos = mockData.todoItems.map(t => ({ ...t }));
+  }
+  return _todos;
+}
+
+function renderTodoList() {
+  const container = document.getElementById('todo-list');
+  if (!container) return;
+
+  const todos = getTodos();
+
+  container.innerHTML = todos.map(todo => `
+    <div class="todo-item${todo.done ? ' todo-item--done' : ''}" data-id="${todo.id}"
+         style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-sm) 0;border-bottom:1px solid var(--color-border)">
+      <input type="checkbox" class="todo-checkbox" data-id="${todo.id}"
+             ${todo.done ? 'checked' : ''}
+             style="flex-shrink:0;width:16px;height:16px;cursor:pointer"
+             aria-label="Markera som klar">
+      <span class="todo-text" data-id="${todo.id}"
+            style="flex:1;font-size:var(--font-size-sm);${todo.done ? 'text-decoration:line-through;color:var(--color-text-muted)' : ''};cursor:text"
+            title="Klicka för att redigera">${escapeHtml(todo.text)}</span>
+      <button class="todo-delete btn btn-sm" data-id="${todo.id}" type="button"
+              style="flex-shrink:0;padding:2px 6px;opacity:0.5"
+              aria-label="Ta bort uppgift">
+        <i data-feather="x" style="width:13px;height:13px"></i>
+      </button>
+    </div>
+  `).join('');
+
+  // Wire up add button
+  const addBtn = document.getElementById('todo-add-btn');
+  const newInput = document.getElementById('todo-new-input');
+  if (addBtn && newInput) {
+    addBtn.onclick = function() { todoAdd(newInput); };
+    newInput.onkeydown = function(e) { if (e.key === 'Enter') todoAdd(newInput); };
+  }
+
+  // Wire up checkbox, delete, inline-edit
+  container.querySelectorAll('.todo-checkbox').forEach(cb => {
+    cb.onchange = function() { todoToggle(this.dataset.id); };
+  });
+
+  container.querySelectorAll('.todo-delete').forEach(btn => {
+    btn.onclick = function() { todoDelete(this.dataset.id); };
+  });
+
+  container.querySelectorAll('.todo-text').forEach(span => {
+    span.onclick = function() { todoStartEdit(this); };
+  });
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+function todoAdd(input) {
+  const text = (input.value || '').trim();
+  if (!text) return;
+  const todos = getTodos();
+  const newId = 'TODO-NEW-' + (++_todoCounter);
+  todos.push({ id: newId, text: text, done: false });
+  input.value = '';
+  renderTodoList();
+}
+
+function todoToggle(id) {
+  const todos = getTodos();
+  const todo = todos.find(t => t.id === id);
+  if (todo) { todo.done = !todo.done; renderTodoList(); }
+}
+
+function todoDelete(id) {
+  _todos = getTodos().filter(t => t.id !== id);
+  renderTodoList();
+}
+
+function todoStartEdit(span) {
+  const id = span.dataset.id;
+  const todos = getTodos();
+  const todo = todos.find(t => t.id === id);
+  if (!todo || todo.done) return;
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = todo.text;
+  input.className = 'todo-edit-input';
+  input.style.cssText = 'flex:1;font-size:var(--font-size-sm);border:1px solid var(--color-primary);border-radius:var(--border-radius);padding:2px 6px;outline:none;';
+
+  span.replaceWith(input);
+  input.focus();
+  input.select();
+
+  function commitEdit() {
+    const newText = (input.value || '').trim();
+    if (newText) todo.text = newText;
+    renderTodoList();
+  }
+
+  input.onblur = commitEdit;
+  input.onkeydown = function(e) {
+    if (e.key === 'Enter') { input.blur(); }
+    if (e.key === 'Escape') { renderTodoList(); }
+  };
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 // ========================================
