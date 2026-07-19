@@ -1190,3 +1190,86 @@ body.login-page {
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   Operationell kalender
+   ======================================== */
+
+.cal-cell {
+  min-height: 64px;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  vertical-align: top;
+  background: var(--color-bg-subtle);
+  transition: background 0.1s;
+}
+
+.cal-cell:not(.cal-cell--empty):hover {
+  background: var(--color-bg-medium);
+}
+
+.cal-cell--empty {
+  background: transparent;
+  border-color: transparent;
+}
+
+.cal-cell--today {
+  background: var(--color-primary-subtle, rgba(0,102,204,0.08));
+  border-color: var(--color-primary);
+}
+
+.cal-cell--today .cal-day-num {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.cal-day-num {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+/* ========================================
+   Dagens uppgifter (Todo)
+   ======================================== */
+
+.todo-list {
+  margin-bottom: var(--spacing-sm);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.todo-item--done .todo-text {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.todo-add-row {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  padding-top: var(--spacing-sm);
+}
+
+.todo-new-input {
+  flex: 1;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  background: var(--color-bg-input, var(--color-bg-subtle));
+  color: var(--color-text-dark);
+}
+
+.todo-new-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}

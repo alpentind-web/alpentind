@@ -24,6 +24,14 @@
       <!-- Informationsbanner – diskret dagsöversikt -->
       <div class="info-banner" id="info-banner" role="status" aria-label="Dagens översikt"></div>
 
+      <!-- Operationell kalender -->
+      <section class="content-section" aria-labelledby="calendar-heading">
+        <div class="section-header">
+          <h2 id="calendar-heading">Kalender</h2>
+        </div>
+        <div id="operational-calendar"></div>
+      </section>
+
       <!-- Kräver uppmärksamhet -->
       <section class="content-section" aria-labelledby="attention-heading">
         <div class="section-header">
@@ -32,10 +40,10 @@
         <div class="grid grid-3" id="attention-grid"></div>
       </section>
 
-      <!-- Dagens upplevelser -->
+      <!-- Kommande upplevelser -->
       <section class="content-section" aria-labelledby="experiences-heading">
         <div class="section-header">
-          <h2 id="experiences-heading">Dagens upplevelser</h2>
+          <h2 id="experiences-heading">Kommande upplevelser</h2>
           <a href="upplevelser.html" class="link">Visa alla →</a>
         </div>
         <div class="grid grid-3" id="experiences-grid"></div>
@@ -50,12 +58,27 @@
         <div id="dialogues-list" role="list"></div>
       </section>
 
-      <!-- Att följa upp -->
-      <section class="content-section" aria-labelledby="followup-heading">
+      <!-- Min arbetskö -->
+      <section class="content-section" aria-labelledby="workqueue-heading">
         <div class="section-header">
-          <h2 id="followup-heading">Att följa upp</h2>
+          <h2 id="workqueue-heading">Min arbetskö</h2>
         </div>
-        <div class="grid grid-3" id="followup-grid"></div>
+        <div id="work-queue-list"></div>
+      </section>
+
+      <!-- Dagens uppgifter – inline redigerbara -->
+      <section class="content-section" aria-labelledby="todos-heading">
+        <div class="section-header">
+          <h2 id="todos-heading">Dagens uppgifter</h2>
+        </div>
+        <div id="todo-list" class="todo-list" aria-label="Dagens uppgifter"></div>
+        <div class="todo-add-row">
+          <input type="text" id="todo-new-input" class="todo-new-input" placeholder="Lägg till uppgift…" aria-label="Ny uppgift">
+          <button class="btn btn-sm btn-primary" id="todo-add-btn" type="button">
+            <i data-feather="plus" style="width:14px;height:14px"></i>
+            Lägg till
+          </button>
+        </div>
       </section>
 
       <!-- Snabbåtgärder -->
