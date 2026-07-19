@@ -274,7 +274,7 @@ function buildAccommodationWorkspaceConfig(region, accommodation, detail) {
     var pricingItems = [];
     if (p.halfBoard)     pricingItems.push({ label: 'Halvpension',      value: p.halfBoard });
     if (p.fullBoard)     pricingItems.push({ label: 'Helpension',       value: p.fullBoard });
-    if (p.groupDiscount) pricingItems.push({ label: 'Grupps rabatt',    value: p.groupDiscount });
+    if (p.groupDiscount) pricingItems.push({ label: 'Grupprabatt',    value: p.groupDiscount });
     if (p.notes)         pricingItems.push({ label: 'Notering',         value: p.notes });
     if (pricingItems.length > 0) {
       contextSections.push({ id: 'pricing', heading: 'Priser', items: pricingItems });
@@ -285,7 +285,7 @@ function buildAccommodationWorkspaceConfig(region, accommodation, detail) {
     var cap = detail.capacity;
     var capacityItems = [];
     if (cap.totalBeds)    capacityItems.push({ label: 'Totalt bäddar',  value: String(cap.totalBeds) });
-    if (cap.groupMaximum) capacityItems.push({ label: 'Max grupstorlek', value: String(cap.groupMaximum) + ' personer' });
+    if (cap.groupMaximum) capacityItems.push({ label: 'Max gruppstorlek', value: String(cap.groupMaximum) + ' personer' });
     if (cap.roomTypes)    capacityItems.push({ label: 'Rumstyper',       value: cap.roomTypes });
     if (capacityItems.length > 0) {
       contextSections.push({ id: 'capacity', heading: 'Kapacitet', items: capacityItems });
