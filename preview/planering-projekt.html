@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planeringsuppdrag – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="planering-project-page">
+      <section class="page-header planning-project-header" aria-labelledby="planning-project-title">
+        <div>
+          <h1 id="planning-project-title">Planeringsuppdrag</h1>
+          <p id="planning-project-subtitle" class="text-muted"></p>
+        </div>
+        <button class="btn btn-secondary" type="button" onclick="window.location.href='planering.html'">
+          <i data-feather="arrow-left" style="width:16px;height:16px" aria-hidden="true"></i>
+          Tillbaka till planering
+        </button>
+      </section>
+
+      <section class="content-section" aria-labelledby="accommodation-area-title">
+        <div class="section-header">
+          <h2 id="accommodation-area-title">Planning Area: Accommodation</h2>
+        </div>
+        <div id="planning-area-root"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/planning-area.js"></script>
+  <script>
+    function getProjectIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('projectId') || 'PLAN-001';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      initNavigation('nav-2');
+      renderPlanningProjectEnvironment(getProjectIdFromUrl());
+    });
+  </script>
+</body>
+</html>

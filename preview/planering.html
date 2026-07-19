@@ -131,9 +131,7 @@
     }
 
     function openPlanningProject(id) {
-      // Stage 1 stub – Planning Project page not yet implemented.
-      // This will be wired to the Planning Project page in a future stage.
-      console.info('Öppnar planeringsuppdrag:', id);
+      window.location.href = 'planering-projekt.html?projectId=' + encodeURIComponent(id);
     }
 
     document.addEventListener('DOMContentLoaded', function() {

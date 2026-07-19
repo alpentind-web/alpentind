@@ -2397,3 +2397,152 @@ body.login-page {
     justify-content: center;
   }
 }
+
+/* ========================================
+   Planering – Planning Area (ESR-006 Stage 2)
+   ======================================== */
+
+.planning-project-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.planning-project-header .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.planning-area-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-md);
+}
+
+.planning-area-card {
+  margin: 0;
+}
+
+.planning-area-purpose {
+  margin: 0;
+  color: var(--color-text-medium);
+}
+
+.planning-question-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.planning-question-item {
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.planning-question-item.is-unanswered {
+  border-left: 3px solid var(--color-warning);
+}
+
+.planning-question-item.is-answered {
+  border-left: 3px solid var(--color-success);
+}
+
+.planning-question-content {
+  min-width: 0;
+}
+
+.planning-question-text {
+  margin: 0 0 var(--spacing-2xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+}
+
+.planning-question-unknown {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+}
+
+.planning-question-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.planning-blockers {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-medium);
+}
+
+.planning-blockers-title {
+  margin: 0 0 var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+}
+
+.planning-blockers ul {
+  margin: 0;
+  padding-left: var(--spacing-md);
+  color: var(--color-text-dark);
+  font-size: var(--font-size-sm);
+}
+
+.planning-dependency-list {
+  list-style: none;
+  margin: var(--spacing-sm) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.planning-dependency-list li {
+  padding: var(--spacing-sm);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-medium);
+}
+
+.planning-dependency-list li span {
+  display: block;
+  margin-top: var(--spacing-2xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+}
+
+@media (max-width: 1024px) {
+  .planning-area-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .planning-project-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .planning-question-item {
+    flex-direction: column;
+  }
+
+  .planning-question-actions {
+    width: 100%;
+    align-items: flex-start;
+  }
+}

@@ -757,6 +757,16 @@ const planningProjects = [
     status: 'ongoing',
     openQuestions: 3,
     openQuestionsLabel: '3 frågor återstår',
+    planningAreas: {
+      accommodation: {
+        questions: {
+          'bookable-all-stages': 'answered',
+          'sufficient-capacity': 'unanswered',
+          'alternatives-available': 'answered',
+          'booking-conditions-acceptable': 'unanswered',
+        },
+      },
+    },
   },
   {
     id: 'PLAN-002',
@@ -764,6 +774,16 @@ const planningProjects = [
     status: 'ongoing',
     openQuestions: 1,
     openQuestionsLabel: 'Boenden saknas',
+    planningAreas: {
+      accommodation: {
+        questions: {
+          'bookable-all-stages': 'unanswered',
+          'sufficient-capacity': 'unanswered',
+          'alternatives-available': 'answered',
+          'booking-conditions-acceptable': 'unanswered',
+        },
+      },
+    },
   },
   {
     id: 'PLAN-003',
@@ -771,20 +791,89 @@ const planningProjects = [
     status: 'ongoing',
     openQuestions: 1,
     openQuestionsLabel: 'Pris ej färdigställt',
+    planningAreas: {
+      accommodation: {
+        questions: {
+          'bookable-all-stages': 'answered',
+          'sufficient-capacity': 'answered',
+          'alternatives-available': 'answered',
+          'booking-conditions-acceptable': 'answered',
+        },
+      },
+    },
   },
   {
     id: 'PLAN-004',
     title: 'Tour du Mont Blanc – Höst',
     status: 'ready',
     openQuestionsLabel: 'Redo att säljas',
+    planningAreas: {
+      accommodation: {
+        questions: {
+          'bookable-all-stages': 'answered',
+          'sufficient-capacity': 'answered',
+          'alternatives-available': 'answered',
+          'booking-conditions-acceptable': 'answered',
+        },
+      },
+    },
   },
   {
     id: 'PLAN-005',
     title: 'Haute Route – Premium',
     status: 'ready',
     openQuestionsLabel: 'Redo att säljas',
+    planningAreas: {
+      accommodation: {
+        questions: {
+          'bookable-all-stages': 'answered',
+          'sufficient-capacity': 'answered',
+          'alternatives-available': 'answered',
+          'booking-conditions-acceptable': 'answered',
+        },
+      },
+    },
   },
 ];
+
+const planningAreaTemplates = {
+  accommodation: {
+    id: 'accommodation',
+    title: 'Accommodation',
+    purpose: 'Säkerställ att varje etapp har ett boendealternativ som kan genomföras operativt för gruppen.',
+    questions: [
+      {
+        id: 'bookable-all-stages',
+        text: 'Kan boende bokas för varje etapp?',
+        unknownState: 'Bokningsläge saknas fortfarande för minst en etapp.',
+        blocker: 'Readiness stoppas tills alla etapper har bokningsbart boende.',
+      },
+      {
+        id: 'sufficient-capacity',
+        text: 'Har varje etapp tillräcklig kapacitet för gruppen?',
+        unknownState: 'Kapacitet för en eller flera etapper är fortfarande okänd.',
+        blocker: 'Readiness stoppas tills hela gruppen får plats i samtliga etapper.',
+      },
+      {
+        id: 'alternatives-available',
+        text: 'Finns alternativ om primära boenden faller bort?',
+        unknownState: 'Alternativ saknas fortfarande för minst en kritisk etapp.',
+        blocker: 'Readiness riskerar stopp vid avbokningar utan alternativa boenden.',
+      },
+      {
+        id: 'booking-conditions-acceptable',
+        text: 'Är bokningsvillkor och avbokningsvillkor acceptabla?',
+        unknownState: 'Villkor är inte bekräftade för alla bokningar.',
+        blocker: 'Readiness stoppas tills villkor är granskade och godtagbara.',
+      },
+    ],
+    dependencies: [
+      { area: 'Transportation', note: 'Påverkas av valda boenden och dagliga förflyttningar.' },
+      { area: 'Pricing', note: 'Påverkas av boendekostnad och avbokningsvillkor.' },
+      { area: 'Risk Assessment', note: 'Påverkas av tillgång till alternativ och fallback-plan.' },
+    ],
+  },
+};
 
 // ========================================
 // Exporterat datapaket
@@ -812,4 +901,5 @@ const mockData = {
   todoItems,
   dialogues,
   planningProjects,
+  planningAreaTemplates,
 };
