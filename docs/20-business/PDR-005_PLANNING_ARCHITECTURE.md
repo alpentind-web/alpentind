@@ -10,7 +10,7 @@ Planning is the process of transforming an idea into a sellable, operationally v
 
 Planning is question-driven, non-linear, and persistent across days, weeks, and months.
 
-Planning starts as a **Planning Project** when the user selects **"Planera ny resa"** and continues until all operational questions have been answered.
+Planning starts as a **Planning Project** when the user selects **"Planera ny resa"** and continues through a lifecycle of operational readiness states until operational execution.
 
 Planning is a separate architectural concept alongside Register Architecture and Workspace Architecture because it addresses a fundamentally different business problem.
 
@@ -56,9 +56,9 @@ Planning is the structured process of transforming a journey idea into a fully d
 
 Planning is fundamentally about reducing operational uncertainty.
 
-The objective of Planning is not to complete forms.
+The objective of Planning is not to complete forms or produce documentation as an end in itself.
 
-The objective is to answer the operational questions that prevent a journey from becoming sellable.
+The objective is to answer the operational questions that prevent a journey from becoming safely, professionally, and economically deliverable.
 
 Every unanswered operational question represents uncertainty.
 
@@ -79,7 +79,19 @@ The platform should surface unanswered questions, not completed forms.
 
 ---
 
-## 3.2 Planning is Persistent
+## 3.2 Planning Philosophy
+
+Planning is not about producing documentation.
+
+Planning is about creating confidence that the journey can be safely, professionally, and economically delivered.
+
+Documentation is a consequence of planning.
+
+It is not the purpose of planning.
+
+---
+
+## 3.3 Planning is Persistent
 
 Planning is a long-lived business process, not a single work session.
 
@@ -98,7 +110,7 @@ Planning should always resume from **what remains**, not from what has already b
 
 ---
 
-## 3.3 Planning Project
+## 3.4 Planning Project
 
 A **Planning Project** is created immediately when the user selects **"Planera ny resa"**.
 
@@ -106,11 +118,42 @@ The Planning Project exists independently of whether any planning questions have
 
 Planning Projects represent journeys under development and remain active throughout the planning phase.
 
+Planning begins immediately at project creation, even when no planning questions have yet been answered.
+
 Terminology:
 
 - Use **Planning Project** for the architectural entity
 - Use **Pågående planering** as the user-facing status label
 - Avoid the term **Draft** because it implies incomplete data rather than ongoing business work
+
+---
+
+## 3.5 Planning Lifecycle States
+
+Every Planning Project exists in exactly one operational state:
+
+### 1. Pågående planering
+
+- **Purpose:** The journey is still under development
+- **Meaning:** One or more mandatory planning questions remain unanswered
+- **Condition:** Operational uncertainty still exists
+- **Role:** Primary planning workspace
+
+### 2. Redo att säljas
+
+- **Purpose:** The journey is ready to be sold
+- **Meaning:** All mandatory planning questions have been answered
+- **Condition:** No operational uncertainty remains
+- **Role:** Waiting for bookings
+- **Decision:** Product Owner decides when sales begin
+
+### 3. Operativ resa
+
+- **Purpose:** The journey has reached economic viability and is now operational
+- **Meaning:** Enough participants have booked to meet the minimum viable participant threshold in the validated cost model
+- **Condition:** Planning is complete
+- **Role:** Operational responsibility moves to **Resa Workspace**
+- **Planning implication:** Planning is no longer the primary environment; the Planning Project remains available as planning history/reference
 
 ---
 
@@ -201,15 +244,15 @@ Planning defines the work that needs to be executed.
   ↓
 2. Planning Project
   ↓
-3. Planning
+3. Pågående planering
   ↓
-4. Sellable Journey
+4. Redo att säljas
   ↓
 5. Bookings
   ↓
-6. Operational Journey
+6. Operativ resa
   ↓
-7. Execution
+7. Resa Workspace
   ↓
 8. Completed Journey
 ```
@@ -229,41 +272,41 @@ Planning defines the work that needs to be executed.
 - **State label:** **Pågående planering**, even before any question is answered
 - **Purpose:** Ensure planning can continue across sessions without context loss
 
-### Stage 3: Planning
+### Stage 3: Pågående planering
 
-- **What:** Structured questioning and definition
+- **What:** Active planning work with operational uncertainty
 - **Questions:** See Planning Model
-- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Documentation, Packing List, Booking Instructions, Operational Runbook
+- **Output:** Planning answers and artefacts are progressively created
 - **Participants:** Planning coordinator, guides, operations
 - **Duration:** Typically 1 week to 3 months (may pause and resume)
-- **Next Gate:** All operational questions answered? Planning Review completed? Economic viability confirmed? Sufficient participant interest?
+- **Transition condition:** Final Planning Review confirms all mandatory planning questions are answered
 
-### Stage 4: Sellable Journey
+### Stage 4: Redo att säljas
 
-- **What:** Planning complete and validated
+- **What:** Planning complete and validated for sale
 - **Conditions:**
-  - All planning questions answered
-  - Economic model validated
-  - Guide availability confirmed
-  - Participant requirements defined
-  - Operational procedures documented
-- **Output:** Approved journey ready for booking
+  - All mandatory planning questions answered
+  - Final Planning Review completed
+  - No operational uncertainty remains
+- **Output:** Sellable journey waiting for bookings
+- **Decision:** Product Owner decides when sales begin
 
 ### Stage 5: Bookings
 
 - **What:** Participant enrollment and booking administration
 - **Participants:** Operations, coordinators
 
-### Stage 6: Operational Journey
+### Stage 6: Operativ resa
 
-- **What:** Journey has confirmed participants and operational commitments
+- **What:** Journey has reached economic viability through bookings
 - **Participants:** Operations, guides
+- **Transition:** See Planning Lifecycle State 3 (**Operativ resa**) for the formal responsibility shift and planning-history treatment
 
-### Stage 7: Execution
+### Stage 7: Resa Workspace
 
-- **What:** Journey is actively running
+- **What:** Journey is managed operationally in workspace context
 - **Participants:** Enrolled guests, guides, coordinators
-- **Operations:** Person Workspaces manage individual participant needs
+- **Operations:** Workspace workflows manage individual participant and journey execution needs
 
 ### Stage 8: Completed Journey
 
@@ -483,9 +526,15 @@ Avoid percentage-complete and form-completion metrics where they do not improve 
 
 ## 8.1 Planning Dashboard
 
-The Planning Environment shall present **Current Planning Projects**.
+The Planning Dashboard shall present active operational work:
 
-This list is for continuation of ongoing work.
+- **Planera ny resa**
+- **Pågående planeringar**
+- **Redo att säljas**
+
+These are business work states and actions, not document folders.
+
+The dashboard is continuation-first and operationally focused.
 
 It is not a register and not an archive.
 
@@ -493,9 +542,13 @@ Each Planning Project should communicate what remains, for example:
 
 - "Tour du Mont Blanc — 3 planning questions remain"
 - "Haute Route — Accommodation unresolved"
-- "Corporate Journey — Idea stage"
+- "Corporate Journey — Redo att säljas"
 
-The dashboard purpose is to help users continue unfinished planning immediately.
+Selecting **Planera ny resa** immediately creates a new Planning Project.
+
+Planning exists from the moment of creation, even before the first planning question is answered.
+
+The dashboard purpose is to help users continue planning and readiness progression immediately.
 
 ---
 
@@ -515,11 +568,11 @@ The user should never need to remember where planning stopped.
 
 ## 8.3 Planning Review
 
-Before a journey becomes Sellable, the Product Owner performs a complete Planning Review.
+Before a Planning Project moves into **Redo att säljas**, the Product Owner performs a complete Planning Review.
 
 The review walks through the journey from start to finish.
 
-The purpose is to verify that no operational questions remain unanswered.
+The purpose is to verify that no mandatory planning questions remain unanswered.
 
 This review is the final Planning activity.
 
@@ -623,13 +676,23 @@ Planning is long-lived and may span days, weeks, or months.
 
 Users can pause and resume planning at any time without losing context.
 
-### Principle 3: Question-Driven
+### Principle 3: Planning Projects Progress Naturally
+
+Planning Projects move through clearly defined readiness states.
+
+The system supports this progression.
+
+Users should never manually move projects between arbitrary categories or folders.
+
+Business process and readiness conditions determine transitions.
+
+### Principle 4: Question-Driven
 
 Planning progresses by asking and answering operational questions.
 
 Every decision should be traceable to a question it answers.
 
-### Principle 4: Non-Linear
+### Principle 5: Non-Linear
 
 Planning has no mandatory sequence.
 
@@ -637,13 +700,13 @@ Planning Areas can be addressed in any order as information becomes available.
 
 Completion is measured by answered questions, not by following predefined steps.
 
-### Principle 5: Dependency Recognition
+### Principle 6: Dependency Recognition
 
 Planning Areas may depend on one another.
 
 The platform identifies what is blocked and what is ready without enforcing order.
 
-### Principle 6: Viability Gating
+### Principle 7: Viability Gating
 
 A journey becomes operational only when:
 
@@ -651,15 +714,15 @@ A journey becomes operational only when:
 - Sufficient participant demand exists (or is forecasted)
 - All operational questions have been answered
 
-These conditions must be validated before moving to Stage 4: Sellable Journey.
+These conditions must be validated before moving to Stage 4: **Redo att säljas**.
 
-### Principle 7: Artefact Generation
+### Principle 8: Artefact Generation
 
 Planning produces tangible artefacts that guide operations.
 
 These artefacts (Plan, Pricing, Participant Letter, Runbook) become the source of truth for operational execution.
 
-### Principle 8: Coordinator Ownership
+### Principle 9: Coordinator Ownership
 
 Planning is owned and driven by a Planning Coordinator.
 
@@ -667,7 +730,7 @@ The coordinator ensures all questions are asked, answered, and documented.
 
 The coordinator drives stakeholder alignment (guides, operations, product, finance).
 
-### Principle 9: Focused Progress Indicators
+### Principle 10: Focused Progress Indicators
 
 Planning progress is reported as remaining unanswered questions.
 
@@ -752,7 +815,7 @@ Registers
 
 ## 13. Architectural Separation
 
-Three distinct architectural concepts:
+Three primary architectural environments define platform behavior:
 
 ### Register Architecture (PDR-004)
 
@@ -770,7 +833,13 @@ Three distinct architectural concepts:
 
 - **Purpose:** Define new operational objects
 - **Question:** "How do I create Y?"
-- **User flow:** Conceive idea → Create Planning Project → Answer questions → Produce plan → Journey becomes a Sellable Journey
+- **User flow:** Conceive idea → Create Planning Project → Pågående planering → Redo att säljas → Operativ resa
+
+Primary architectural roles:
+
+- **Planning creates**
+- **Registers discover**
+- **Workspaces operate**
 
 These concepts are distinct but interconnected:
 
@@ -791,6 +860,21 @@ Journey Execution
 
 ---
 
+## 13.1 Summary of Architectural Changes (Revision 3)
+
+This revision finalizes Planning Discovery outcomes by introducing lifecycle-based planning architecture:
+
+- Planning now includes explicit lifecycle states: **Pågående planering**, **Redo att säljas**, **Operativ resa**
+- Journey Lifecycle now reflects readiness-state progression from idea to **Resa Workspace**
+- Planning Dashboard now presents active business work: **Planera ny resa**, **Pågående planeringar**, **Redo att säljas**
+- Planning Project creation is immediate when **Planera ny resa** is selected
+- Planning Review now explicitly gates transition into **Redo att säljas**
+- Planning philosophy is clarified: confidence and deliverability are the purpose; documentation is a consequence
+- Planning principle added: **Planning Projects Progress Naturally**
+- Architectural separation is strengthened as three primary environments: **Planning creates**, **Registers discover**, **Workspaces operate**
+
+---
+
 ## 14. Future Architectural Implications
 
 Planning Architecture will impact future Engineering Specifications:
@@ -805,7 +889,9 @@ Planning Architecture will impact future Engineering Specifications:
 
 ### ESR-20x: Planning Dashboard
 
-- Current Planning Projects (Pågående planering)
+- Planera ny resa
+- Pågående planeringar
+- Redo att säljas
 - Remaining questions and unresolved areas
 - Resume support with restored planning context
 - Continuation-first view (not register, not archive)
