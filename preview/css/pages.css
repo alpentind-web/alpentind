@@ -194,14 +194,16 @@ body.login-page {
   margin-bottom: var(--spacing-2xl);
 }
 
-.arbetsdag-workspace {
+.arbetsdag-workspace,
+.workspace-layout {
   display: grid;
   grid-template-columns: 280px 1fr 340px;
   gap: var(--spacing-lg);
   align-items: start;
 }
 
-.arbetsdag-column {
+.arbetsdag-column,
+.workspace-column {
   min-width: 0;
 }
 
