@@ -721,18 +721,16 @@ const dialogues = [
 // ========================================
 
 const navigationItems = [
-  { id: 'nav-0',  label: 'Översikt',      featherIcon: 'layout',        page: 'oversikt'      },
-  { id: 'nav-1',  label: 'Arbetsdag',     featherIcon: 'home',          page: 'arbetsdag'     },
+  { id: 'nav-0',  label: 'Översikt',      featherIcon: 'home',           page: 'oversikt'      },
+  { id: 'nav-1',  label: 'Arbetsdag',     featherIcon: 'briefcase',      page: 'arbetsdag'     },
   { id: 'nav-12', label: 'Dialoger',       featherIcon: 'message-circle', page: 'dialog'       },
-  { id: 'nav-2',  label: 'Upplevelser',   featherIcon: 'compass',       page: 'upplevelser'   },
-  { id: 'nav-3',  label: 'Avgångar',      featherIcon: 'navigation',    page: 'departures'    },
-  { id: 'nav-4',  label: 'Kunder',        featherIcon: 'users',         page: 'customers'     },
-  { id: 'nav-5',  label: 'Guider',        featherIcon: 'user-check',    page: 'guides'        },
-  { id: 'nav-6',  label: 'Boenden',       featherIcon: 'layers',        page: 'accommodations'},
-  { id: 'nav-7',  label: 'Ekonomi',       featherIcon: 'bar-chart-2',   page: 'economy'       },
-  { id: 'nav-9',  label: 'Dokument',      featherIcon: 'file-text',     page: 'documents'     },
-  { id: 'nav-10', label: 'Meddelanden',   featherIcon: 'message-square',page: 'messages'      },
-  { id: 'nav-11', label: 'Inställningar', featherIcon: 'settings',      page: 'settings'      },
+  { id: 'nav-2',  label: 'Upplevelser',   featherIcon: 'compass',        page: 'upplevelser'   },
+  { id: 'nav-4',  label: 'Kunder',        featherIcon: 'users',          page: 'customers'     },
+  { id: 'nav-5',  label: 'Guider',        featherIcon: 'user-check',     page: 'guides'        },
+  { id: 'nav-6',  label: 'Boenden',       featherIcon: 'layers',         page: 'accommodations'},
+  { id: 'nav-7',  label: 'Ekonomi',       featherIcon: 'bar-chart-2',    page: 'economy'       },
+  { id: 'nav-9',  label: 'Dokument',      featherIcon: 'file-text',      page: 'documents'     },
+  { id: 'nav-11', label: 'Inställningar', featherIcon: 'settings',       page: 'settings'      },
 ];
 
 // ========================================

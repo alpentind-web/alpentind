@@ -24,22 +24,29 @@
       <!-- Lägesbild -->
       <div class="info-banner" id="info-banner" role="status" aria-label="Lägesbild"></div>
 
-      <div class="workspace-layout">
-        <div class="workspace-column">
+      <div class="oversikt-workspace">
+        <div class="oversikt-primary-column">
           <section class="content-section" aria-labelledby="oversikt-calendar-heading">
             <div class="section-header">
               <h2 id="oversikt-calendar-heading">Planeringskalender</h2>
             </div>
             <div id="operational-calendar"></div>
           </section>
-        </div>
 
-        <div class="workspace-column">
           <section class="content-section" aria-labelledby="oversikt-agenda-heading">
             <div class="section-header">
               <h2 id="oversikt-agenda-heading">Veckoagenda</h2>
             </div>
             <div id="week-agenda-list"></div>
+          </section>
+        </div>
+
+        <div class="oversikt-aside-column">
+          <section class="content-section" aria-labelledby="oversikt-workqueue-heading">
+            <div class="section-header">
+              <h2 id="oversikt-workqueue-heading">Min arbetskö</h2>
+            </div>
+            <div id="oversikt-work-queue"></div>
           </section>
 
           <section class="content-section" aria-labelledby="oversikt-experiences-heading">
@@ -47,15 +54,6 @@
               <h2 id="oversikt-experiences-heading">Kommande upplevelser</h2>
             </div>
             <div id="experiences-grid"></div>
-          </section>
-        </div>
-
-        <div class="workspace-column">
-          <section class="content-section" aria-labelledby="oversikt-workqueue-heading">
-            <div class="section-header">
-              <h2 id="oversikt-workqueue-heading">Min arbetskö</h2>
-            </div>
-            <div id="oversikt-work-queue"></div>
           </section>
 
           <section class="content-section" aria-labelledby="oversikt-quickactions-heading">
