@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samarbetspartners – Kontakter – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="samarbetspartners-page">
+
+      <section class="page-header" aria-labelledby="samarbetspartners-title">
+        <nav class="workspace-nav" aria-label="Navigeringsstig">
+          <a href="kontakter.html" class="link">Kontakter</a>
+          <span aria-hidden="true">›</span>
+          <span>Samarbetspartners</span>
+        </nav>
+        <h1 id="samarbetspartners-title">Samarbetspartners</h1>
+        <p class="text-muted">Bläddra bland operativa partnerkontakter – boende, transport, lokala operatörer.</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="samarbetspartners-list-heading">
+        <div class="section-header">
+          <h2 id="samarbetspartners-list-heading">Partnerlista</h2>
+        </div>
+        <p class="text-muted" style="font-style: italic;">Steg 2: Partnerlistan implementeras här</p>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-4');
+    });
+  </script>
+</body>
+</html>
