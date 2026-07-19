@@ -447,7 +447,7 @@ function renderWorkQueue() {
     return `
       <div class="card work-queue-item ${pClass}" data-id="${item.id}" style="margin-bottom:var(--spacing-sm)">
         <div class="card-body" style="display:flex;align-items:flex-start;gap:var(--spacing-md)">
-          <input type="checkbox" aria-label="Markera ${item.title} som klar" ${item.status === 'done' ? 'checked' : ''} style="margin-top:2px;cursor:pointer">
+          <input type="checkbox" data-action="complete" data-id="${item.id}" aria-label="Markera ${item.title} som klar" ${item.status === 'done' ? 'checked' : ''} style="margin-top:2px;cursor:pointer">
           <div class="wq-type-icon" aria-label="${t.label}" title="${t.label}"
                style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center">
             <i data-feather="${t.icon}" style="width:15px;height:15px"></i>
@@ -465,8 +465,8 @@ function renderWorkQueue() {
             <p style="margin:4px 0 0;font-size:var(--font-size-xs);color:var(--color-text-muted)">${item.association}</p>
           </div>
           <div style="display:flex;gap:var(--spacing-xs);flex-shrink:0">
-            <button class="btn btn-sm btn-tertiary" type="button">Öppna</button>
-            <button class="btn btn-sm btn-secondary" type="button">Påminn</button>
+            <button class="btn btn-sm btn-tertiary" data-action="open" data-id="${item.id}" type="button">Öppna</button>
+            <button class="btn btn-sm btn-secondary" data-action="remind" data-id="${item.id}" type="button">Påminn</button>
           </div>
         </div>
       </div>

@@ -479,7 +479,7 @@ const workQueue = [
     type: 'dialogue',
     title: 'Följ upp Anna Andersson dialog',
     context: 'Väntar på svar om rekommendation',
-    status: 'pending',
+    status: 'overdue',
     priority: 'medium',
     dueDate: '2026-07-17',
     association: 'Person: Anna Andersson • Upplevelse: Tour du Mont Blanc',
