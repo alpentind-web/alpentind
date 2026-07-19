@@ -131,11 +131,11 @@ body.login-page {
 .info-banner {
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   padding: var(--spacing-sm) var(--spacing-lg);
   background-color: var(--color-bg-medium);
   border: var(--border-thin);
-  border-top: 3px solid var(--color-primary);
+  border-top: 2px solid var(--color-primary);
   border-radius: var(--border-radius-large);
   margin-bottom: var(--spacing-xl);
   flex-wrap: wrap;
@@ -192,6 +192,65 @@ body.login-page {
 
 .content-section {
   margin-bottom: var(--spacing-2xl);
+}
+
+.arbetsdag-workspace {
+  display: grid;
+  grid-template-columns: 280px 1fr 340px;
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.arbetsdag-column {
+  min-width: 0;
+}
+
+#attention-grid,
+#work-queue-list,
+#experiences-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.week-agenda-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.week-agenda-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border: var(--border-thin);
+  border-radius: var(--border-radius);
+  background: var(--color-bg-subtle);
+}
+
+.week-agenda-date {
+  margin: 0 0 2px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.week-agenda-title {
+  margin: 0 0 2px;
+  font-size: var(--font-size-sm);
+}
+
+.week-agenda-meta {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1200px) {
+  .arbetsdag-workspace {
+    grid-template-columns: 1fr;
+  }
 }
 
 .section-header {
@@ -847,6 +906,10 @@ body.login-page {
    ======================================== */
 
 @media (max-width: 768px) {
+  .arbetsdag-workspace {
+    grid-template-columns: 1fr;
+  }
+
   .component-page {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr;
@@ -912,12 +975,14 @@ body.login-page {
   display: flex;
   gap: var(--spacing-md);
   flex-wrap: wrap;
+  padding-top: var(--spacing-sm);
 }
 
 .quick-actions .btn {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-sm);
+  opacity: 0.9;
 }
 
 .quick-actions .btn svg {
