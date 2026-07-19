@@ -41,10 +41,38 @@ Planning is the structured process of transforming a journey idea into a fully d
 ### Core Characteristics
 
 - **Question-driven:** Planning asks and answers operational questions
-- **Non-linear:** Decision points may loop back; questions may be discovered during planning
+- **Non-linear:** There is no correct sequence; planning areas may be addressed in any order
+- **Dependency-aware:** Planning areas may have dependencies, but dependencies do not enforce a strict sequence
 - **Uncertainty reduction:** Each planning step reduces operational uncertainty
 - **End condition:** Planning ends when all operational questions have been answered
 - **Output-focused:** Planning produces artefacts necessary for operations
+
+---
+
+## 3.1 Planning as Uncertainty Reduction
+
+Planning is fundamentally about reducing operational uncertainty.
+
+The objective of Planning is not to complete forms.
+
+The objective is to answer the operational questions that prevent a journey from becoming sellable.
+
+Every unanswered operational question represents uncertainty.
+
+Every answered question increases confidence and moves the journey toward operational readiness.
+
+### Core Principle
+
+The metric for planning progress is not completion percentage.
+
+The metric is **remaining unanswered questions**.
+
+Example indicators:
+
+- "3 planning questions remain"
+- "All questions answered. Ready for review."
+
+The platform should surface unanswered questions, not completed forms.
 
 ---
 
@@ -178,10 +206,10 @@ Planning defines the work that needs to be executed.
 
 - **What:** Structured questioning and definition
 - **Questions:** See Planning Model
-- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Information, Operational Runbook
+- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Documentation, Packing List, Booking Instructions, Operational Runbook (order mirrors Section 9)
 - **Participants:** Planning coordinator, guides, operations
 - **Duration:** Days to weeks
-- **Next Gate:** All operational questions answered? Economic viability confirmed? Sufficient participant interest?
+- **Next Gate:** All operational questions answered? Planning Review completed? Economic viability confirmed? Sufficient participant interest?
 
 ### Stage 3: Operational Readiness
 
@@ -216,7 +244,42 @@ Planning defines the work that needs to be executed.
 
 Planning is structured around answering operational questions.
 
+### Planning Areas
+
+Planning Areas represent operational domains rather than technical system components.
+
+Typical Planning Areas include:
+
+- Route
+- Daily Stages
+- Accommodation
+- Transportation
+- Meals
+- Guide
+- Cost
+- Pricing
+- Risk Assessment
+- Documents
+
+Planning Areas are not steps.
+
+Users may address Planning Areas in any order.
+
+Some areas may be temporarily blocked until dependency questions are resolved.
+
 ### Planning Questions
+
+Planning questions belong to Planning Areas.
+
+Each Planning Area can contain one or many operational questions.
+
+#### Example: Accommodation Planning Area
+
+- Can accommodation be booked for every stage?
+- Are all reservations confirmed?
+- Do capacities match group size?
+
+The platform should surface unanswered questions, not completed forms.
 
 #### Geographic & Route Questions
 
@@ -303,6 +366,16 @@ Planning is structured around answering operational questions.
 - What contingencies exist?
 - How are changes managed?
 
+### Planning Dependencies
+
+Planning Areas may depend on one another.
+
+Example dependency chain:
+
+Route Definition → Daily Stages → Accommodation Locations → Transportation Routing → Cost Calculation
+
+Key principle: the platform recognizes dependencies without enforcing planning order.
+
 ---
 
 ## 8. Planning Readiness
@@ -350,7 +423,9 @@ A journey is operationally ready when:
    - Cost Calculation documented
    - Pricing defined
    - Participant Letter prepared
-   - Guide Information sheet prepared
+   - Guide Documentation prepared
+   - Packing List prepared
+   - Booking Instructions prepared
    - Operational Runbook (Körschema) created
 
 8. **Stakeholder approval is obtained**
@@ -359,9 +434,37 @@ A journey is operationally ready when:
    - Product/Marketing approve plan
    - Finance approve pricing
 
+### Readiness Progress Indicators
+
+Progress should be expressed as **remaining unanswered questions**.
+
+Example indicators:
+
+- "8 planning questions remain"
+- "Accommodation area: 2 questions remain"
+- "All planning questions answered. Ready for review."
+
+Avoid percentage-complete and form-completion metrics where they do not improve operational understanding.
+
+---
+
+## 8.1 Planning Review
+
+Before a journey becomes Sellable, the Product Owner performs a complete Planning Review.
+
+The review walks through the journey from start to finish.
+
+The purpose is to verify that no operational questions remain unanswered.
+
+This review is the final Planning activity.
+
 ---
 
 ## 9. Planning Outputs
+
+Operational artefacts are generated after Planning has been completed.
+
+All outputs originate from one Planning model.
 
 Planning produces the following artefacts:
 
@@ -403,7 +506,7 @@ Planning produces the following artefacts:
 - Contact information
 - FAQ
 
-### 9.5 Guide Information
+### 9.5 Guide Documentation
 
 - Guide assignments
 - Guide responsibilities
@@ -412,7 +515,22 @@ Planning produces the following artefacts:
 - Contingency procedures
 - Emergency contacts
 
-### 9.6 Operational Runbook (Körschema)
+### 9.6 Packing List
+
+- Required clothing layers
+- Required equipment by season
+- Optional equipment guidance
+- Weight and volume recommendations
+- Safety-critical items checklist
+
+### 9.7 Booking Instructions
+
+- Reservation process by Planning Area dependency
+- Supplier/provider booking sequence
+- Payment and confirmation checkpoints
+- Escalation path for unconfirmed bookings
+
+### 9.8 Operational Runbook (Körschema)
 
 - Day-by-day operational procedures
 - Timing requirements
@@ -428,31 +546,33 @@ Planning produces the following artefacts:
 
 ## 10. Planning Principles
 
-### Principle 1: Question-Driven Decision Making
+### Principle 1: Uncertainty Reduction (Primary)
+
+Planning eliminates operational uncertainty.
+
+Progress is measured by remaining unanswered questions.
+
+### Principle 2: Question-Driven
 
 Planning progresses by asking and answering operational questions.
 
-Every decision should be traceable back to a question it answers.
+Every decision should be traceable to a question it answers.
 
-Questions may be discovered during planning; planning may loop back.
+### Principle 3: Non-Linear
 
-### Principle 2: Non-Linear Progression
+Planning has no mandatory sequence.
 
-Planning is not strictly sequential.
+Planning Areas can be addressed in any order as information becomes available.
 
-Decisions may depend on other decisions.
+Completion is measured by answered questions, not by following predefined steps.
 
-New questions may emerge as earlier questions are answered.
+### Principle 4: Dependency Recognition
 
-Planning tools should support iteration and dependency management.
+Planning Areas may depend on one another.
 
-### Principle 3: Uncertainty Reduction
+The platform identifies what is blocked and what is ready without enforcing order.
 
-Each planning step reduces operational uncertainty.
-
-The goal is to reach a state where all operational unknowns have been identified and answered.
-
-### Principle 4: Viability Gating
+### Principle 5: Viability Gating
 
 A journey becomes operational only when:
 
@@ -462,19 +582,25 @@ A journey becomes operational only when:
 
 These conditions must be validated before moving to Active stage.
 
-### Principle 5: Artefact Generation
+### Principle 6: Artefact Generation
 
 Planning produces tangible artefacts that guide operations.
 
 These artefacts (Plan, Pricing, Participant Letter, Runbook) become the source of truth for operational execution.
 
-### Principle 6: Coordinator Ownership
+### Principle 7: Coordinator Ownership
 
 Planning is owned and driven by a Planning Coordinator.
 
 The coordinator ensures all questions are asked, answered, and documented.
 
 The coordinator drives stakeholder alignment (guides, operations, product, finance).
+
+### Principle 8: Focused Progress Indicators
+
+Planning progress is reported as remaining unanswered questions.
+
+Percentage-complete and form-completion indicators are secondary and should not drive planning decisions.
 
 ---
 
