@@ -108,8 +108,9 @@ Planning Projects represent journeys under development and remain active through
 
 Terminology:
 
-- Use **Planning Project** or **Pågående planering**
-- Avoid the term **Draft**
+- Use **Planning Project** for the architectural entity
+- Use **Pågående planering** as the user-facing status label
+- Avoid the term **Draft** because it implies incomplete data rather than ongoing business work
 
 ---
 
@@ -196,21 +197,21 @@ Planning defines the work that needs to be executed.
 **A journey follows a lifecycle from conception to completion:**
 
 ```text
-Idea
+1. Idea
   ↓
-Planning Project
+2. Planning Project
   ↓
-Planning
+3. Planning
   ↓
-Sellable Journey
+4. Sellable Journey
   ↓
-Bookings
+5. Bookings
   ↓
-Operational Journey
+6. Operational Journey
   ↓
-Execution
+7. Execution
   ↓
-Completed Journey
+8. Completed Journey
 ```
 
 ### Stage 1: Idea
@@ -225,16 +226,16 @@ Completed Journey
 
 - **What:** A persistent planning container for one journey idea
 - **Created when:** User selects **"Planera ny resa"**
-- **State:** **Pågående planering**, even before any question is answered
+- **State label:** **Pågående planering**, even before any question is answered
 - **Purpose:** Ensure planning can continue across sessions without context loss
 
 ### Stage 3: Planning
 
 - **What:** Structured questioning and definition
 - **Questions:** See Planning Model
-- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Documentation, Packing List, Booking Instructions, Operational Runbook (order mirrors Section 9)
+- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Documentation, Packing List, Booking Instructions, Operational Runbook
 - **Participants:** Planning coordinator, guides, operations
-- **Duration:** Days to months
+- **Duration:** Typically 1 week to 3 months (may pause and resume)
 - **Next Gate:** All operational questions answered? Planning Review completed? Economic viability confirmed? Sufficient participant interest?
 
 ### Stage 4: Sellable Journey
@@ -650,7 +651,7 @@ A journey becomes operational only when:
 - Sufficient participant demand exists (or is forecasted)
 - All operational questions have been answered
 
-These conditions must be validated before moving to Sellable Journey and Bookings stages.
+These conditions must be validated before moving to Stage 4: Sellable Journey.
 
 ### Principle 7: Artefact Generation
 
@@ -769,7 +770,7 @@ Three distinct architectural concepts:
 
 - **Purpose:** Define new operational objects
 - **Question:** "How do I create Y?"
-- **User flow:** Conceive idea → Create Planning Project → Answer questions → Produce plan → Journey becomes sellable
+- **User flow:** Conceive idea → Create Planning Project → Answer questions → Produce plan → Journey becomes a Sellable Journey
 
 These concepts are distinct but interconnected:
 
