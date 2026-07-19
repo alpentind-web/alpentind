@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resa – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="resa-page">
+
+      <section class="page-header" aria-labelledby="trip-title">
+        <h1 id="trip-title">AlpenTind Sommerkurs 2026</h1>
+        <p>19 juli 2026 – 27 juli 2026</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="resa-overview-heading">
+        <div class="section-header">
+          <h2 id="resa-overview-heading">Resans lägesbild</h2>
+        </div>
+        <article class="card" aria-hidden="true">
+          <div class="card-body">&nbsp;</div>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="resa-milestone-heading">
+        <div class="section-header">
+          <h2 id="resa-milestone-heading">Nästa milstolpe</h2>
+        </div>
+        <article class="card" aria-hidden="true">
+          <div class="card-body">&nbsp;</div>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="resa-workqueue-heading">
+        <div class="section-header">
+          <h2 id="resa-workqueue-heading">Resans arbetskö</h2>
+        </div>
+        <article class="card" aria-hidden="true">
+          <div class="card-body">&nbsp;</div>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="resa-attention-heading">
+        <div class="section-header">
+          <h2 id="resa-attention-heading">Deltagare som kräver uppmärksamhet</h2>
+        </div>
+        <article class="card" aria-hidden="true">
+          <div class="card-body">&nbsp;</div>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="resa-dialogues-heading">
+        <div class="section-header">
+          <h2 id="resa-dialogues-heading">Dialoger</h2>
+        </div>
+        <article class="card" aria-hidden="true">
+          <div class="card-body">&nbsp;</div>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="resa-documents-heading">
+        <div class="section-header">
+          <h2 id="resa-documents-heading">Dokument</h2>
+        </div>
+        <article class="card" aria-hidden="true">
+          <div class="card-body">&nbsp;</div>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="resa-quickactions-heading">
+        <div class="section-header">
+          <h2 id="resa-quickactions-heading">Snabbåtgärder</h2>
+        </div>
+        <article class="card" aria-hidden="true">
+          <div class="card-body">&nbsp;</div>
+        </article>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-1');
+      renderSidebar();
+      renderHeader();
+    });
+  </script>
+</body>
+</html>
