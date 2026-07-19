@@ -55,10 +55,8 @@
             <div class="card-header">
               <h2 id="arbetsko-heading">Personens arbetskö</h2>
             </div>
-            <div class="card-body">
-              <div class="placeholder stage-3">
-                <p>Operational work queue will be implemented in Stage 3</p>
-              </div>
+            <div class="card-body" id="arbetsko-content">
+              <!-- Populated by renderArbetskö() -->
             </div>
           </section>
 
@@ -66,10 +64,8 @@
             <div class="card-header">
               <h2 id="dialoger-heading">Dialoger</h2>
             </div>
-            <div class="card-body">
-              <div class="placeholder stage-3">
-                <p>Conversation context will be implemented in Stage 3</p>
-              </div>
+            <div class="card-body" id="dialoger-content">
+              <!-- Populated by renderDialoger() -->
             </div>
           </section>
 
@@ -146,6 +142,39 @@
         ],
         nextStep: 'Ready for departure (July 19)',
         nextStepUrgent: false,
+        // Personens arbetskö
+        workQueue: [],
+        // Dialoger (most recent first)
+        conversations: [
+          {
+            id: 'conv-1',
+            participant: 'Anna Andersson',
+            lastMessage: 'Ready for departure — all equipment here',
+            time: 'Today, 2 hours ago',
+            status: 'completed',
+            type: 'Dialogue',
+            unread: 0,
+          },
+          {
+            id: 'conv-2',
+            participant: 'Sarah Johnson',
+            role: 'Coordinator',
+            lastMessage: 'Confirmed attendance for Sommerkurs',
+            time: 'July 18, 1 day ago',
+            status: 'completed',
+            type: 'Dialogue',
+            unread: 0,
+          },
+          {
+            id: 'conv-3',
+            participant: 'Trip organizer',
+            lastMessage: 'Equipment list confirmed',
+            time: 'July 17, 2 days ago',
+            status: 'completed',
+            type: 'System message',
+            unread: 0,
+          },
+        ],
       },
       'peter-nilsson': {
         id: 'peter-nilsson',
@@ -166,6 +195,61 @@
         ],
         nextStep: '🏃 Follow-up: Request passport copy by July 18 (URGENT)',
         nextStepUrgent: true,
+        // Personens arbetskö
+        workQueue: [
+          {
+            id: 'work-1',
+            title: 'Passport copy missing',
+            reason: 'Required before July 19',
+            priority: 'urgent',
+            status: 'overdue',
+            relatedTrip: 'AlpenTind Sommerkurs 2026',
+            action: 'Request again',
+            actionUrl: '#dialogue-peter',
+          },
+          {
+            id: 'work-2',
+            title: 'Payment confirmation',
+            reason: 'Awaiting payment verification',
+            priority: 'high',
+            status: 'urgent',
+            relatedTrip: 'AlpenTind Sommerkurs 2026',
+            action: 'Send reminder',
+            actionUrl: '#dialogue-peter',
+          },
+        ],
+        // Dialoger (most recent first)
+        conversations: [
+          {
+            id: 'conv-1',
+            participant: 'Marcus Chen',
+            role: 'Coordinator',
+            lastMessage: 'Have you received the passport copy?',
+            time: 'Today, 6 hours ago',
+            status: 'waiting-for-us',
+            type: 'Dialogue',
+            unread: 1,
+          },
+          {
+            id: 'conv-2',
+            participant: 'Peter Nilsson',
+            lastMessage: 'Please send your passport copy ASAP',
+            time: 'July 17, 2 days ago',
+            status: 'waiting-for-person',
+            type: 'Dialogue',
+            unread: 0,
+          },
+          {
+            id: 'conv-3',
+            participant: 'Sarah Johnson',
+            role: 'Coordinator',
+            lastMessage: 'Payment received',
+            time: 'July 16, 3 days ago',
+            status: 'completed',
+            type: 'Dialogue',
+            unread: 0,
+          },
+        ],
       },
       'lisa-berg': {
         id: 'lisa-berg',
@@ -186,6 +270,42 @@
         ],
         nextStep: 'Depart today (July 19)',
         nextStepUrgent: false,
+        // Personens arbetskö
+        workQueue: [
+          {
+            id: 'work-1',
+            title: 'Confirm availability for Haute Route',
+            reason: 'Scheduling for August trip',
+            priority: 'medium',
+            status: 'upcoming',
+            relatedTrip: 'Haute Route (Aug 10–20)',
+            action: 'Confirm',
+            actionUrl: '#dialogue-lisa',
+            deadline: 'July 25',
+          },
+        ],
+        // Dialoger (most recent first)
+        conversations: [
+          {
+            id: 'conv-1',
+            participant: 'Sarah Johnson',
+            role: 'Coordinator',
+            lastMessage: 'Confirmed for both Sommerkurs and Haute Route',
+            time: 'Today, 8 hours ago',
+            status: 'completed',
+            type: 'Dialogue',
+            unread: 0,
+          },
+          {
+            id: 'conv-2',
+            participant: 'Trip system',
+            lastMessage: 'Equipment check completed',
+            time: 'July 19, today',
+            status: 'completed',
+            type: 'System message',
+            unread: 0,
+          },
+        ],
       },
       'johan-eriksson': {
         id: 'johan-eriksson',
@@ -193,6 +313,8 @@
         type: 'Deltagare',
         trip: 'AlpenTind Sommerkurs 2026',
         avatar: 'J',
+        workQueue: [],
+        conversations: [],
       },
       'klaus-müller': {
         id: 'klaus-müller',
@@ -211,6 +333,30 @@
         ],
         nextStep: 'Expecting arrival July 20 (12 rooms booked)',
         nextStepUrgent: false,
+        // Personens arbetskö
+        workQueue: [],
+        // Dialoger (most recent first)
+        conversations: [
+          {
+            id: 'conv-1',
+            participant: 'Sarah Johnson',
+            role: 'Coordinator',
+            lastMessage: '12 rooms confirmed for July 20–22',
+            time: 'July 16, 3 days ago',
+            status: 'completed',
+            type: 'Email',
+            unread: 0,
+          },
+          {
+            id: 'conv-2',
+            participant: 'Special meals coordinator',
+            lastMessage: 'Dietary requirements noted: 2 vegetarian, 1 gluten-free',
+            time: 'July 15, 4 days ago',
+            status: 'completed',
+            type: 'Email',
+            unread: 0,
+          },
+        ],
       },
     };
 
@@ -246,6 +392,128 @@
         'Waiting for response': 'Awaiting our response',
       };
       return map[status] || status;
+    }
+
+    // ========================================
+    // Stage 3 — Personens arbetskö
+    // ========================================
+
+    function getWorkStatusColor(status) {
+      const colors = {
+        overdue: 'var(--color-danger)',
+        urgent: 'var(--color-warning)',
+        upcoming: 'var(--color-info)',
+      };
+      return colors[status] || 'var(--color-primary)';
+    }
+
+    function formatWorkStatus(status) {
+      const map = {
+        overdue: '🔴 Overdue',
+        urgent: '🟠 Urgent',
+        upcoming: '🟡 Upcoming',
+      };
+      return map[status] || status;
+    }
+
+    function renderArbetskö(person) {
+      const container = document.getElementById('arbetsko-content');
+      if (!container) return;
+
+      if (!person.workQueue || person.workQueue.length === 0) {
+        const emptyLabel = person.id === 'klaus-müller'
+          ? 'Booking confirmed — no pending items'
+          : 'All set — no pending items';
+        container.innerHTML = `
+          <div class="arbetsko-empty">
+            <p>✓ ${emptyLabel}</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="arbetsko-container">
+          ${person.workQueue.map(item => `
+            <div class="arbetsko-card ${item.status}">
+              <div class="arbetsko-header">
+                <h3 class="arbetsko-title">${item.title}</h3>
+                <span class="arbetsko-priority-badge ${item.priority}">${item.priority.toUpperCase()}</span>
+              </div>
+              <p class="arbetsko-reason">${item.reason}</p>
+              <div class="arbetsko-meta">
+                <span class="arbetsko-status">
+                  <span class="arbetsko-status-dot" style="background:${getWorkStatusColor(item.status)};"></span>
+                  ${formatWorkStatus(item.status)}${item.deadline ? ` (due ${item.deadline})` : ''}
+                </span>
+                <span class="arbetsko-related">${item.relatedTrip}</span>
+              </div>
+              <div class="arbetsko-action">
+                <a href="${item.actionUrl}" class="btn btn-sm btn-secondary">${item.action}</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // ========================================
+    // Stage 3 — Dialoger
+    // ========================================
+
+    function formatConvStatus(status) {
+      const map = {
+        completed: '✓ Completed',
+        'waiting-for-us': '⏰ Waiting for us',
+        'waiting-for-person': '💬 Waiting for person',
+      };
+      return map[status] || status;
+    }
+
+    function renderDialoger(person) {
+      const container = document.getElementById('dialoger-content');
+      if (!container) return;
+
+      if (!person.conversations || person.conversations.length === 0) {
+        container.innerHTML = `
+          <div class="dialoger-empty">
+            <p>No conversations yet</p>
+          </div>
+        `;
+        return;
+      }
+
+      const recentConvs = person.conversations.slice(0, 5);
+      const total = person.conversations.length;
+
+      container.innerHTML = `
+        <div class="dialoger-container">
+          ${recentConvs.map(conv => `
+            <div class="dialogue-card ${conv.status}">
+              <div class="dialogue-header">
+                <h3 class="dialogue-participant">
+                  ${conv.participant}${conv.role ? ` <span class="dialogue-role">(${conv.role})</span>` : ''}
+                </h3>
+                <span class="dialogue-status-badge ${conv.status}">${formatConvStatus(conv.status)}</span>
+              </div>
+              <p class="dialogue-message">"${conv.lastMessage}"</p>
+              <div class="dialogue-meta">
+                <span class="dialogue-time">${conv.time}</span>
+                ${conv.unread > 0 ? `<span class="dialogue-unread">${conv.unread} unread</span>` : ''}
+              </div>
+              <div class="dialogue-action">
+                <button class="btn btn-sm btn-secondary">Open conversation</button>
+              </div>
+            </div>
+          `).join('')}
+          ${total > 5 ? `
+            <div class="dialoger-footer">
+              <p>${total} conversations total</p>
+              <a href="#all-conversations" class="link">Show all conversations →</a>
+            </div>
+          ` : ''}
+        </div>
+      `;
     }
 
     function renderRelationsöversikt(person) {
@@ -355,6 +623,8 @@
       if (person.lastContact) {
         renderRelationsöversikt(person);
       }
+      renderArbetskö(person);
+      renderDialoger(person);
     }
 
     document.addEventListener('DOMContentLoaded', function() {

@@ -591,6 +591,272 @@ body.login-page {
   font-weight: var(--font-weight-semibold);
 }
 
+/* ========================================
+   Personens arbetskö (Stage 3)
+   ======================================== */
+
+.arbetsko-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.arbetsko-card {
+  background-color: var(--color-bg-light);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-primary);
+  padding: var(--spacing-md);
+}
+
+.arbetsko-card.overdue {
+  border-left-color: var(--color-danger);
+}
+
+.arbetsko-card.urgent {
+  border-left-color: var(--color-warning);
+}
+
+.arbetsko-card.upcoming {
+  border-left-color: var(--color-info);
+}
+
+.arbetsko-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.arbetsko-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.arbetsko-priority-badge {
+  display: inline-block;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+}
+
+.arbetsko-priority-badge.urgent {
+  background-color: rgba(212, 165, 116, 0.2);
+  color: var(--color-warning);
+}
+
+.arbetsko-priority-badge.high {
+  background-color: rgba(184, 92, 92, 0.2);
+  color: var(--color-danger);
+}
+
+.arbetsko-priority-badge.medium {
+  background-color: rgba(122, 159, 181, 0.2);
+  color: var(--color-info);
+}
+
+.arbetsko-reason {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+  margin: 0 0 var(--spacing-sm);
+}
+
+.arbetsko-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.arbetsko-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.arbetsko-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.arbetsko-related {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  text-align: right;
+}
+
+.arbetsko-action {
+  margin-top: var(--spacing-sm);
+}
+
+.arbetsko-empty {
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-dark);
+  background-color: rgba(107, 158, 127, 0.08);
+  border-radius: var(--radius-sm);
+}
+
+.arbetsko-empty p {
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   Dialoger (Stage 3)
+   ======================================== */
+
+.dialoger-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.dialogue-card {
+  background-color: var(--color-bg-light);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-md);
+  border: var(--border-thin);
+}
+
+.dialogue-card.waiting-for-us {
+  border-left: 3px solid var(--color-warning);
+}
+
+.dialogue-card.waiting-for-person {
+  border-left: 3px solid var(--color-info);
+}
+
+.dialogue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.dialogue-participant {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.dialogue-role {
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-dark);
+}
+
+.dialogue-status-badge {
+  display: inline-block;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dialogue-status-badge.completed {
+  background-color: rgba(107, 158, 127, 0.2);
+  color: var(--color-success);
+}
+
+.dialogue-status-badge.waiting-for-us {
+  background-color: rgba(212, 165, 116, 0.2);
+  color: var(--color-warning);
+}
+
+.dialogue-status-badge.waiting-for-person {
+  background-color: rgba(122, 159, 181, 0.2);
+  color: var(--color-info);
+}
+
+.dialogue-message {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+  font-style: italic;
+  margin: 0 0 var(--spacing-sm);
+}
+
+.dialogue-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.dialogue-time {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+}
+
+.dialogue-unread {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.dialogue-action {
+  margin-top: var(--spacing-sm);
+}
+
+.dialoger-footer {
+  text-align: center;
+  padding: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+}
+
+.dialoger-footer p {
+  margin: 0 0 var(--spacing-xs);
+}
+
+.dialoger-empty {
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-subtle, rgba(58, 69, 80, 0.4));
+  border-radius: var(--radius-sm);
+}
+
+.dialoger-empty p {
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+  .arbetsko-header {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .arbetsko-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .dialogue-header {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
+
 @media (max-width: 768px) {
   .workspace-header {
     padding: var(--spacing-lg);
