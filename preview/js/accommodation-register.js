@@ -7,23 +7,25 @@ function normalizeRegisterText(value) {
 }
 
 function buildRegisterRow(link, primary, context, status, openLabel) {
+  const escapeHtml = typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
   return `
-    <a href="${link}" class="register-row" role="listitem">
-      <div class="register-row-primary">${primary}</div>
-      <div class="register-row-context">${context}</div>
-      <div class="register-row-status">${status}</div>
-      <div class="register-row-open">${openLabel || '→'}</div>
+    <a href="${escapeHtml(link)}" class="register-row" role="listitem">
+      <div class="register-row-primary">${escapeHtml(primary)}</div>
+      <div class="register-row-context">${escapeHtml(context)}</div>
+      <div class="register-row-status">${escapeHtml(status)}</div>
+      <div class="register-row-open">${escapeHtml(openLabel || '→')}</div>
     </a>
   `;
 }
 
 function renderRegisterRows(container, rows, emptyState) {
+  const escapeHtml = typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
   container.innerHTML = rows.length > 0
     ? rows.join('')
     : `
       <div class="register-row" role="listitem">
         <div class="register-row-primary">Inga träffar</div>
-        <div class="register-row-context">${(emptyState && emptyState.context) || 'Justera din sökning för att hitta boenden.'}</div>
+        <div class="register-row-context">${escapeHtml((emptyState && emptyState.context) || 'Justera din sökning för att hitta boenden.')}</div>
         <div class="register-row-status">0 resultat</div>
         <div class="register-row-open">•</div>
       </div>
@@ -123,8 +125,9 @@ function renderAccommodationRegister() {
   createAction.hidden = isSelectionMode;
 
   const filterOptions = getAccommodationFilterOptions(selectedRegion);
+  const escapeHtml = typeof escapePreviewHtml === 'function' ? escapePreviewHtml : function(value) { return value; };
   filter.innerHTML = filterOptions.map(function(option) {
-    return `<option value="${option.value}">${option.label}</option>`;
+    return `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`;
   }).join('');
   filter.hidden = !isSelectionMode;
   if (filter.hidden) filter.value = 'all';

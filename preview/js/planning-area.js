@@ -239,10 +239,10 @@ function renderSelectedAccommodationReference(reference) {
   return `
     <li class="planning-selection-item">
       <div>
-        <p class="planning-selection-title">${resolvedReference.accommodation.name}</p>
-        <p class="planning-selection-context">${resolvedReference.region.name} · ${resolvedReference.accommodation.type} · ${resolvedReference.accommodation.place}</p>
+        <p class="planning-selection-title">${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.name) : resolvedReference.accommodation.name}</p>
+        <p class="planning-selection-context">${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.region.name) : resolvedReference.region.name} · ${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.type) : resolvedReference.accommodation.type} · ${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.place) : resolvedReference.accommodation.place}</p>
       </div>
-      <span class="planning-selection-status">${resolvedReference.accommodation.readiness}</span>
+      <span class="planning-selection-status">${typeof escapePreviewHtml === 'function' ? escapePreviewHtml(resolvedReference.accommodation.readiness) : resolvedReference.accommodation.readiness}</span>
     </li>
   `;
 }

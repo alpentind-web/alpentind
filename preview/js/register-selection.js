@@ -3,6 +3,15 @@ const REGISTER_VIEW_MODES = {
   SELECT: 'select',
 };
 
+function escapePreviewHtml(value) {
+  return String(value === undefined || value === null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function parsePreviewState(rawValue) {
   if (!rawValue) return null;
 
@@ -132,7 +141,7 @@ function renderRegisterSelectionBanner(containerId, config) {
   }
 
   const source = selectionContext.source || {};
-  const sourceParts = [source.label, source.areaLabel].filter(Boolean);
+  const sourceParts = [source.label, source.areaLabel].filter(Boolean).map(escapePreviewHtml);
   const description = (config && config.description)
     || 'Locate existing register objects and return references without leaving the originating workflow.';
   const returnLabel = (selectionContext && selectionContext.returnLabel) || 'Return';
@@ -146,11 +155,11 @@ function renderRegisterSelectionBanner(containerId, config) {
     <div class="selection-mode-banner">
       <div class="selection-mode-banner-copy">
         <p class="selection-mode-eyebrow">Selection Mode</p>
-        <h2 class="selection-mode-title">${(config && config.title) || 'Select existing register objects'}</h2>
-        <p class="text-muted">${description}</p>
+        <h2 class="selection-mode-title">${escapePreviewHtml((config && config.title) || 'Select existing register objects')}</h2>
+        <p class="text-muted">${escapePreviewHtml(description)}</p>
         ${sourceParts.length > 0 ? `<p class="selection-mode-context">Source: ${sourceParts.join(' · ')}</p>` : ''}
       </div>
-      <a href="${returnHref}" class="btn btn-secondary">${returnLabel}</a>
+      <a href="${escapePreviewHtml(returnHref)}" class="btn btn-secondary">${escapePreviewHtml(returnLabel)}</a>
     </div>
   `;
 }
