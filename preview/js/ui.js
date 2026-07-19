@@ -501,11 +501,17 @@ function renderWorkQueueSummary() {
 
   const highPriorityItems = mockData.workQueue.filter(item => item.priority === 'high' && item.status !== 'done');
 
+  const statusCardClassMap = {
+    overdue: 'card-danger',
+    pending: 'card-warning',
+  };
+
   container.innerHTML = highPriorityItems.map(item => {
     const t = typeMap[item.type] || { icon: 'circle', label: item.type };
     const s = statusMap[item.status] || { label: item.status, cls: 'badge-info' };
+    const cardCls = statusCardClassMap[item.status] || '';
     return `
-      <div class="card card-danger" data-id="${item.id}" style="margin-bottom:var(--spacing-sm)">
+      <div class="card ${cardCls}" data-id="${item.id}" style="margin-bottom:var(--spacing-sm)">
         <div class="card-body" style="display:flex;align-items:flex-start;gap:var(--spacing-md)">
           <div class="wq-type-icon" aria-label="${t.label}" title="${t.label}"
                style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center">
