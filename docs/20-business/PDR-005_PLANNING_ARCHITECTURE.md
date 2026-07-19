@@ -42,6 +42,7 @@ Planning is the structured process of transforming a journey idea into a fully d
 
 - **Question-driven:** Planning asks and answers operational questions
 - **Non-linear:** There is no correct sequence; planning areas may be addressed in any order
+- **Dependency-aware:** Planning areas may have dependencies, but dependencies do not enforce a strict sequence
 - **Uncertainty reduction:** Each planning step reduces operational uncertainty
 - **End condition:** Planning ends when all operational questions have been answered
 - **Output-focused:** Planning produces artefacts necessary for operations
@@ -68,10 +69,10 @@ The metric is **remaining unanswered questions**.
 
 Example indicators:
 
-- "8 planning questions remain"
+- "3 planning questions remain"
 - "All questions answered. Ready for review."
 
-Planning tools should focus on unanswered questions, not completed forms.
+The platform should surface unanswered questions, not completed forms.
 
 ---
 
@@ -205,7 +206,7 @@ Planning defines the work that needs to be executed.
 
 - **What:** Structured questioning and definition
 - **Questions:** See Planning Model
-- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Documentation, Packing List, Booking Instructions, Operational Runbook
+- **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Documentation, Packing List, Booking Instructions, Operational Runbook (order mirrors Section 9)
 - **Participants:** Planning coordinator, guides, operations
 - **Duration:** Days to weeks
 - **Next Gate:** All operational questions answered? Planning Review completed? Economic viability confirmed? Sufficient participant interest?
@@ -245,7 +246,7 @@ Planning is structured around answering operational questions.
 
 ### Planning Areas
 
-Planning Areas represent operational domains rather than implementation modules.
+Planning Areas represent operational domains rather than technical system components.
 
 Typical Planning Areas include:
 
@@ -263,6 +264,8 @@ Typical Planning Areas include:
 Planning Areas are not steps.
 
 Users may address Planning Areas in any order.
+
+Some areas may be temporarily blocked until dependency questions are resolved.
 
 ### Planning Questions
 
