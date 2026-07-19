@@ -27,8 +27,68 @@
         <div class="section-header">
           <h2 id="resa-overview-heading">Resans lägesbild</h2>
         </div>
-        <article class="card" aria-hidden="true">
-          <div class="card-body">&nbsp;</div>
+        <article class="card">
+          <div class="card-body resa-overview-card">
+            <ul class="resa-readiness-grid" aria-label="Readiness-indikatorer">
+              <li class="resa-readiness-item is-ready">
+                <span class="resa-status-circle" aria-hidden="true">✅</span>
+                <div>
+                  <p class="resa-readiness-label">Deltagare</p>
+                  <p class="resa-readiness-value">12/12 registrerade</p>
+                </div>
+              </li>
+              <li class="resa-readiness-item is-warning">
+                <span class="resa-status-circle" aria-hidden="true">⚠️</span>
+                <div>
+                  <p class="resa-readiness-label">Boende</p>
+                  <p class="resa-readiness-value">11/12 bekräftade</p>
+                </div>
+              </li>
+              <li class="resa-readiness-item is-ready">
+                <span class="resa-status-circle" aria-hidden="true">✅</span>
+                <div>
+                  <p class="resa-readiness-label">Guide</p>
+                  <p class="resa-readiness-value">2/2 tilldelade</p>
+                </div>
+              </li>
+              <li class="resa-readiness-item is-warning">
+                <span class="resa-status-circle" aria-hidden="true">⚠️</span>
+                <div>
+                  <p class="resa-readiness-label">Dialoger</p>
+                  <p class="resa-readiness-value">1 väntar svar</p>
+                </div>
+              </li>
+              <li class="resa-readiness-item is-ready">
+                <span class="resa-status-circle" aria-hidden="true">✅</span>
+                <div>
+                  <p class="resa-readiness-label">Dokument</p>
+                  <p class="resa-readiness-value">12/12 mottagna</p>
+                </div>
+              </li>
+              <li class="resa-readiness-item is-warning">
+                <span class="resa-status-circle" aria-hidden="true">⚠️</span>
+                <div>
+                  <p class="resa-readiness-label">Betalningar</p>
+                  <p class="resa-readiness-value">11/12 betalda</p>
+                </div>
+              </li>
+            </ul>
+
+            <div class="resa-overview-meta">
+              <div class="resa-overview-meta-item">
+                <span class="resa-meta-label">Nästa milstolpe</span>
+                <strong>Slutbetalning förfallen</strong>
+              </div>
+              <div class="resa-overview-meta-item">
+                <span class="resa-meta-label">Dagar kvar till avresa</span>
+                <strong>0 dagar</strong>
+              </div>
+              <div class="resa-overview-meta-item">
+                <span class="resa-meta-label">Resstatus</span>
+                <span class="badge badge-warning">Pågår</span>
+              </div>
+            </div>
+          </div>
         </article>
       </section>
 
@@ -36,8 +96,32 @@
         <div class="section-header">
           <h2 id="resa-milestone-heading">Nästa milstolpe</h2>
         </div>
-        <article class="card" aria-hidden="true">
-          <div class="card-body">&nbsp;</div>
+        <article class="card">
+          <div class="card-body">
+            <div class="resa-milestone-grid">
+              <article class="card card-success">
+                <div class="card-header">
+                  <h3>Aktuell milstolpe: Avresa</h3>
+                  <span class="badge badge-success">Pågår</span>
+                </div>
+                <div class="card-body">
+                  <p class="text-muted">Resan startar idag för AlpenTind Sommerkurs 2026.</p>
+                  <p class="text-sm text-muted">19 juli 2026 • Nedräkning: 0 dagar</p>
+                </div>
+              </article>
+
+              <article class="card card-danger">
+                <div class="card-header">
+                  <h3>Kommande milstolpe: Slutbetalning</h3>
+                  <span class="badge badge-danger">Försenad</span>
+                </div>
+                <div class="card-body">
+                  <p class="text-muted">Alla slutbetalningar ska vara mottagna.</p>
+                  <p class="text-sm text-muted">Deadline: 18 juli 2026 • Nedräkning: -1 dag</p>
+                </div>
+              </article>
+            </div>
+          </div>
         </article>
       </section>
 

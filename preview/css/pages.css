@@ -1368,3 +1368,115 @@ body.login-page {
   outline: none;
   border-color: var(--color-primary);
 }
+
+/* ========================================
+   Resa Workspace
+   ======================================== */
+
+.resa-overview-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.resa-readiness-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.resa-readiness-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border: var(--border-thin);
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg-dark);
+}
+
+.resa-status-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+}
+
+.resa-readiness-item.is-ready .resa-status-circle {
+  background-color: rgba(107, 158, 127, 0.2);
+}
+
+.resa-readiness-item.is-warning .resa-status-circle {
+  background-color: rgba(212, 165, 116, 0.2);
+}
+
+.resa-readiness-item.is-critical .resa-status-circle {
+  background-color: rgba(184, 92, 92, 0.2);
+}
+
+.resa-readiness-label {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-weight: var(--font-weight-semibold);
+}
+
+.resa-readiness-value {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-medium);
+}
+
+.resa-overview-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.resa-overview-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  border: var(--border-thin);
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+.resa-meta-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-medium);
+}
+
+.resa-milestone-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-md);
+}
+
+.resa-milestone-grid > .card {
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .resa-readiness-grid,
+  .resa-overview-meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .resa-readiness-grid,
+  .resa-overview-meta,
+  .resa-milestone-grid {
+    grid-template-columns: 1fr;
+  }
+}
