@@ -736,6 +736,59 @@ const navigationItems = [
 ];
 
 // ========================================
+// Accommodation Register (ESR-007 Stage 1)
+// ========================================
+
+const accommodationRegister = {
+  regions: [
+    {
+      slug: 'franska-alperna',
+      name: 'Franska Alperna',
+      accommodations: [
+        { id: 'hotel-bonatti', name: 'Hotel Bonatti', type: 'Hotell', place: 'Chamonix', readiness: 'Verifierat' },
+        { id: 'hotel-edelweiss', name: 'Hotel Edelweiss', type: 'Hotell', place: 'Les Houches', readiness: 'Verifierat' },
+        { id: 'auberge-la-nova', name: 'Auberge La Nova', type: 'Auberge', place: 'Argentière', readiness: 'Säsongssäkrat' },
+        { id: 'refuge-elena', name: 'Refuge Elena', type: 'Refuge', place: 'Courmayeur', readiness: 'Fallback klar' },
+      ],
+    },
+    {
+      slug: 'dolomiterna',
+      name: 'Dolomiterna',
+      accommodations: [
+        { id: 'hotel-cristallo', name: 'Hotel Cristallo', type: 'Hotell', place: 'Cortina d’Ampezzo', readiness: 'Verifierat' },
+        { id: 'rifugio-auronzo', name: 'Rifugio Auronzo', type: 'Rifugio', place: 'Tre Cime', readiness: 'Kapacitet säkrad' },
+        { id: 'albergo-fanes', name: 'Albergo Fanes', type: 'Albergo', place: 'San Vigilio', readiness: 'Villkor granskade' },
+      ],
+    },
+    {
+      slug: 'schweiz',
+      name: 'Schweiz',
+      accommodations: [
+        { id: 'hotel-monte-rosa', name: 'Hotel Monte Rosa', type: 'Hotell', place: 'Zermatt', readiness: 'Verifierat' },
+        { id: 'berghaus-grindelwald', name: 'Berghaus Grindelwald', type: 'Berghaus', place: 'Grindelwald', readiness: 'Säsongssäkrat' },
+        { id: 'alpina-lodge', name: 'Alpina Lodge', type: 'Lodge', place: 'Arosa', readiness: 'Fallback klar' },
+      ],
+    },
+    {
+      slug: 'norge',
+      name: 'Norge',
+      accommodations: [
+        { id: 'lofoten-fjordhotell', name: 'Lofoten Fjordhotell', type: 'Hotell', place: 'Svolvær', readiness: 'Verifierat' },
+        { id: 'fjellstue-geiranger', name: 'Fjellstue Geiranger', type: 'Fjellstue', place: 'Geiranger', readiness: 'Villkor granskade' },
+      ],
+    },
+    {
+      slug: 'pyreneerna',
+      name: 'Pyrenéerna',
+      accommodations: [
+        { id: 'hostal-ordesa', name: 'Hostal Ordesa', type: 'Hostal', place: 'Torla', readiness: 'Verifierat' },
+        { id: 'refugio-pineta', name: 'Refugio Pineta', type: 'Refugio', place: 'Bielsa', readiness: 'Kapacitet säkrad' },
+      ],
+    },
+  ],
+};
+
+// ========================================
 // Dashboard-statistik
 // ========================================
 
@@ -891,6 +944,7 @@ const mockData = {
   weatherWarnings,
   products,
   navigationItems,
+  accommodationRegister,
   dashboardStats,
   attentionItems,
   upcomingExperiences,
