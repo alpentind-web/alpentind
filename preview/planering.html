@@ -109,7 +109,7 @@
           <div class="planning-row" role="listitem" tabindex="0"
                aria-label="${p.title} – ${p.openQuestionsLabel}"
                onclick="openPlanningProject('${p.id}')"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openPlanningProject('${p.id}')">
+               onkeydown="if(event.key==='Enter'||(event.key===' '&&!event.preventDefault()))openPlanningProject('${p.id}')">
             <div>
               <p class="planning-row-title">${p.title}</p>
               <p class="${metaClass}">${p.openQuestionsLabel}</p>
@@ -125,7 +125,8 @@
     function createNewPlanningProject() {
       // Stage 1: Establish entry point only – no wizard, no modal, no form.
       // Opening a Planning Project is the beginning of planning.
-      const id = 'PLAN-NEW-' + Date.now();
+      const nextIndex = (mockData.planningProjects || []).length + 1;
+      const id = 'PLAN-' + String(nextIndex).padStart(3, '0');
       openPlanningProject(id);
     }
 
