@@ -152,7 +152,7 @@ The user should understand the current situation within five seconds.
 
 **Typical Content**
 
-- Lägesbild (operational overview)
+- Operational overview (Lägesbild)
 - Readiness indicators
 - Health status
 - Summary metrics
@@ -304,7 +304,7 @@ Avoid generic toolbars that show all possible actions.
 
 ### The Hierarchy Is Fixed
 
-Every Workspace should prioritise information in this order:
+Every Workspace should prioritize information in this order:
 
 1. **Understanding** (Situation)
 2. **Work** (actionable items)
