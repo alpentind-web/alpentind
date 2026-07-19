@@ -129,18 +129,131 @@
         <div class="section-header">
           <h2 id="resa-workqueue-heading">Resans arbetskö</h2>
         </div>
-        <article class="card" aria-hidden="true">
-          <div class="card-body">&nbsp;</div>
-        </article>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--spacing-sm)">
+          <article class="card card-danger">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm);margin-bottom:var(--spacing-xs)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Deltagare väntar på bedömning</h3>
+                <span class="badge badge-warning">Open</span>
+              </div>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-sm);color:var(--color-text-medium)">Anna Andersson behöver medicinsk bedömning innan nästa etapp.</p>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-xs);color:var(--color-text-muted)">Prioritet: <span class="badge badge-danger">High</span> · Objekt: Deltagare</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Open</button>
+            </div>
+          </article>
+
+          <article class="card card-danger">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm);margin-bottom:var(--spacing-xs)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Slutbetalning saknas</h3>
+                <span class="badge badge-warning">Pending</span>
+              </div>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-sm);color:var(--color-text-medium)">Johan Eriksson har inte slutfört betalningen som förföll igår.</p>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-xs);color:var(--color-text-muted)">Prioritet: <span class="badge badge-danger">High</span> · Objekt: Deltagare</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Resolve</button>
+            </div>
+          </article>
+
+          <article class="card card-warning">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm);margin-bottom:var(--spacing-xs)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Boende väntar på bekräftelse</h3>
+                <span class="badge badge-warning">Pending</span>
+              </div>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-sm);color:var(--color-text-medium)">Alpstugan har inte bekräftat sista bäddplatsen för Lisa Berg.</p>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-xs);color:var(--color-text-muted)">Prioritet: <span class="badge badge-warning">Medium</span> · Objekt: Boende</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Confirm</button>
+            </div>
+          </article>
+
+          <article class="card card-warning">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm);margin-bottom:var(--spacing-xs)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Deltagarbrev ska skickas</h3>
+                <span class="badge badge-info">In Progress</span>
+              </div>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-sm);color:var(--color-text-medium)">Systemuppgift för att skicka uppdaterat deltagarbrev efter avresa.</p>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-xs);color:var(--color-text-muted)">Prioritet: <span class="badge badge-warning">Medium</span> · Objekt: Dokument</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Open</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm);margin-bottom:var(--spacing-xs)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Dialog väntar på svar</h3>
+                <span class="badge badge-info">Open</span>
+              </div>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-sm);color:var(--color-text-medium)">Peter Nilsson väntar på återkoppling om passkopian som saknas.</p>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-xs);color:var(--color-text-muted)">Prioritet: <span class="badge badge-info">Low</span> · Objekt: Dialog</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Open</button>
+            </div>
+          </article>
+
+          <article class="card card-warning">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm);margin-bottom:var(--spacing-xs)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Specialkost kräver bekräftelse</h3>
+                <span class="badge badge-warning">Open</span>
+              </div>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-sm);color:var(--color-text-medium)">Kökspartnern behöver bekräfta specialkost för Lisa Berg innan middag.</p>
+              <p style="margin:0 0 var(--spacing-sm);font-size:var(--font-size-xs);color:var(--color-text-muted)">Prioritet: <span class="badge badge-warning">Medium</span> · Objekt: Boende</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Confirm</button>
+            </div>
+          </article>
+        </div>
       </section>
 
       <section class="content-section" aria-labelledby="resa-attention-heading">
         <div class="section-header">
           <h2 id="resa-attention-heading">Deltagare som kräver uppmärksamhet</h2>
         </div>
-        <article class="card" aria-hidden="true">
-          <div class="card-body">&nbsp;</div>
-        </article>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--spacing-sm)">
+          <article class="card card-warning">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Anna Andersson</h3>
+                <span class="badge badge-warning">⚠️ Action Required</span>
+              </div>
+              <p style="margin:var(--spacing-sm) 0;font-size:var(--font-size-sm);color:var(--color-text-medium)">Missing medical information behöver kompletteras före nästa aktivitet.</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Open profile</button>
+            </div>
+          </article>
+
+          <article class="card card-warning">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Peter Nilsson</h3>
+                <span class="badge badge-warning">⚠️ Action Required</span>
+              </div>
+              <p style="margin:var(--spacing-sm) 0;font-size:var(--font-size-sm);color:var(--color-text-medium)">Waiting for passport copy eftersom dokumentet saknas inför gränspassage.</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Send message</button>
+            </div>
+          </article>
+
+          <article class="card card-warning">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Lisa Berg</h3>
+                <span class="badge badge-warning">⚠️ Action Required</span>
+              </div>
+              <p style="margin:var(--spacing-sm) 0;font-size:var(--font-size-sm);color:var(--color-text-medium)">Special diet requires confirmation så att rätt måltider kan förberedas.</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Open profile</button>
+            </div>
+          </article>
+
+          <article class="card card-danger">
+            <div class="card-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-sm)">
+                <h3 style="margin:0;font-size:var(--font-size-base)">Johan Eriksson</h3>
+                <span class="badge badge-danger">⛔ Urgent</span>
+              </div>
+              <p style="margin:var(--spacing-sm) 0;font-size:var(--font-size-sm);color:var(--color-text-medium)">Payment overdue innebär att deltagarplatsen kräver omedelbar uppföljning.</p>
+              <button class="btn btn-sm btn-tertiary" type="button">Open profile</button>
+            </div>
+          </article>
+        </div>
+        <p class="text-sm text-muted" hidden>Alla deltagare är redo.</p>
       </section>
 
       <section class="content-section" aria-labelledby="resa-dialogues-heading">
