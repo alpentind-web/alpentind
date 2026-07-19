@@ -907,7 +907,7 @@ body.login-page {
   border-left: 3px solid var(--color-warning);
 }
 
-.dialogue-card.waiting-for-person {
+.dialogue-card.waiting-for-them {
   border-left: 3px solid var(--color-info);
 }
 
@@ -951,7 +951,7 @@ body.login-page {
   color: var(--color-warning);
 }
 
-.dialogue-status-badge.waiting-for-person {
+.dialogue-status-badge.waiting-for-them {
   background-color: rgba(122, 159, 181, 0.2);
   color: var(--color-info);
 }

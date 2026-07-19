@@ -19,7 +19,7 @@
     <div class="page active person-workspace" id="person-page">
       <div class="person-workspace-shell">
         <nav class="workspace-nav" aria-label="Brödsmulor">
-          <a class="link" href="kontakter-gaster.html" id="breadcrumb-link">Kontakter</a>
+          <a class="link" href="kontakter-gaster.html" id="breadcrumb-link">Gäster</a>
           <span class="workspace-nav-divider" aria-hidden="true">/</span>
           <span id="person-breadcrumb-name">Person Workspace</span>
         </nav>
@@ -164,9 +164,8 @@
             participant: 'Anna Andersson',
             lastMessage: 'I sent the insurance certificate this morning.',
             time: '1 day ago',
-            status: 'waiting-for-person',
+            status: 'waiting-for-them',
             coordinator: 'Marcus Bergström',
-            sortOrder: 4,
           },
           {
             id: 'conv-3',
@@ -175,7 +174,6 @@
             time: '2 days ago',
             status: 'waiting-for-us',
             coordinator: 'Maria Johansson',
-            sortOrder: 3,
           },
           {
             id: 'conv-4',
@@ -184,7 +182,6 @@
             time: '1 week ago',
             status: 'completed',
             coordinator: 'Marcus Bergström',
-            sortOrder: 2,
           },
           {
             id: 'conv-5',
@@ -193,7 +190,6 @@
             time: '2 weeks ago',
             status: 'completed',
             coordinator: 'Lisa Norberg',
-            sortOrder: 1,
           },
         ],
       },
@@ -256,7 +252,7 @@
             participant: 'Peter Nilsson',
             lastMessage: 'Please send your passport copy ASAP',
             time: 'July 17, 2 days ago',
-            status: 'waiting-for-person',
+            status: 'waiting-for-them',
             type: 'Dialogue',
             unread: 0,
           },
@@ -429,6 +425,19 @@
     // Stage 3 — Personens arbetskö
     // ========================================
 
+    const PERSON_WORKSPACE_NAVIGATION = {
+      guest: {
+        href: 'kontakter-gaster.html',
+        breadcrumbLabel: 'Gäster',
+        backLabel: '← Tillbaka till Gäster',
+      },
+      default: {
+        href: 'kontakter.html',
+        breadcrumbLabel: 'Kontakter',
+        backLabel: '← Tillbaka till Kontakter',
+      },
+    };
+
     const PRIORITY_ICON = { urgent: '🏃', scheduled: '⏰', standard: '✓' };
     const PRIORITY_LABEL = { urgent: 'Urgent', scheduled: 'Scheduled', standard: 'Standard' };
 
@@ -482,7 +491,7 @@
       const map = {
         completed: '✓ Completed',
         'waiting-for-us': '⏰ Waiting for us',
-        'waiting-for-person': '💬 Waiting for them',
+        'waiting-for-them': '💬 Waiting for them',
       };
       return map[status] || status;
     }
@@ -500,13 +509,9 @@
         return;
       }
 
-      const conversations = [...person.conversations]
-        .map((conversation, index) => ({ ...conversation, sortOrder: conversation.sortOrder ?? (person.conversations.length - index) }))
-        .sort((a, b) => b.sortOrder - a.sortOrder);
-
       container.innerHTML = `
         <div class="dialoger-container">
-          ${conversations.map(conv => `
+          ${person.conversations.map(conv => `
             <div class="dialogue-card ${escapeHtml(conv.status)}">
               <div class="dialogue-header">
                 <h3 class="dialogue-participant">
@@ -514,7 +519,7 @@
                 </h3>
                 <div style="display:flex;align-items:center;gap:var(--spacing-sm)">
                   <span class="dialogue-status-badge ${escapeHtml(conv.status)}">${formatConvStatus(conv.status)}</span>
-                  <button class="btn btn-sm btn-secondary dialogue-open-btn" aria-label="Open conversation with ${escapeHtml(conv.participant)}">→ Open</button>
+                  <button class="btn btn-sm btn-secondary dialogue-open-btn">Open conversation <span aria-hidden="true">→</span></button>
                 </div>
               </div>
               <p class="dialogue-message">"${escapeHtml(conv.lastMessage)}"</p>
@@ -630,14 +635,15 @@
 
       const breadcrumbLink = document.getElementById('breadcrumb-link');
       const backLink = document.getElementById('back-link');
-      const defaultBackHref = person.type === 'Gäst' ? 'kontakter-gaster.html' : 'kontakter.html';
-      const defaultBackLabel = person.type === 'Gäst' ? '← Tillbaka till Gäster' : '← Tillbaka till Kontakter';
-      breadcrumbLink.href = defaultBackHref;
-      backLink.href = defaultBackHref;
-      backLink.textContent = defaultBackLabel;
+      const navigationConfig = person.type === 'Gäst'
+        ? PERSON_WORKSPACE_NAVIGATION.guest
+        : PERSON_WORKSPACE_NAVIGATION.default;
+      breadcrumbLink.href = navigationConfig.href;
+      breadcrumbLink.textContent = navigationConfig.breadcrumbLabel;
+      backLink.href = navigationConfig.href;
+      backLink.textContent = navigationConfig.backLabel;
 
       if (document.referrer && document.referrer.includes('/preview/')) {
-        breadcrumbLink.href = document.referrer;
         backLink.href = document.referrer;
       }
 
