@@ -609,6 +609,7 @@ const dialogues = [
   {
     id: 'DIA-001',
     person: {
+      workspaceId: 'anna-andersson',
       name: 'Anna Andersson',
       avatar: 'AA',
       email: 'anna.andersson@example.com',
@@ -647,6 +648,7 @@ const dialogues = [
   {
     id: 'DIA-002',
     person: {
+      workspaceId: 'peter-nilsson',
       name: 'Peter Nilsson',
       avatar: 'PN',
       email: 'peter.nilsson@example.com',

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakter – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="person-list-page">
+      <section class="page-header" aria-labelledby="person-list-title">
+        <h1 id="person-list-title">Kontakter</h1>
+        <p class="text-muted">Demoingång till Person Workspace från personlistan.</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="person-list-heading">
+        <div class="section-header">
+          <h2 id="person-list-heading">Öppna Person Workspace</h2>
+        </div>
+
+        <div class="person-list-grid">
+          <article class="card person-list-card">
+            <div class="card-body">
+              <div class="person-list-header">
+                <div class="person-list-avatar" aria-hidden="true">A</div>
+                <div>
+                  <h3 class="person-list-name">Anna Andersson</h3>
+                  <p class="person-list-description">Deltagare</p>
+                </div>
+              </div>
+              <p class="person-list-meta">AlpenTind Sommerkurs 2026</p>
+              <div class="person-list-actions">
+                <a href="person.html?id=anna-andersson" class="btn btn-primary">Öppna</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card person-list-card">
+            <div class="card-body">
+              <div class="person-list-header">
+                <div class="person-list-avatar" aria-hidden="true">P</div>
+                <div>
+                  <h3 class="person-list-name">Peter Nilsson</h3>
+                  <p class="person-list-description">Guide</p>
+                </div>
+              </div>
+              <p class="person-list-meta">AlpenTind Sommerkurs 2026</p>
+              <div class="person-list-actions">
+                <a href="person.html?id=peter-nilsson" class="btn btn-primary">Öppna</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card person-list-card">
+            <div class="card-body">
+              <div class="person-list-header">
+                <div class="person-list-avatar" aria-hidden="true">L</div>
+                <div>
+                  <h3 class="person-list-name">Lisa Berg</h3>
+                  <p class="person-list-description">Deltagare</p>
+                </div>
+              </div>
+              <p class="person-list-meta">Haute Route</p>
+              <div class="person-list-actions">
+                <a href="person.html?id=lisa-berg" class="btn btn-primary">Öppna</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-4');
+    });
+  </script>
+</body>
+</html>

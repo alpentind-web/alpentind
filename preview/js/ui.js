@@ -1007,6 +1007,12 @@ function createPersonCard(dialogue) {
     needs_followup:          { label: 'Behöver uppföljning',    cls: 'badge-warning'  },
   };
   const statusInfo = statusMap[status] || { label: status, cls: 'badge-info' };
+  const personName = person.workspaceId
+    ? `<a class="link" href="person.html?id=${person.workspaceId}">${person.name}</a>`
+    : person.name;
+  const personWorkspaceLink = person.workspaceId
+    ? `<a class="btn btn-sm btn-tertiary person-workspace-link" href="person.html?id=${person.workspaceId}">Öppna Person Workspace</a>`
+    : '';
 
   return `
     <article class="card dialog-person-card" aria-label="Personkort: ${person.name}">
@@ -1014,7 +1020,7 @@ function createPersonCard(dialogue) {
         <div class="dialog-person-header">
           <div class="dialog-person-avatar" aria-hidden="true">${person.avatar}</div>
           <div class="dialog-person-meta">
-            <h3 class="dialog-person-name">${person.name}</h3>
+            <h3 class="dialog-person-name">${personName}</h3>
             ${person.organization ? `<p class="dialog-person-org">${person.organization}</p>` : ''}
             <span class="badge ${statusInfo.cls}">${statusInfo.label}</span>
           </div>
@@ -1035,6 +1041,7 @@ function createPersonCard(dialogue) {
           <p class="dialog-info-label">Anteckningar</p>
           <p class="dialog-info-value">${notes}</p>
         </div>` : ''}
+        ${personWorkspaceLink}
       </div>
     </article>
   `;
