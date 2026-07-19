@@ -485,6 +485,112 @@ body.login-page {
   margin-top: var(--spacing-md);
 }
 
+/* ========================================
+   Relationsöversikt (Stage 2)
+   ======================================== */
+
+.ro-section {
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: var(--border-thin);
+}
+
+.ro-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.ro-section-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-dark);
+  margin: 0 0 var(--spacing-sm);
+}
+
+.ro-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xs) 0;
+}
+
+.ro-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+  flex-shrink: 0;
+}
+
+.ro-value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-medium);
+  text-align: right;
+}
+
+.ro-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.ro-status-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+}
+
+.ro-status-icon.complete {
+  background-color: rgba(107, 158, 127, 0.2);
+  color: var(--color-success);
+}
+
+.ro-status-icon.warning {
+  background-color: rgba(212, 165, 116, 0.2);
+  color: var(--color-warning);
+}
+
+.ro-status-icon.error {
+  background-color: rgba(184, 92, 92, 0.2);
+  color: var(--color-danger);
+}
+
+.ro-next-step {
+  background-color: rgba(184, 149, 90, 0.1);
+  border-left: 3px solid var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.ro-next-step-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.ro-next-step-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-medium);
+  margin: 0;
+}
+
+.ro-next-step-text.urgent {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-semibold);
+}
+
 @media (max-width: 768px) {
   .workspace-header {
     padding: var(--spacing-lg);
