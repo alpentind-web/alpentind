@@ -255,6 +255,34 @@ body.login-page {
   }
 }
 
+/* ========================================
+   Översikt – Planningboard workspace
+   ======================================== */
+
+.oversikt-workspace {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.oversikt-primary-column,
+.oversikt-aside-column {
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .oversikt-workspace {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .oversikt-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
 .section-header {
   display: flex;
   align-items: center;
