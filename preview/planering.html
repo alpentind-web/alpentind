@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planering – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- Sidopanel -->
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <!-- Sidhuvud -->
+  <header class="header" id="header" role="banner"></header>
+
+  <!-- Huvudinnehåll -->
+  <main class="main" id="main-content">
+    <div class="page active" id="planering-page">
+
+      <div class="page-header">
+        <h1>Upplevelser</h1>
+        <p class="text-muted">Planera och förbered guidade resor</p>
+      </div>
+
+      <!-- Planera ny resa -->
+      <div class="planning-hero" role="region" aria-label="Starta ny planering">
+        <div class="planning-hero-text">
+          <h2>Planera ny resa</h2>
+          <p>Öppna ett nytt planeringsuppdrag och börja direkt.</p>
+        </div>
+        <button class="btn-planning-new" type="button" onclick="createNewPlanningProject()" aria-label="Skapa nytt planeringsuppdrag">
+          <i data-feather="plus" style="width:18px;height:18px" aria-hidden="true"></i>
+          Planera ny resa
+        </button>
+      </div>
+
+      <!-- Pågående planeringar -->
+      <section class="planning-section" aria-labelledby="ongoing-heading">
+        <div class="planning-section-header">
+          <h2 id="ongoing-heading">Pågående planeringar</h2>
+          <span class="planning-section-count" id="ongoing-count" aria-live="polite"></span>
+        </div>
+        <div class="planning-rows" id="ongoing-projects" role="list"></div>
+      </section>
+
+      <!-- Redo att säljas -->
+      <section class="planning-section" aria-labelledby="ready-heading">
+        <div class="planning-section-header">
+          <h2 id="ready-heading">Redo att säljas</h2>
+          <span class="planning-section-count" id="ready-count" aria-live="polite"></span>
+        </div>
+        <div class="planning-rows" id="ready-projects" role="list"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    function renderPlanningDashboard() {
+      const projects = mockData.planningProjects || [];
+
+      const ongoing = projects.filter(p => p.status === 'ongoing');
+      const ready   = projects.filter(p => p.status === 'ready');
+
+      // Ongoing count
+      const ongoingCount = document.getElementById('ongoing-count');
+      if (ongoingCount) {
+        ongoingCount.textContent = ongoing.length > 0
+          ? ongoing.length + ' uppdrag'
+          : '';
+      }
+
+      // Ready count
+      const readyCount = document.getElementById('ready-count');
+      if (readyCount) {
+        readyCount.textContent = ready.length > 0
+          ? ready.length + ' uppdrag'
+          : '';
+      }
+
+      renderPlanningRows('ongoing-projects', ongoing, 'ongoing');
+      renderPlanningRows('ready-projects', ready, 'ready');
+
+      if (typeof feather !== 'undefined') feather.replace();
+    }
+
+    function renderPlanningRows(containerId, projects, type) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      if (projects.length === 0) {
+        container.innerHTML = '<p class="planning-empty">Inga uppdrag just nu.</p>';
+        return;
+      }
+
+      container.innerHTML = projects.map(function(p) {
+        const metaClass = type === 'ready'
+          ? 'planning-row-meta planning-row-meta--ready'
+          : 'planning-row-meta planning-row-meta--ongoing';
+        return `
+          <div class="planning-row" role="listitem" tabindex="0"
+               aria-label="${p.title} – ${p.openQuestionsLabel}"
+               onclick="openPlanningProject('${p.id}')"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openPlanningProject('${p.id}')">
+            <div>
+              <p class="planning-row-title">${p.title}</p>
+              <p class="${metaClass}">${p.openQuestionsLabel}</p>
+            </div>
+            <span class="planning-row-arrow" aria-hidden="true">
+              <i data-feather="chevron-right" style="width:16px;height:16px"></i>
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function createNewPlanningProject() {
+      // Stage 1: Establish entry point only – no wizard, no modal, no form.
+      // Opening a Planning Project is the beginning of planning.
+      const id = 'PLAN-NEW-' + Date.now();
+      openPlanningProject(id);
+    }
+
+    function openPlanningProject(id) {
+      // Stage 1 stub – Planning Project page not yet implemented.
+      // This will be wired to the Planning Project page in a future stage.
+      console.info('Öppnar planeringsuppdrag:', id);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-2');
+      renderPlanningDashboard();
+    });
+  </script>
+</body>
+</html>

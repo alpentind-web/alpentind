@@ -42,19 +42,10 @@
     </div>
   </main>
 
-  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-  <script src="js/mock-data.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/navigation.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (!localStorage.getItem('alpentind-user-logged-in')) {
-        window.location.href = 'index.html';
-        return;
-      }
-      initNavigation('nav-2');
-      renderProducts();
-    });
-  </script>
+    <script>
+      // Upplevelser-registret är inte längre landningssida för Upplevelser.
+      // Navigera direkt till Planeringsöversikten.
+      window.location.replace('planering.html');
+    </script>
 </body>
 </html>
