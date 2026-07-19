@@ -746,11 +746,19 @@ body.login-page {
 }
 
 .arbetsko-card.urgent {
+  border-left-color: var(--color-danger);
+}
+
+.arbetsko-card.scheduled {
   border-left-color: var(--color-warning);
 }
 
 .arbetsko-card.upcoming {
   border-left-color: var(--color-info);
+}
+
+.arbetsko-card.standard {
+  border-left-color: var(--color-text-dark);
 }
 
 .arbetsko-header {
@@ -761,11 +769,32 @@ body.login-page {
   margin-bottom: var(--spacing-xs);
 }
 
+.arbetsko-priority-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 1.4rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.arbetsko-priority-icon.urgent {
+  color: var(--color-danger);
+}
+
+.arbetsko-priority-icon.scheduled {
+  color: var(--color-warning);
+}
+
+.arbetsko-priority-icon.standard {
+  color: var(--color-text-dark);
+}
+
 .arbetsko-title {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-light);
   margin: 0;
+  flex: 1;
 }
 
 .arbetsko-priority-badge {
@@ -778,8 +807,18 @@ body.login-page {
 }
 
 .arbetsko-priority-badge.urgent {
+  background-color: rgba(184, 92, 92, 0.2);
+  color: var(--color-danger);
+}
+
+.arbetsko-priority-badge.scheduled {
   background-color: rgba(212, 165, 116, 0.2);
   color: var(--color-warning);
+}
+
+.arbetsko-priority-badge.standard {
+  background-color: rgba(122, 122, 122, 0.15);
+  color: var(--color-text-dark);
 }
 
 .arbetsko-priority-badge.high {
@@ -824,11 +863,14 @@ body.login-page {
 .arbetsko-related {
   font-size: var(--font-size-xs);
   color: var(--color-text-dark);
-  text-align: right;
+  margin-bottom: var(--spacing-xs);
 }
 
 .arbetsko-action {
   margin-top: var(--spacing-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
 }
 
 .arbetsko-empty {
@@ -970,6 +1012,18 @@ body.login-page {
 .dialoger-empty p {
   margin: 0;
   font-size: var(--font-size-sm);
+}
+
+.dialogue-coordinator {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  margin-top: var(--spacing-xs);
+}
+
+.dialogue-open-btn {
+  padding: 2px var(--spacing-sm);
+  font-weight: var(--font-weight-bold);
+  min-width: 2rem;
 }
 
 @media (max-width: 768px) {
