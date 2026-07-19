@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Översikt – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- Sidopanel -->
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <!-- Sidhuvud -->
+  <header class="header" id="header" role="banner"></header>
+
+  <!-- Huvudinnehåll -->
+  <main class="main" id="main-content">
+    <div class="page active" id="oversikt-page">
+
+      <!-- Lägesbild -->
+      <div class="info-banner" id="info-banner" role="status" aria-label="Lägesbild"></div>
+
+      <div class="arbetsdag-workspace">
+        <div class="arbetsdag-column">
+          <section class="content-section" aria-labelledby="oversikt-calendar-heading">
+            <div class="section-header">
+              <h2 id="oversikt-calendar-heading">Planeringskalender</h2>
+            </div>
+            <div id="operational-calendar"></div>
+          </section>
+        </div>
+
+        <div class="arbetsdag-column">
+          <section class="content-section" aria-labelledby="oversikt-agenda-heading">
+            <div class="section-header">
+              <h2 id="oversikt-agenda-heading">Veckoagenda</h2>
+            </div>
+            <div id="week-agenda-list"></div>
+          </section>
+
+          <section class="content-section" aria-labelledby="oversikt-experiences-heading">
+            <div class="section-header">
+              <h2 id="oversikt-experiences-heading">Kommande upplevelser</h2>
+            </div>
+            <div id="experiences-grid"></div>
+          </section>
+        </div>
+
+        <div class="arbetsdag-column">
+          <section class="content-section" aria-labelledby="oversikt-workqueue-heading">
+            <div class="section-header">
+              <h2 id="oversikt-workqueue-heading">Min arbetskö</h2>
+            </div>
+            <div id="oversikt-work-queue"></div>
+          </section>
+
+          <section class="content-section" aria-labelledby="oversikt-quickactions-heading">
+            <div class="section-header">
+              <h2 id="oversikt-quickactions-heading">Snabbåtgärder</h2>
+            </div>
+            <div class="quick-actions" id="quick-actions"></div>
+          </section>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-0');
+      renderOversikt();
+    });
+  </script>
+</body>
+</html>

@@ -20,6 +20,7 @@ function initNavigation(activeNavId) {
 function navigateTo(page, navId) {
   // Mappning av sidor till HTML-filer
   const pageMap = {
+    'oversikt':       'oversikt.html',
     'arbetsdag':      'arbetsdag.html',
     'dialog':         'dialog.html',
     'upplevelser':    'upplevelser.html',
