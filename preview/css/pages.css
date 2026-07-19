@@ -2226,3 +2226,174 @@ body.login-page {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ========================================
+   Planering – Planning Dashboard (ESR-006)
+   ======================================== */
+
+/* Hero – Planera ny resa */
+.planning-hero {
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  background: linear-gradient(135deg, var(--color-bg-medium) 0%, var(--color-bg-light) 100%);
+  border: var(--border-thin);
+  border-top: 3px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xl);
+}
+
+.planning-hero-text h2 {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
+}
+
+.planning-hero-text p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+  margin: 0;
+}
+
+.btn-planning-new {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--color-primary);
+  color: var(--color-bg-dark);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-planning-new:hover {
+  background-color: var(--color-light-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(184, 149, 90, 0.35);
+}
+
+.btn-planning-new:active {
+  transform: translateY(0);
+}
+
+/* Planning sections */
+.planning-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.planning-section-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: var(--border-thin);
+}
+
+.planning-section-header h2 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.planning-section-count {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+}
+
+/* Planning project rows – compact */
+.planning-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.planning-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.planning-row:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-light);
+}
+
+.planning-row-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.planning-row-meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.planning-row-meta--ongoing {
+  color: var(--color-warning);
+}
+
+.planning-row-meta--ready {
+  color: var(--color-success);
+}
+
+.planning-row-arrow {
+  color: var(--color-text-dark);
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.planning-row:hover .planning-row-arrow {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+/* Planning empty state */
+.planning-empty {
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--color-text-dark);
+  font-size: var(--font-size-sm);
+  border: 1px dashed var(--color-bg-light);
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 600px) {
+  .planning-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-lg);
+  }
+
+  .btn-planning-new {
+    width: 100%;
+    justify-content: center;
+  }
+}

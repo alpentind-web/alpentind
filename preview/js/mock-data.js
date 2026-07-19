@@ -747,6 +747,46 @@ const dashboardStats = {
 };
 
 // ========================================
+// Planeringsuppdrag (Planning Projects)
+// ========================================
+
+const planningProjects = [
+  {
+    id: 'PLAN-001',
+    title: 'Tour du Mont Blanc',
+    status: 'ongoing',
+    openQuestions: 3,
+    openQuestionsLabel: '3 frågor återstår',
+  },
+  {
+    id: 'PLAN-002',
+    title: 'Corporate Journey',
+    status: 'ongoing',
+    openQuestions: 1,
+    openQuestionsLabel: 'Boenden saknas',
+  },
+  {
+    id: 'PLAN-003',
+    title: 'Haute Route',
+    status: 'ongoing',
+    openQuestions: 1,
+    openQuestionsLabel: 'Pris ej färdigställt',
+  },
+  {
+    id: 'PLAN-004',
+    title: 'Tour du Mont Blanc – Höst',
+    status: 'ready',
+    openQuestionsLabel: 'Redo att säljas',
+  },
+  {
+    id: 'PLAN-005',
+    title: 'Haute Route – Premium',
+    status: 'ready',
+    openQuestionsLabel: 'Redo att säljas',
+  },
+];
+
+// ========================================
 // Exporterat datapaket
 // ========================================
 
@@ -771,4 +811,5 @@ const mockData = {
   weekAgenda,
   todoItems,
   dialogues,
+  planningProjects,
 };
