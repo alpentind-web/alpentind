@@ -10,6 +10,8 @@ Planning is the process of transforming an idea into a sellable, operationally v
 
 Planning is question-driven, non-linear, and ends when all operational questions have been answered.
 
+Planning is persistent over time and is carried by Planning Projects that can be paused and resumed.
+
 Planning is a separate architectural concept alongside Register Architecture and Workspace Architecture because it addresses a fundamentally different business problem.
 
 ---
@@ -44,6 +46,7 @@ Planning is the structured process of transforming a journey idea into a fully d
 - **Non-linear:** There is no correct sequence; planning areas may be addressed in any order
 - **Dependency-aware:** Planning areas may have dependencies, but dependencies do not enforce a strict sequence
 - **Uncertainty reduction:** Each planning step reduces operational uncertainty
+- **Persistent over time:** Planning can span days, weeks, or months without loss of context
 - **End condition:** Planning ends when all operational questions have been answered
 - **Output-focused:** Planning produces artefacts necessary for operations
 
@@ -73,6 +76,24 @@ Example indicators:
 - "All questions answered. Ready for review."
 
 The platform should surface unanswered questions, not completed forms.
+
+### 3.2 Planning is Persistent
+
+Planning is not a single-session activity.
+
+Planning continues over days, weeks, or months as new information becomes available.
+
+Users must be able to stop planning at any point and continue later without rework.
+
+The platform preserves complete planning context so users always continue where planning stopped.
+
+### 3.3 Planning Projects
+
+A **Planning Project** is created immediately when a user selects **"Planera ny resa"**.
+
+The Planning Project exists independently of whether planning questions have been answered.
+
+Planning Projects represent journeys under development (**Pågående planering**), not incomplete-data placeholders.
 
 ---
 
@@ -158,6 +179,8 @@ Planning defines the work that needs to be executed.
 
 **A journey follows a lifecycle from conception to completion:**
 
+Idea → Planning Project → Planning → Sellable Journey → Bookings → Operational Journey → Execution → Completed Journey
+
 ```text
 ┌─────────────────────────────────────┐
 │         JOURNEY LIFECYCLE           │
@@ -168,24 +191,37 @@ Planning defines the work that needs to be executed.
 │    State: Concept only              │
 │    Owner: Product, Marketing        │
 │                                     │
-│ 2. PLANNING                         │
-│    (Question-driven process)        │
-│    State: Defining operational      │
+│ 2. PLANNING PROJECT                 │
+│    ("Planera ny resa" selected)     │
+│    State: Journey under development │
 │    Owner: Planning coordinator      │
 │                                     │
-│ 3. OPERATIONAL READINESS            │
-│    (All questions answered)         │
-│    State: Ready for bookings        │
-│    Conditions: Economic viability   │
-│    Conditions: Sufficient capacity  │
+│ 3. PLANNING                         │
+│    (Question-driven process)        │
+│    State: Reducing uncertainty      │
+│    Owner: Planning coordinator      │
+│                                     │
+│ 4. SELLABLE JOURNEY                 │
+│    (Planning review passed)         │
+│    State: Ready to offer/sell       │
+│    Owner: Product, Operations       │
+│                                     │
+│ 5. BOOKINGS                         │
+│    (Participants are enrolled)      │
+│    State: Commercial commitments    │
+│    Owner: Sales, Operations         │
+│                                     │
+│ 6. OPERATIONAL JOURNEY              │
+│    (All bookings operationalized)   │
+│    State: Ready for delivery        │
 │    Owner: Operations                │
 │                                     │
-│ 4. ACTIVE                           │
-│    (Participants enrolled)          │
-│    State: Running journeys          │
+│ 7. EXECUTION                        │
+│    (Journey is actively running)    │
+│    State: In delivery               │
 │    Owner: Guide, Coordinator        │
 │                                     │
-│ 5. COMPLETED                        │
+│ 8. COMPLETED JOURNEY                │
 │    (Journey finished)               │
 │    State: Historical record         │
 │    Owner: Archive                   │
@@ -202,36 +238,51 @@ Planning defines the work that needs to be executed.
 - **Duration:** Hours to days
 - **Next Gate:** Approved for planning?
 
-### Stage 2: Planning
+### Stage 2: Planning Project
+
+- **What:** A persistent planning container for one journey idea
+- **Trigger:** User selects **"Planera ny resa"**
+- **State:** **Pågående planering** exists even before first answer
+- **Participants:** Planning coordinator, product, operations
+- **Duration:** Days to months
+- **Next Gate:** Planning questions are actively being worked
+
+### Stage 3: Planning
 
 - **What:** Structured questioning and definition
 - **Questions:** See Planning Model
 - **Output:** Journey Plan, Cost Calculation, Pricing, Participant Letter, Guide Documentation, Packing List, Booking Instructions, Operational Runbook (order mirrors Section 9)
 - **Participants:** Planning coordinator, guides, operations
-- **Duration:** Days to weeks
+- **Duration:** Days to weeks (may be interrupted and resumed)
 - **Next Gate:** All operational questions answered? Planning Review completed? Economic viability confirmed? Sufficient participant interest?
 
-### Stage 3: Operational Readiness
+### Stage 4: Sellable Journey
 
-- **What:** Journey is ready for booking and operation
-- **Conditions:**
-  - All planning questions answered
-  - Economic model validated
-  - Guide availability confirmed
-  - Participant requirements defined
-  - Operational procedures documented
-- **Output:** Approved journey ready for participants
-- **Participants:** Operations, guides
-- **Duration:** Ongoing until Stage 4
+- **What:** Journey has passed Planning Review and is approved for offering
+- **Conditions:** Planning Readiness criteria fulfilled
+- **Output:** Sellable journey definition
+- **Participants:** Product owner, operations, finance
 
-### Stage 4: Active
+### Stage 5: Bookings
+
+- **What:** Participants commit to the sellable journey
+- **Output:** Confirmed bookings and commitments
+- **Participants:** Participants, sales, operations
+
+### Stage 6: Operational Journey
+
+- **What:** Bookings and operational resources are aligned for delivery
+- **Output:** Operationally ready departure
+- **Participants:** Operations, guides, partners
+
+### Stage 7: Execution
 
 - **What:** Journey is actively running
 - **Participants:** Enrolled guests, guides, coordinators
 - **Operations:** Person Workspaces manage individual participant needs
 - **Duration:** Journey execution period
 
-### Stage 5: Completed
+### Stage 8: Completed Journey
 
 - **What:** Journey has finished
 - **Outcome:** Historical record maintained
@@ -460,6 +511,40 @@ This review is the final Planning activity.
 
 ---
 
+## 8.2 Planning Dashboard
+
+The Planning Environment presents a dashboard of **Current Planning Projects**.
+
+The dashboard is for continuation of ongoing work (**Pågående planering**).
+
+It is **not** a register and **not** an archive.
+
+Its purpose is to help users resume unfinished planning quickly.
+
+Example dashboard entries:
+
+- Tour du Mont Blanc — 3 planning questions remain
+- Haute Route — Accommodation unresolved
+- Corporate Journey — Idea stage
+
+The dashboard should communicate **what remains** to reach a sellable journey.
+
+---
+
+## 8.3 Planning Resume
+
+Reopening a Planning Project restores complete planning context, including:
+
+- Remaining planning questions
+- Current planning state
+- Outstanding uncertainties
+- Planning Areas
+- Dependencies
+
+Users should never need to remember where planning stopped.
+
+---
+
 ## 9. Planning Outputs
 
 Operational artefacts are generated after Planning has been completed.
@@ -552,13 +637,21 @@ Planning eliminates operational uncertainty.
 
 Progress is measured by remaining unanswered questions.
 
-### Principle 2: Question-Driven
+### Principle 2: Planning is Persistent
+
+Planning is a long-lived business process, not a one-session task.
+
+Users can stop and continue later while preserving complete planning context.
+
+Planning Projects remain available as ongoing work (**Pågående planering**) until the journey becomes sellable.
+
+### Principle 3: Question-Driven
 
 Planning progresses by asking and answering operational questions.
 
 Every decision should be traceable to a question it answers.
 
-### Principle 3: Non-Linear
+### Principle 4: Non-Linear
 
 Planning has no mandatory sequence.
 
@@ -566,13 +659,13 @@ Planning Areas can be addressed in any order as information becomes available.
 
 Completion is measured by answered questions, not by following predefined steps.
 
-### Principle 4: Dependency Recognition
+### Principle 5: Dependency Recognition
 
 Planning Areas may depend on one another.
 
 The platform identifies what is blocked and what is ready without enforcing order.
 
-### Principle 5: Viability Gating
+### Principle 6: Viability Gating
 
 A journey becomes operational only when:
 
@@ -582,13 +675,13 @@ A journey becomes operational only when:
 
 These conditions must be validated before moving to Active stage.
 
-### Principle 6: Artefact Generation
+### Principle 7: Artefact Generation
 
 Planning produces tangible artefacts that guide operations.
 
 These artefacts (Plan, Pricing, Participant Letter, Runbook) become the source of truth for operational execution.
 
-### Principle 7: Coordinator Ownership
+### Principle 8: Coordinator Ownership
 
 Planning is owned and driven by a Planning Coordinator.
 
@@ -596,11 +689,13 @@ The coordinator ensures all questions are asked, answered, and documented.
 
 The coordinator drives stakeholder alignment (guides, operations, product, finance).
 
-### Principle 8: Focused Progress Indicators
+### Principle 9: Focused Progress Indicators
 
 Planning progress is reported as remaining unanswered questions.
 
 Percentage-complete and form-completion indicators are secondary and should not drive planning decisions.
+
+The primary planning communication should answer: **"What remains?"** rather than **"What has already been entered?"**
 
 ---
 
@@ -697,7 +792,7 @@ Three distinct architectural concepts:
 
 - **Purpose:** Define new operational objects
 - **Question:** "How do I create Y?"
-- **User flow:** Conceive idea → Answer questions → Produce plan → Object becomes operational
+- **User flow:** Conceive idea → Create Planning Project → Answer questions → Produce plan → Object becomes operational
 
 These concepts are distinct but interconnected:
 
@@ -732,8 +827,9 @@ Planning Architecture will impact future Engineering Specifications:
 
 ### ESR-20x: Planning Dashboard
 
-- Journey planning status
-- Question resolution tracking
+- Current Planning Projects (ongoing work, not archive)
+- Remaining questions and unresolved Planning Areas
+- Resume context and dependency visibility
 - Cost and pricing management
 - Participant interest aggregation
 
