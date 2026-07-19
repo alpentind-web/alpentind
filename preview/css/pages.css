@@ -330,6 +330,71 @@ body.login-page {
   color: var(--color-light-primary);
 }
 
+/* ========================================
+   Kontakter Register
+   ======================================== */
+
+.kontakter-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.category-card {
+  background: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(184, 149, 90, 0.2);
+  transform: translateY(-2px);
+}
+
+.category-card-icon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+  line-height: 1;
+}
+
+.category-card h2 {
+  font-size: var(--font-size-lg);
+  margin: 0 0 var(--spacing-xs) 0;
+  color: var(--color-text-light);
+}
+
+.category-card p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
+  margin: 0 0 var(--spacing-sm) 0;
+  flex-grow: 1;
+}
+
+.category-card-description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  margin: 0;
+  opacity: 0.8;
+}
+
+.placeholder-note {
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .kontakter-categories {
+    grid-template-columns: 1fr;
+  }
+}
+
 .workspace-nav {
   display: flex;
   align-items: center;

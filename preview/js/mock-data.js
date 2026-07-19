@@ -727,7 +727,7 @@ const navigationItems = [
   { id: 'nav-1',  label: 'Arbetsdag',     featherIcon: 'briefcase',      page: 'arbetsdag'     },
   { id: 'nav-12', label: 'Dialoger',       featherIcon: 'message-circle', page: 'dialog'       },
   { id: 'nav-2',  label: 'Upplevelser',   featherIcon: 'compass',        page: 'upplevelser'   },
-  { id: 'nav-4',  label: 'Kunder',        featherIcon: 'users',          page: 'customers'     },
+  { id: 'nav-4',  label: 'Kontakter',      featherIcon: 'users',          page: 'kontakter'     },
   { id: 'nav-5',  label: 'Guider',        featherIcon: 'user-check',     page: 'guides'        },
   { id: 'nav-6',  label: 'Boenden',       featherIcon: 'layers',         page: 'accommodations'},
   { id: 'nav-7',  label: 'Ekonomi',       featherIcon: 'bar-chart-2',    page: 'economy'       },

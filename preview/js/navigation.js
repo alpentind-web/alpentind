@@ -25,6 +25,7 @@ function navigateTo(page, navId) {
     'dialog':         'dialog.html',
     'upplevelser':    'upplevelser.html',
     'departures':     'departures.html',
+    'kontakter':     'kontakter.html',
     'customers':      'person-list.html',
     'guides':         'guides.html',
     'accommodations': 'accommodations.html',
