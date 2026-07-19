@@ -351,6 +351,15 @@ Workspaces may implement layers differently, but the conceptual order remains co
 
 ---
 
+## Related Architectural Documents
+
+**PDR-004 – Register and Workspace Separation** ([PDR-004-Register-Workspace-Separation.md](../20-architecture/PDR-004-Register-Workspace-Separation.md)):
+- Defines how users navigate FROM discovery (Registers) TO operational work (Workspaces)
+- Establishes the platform-wide navigation pattern: Register → Category → List → Workspace
+- Clarifies that Workspace Design Standard applies ONLY to Workspaces, not Registers
+
+---
+
 ## Glossary
 
 **Workspace** – An operational environment designed to support one specific mindset and answer one primary question.
