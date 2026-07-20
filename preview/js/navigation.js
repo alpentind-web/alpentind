@@ -23,7 +23,7 @@ function navigateTo(page, navId) {
     'oversikt':       'oversikt.html',
     'arbetsdag':      'arbetsdag.html',
     'dialog':         'dialog.html',
-    'planering':      'planering.html',
+    'reseplanering':  'planering.html',
     'forfragningar':  'forfragningar.html',
     'kontakter':      'kontakter.html',
     'accommodations': 'accommodations.html',

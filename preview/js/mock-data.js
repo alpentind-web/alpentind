@@ -701,7 +701,7 @@ const navigationItems = [
   { id: 'nav-0',  label: 'Översikt',       featherIcon: 'home',           page: 'oversikt'       },
   { id: 'nav-1',  label: 'Min arbetsdag',  featherIcon: 'briefcase',      page: 'arbetsdag'      },
   { id: 'nav-12', label: 'Dialog',         featherIcon: 'message-circle', page: 'dialog'         },
-  { id: 'nav-2',  label: 'Reseplanering',  featherIcon: 'compass',        page: 'planering'      },
+  { id: 'nav-2',  label: 'Reseplanering',  featherIcon: 'compass',        page: 'reseplanering'  },
   { id: 'nav-3',  label: 'Förfrågningar',  featherIcon: 'inbox',          page: 'forfragningar'  },
   { id: 'nav-4',  label: 'Kontakter',      featherIcon: 'users',          page: 'kontakter'      },
   { id: 'nav-6',  label: 'Boenden',        featherIcon: 'layers',         page: 'accommodations' },
