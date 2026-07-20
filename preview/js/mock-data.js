@@ -165,31 +165,6 @@ const payments = [
 ];
 
 // ========================================
-// Boenden som inte är bokade
-// ========================================
-
-const accommodations = [
-  {
-    id: 'ACC-001',
-    name: 'Refuge Bonatti',
-    departure: 'Tour du Mont Blanc',
-    dates: '2027-07-15 – 2027-07-20',
-    beds: 12,
-    status: 'not_booked',
-    contact: 'booking@bonatti.it',
-  },
-  {
-    id: 'ACC-002',
-    name: 'Sarek Lodge',
-    departure: 'Sarek Sommar',
-    dates: '2027-08-03 – 2027-08-05',
-    beds: 8,
-    status: 'not_booked',
-    contact: 'info@sarek-lodge.se',
-  },
-];
-
-// ========================================
 // Kundmeddelanden
 // ========================================
 
@@ -886,7 +861,6 @@ const mockData = {
   bookings,
   awaitingConfirmation,
   payments,
-  accommodations,
   customerMessages,
   weatherWarnings,
   products,

@@ -155,6 +155,20 @@ function renderAccommodationRegister() {
     const renderLandingRows = function() {
       const searchTerm = normalizeRegisterText(search.value);
       const filterValue = filter.value;
+
+      // First-time empty state: register has no data and user is not searching
+      if (regions.length === 0 && !searchTerm && (!filterValue || filterValue === 'all') && !isSelectionMode) {
+        list.innerHTML =
+          '<div class="register-row" role="listitem">'
+          + '<div class="register-row-primary">Registret är tomt</div>'
+          + '<div class="register-row-context">Lägg till det första boendet för att starta Accommodation Register.</div>'
+          + '<div class="register-row-status">0 regioner</div>'
+          + '<div class="register-row-open">•</div>'
+          + '</div>';
+        if (typeof feather !== 'undefined') feather.replace();
+        return;
+      }
+
       const rows = regions
         .filter(function(region) {
           if (!searchTerm) return true;
