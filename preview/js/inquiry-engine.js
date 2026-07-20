@@ -1,5 +1,12 @@
 var INQUIRY_ENGINE_STORE_KEY = 'alpentind-inquiry-engine-store';
-var INQUIRY_DEFAULT_EMAIL_DOMAIN = 'example.com';
+var INQUIRY_ENGINE_STORE_VERSION = 2;
+var LEGACY_INQUIRY_SEED_FINGERPRINTS = {
+  'INQ-001': { title: 'Direktbokning – Peter Nilsson', createdAt: '2026-07-15T09:15:00Z' },
+  'INQ-002': { title: 'Rekommendationsförfrågan – Anna Andersson', createdAt: '2026-07-14T08:10:00Z' },
+  'INQ-003': { title: 'Relation utan bokning – ACME AB', createdAt: '2026-07-12T12:10:00Z' },
+  'INQ-004': { title: 'Avslutad utan relation – spontan förfrågan', createdAt: '2026-07-10T15:40:00Z' },
+  'INQ-005': { title: 'Ny inkommande – öppen bedömning', createdAt: '2026-07-19T06:25:00Z' },
+};
 var inquiryEngineState = null;
 var inquiryEngineHandlersBound = false;
 
@@ -86,261 +93,48 @@ function findRelationshipLookup(inquiry, relationships) {
   return null;
 }
 
-function buildInquirySeedData() {
-  return [
-    {
-      id: 'INQ-001',
-      title: 'Direktbokning – Peter Nilsson',
-      person: {
-        name: 'Peter Nilsson',
-        email: 'peter.nilsson@example.com',
-        phone: '+46 70 345 67 89',
-        workspaceId: 'peter-nilsson',
-        channel: 'Telefon',
-      },
-      createdAt: '2026-07-15T09:15:00Z',
-      updatedAt: '2026-07-19T08:10:00Z',
-      currentStage: 'decision',
-      status: 'active',
-      currentObjective: 'Bekräfta slutligt beslut och förbereda bokning.',
-      assessment: {
-        status: 'maintained',
-        summary: 'Erfaren deltagare, rätt nivå för Tour du Mont Blanc. Operativt genomförbar.',
-      },
-      recommendation: {
-        currentJourneyId: 'PROD-001',
-        note: 'Direkt rekommendation efter första samtal.',
-        history: [
-          { id: 'RECH-001', date: '2026-07-16T10:30:00Z', journeyId: 'PROD-001', note: 'Första rekommendation registrerad.' },
-        ],
-      },
-      decision: { state: 'pending', note: '' },
-      outcome: { state: 'open', note: '' },
-      bookingPreparation: {
-        availabilityChecked: true,
-        pricingConfirmed: true,
-        termsReviewed: false,
-      },
-      relationship: {
-        linkedRelationshipId: null,
-        entryPointId: null,
-      },
-      dialogue: [
-        { id: 'D-1', type: 'inbound', timestamp: '2026-07-15T09:15:00Z', message: 'Jag vill boka Tour du Mont Blanc om det finns plats i juli.' },
-        { id: 'D-2', type: 'outbound', timestamp: '2026-07-15T10:05:00Z', message: 'Vi har platser i juli. Kan du bekräfta önskat datum och antal?' },
-      ],
-      notes: [
-        { id: 'N-1', timestamp: '2026-07-16T10:20:00Z', text: 'Kund prioriterar juliavgång och enkelrum om möjligt.' },
-      ],
-      documents: [
-        { label: 'Bokningsvillkor', value: 'Version 2026-06' },
-        { label: 'Deltagarinformation', value: 'Tour du Mont Blanc' },
-      ],
-      lifecycle: [
-        { id: 'L-1', stage: 'incoming', timestamp: '2026-07-15T09:15:00Z', note: 'Incoming inquiry opened.' },
-        { id: 'L-2', stage: 'dialogue', timestamp: '2026-07-15T10:05:00Z', note: 'Dialogue initiated.' },
-        { id: 'L-3', stage: 'assessment', timestamp: '2026-07-16T10:20:00Z', note: 'Operational assessment updated.' },
-        { id: 'L-4', stage: 'recommendation', timestamp: '2026-07-16T10:30:00Z', note: 'Recommendation registered.' },
-      ],
-    },
-    {
-      id: 'INQ-002',
-      title: 'Rekommendationsförfrågan – Anna Andersson',
-      person: {
-        name: 'Anna Andersson',
-        email: 'anna.andersson@example.com',
-        phone: '+46 70 234 56 78',
-        workspaceId: 'anna-andersson',
-        channel: 'E-post',
-      },
-      createdAt: '2026-07-14T08:10:00Z',
-      updatedAt: '2026-07-19T08:10:00Z',
-      currentStage: 'recommendation',
-      status: 'active',
-      currentObjective: 'Förfina rekommendation efter ny information om erfarenhet.',
-      assessment: {
-        status: 'maintained',
-        summary: 'Motiverad. Behöver tydlig nivåmatchning och utrustningsstöd.',
-      },
-      recommendation: {
-        currentJourneyId: 'PROD-001',
-        note: 'Nuvarande rekommendation: Tour du Mont Blanc med extra förberedelse.',
-        history: [
-          { id: 'RECH-002', date: '2026-07-15T14:00:00Z', journeyId: 'PROD-003', note: 'Första rekommendation: Klätterkurs Klippa.' },
-          { id: 'RECH-003', date: '2026-07-18T09:30:00Z', journeyId: 'PROD-001', note: 'Ändrad rekommendation efter fördjupad dialog.' },
-        ],
-      },
-      decision: { state: 'pending', note: '' },
-      outcome: { state: 'open', note: '' },
-      bookingPreparation: {
-        availabilityChecked: true,
-        pricingConfirmed: false,
-        termsReviewed: false,
-      },
-      relationship: {
-        linkedRelationshipId: null,
-        entryPointId: null,
-      },
-      dialogue: [
-        { id: 'D-1', type: 'inbound', timestamp: '2026-07-14T08:10:00Z', message: 'Vilken resa passar om jag vill utveckla bergsvana?' },
-        { id: 'D-2', type: 'outbound', timestamp: '2026-07-14T11:00:00Z', message: 'Vi börjar med att kartlägga erfarenhet och mål.' },
-      ],
-      notes: [
-        { id: 'N-1', timestamp: '2026-07-18T09:20:00Z', text: 'Har bättre kondition än först antaget. Rekommendation ändrad.' },
-      ],
-      documents: [
-        { label: 'Utrustningslista', value: 'Vandring nivå Mellan' },
-      ],
-      lifecycle: [
-        { id: 'L-1', stage: 'incoming', timestamp: '2026-07-14T08:10:00Z', note: 'Incoming inquiry opened.' },
-        { id: 'L-2', stage: 'dialogue', timestamp: '2026-07-14T11:00:00Z', note: 'Dialogue started.' },
-        { id: 'L-3', stage: 'assessment', timestamp: '2026-07-15T13:40:00Z', note: 'Assessment documented.' },
-        { id: 'L-4', stage: 'recommendation', timestamp: '2026-07-15T14:00:00Z', note: 'Recommendation registered.' },
-        { id: 'L-5', stage: 'recommendation', timestamp: '2026-07-18T09:30:00Z', note: 'Recommendation changed.' },
-      ],
-    },
-    {
-      id: 'INQ-003',
-      title: 'Relation utan bokning – ACME AB',
-      person: {
-        name: 'ACME AB',
-        email: 'kontakt@acme.se',
-        phone: '+46 8 123 456 78',
-        workspaceId: null,
-        channel: 'E-post',
-      },
-      createdAt: '2026-07-12T12:10:00Z',
-      updatedAt: '2026-07-19T08:10:00Z',
-      currentStage: 'decision',
-      status: 'active',
-      currentObjective: 'Bedöm om relation ska etableras för framtida företagsresa.',
-      assessment: {
-        status: 'maintained',
-        summary: 'Ingen omedelbar avgång men tydligt långsiktigt intresse.',
-      },
-      recommendation: {
-        currentJourneyId: 'PROD-002',
-        note: 'Föreslagen riktning: företagsanpassad fjällupplevelse i höst.',
-        history: [
-          { id: 'RECH-004', date: '2026-07-13T09:00:00Z', journeyId: 'PROD-002', note: 'Rekommendation för inledande koncept.' },
-        ],
-      },
-      decision: { state: 'pending', note: '' },
-      outcome: { state: 'open', note: '' },
-      bookingPreparation: {
-        availabilityChecked: false,
-        pricingConfirmed: false,
-        termsReviewed: false,
-      },
-      relationship: {
-        linkedRelationshipId: null,
-        entryPointId: null,
-      },
-      dialogue: [
-        { id: 'D-1', type: 'inbound', timestamp: '2026-07-12T12:10:00Z', message: 'Vi vill utforska en ledarskapsretreat senare i år.' },
-      ],
-      notes: [],
-      documents: [
-        { label: 'Företagspresentation', value: 'ACME Leadership Team' },
-      ],
-      lifecycle: [
-        { id: 'L-1', stage: 'incoming', timestamp: '2026-07-12T12:10:00Z', note: 'Incoming inquiry opened.' },
-      ],
-    },
-    {
-      id: 'INQ-004',
-      title: 'Avslutad utan relation – spontan förfrågan',
-      person: {
-        name: 'Erik Jonsson',
-        email: 'erik.jonsson@example.com',
-        phone: '+46 70 999 88 77',
-        workspaceId: null,
-        channel: 'Telefon',
-      },
-      createdAt: '2026-07-10T15:40:00Z',
-      updatedAt: '2026-07-11T09:10:00Z',
-      currentStage: 'outcome',
-      status: 'closed',
-      currentObjective: 'Förfrågan avslutad efter bedömning.',
-      assessment: {
-        status: 'maintained',
-        summary: 'Ingen lämplig resa just nu utifrån tillgänglighet och mål.',
-      },
-      recommendation: {
-        currentJourneyId: null,
-        note: 'Ingen rekommendation möjlig denna period.',
-        history: [],
-      },
-      decision: { state: 'declined', note: 'Valde att avvakta.' },
-      outcome: { state: 'closed_without_relationship', note: 'Avslutad utan relation.' },
-      bookingPreparation: {
-        availabilityChecked: false,
-        pricingConfirmed: false,
-        termsReviewed: false,
-      },
-      relationship: {
-        linkedRelationshipId: null,
-        entryPointId: null,
-      },
-      dialogue: [
-        { id: 'D-1', type: 'inbound', timestamp: '2026-07-10T15:40:00Z', message: 'Finns en avgång nästa vecka för nybörjare?' },
-        { id: 'D-2', type: 'outbound', timestamp: '2026-07-10T16:20:00Z', message: 'Ingen lämplig avgång tillgänglig nästa vecka.' },
-      ],
-      notes: [
-        { id: 'N-1', timestamp: '2026-07-11T09:10:00Z', text: 'Förfrågan stängd. Ingen relation etablerad.' },
-      ],
-      documents: [],
-      lifecycle: [
-        { id: 'L-1', stage: 'incoming', timestamp: '2026-07-10T15:40:00Z', note: 'Incoming inquiry opened.' },
-        { id: 'L-2', stage: 'dialogue', timestamp: '2026-07-10T16:20:00Z', note: 'Dialogue completed.' },
-        { id: 'L-3', stage: 'outcome', timestamp: '2026-07-11T09:10:00Z', note: 'Closed without relationship.' },
-      ],
-    },
-    {
-      id: 'INQ-005',
-      title: 'Ny inkommande – öppen bedömning',
-      person: {
-        name: 'Sofia Lind',
-        email: 'sofia.lind@example.com',
-        phone: '+46 73 555 11 22',
-        workspaceId: null,
-        channel: 'Webbformulär',
-      },
-      createdAt: '2026-07-19T06:25:00Z',
-      updatedAt: '2026-07-19T06:25:00Z',
-      currentStage: 'incoming',
-      status: 'active',
-      currentObjective: 'Öppna dialog och etablera initial bedömning.',
-      assessment: {
-        status: 'pending',
-        summary: '',
-      },
-      recommendation: {
-        currentJourneyId: null,
-        note: '',
-        history: [],
-      },
-      decision: { state: 'pending', note: '' },
-      outcome: { state: 'open', note: '' },
-      bookingPreparation: {
-        availabilityChecked: false,
-        pricingConfirmed: false,
-        termsReviewed: false,
-      },
-      relationship: {
-        linkedRelationshipId: null,
-        entryPointId: null,
-      },
-      dialogue: [
-        { id: 'D-1', type: 'inbound', timestamp: '2026-07-19T06:25:00Z', message: 'Jag vill hitta en resa för sensommaren med fokus på säker introduktion.' },
-      ],
-      notes: [],
-      documents: [],
-      lifecycle: [
-        { id: 'L-1', stage: 'incoming', timestamp: '2026-07-19T06:25:00Z', note: 'Incoming inquiry opened.' },
-      ],
-    },
-  ];
+function buildEmptyInquiryStore() {
+  return {
+    version: INQUIRY_ENGINE_STORE_VERSION,
+    activeInquiryId: null,
+    relationshipEntries: [],
+    inquiries: [],
+  };
+}
+
+function isLegacySeedInquiry(inquiry) {
+  if (!inquiry || !inquiry.id) return false;
+  var fingerprint = LEGACY_INQUIRY_SEED_FINGERPRINTS[inquiry.id];
+  return !!(
+    fingerprint
+    && inquiry.title === fingerprint.title
+    && inquiry.createdAt === fingerprint.createdAt
+  );
+}
+
+function normalizeInquiryStore(store) {
+  var normalized = Object.assign(buildEmptyInquiryStore(), store || {});
+  normalized.version = INQUIRY_ENGINE_STORE_VERSION;
+  normalized.relationshipEntries = Array.isArray(normalized.relationshipEntries) ? normalized.relationshipEntries : [];
+  normalized.inquiries = Array.isArray(normalized.inquiries)
+    ? normalized.inquiries.filter(function(item) { return item && !isLegacySeedInquiry(item); })
+    : [];
+
+  if (!normalized.inquiries.some(function(item) { return item.id === normalized.activeInquiryId; })) {
+    normalized.activeInquiryId = normalized.inquiries[0] ? normalized.inquiries[0].id : null;
+  }
+
+  return normalized;
+}
+
+function getNextInquiryId(store) {
+  var maxNumber = (store.inquiries || []).reduce(function(max, inquiry) {
+    var match = inquiry && inquiry.id ? String(inquiry.id).match(/^INQ-(\d+)$/) : null;
+    var current = match ? Number(match[1]) : 0;
+    return current > max ? current : max;
+  }, 0);
+
+  return 'INQ-' + String(maxNumber + 1).padStart(3, '0');
 }
 
 function getInquiryStore() {
@@ -351,20 +145,17 @@ function getInquiryStore() {
   if (raw) {
     try {
       var parsed = JSON.parse(raw);
-      if (parsed && parsed.inquiries && parsed.inquiries.length > 0) return parsed;
+      var normalized = normalizeInquiryStore(parsed);
+      if (JSON.stringify(parsed) !== JSON.stringify(normalized)) saveInquiryStore(normalized);
+      return normalized;
     } catch (e) {
       // ignore broken state and rebuild
     }
   }
 
-  var seed = {
-    version: 1,
-    activeInquiryId: 'INQ-001',
-    relationshipEntries: [],
-    inquiries: buildInquirySeedData(),
-  };
-  saveInquiryStore(seed);
-  return seed;
+  var emptyStore = buildEmptyInquiryStore();
+  saveInquiryStore(emptyStore);
+  return emptyStore;
 }
 
 function saveInquiryStore(store) {
@@ -454,6 +245,20 @@ function renderInquirySelector(inquiries, activeId) {
       +   '<span class="inquiry-selector-stage">' + inquiryEscapeHtml(getStageLabel(inquiry.currentStage)) + '</span>'
       + '</button>';
   }).join('');
+}
+
+function renderInquiryEmptyState() {
+  return ''
+    + '<section class="content-section">'
+    +   '<div class="card">'
+    +     '<div class="empty-state">'
+    +       '<i data-feather="inbox" style="width: 48px; height: 48px;" aria-hidden="true"></i>'
+    +       '<h3>No active inquiries.</h3>'
+    +       '<p>Inquiry Workspace är tom tills en användare skapar en ny inquiry via arbetsflödet.</p>'
+    +       '<button class="btn btn-primary mt-lg" type="button" data-inquiry-create="true">Create Inquiry</button>'
+    +     '</div>'
+    +   '</div>'
+    + '</section>';
 }
 
 function renderSituation(inquiry, journeys) {
@@ -968,6 +773,11 @@ function handleInquirySelectorClick(event) {
 }
 
 function handleInquiryWorkspaceClick(event) {
+  var createTrigger = event.target.closest('[data-inquiry-create]');
+  if (createTrigger) {
+    handleInquiryCreateClick();
+    return;
+  }
   var trigger = event.target.closest('[data-inquiry-action]');
   if (!trigger) return;
   handleInquiryAction(trigger.getAttribute('data-inquiry-action'));
@@ -979,13 +789,13 @@ function handleInquiryCreateClick() {
   var cleanedName = String(name).trim();
   if (!cleanedName) return;
 
-  var contact = window.prompt('Kontaktuppgift (e-post):', inquirySlugify(cleanedName) + '@' + INQUIRY_DEFAULT_EMAIL_DOMAIN) || '';
-  var objective = window.prompt('Current objective för denna inquiry:', 'Öppna dialog och etablera operativ bedömning.') || '';
+  var contact = window.prompt('Kontaktuppgift (e-post):') || '';
+  var objective = window.prompt('Current objective för denna inquiry:') || '';
 
   if (!inquiryEngineState || !inquiryEngineState.store) return;
   var store = inquiryEngineState.store;
 
-  var inquiryId = 'INQ-' + String((store.inquiries || []).length + 1).padStart(3, '0');
+  var inquiryId = getNextInquiryId(store);
   var now = inquiryNowIsoTime();
 
   var inquiry = {
@@ -1016,9 +826,7 @@ function handleInquiryCreateClick() {
       linkedRelationshipId: null,
       entryPointId: null,
     },
-    dialogue: [
-      { id: 'D-' + Date.now().toString(36), type: 'inbound', timestamp: now, message: 'Ny inquiry registrerad och redo för dialog.' },
-    ],
+    dialogue: [],
     notes: [],
     documents: [],
     lifecycle: [
@@ -1072,19 +880,17 @@ function renderInquiryEngine() {
     planning: planning,
     relationships: relationships,
   };
-
   renderInquirySelector(store.inquiries || [], store.activeInquiryId);
+  bindInquiryHandlers();
 
   var workspace = document.getElementById('inquiry-workspace');
   if (!workspace) return;
 
   if (!activeInquiry) {
-    workspace.innerHTML = '<section class="content-section"><p class="text-muted">Inga inquiries hittades.</p></section>';
-    return;
+    workspace.innerHTML = renderInquiryEmptyState();
+  } else {
+    workspace.innerHTML = renderInquiryWorkspace(activeInquiry, store, journeys, planning, relationships);
   }
-
-  workspace.innerHTML = renderInquiryWorkspace(activeInquiry, store, journeys, planning, relationships);
-  bindInquiryHandlers();
 
   if (typeof feather !== 'undefined') feather.replace();
 }
