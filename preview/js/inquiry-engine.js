@@ -112,12 +112,16 @@ function isLegacySeedInquiry(inquiry) {
   );
 }
 
+function isOperationalInquiry(inquiry) {
+  return !!(inquiry && !isLegacySeedInquiry(inquiry));
+}
+
 function normalizeInquiryStore(store) {
   var normalized = Object.assign(buildEmptyInquiryStore(), store || {});
   normalized.version = INQUIRY_ENGINE_STORE_VERSION;
   normalized.relationshipEntries = Array.isArray(normalized.relationshipEntries) ? normalized.relationshipEntries : [];
   normalized.inquiries = Array.isArray(normalized.inquiries)
-    ? normalized.inquiries.filter(function(item) { return item && !isLegacySeedInquiry(item); })
+    ? normalized.inquiries.filter(isOperationalInquiry)
     : [];
 
   if (!normalized.inquiries.some(function(item) { return item.id === normalized.activeInquiryId; })) {
