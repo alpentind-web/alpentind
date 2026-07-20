@@ -254,7 +254,7 @@ function renderInquiryEmptyState() {
     +     '<div class="empty-state">'
     +       '<i data-feather="inbox" style="width: 48px; height: 48px;" aria-hidden="true"></i>'
     +       '<h3>No active inquiries.</h3>'
-    +       '<p>Inquiry Workspace är tom tills en användare skapar en ny inquiry via arbetsflödet.</p>'
+    +       '<p>Inquiry Workspace is empty until a user creates a new inquiry through the workflow.</p>'
     +       '<button class="btn btn-primary mt-lg" type="button" data-inquiry-create="true">Create Inquiry</button>'
     +     '</div>'
     +   '</div>'
