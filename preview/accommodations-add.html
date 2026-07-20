@@ -327,10 +327,6 @@
         regionList.appendChild(opt);
       });
 
-      if (!isEditMode) {
-        document.title = 'Lägg till boende – AlpenTind Platform';
-      }
-
       if (isEditMode) {
         // --- EDIT MODE ---
         document.title = 'Redigera boende – AlpenTind Platform';
@@ -416,6 +412,8 @@
           window.location.href = 'accommodations.html';
           return;
         }
+      } else {
+        document.title = 'Lägg till boende – AlpenTind Platform';
       }
 
       if (typeof feather !== 'undefined') feather.replace();
