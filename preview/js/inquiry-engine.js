@@ -125,11 +125,22 @@ function normalizeInquiryStore(store) {
     ? normalized.inquiries.filter(isOperationalInquiry)
     : [];
 
+  if (!normalized.activeInquiryId && normalized.inquiries.length === 0) return normalized;
+
   if (!normalized.inquiries.some(function(item) { return item.id === normalized.activeInquiryId; })) {
     normalized.activeInquiryId = normalized.inquiries[0] ? normalized.inquiries[0].id : null;
   }
 
   return normalized;
+}
+
+function shouldPersistNormalizedStore(store, normalized) {
+  if (!store) return true;
+  if (store.version !== normalized.version) return true;
+  if (!Array.isArray(store.relationshipEntries)) return true;
+  if (!Array.isArray(store.inquiries)) return true;
+  if (store.inquiries.length !== normalized.inquiries.length) return true;
+  return (store.activeInquiryId || null) !== (normalized.activeInquiryId || null);
 }
 
 function getNextInquiryId(store) {
@@ -151,7 +162,7 @@ function getInquiryStore() {
     try {
       var parsed = JSON.parse(raw);
       var normalized = normalizeInquiryStore(parsed);
-      if (JSON.stringify(parsed) !== JSON.stringify(normalized)) saveInquiryStore(normalized);
+      if (shouldPersistNormalizedStore(parsed, normalized)) saveInquiryStore(normalized);
       return normalized;
     } catch (e) {
       // ignore broken state and rebuild
