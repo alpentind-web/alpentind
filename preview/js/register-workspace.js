@@ -167,6 +167,16 @@ function buildRegisterWorkspaceActions(actions) {
     var iconHtml = action.icon
       ? '<i data-feather="' + esc(action.icon) + '" style="width:16px;height:16px" aria-hidden="true"></i>'
       : '';
+    if (action.guidance) {
+      var guidanceJson = JSON.stringify(action.guidance);
+      var guidanceAttr = guidanceJson
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      return '<button class="btn btn-' + esc(variant) + '" type="button" data-guidance="' + guidanceAttr + '">'
+        + iconHtml + esc(action.label) + '</button>';
+    }
     if (action.href) {
       return '<a class="btn btn-' + esc(variant) + '" href="' + esc(action.href) + '">' + iconHtml + esc(action.label) + '</a>';
     }
@@ -228,6 +238,20 @@ function renderRegisterWorkspace(container, config) {
     + '</section>';
 
   if (typeof feather !== 'undefined') feather.replace();
+
+  var guidanceButtons = container.querySelectorAll('[data-guidance]');
+  for (var gi = 0; gi < guidanceButtons.length; gi++) {
+    (function(btn) {
+      btn.addEventListener('click', function() {
+        try {
+          var guidance = JSON.parse(btn.getAttribute('data-guidance'));
+          if (typeof showWorkflowGuidance === 'function') showWorkflowGuidance(guidance);
+        } catch (e) {
+          console.error('Workflow guidance: failed to parse guidance data', e);
+        }
+      });
+    })(guidanceButtons[gi]);
+  }
 }
 
 // ----------------------------------------
@@ -337,26 +361,42 @@ function buildAccommodationWorkspaceConfig(region, accommodation, detail) {
     {
       label: 'Öppna kontakt',
       icon: 'user',
-      href: '#',
       variant: 'secondary',
+      guidance: {
+        intent: 'You are currently working to continue communication related to this accommodation.',
+        capability: 'Here you will be able to open the responsible contact and manage relationship and communication directly in the platform.',
+        phase: 'This part of the platform is introduced in a later phase of the Contact Engine. When that phase is active, this workflow continues here.',
+      },
     },
     {
       label: 'Öppna dokument',
       icon: 'file-text',
-      href: '#',
       variant: 'secondary',
+      guidance: {
+        intent: 'You are currently working to review documentation connected to this accommodation.',
+        capability: 'Here you will be able to open documents linked to the accommodation, such as agreements, price lists, and other operational material.',
+        phase: 'This part of the platform is introduced in a later phase of the Document Engine. When that phase is active, this workflow continues here.',
+      },
     },
     {
       label: 'Visa i planering',
       icon: 'map',
-      href: '#',
       variant: 'secondary',
+      guidance: {
+        intent: 'You are currently working to understand where this accommodation is used in planning.',
+        capability: 'Here you will be able to view planning projects that reference this accommodation.',
+        phase: 'This part of the platform is introduced in a later phase of Planning Usage. When that phase is active, this workflow continues here.',
+      },
     },
     {
       label: 'Arkivera',
       icon: 'archive',
-      href: '#',
       variant: 'tertiary',
+      guidance: {
+        intent: 'You are currently working to manage the lifecycle of this accommodation.',
+        capability: 'Here you will be able to archive the accommodation while preserving historical operational references.',
+        phase: 'This part of the platform is introduced in a later phase of Register Lifecycle Management. When that phase is active, this workflow continues here.',
+      },
     },
   ];
 
