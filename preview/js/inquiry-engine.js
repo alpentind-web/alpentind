@@ -1,4 +1,5 @@
 var INQUIRY_ENGINE_STORE_KEY = 'alpentind-inquiry-engine-store';
+var INQUIRY_DEFAULT_EMAIL_DOMAIN = 'example.com';
 var inquiryEngineState = null;
 var inquiryEngineHandlersBound = false;
 
@@ -600,8 +601,12 @@ function renderContext(inquiry, store, journeys, planning, relationshipLookup) {
       + '</div>'
     : '<p class="inquiry-empty">Ingen resa vald ännu.</p>';
 
+  var selectedJourneyKey = selectedJourney && selectedJourney.title
+    ? selectedJourney.title.split(' ').filter(Boolean)[0]
+    : '';
+
   var relatedPlanning = planning.filter(function(item) {
-    return selectedJourney && item.title && selectedJourney.title && item.title.indexOf(selectedJourney.title.split(' ')[0]) !== -1;
+    return !!(selectedJourneyKey && item.title && item.title.indexOf(selectedJourneyKey) !== -1);
   });
 
   var planningInfo = relatedPlanning.length > 0
@@ -974,7 +979,7 @@ function handleInquiryCreateClick() {
   var cleanedName = String(name).trim();
   if (!cleanedName) return;
 
-  var contact = window.prompt('Kontaktuppgift (e-post):', inquirySlugify(cleanedName) + '@example.com') || '';
+  var contact = window.prompt('Kontaktuppgift (e-post):', inquirySlugify(cleanedName) + '@' + INQUIRY_DEFAULT_EMAIL_DOMAIN) || '';
   var objective = window.prompt('Current objective för denna inquiry:', 'Öppna dialog och etablera operativ bedömning.') || '';
 
   if (!inquiryEngineState || !inquiryEngineState.store) return;
