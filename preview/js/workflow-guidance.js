@@ -84,5 +84,5 @@ function showWorkflowGuidance(config) {
   });
   document.addEventListener('keydown', handleEsc);
 
-  if (closeBtn) closeBtn.focus();
+  closeBtn.focus();
 }

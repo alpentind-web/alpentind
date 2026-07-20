@@ -168,7 +168,12 @@ function buildRegisterWorkspaceActions(actions) {
       ? '<i data-feather="' + esc(action.icon) + '" style="width:16px;height:16px" aria-hidden="true"></i>'
       : '';
     if (action.guidance) {
-      var guidanceAttr = JSON.stringify(action.guidance).replace(/"/g, '&quot;');
+      var guidanceJson = JSON.stringify(action.guidance);
+      var guidanceAttr = guidanceJson
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
       return '<button class="btn btn-' + esc(variant) + '" type="button" data-guidance="' + guidanceAttr + '">'
         + iconHtml + esc(action.label) + '</button>';
     }
@@ -241,7 +246,9 @@ function renderRegisterWorkspace(container, config) {
         try {
           var guidance = JSON.parse(btn.getAttribute('data-guidance'));
           if (typeof showWorkflowGuidance === 'function') showWorkflowGuidance(guidance);
-        } catch (e) {}
+        } catch (e) {
+          console.error('Workflow guidance: failed to parse guidance data', e);
+        }
       });
     })(guidanceButtons[gi]);
   }
