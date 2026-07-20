@@ -864,40 +864,6 @@ function renderPaymentsTable() {
 }
 
 // ========================================
-// Boendetabell
-// ========================================
-
-function renderAccommodationsTable() {
-  const container = document.getElementById('accommodations-table');
-  if (!container) return;
-
-  container.innerHTML = `
-    <table class="table" aria-label="Boenden att boka">
-      <thead>
-        <tr>
-          <th scope="col">Boende</th>
-          <th scope="col">Avgång</th>
-          <th scope="col">Datum</th>
-          <th scope="col">Sängar</th>
-          <th scope="col">Åtgärd</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${mockData.accommodations.map(acc => `
-          <tr>
-            <td>${acc.name}</td>
-            <td>${acc.departure}</td>
-            <td>${acc.dates}</td>
-            <td>${acc.beds}</td>
-            <td><button class="btn btn-sm btn-primary">Boka nu</button></td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  `;
-}
-
-// ========================================
 // Kundmeddelandelista
 // ========================================
 

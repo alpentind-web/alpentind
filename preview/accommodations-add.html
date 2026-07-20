@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lägg till boende – AlpenTind Platform</title>
+  <title>Hantera boende – AlpenTind Platform</title>
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -329,6 +329,7 @@
 
       if (isEditMode) {
         // --- EDIT MODE ---
+        document.title = 'Redigera boende – AlpenTind Platform';
         document.getElementById('accommodation-add-title').textContent = 'Redigera boende';
         document.getElementById('accommodation-add-subtitle').textContent =
           'Uppdatera information för detta boende. Ändringar reflekteras omedelbart i registret.';
@@ -411,6 +412,8 @@
           window.location.href = 'accommodations.html';
           return;
         }
+      } else {
+        document.title = 'Lägg till boende – AlpenTind Platform';
       }
 
       if (typeof feather !== 'undefined') feather.replace();
