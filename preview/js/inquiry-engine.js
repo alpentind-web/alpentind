@@ -784,13 +784,13 @@ function handleInquiryWorkspaceClick(event) {
 }
 
 function handleInquiryCreateClick() {
-  var name = window.prompt('Namn på person eller organisation för ny förfrågan:');
+  var name = window.prompt('Name of person or organization for the new inquiry:');
   if (!name) return;
   var cleanedName = String(name).trim();
   if (!cleanedName) return;
 
-  var contact = window.prompt('Kontaktuppgift (e-post):') || '';
-  var objective = window.prompt('Current objective för denna inquiry:') || '';
+  var contact = window.prompt('Contact email:') || '';
+  var objective = window.prompt('Current objective for this inquiry:') || '';
 
   if (!inquiryEngineState || !inquiryEngineState.store) return;
   var store = inquiryEngineState.store;
