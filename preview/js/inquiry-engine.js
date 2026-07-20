@@ -8,7 +8,8 @@ var LEGACY_INQUIRY_SEED_FINGERPRINTS = {
   'INQ-005': { title: 'Ny inkommande – öppen bedömning', createdAt: '2026-07-19T06:25:00Z' },
 };
 var inquiryEngineState = null;
-var inquiryEngineHandlersBound = false;
+var inquiryEngineStaticHandlersBound = false;
+var inquiryEngineWorkspaceHandlersBound = false;
 
 function inquiryEscapeHtml(value) {
   return String(value == null ? '' : value)
@@ -259,7 +260,7 @@ function renderInquiryEmptyState() {
     +       '<i data-feather="inbox" style="width: 48px; height: 48px;" aria-hidden="true"></i>'
     +       '<h3>No active inquiries.</h3>'
     +       '<p>Inquiry Workspace is empty until a user creates a new inquiry through the workflow.</p>'
-    +       '<button class="btn btn-primary mt-lg" type="button" data-inquiry-create="true">Create Inquiry</button>'
+    +       '<button class="btn btn-primary mt-lg" type="button" id="inquiry-empty-create-button">Create Inquiry</button>'
     +     '</div>'
     +   '</div>'
     + '</section>';
@@ -777,11 +778,6 @@ function handleInquirySelectorClick(event) {
 }
 
 function handleInquiryWorkspaceClick(event) {
-  var createTrigger = event.target.closest('[data-inquiry-create]');
-  if (createTrigger) {
-    handleInquiryCreateClick();
-    return;
-  }
   var trigger = event.target.closest('[data-inquiry-action]');
   if (!trigger) return;
   handleInquiryAction(trigger.getAttribute('data-inquiry-action'));
@@ -844,14 +840,22 @@ function handleInquiryCreateClick() {
   renderInquiryEngine();
 }
 
-function bindInquiryHandlers() {
-  if (inquiryEngineHandlersBound) return;
-
+function bindInquiryStaticHandlers() {
+  if (inquiryEngineStaticHandlersBound) return;
   var selector = document.getElementById('inquiry-selector');
-  var workspace = document.getElementById('inquiry-workspace');
   var createButton = document.getElementById('inquiry-create-button');
 
   if (selector) selector.addEventListener('click', handleInquirySelectorClick);
+  if (createButton) createButton.addEventListener('click', handleInquiryCreateClick);
+
+  inquiryEngineStaticHandlersBound = true;
+}
+
+function bindInquiryWorkspaceHandlers() {
+  if (inquiryEngineWorkspaceHandlersBound) return;
+
+  var workspace = document.getElementById('inquiry-workspace');
+
   if (workspace) workspace.addEventListener('click', handleInquiryWorkspaceClick);
   if (workspace) {
     workspace.addEventListener('change', function(event) {
@@ -865,9 +869,8 @@ function bindInquiryHandlers() {
       });
     });
   }
-  if (createButton) createButton.addEventListener('click', handleInquiryCreateClick);
 
-  inquiryEngineHandlersBound = true;
+  inquiryEngineWorkspaceHandlersBound = true;
 }
 
 function renderInquiryEngine() {
@@ -885,15 +888,18 @@ function renderInquiryEngine() {
     relationships: relationships,
   };
   renderInquirySelector(store.inquiries || [], store.activeInquiryId);
-  bindInquiryHandlers();
+  bindInquiryStaticHandlers();
 
   var workspace = document.getElementById('inquiry-workspace');
   if (!workspace) return;
 
   if (!activeInquiry) {
     workspace.innerHTML = renderInquiryEmptyState();
+    var emptyCreateButton = document.getElementById('inquiry-empty-create-button');
+    if (emptyCreateButton) emptyCreateButton.addEventListener('click', handleInquiryCreateClick);
   } else {
     workspace.innerHTML = renderInquiryWorkspace(activeInquiry, store, journeys, planning, relationships);
+    bindInquiryWorkspaceHandlers();
   }
 
   if (typeof feather !== 'undefined') feather.replace();
