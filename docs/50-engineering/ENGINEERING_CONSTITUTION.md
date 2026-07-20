@@ -77,6 +77,16 @@ Merge
 
 No step may be skipped. Each step produces a verifiable artefact or decision record.
 
+### Business Engine Development Lifecycle Extension
+
+During the current phase of Business Engine Development, the lifecycle extends as follows:
+
+```
+Discovery → PDR → ESR → Implementation → Architecture Review → Business Validation → Merge → Next Business Engine
+```
+
+The existing staged implementation process remains unchanged. Business Validation is added as a final stage after Architecture Review and before Merge. It does not replace or modify any preceding stage.
+
 ---
 
 ## 5. Engineering Principles
@@ -105,6 +115,12 @@ Implementation follows the ESR. The ESR is not updated to match what was built �
 **Never silently change business behaviour**
 Any change to observable business behaviour must be explicitly specified in an ESR and approved before implementation. Silent changes are a violation of this constitution.
 
+**Pattern before Engine**
+No Business Engine implementation begins until the operational pattern it must serve has been identified, documented, and confirmed by the Product Owner. Engines are built to serve proven patterns, not to define them.
+
+**Engine Acceptance**
+A Business Engine is not accepted until it has demonstrated that it supports real operational work. Functional completion alone is not sufficient for acceptance. The engine must be validated against actual business workflows before it is considered done.
+
 ---
 
 ## 6. Engineering Rules
@@ -129,6 +145,9 @@ The language defined in Business Architecture documents is the only authoritativ
 2. **Document the question.** Record the blocking question clearly in writing.
 3. **Wait for Product Owner decision.** Implementation resumes only after the Product Owner has provided a documented answer.
 
+**Every Business Engine ESR must include a Business Validation section.**
+Each future Business Engine ESR shall include a section documenting the planned Business Validation. This section describes what workflows will be validated, who will conduct the validation, and what constitutes a successful outcome. No fixed naming convention for validation documents is introduced by this rule; the ESR author determines the appropriate format for each engine.
+
 ---
 
 ## 7. Definition of Done
@@ -138,15 +157,41 @@ Implementation is complete only when:
 - ✅ ESR implemented — all acceptance criteria in the ESR are met.
 - ✅ Engineering Review completed — the implementation has been reviewed against the ESR.
 - ✅ Architecture Review approved — the Technical Lead & Chief Software Architect has approved the implementation.
+- ✅ Business Validation completed — the implementation has been validated against real operational workflows and the Product Owner has confirmed no blocking business issues remain.
 - ✅ Documentation updated — ESR status updated to Merged; any affected documentation reflects the current state.
 - ✅ Commit approved — the commit references the ESR and has been accepted by the Architecture Review.
 - ✅ Merge completed — the implementation has been merged into the repository.
 
-Until all six conditions are satisfied, the implementation is not done.
+Until all seven conditions are satisfied, the implementation is not done.
 
 ---
 
-## 8. Repository Philosophy
+## 8. Business Validation
+
+Business Validation is the final stage of each Business Engine before Merge. It confirms that the implementation supports real operational work and is approved by the Product Owner.
+
+Business Validation complements Architecture Review. It does not replace it. Architecture Review confirms technical correctness; Business Validation confirms operational readiness.
+
+### What Business Validation confirms
+
+- The engine supports real operational work in the context it was designed for.
+- The Product Owner has reviewed the engine against actual business workflows and approves the workflow behaviour.
+- No blocking business issues remain that would prevent the engine from being used in operations.
+
+### Business Validation Outcomes
+
+**Approved**
+The engine is confirmed to support real operational work. The Product Owner approves the workflow behaviour. No blocking issues remain. The engine may proceed to Merge.
+
+**Approved with Follow-up**
+The engine is approved for Merge, but one or more non-blocking observations or improvements have been identified. These are documented and addressed in a subsequent engine or as a follow-up task. They do not block the current Merge.
+
+**Rejected**
+The engine is not approved. A blocking business issue has been identified that prevents the engine from supporting real operational work. Implementation returns to the relevant prior stage. The blocking issue is documented and must be resolved before Business Validation is re-attempted.
+
+---
+
+## 9. Repository Philosophy
 
 The repository is a long-term knowledge asset.
 
@@ -156,7 +201,7 @@ Every contribution — specification, implementation, review, or documentation �
 
 ---
 
-## 9. Future Evolution
+## 10. Future Evolution
 
 The Engineering Constitution evolves through review.
 
