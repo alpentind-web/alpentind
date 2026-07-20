@@ -369,8 +369,9 @@
 
           // Region is read-only when editing
           var regionInput = document.getElementById('acc-region');
-          regionInput.value    = region.name;
-          regionInput.readOnly = true;
+          regionInput.value        = region.name;
+          regionInput.readOnly     = true;
+          regionInput.setAttribute('aria-readonly', 'true');
           regionInput.style.opacity = '0.7';
           document.getElementById('acc-region-hint').textContent =
             'Region kan inte ändras efter registrering.';
