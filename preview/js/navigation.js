@@ -23,15 +23,11 @@ function navigateTo(page, navId) {
     'oversikt':       'oversikt.html',
     'arbetsdag':      'arbetsdag.html',
     'dialog':         'dialog.html',
-    'upplevelser':    'planering.html',
-    'departures':     'departures.html',
-    'kontakter':     'kontakter.html',
-    'customers':      'person-list.html',
-    'guides':         'guides.html',
+    'reseplanering':  'planering.html',
+    'forfragningar':  'forfragningar.html',
+    'kontakter':      'kontakter.html',
     'accommodations': 'accommodations.html',
-    'economy':        'economy.html',
     'documents':      'documents.html',
-    'messages':       'messages.html',
     'settings':       'settings.html',
   };
 
