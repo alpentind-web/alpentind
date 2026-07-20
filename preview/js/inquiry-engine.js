@@ -13,7 +13,7 @@ function inquiryEscapeHtml(value) {
 
 function inquirySlugify(text) {
   return String(text || '')
-    .toLocaleLowerCase('sv-SE')
+    .toLowerCase()
     .replace(/[åä]/g, 'a')
     .replace(/ö/g, 'o')
     .replace(/[^a-z0-9]+/g, '-')
@@ -77,7 +77,7 @@ function findRelationshipLookup(inquiry, relationships) {
 
   if (person.email) {
     var byEmail = relationships.find(function(rel) {
-      return rel.email && rel.email.toLocaleLowerCase('sv-SE') === person.email.toLocaleLowerCase('sv-SE');
+      return rel.email && rel.email.toLowerCase() === person.email.toLowerCase();
     });
     if (byEmail) return byEmail;
   }
