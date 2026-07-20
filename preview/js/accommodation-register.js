@@ -1,5 +1,7 @@
 function getAccommodationRegisterData() {
-  return (mockData && mockData.accommodationRegister) || { regions: [] };
+  return typeof getAccommodationStoreRegisterData === 'function'
+    ? getAccommodationStoreRegisterData()
+    : { regions: [] };
 }
 
 function normalizeRegisterText(value) {

@@ -29,7 +29,7 @@
           <div class="section-header">
             <h2 id="workspace-error-heading">Boende hittades inte</h2>
           </div>
-          <p class="text-muted">Boendet kunde inte identifieras i mock-data. Kontrollera att region och boende-ID är korrekta.</p>
+          <p class="text-muted">Boendet kunde inte identifieras i registret. Kontrollera att region och boende-ID är korrekta.</p>
           <a href="accommodations.html" class="btn btn-secondary" style="margin-top:var(--spacing-md)">
             <i data-feather="arrow-left" style="width:16px;height:16px" aria-hidden="true"></i>
             Tillbaka till Boenden
@@ -45,6 +45,7 @@
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
   <script src="js/register-selection.js"></script>
+  <script src="js/accommodation-store.js"></script>
   <script src="js/register-workspace.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -57,13 +58,11 @@
       var params          = new URLSearchParams(window.location.search);
       var regionSlug      = params.get('region');
       var accommodationId = params.get('accommodation');
-      var regions         = (mockData.accommodationRegister && mockData.accommodationRegister.regions) || [];
-      var region          = regions.find(function(r) { return r.slug === regionSlug; }) || null;
-      var accommodation   = region
-        ? (region.accommodations || []).find(function(a) { return a.id === accommodationId; }) || null
-        : null;
+      var found           = getAccommodationFromStore(regionSlug, accommodationId);
+      var region          = found ? found.region       : null;
+      var accommodation   = found ? found.accommodation : null;
 
-      var nav      = document.getElementById('accommodation-workspace-nav');
+      var nav         = document.getElementById('accommodation-workspace-nav');
       var wsContainer = document.getElementById('register-workspace-container');
       var errorBlock  = document.getElementById('register-workspace-error');
 
@@ -89,7 +88,7 @@
           + '<span>' + accommodation.name + '</span>';
       }
 
-      var detail = (mockData.accommodationWorkspaceData && mockData.accommodationWorkspaceData[accommodation.id]) || null;
+      var detail = getAccommodationWorkspaceDetailData(accommodation.id);
       var config  = buildAccommodationWorkspaceConfig(region, accommodation, detail);
       renderRegisterWorkspace(wsContainer, config);
     });

@@ -12,7 +12,9 @@ function getPlanningProject(projectId) {
 }
 
 function getAccommodationRegisterData() {
-  return (mockData && mockData.accommodationRegister) || { regions: [] };
+  return typeof getAccommodationStoreRegisterData === 'function'
+    ? getAccommodationStoreRegisterData()
+    : { regions: [] };
 }
 
 function buildQuestionStatus(areaTemplate, projectAreaState, selectionState) {
