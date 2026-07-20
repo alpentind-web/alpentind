@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Förfrågningar – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- Sidopanel -->
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <!-- Sidhuvud -->
+  <header class="header" id="header" role="banner"></header>
+
+  <!-- Huvudinnehåll -->
+  <main class="main" id="main-content">
+    <div class="page active" id="forfragningar-page">
+
+      <div class="page-header">
+        <h1>Förfrågningar</h1>
+        <p class="text-secondary">Förfrågningsmotor – under uppbyggnad</p>
+      </div>
+
+      <div class="content-section">
+        <p class="text-secondary">Den här sektionen hanterar inkommande reseförfrågningar och rekommendationer. Funktionen är planerad men ännu inte implementerad.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-3');
+    });
+  </script>
+</body>
+</html>
