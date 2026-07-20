@@ -8,6 +8,30 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-lg);
+    }
+    @media (max-width: 640px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+    }
+    .form-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      align-items: center;
+      margin-top: var(--spacing-xl);
+    }
+    .form-section-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--spacing-md);
+    }
+  </style>
 </head>
 <body>
 
@@ -19,23 +43,258 @@
     <div class="page active" id="accommodations-add-page">
 
       <section class="page-header" aria-labelledby="accommodation-add-title">
-        <nav class="workspace-nav" aria-label="Navigeringsstig">
+        <nav class="workspace-nav" id="accommodation-add-breadcrumb" aria-label="Navigeringsstig">
           <a href="accommodations.html" class="link">Boenden</a>
           <span aria-hidden="true">›</span>
-          <span>Lägg till boende</span>
+          <span id="accommodation-add-breadcrumb-current">Lägg till boende</span>
         </nav>
         <h1 id="accommodation-add-title">Lägg till boende</h1>
-        <p class="text-muted">Deliberat manuell registrering för kvalitetssäkrad katalogförvaltning.</p>
+        <p class="text-muted" id="accommodation-add-subtitle">Deliberat manuell registrering för kvalitetssäkrad katalogförvaltning.</p>
       </section>
 
-      <section class="content-section" aria-labelledby="accommodation-add-summary-heading">
-        <div class="section-header">
-          <h2 id="accommodation-add-summary-heading">Manuell registrering</h2>
+      <form id="accommodation-form" novalidate>
+
+        <!-- Grundläggande information -->
+        <section class="content-section" aria-labelledby="acc-basic-heading">
+          <div class="section-header">
+            <h2 id="acc-basic-heading">Grundläggande information</h2>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label" for="acc-name">Namn <span aria-hidden="true">*</span></label>
+                <input type="text" id="acc-name" name="name" class="form-input" required
+                  placeholder="t.ex. Hotel Bonatti" autocomplete="off">
+                <span class="form-error" id="acc-name-error" hidden>
+                  <i data-feather="alert-circle" style="width:14px;height:14px" aria-hidden="true"></i>
+                  Namn krävs.
+                </span>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="acc-region">Region <span aria-hidden="true">*</span></label>
+                  <input type="text" id="acc-region" name="region" class="form-input" required
+                    placeholder="t.ex. Franska Alperna" autocomplete="off" list="acc-region-list">
+                  <datalist id="acc-region-list"></datalist>
+                  <span class="form-error" id="acc-region-error" hidden>
+                    <i data-feather="alert-circle" style="width:14px;height:14px" aria-hidden="true"></i>
+                    Region krävs.
+                  </span>
+                  <span class="form-help" id="acc-region-hint">Välj befintlig region eller ange en ny.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-place">Ort / Plats <span aria-hidden="true">*</span></label>
+                  <input type="text" id="acc-place" name="place" class="form-input" required
+                    placeholder="t.ex. Chamonix">
+                  <span class="form-error" id="acc-place-error" hidden>
+                    <i data-feather="alert-circle" style="width:14px;height:14px" aria-hidden="true"></i>
+                    Plats krävs.
+                  </span>
+                </div>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="acc-type">Typ <span aria-hidden="true">*</span></label>
+                  <input type="text" id="acc-type" name="type" class="form-input" required
+                    placeholder="t.ex. Hotell, Refuge, Auberge" list="acc-type-list">
+                  <datalist id="acc-type-list">
+                    <option value="Hotell">
+                    <option value="Refuge">
+                    <option value="Auberge">
+                    <option value="Rifugio">
+                    <option value="Albergo">
+                    <option value="Berghaus">
+                    <option value="Lodge">
+                    <option value="Hostal">
+                    <option value="Fjellstue">
+                    <option value="Vandrarhem">
+                    <option value="Camping">
+                  </datalist>
+                  <span class="form-error" id="acc-type-error" hidden>
+                    <i data-feather="alert-circle" style="width:14px;height:14px" aria-hidden="true"></i>
+                    Typ krävs.
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-readiness">Readiness</label>
+                  <select id="acc-readiness" name="readiness" class="form-input">
+                    <option value="Ny">Ny</option>
+                    <option value="Villkor granskade">Villkor granskade</option>
+                    <option value="Kapacitet säkrad">Kapacitet säkrad</option>
+                    <option value="Fallback klar">Fallback klar</option>
+                    <option value="Säsongssäkrat">Säsongssäkrat</option>
+                    <option value="Verifierat">Verifierat</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="acc-status">Status</label>
+                  <select id="acc-status" name="status" class="form-input">
+                    <option value="Aktiv">Aktiv</option>
+                    <option value="Inaktiv">Inaktiv</option>
+                    <option value="Under granskning">Under granskning</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="acc-purpose">Operativt syfte</label>
+                <textarea id="acc-purpose" name="purpose" class="form-input" rows="2"
+                  placeholder="Beskriv varför detta boende används i AlpenTinds verksamhet."></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Kontakt -->
+        <section class="content-section" aria-labelledby="acc-contact-heading">
+          <div class="section-header">
+            <h2 id="acc-contact-heading">Kontakt</h2>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="acc-contact-name">Kontaktperson</label>
+                  <input type="text" id="acc-contact-name" name="contactName" class="form-input"
+                    placeholder="Namn">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-contact-phone">Telefon</label>
+                  <input type="tel" id="acc-contact-phone" name="contactPhone" class="form-input"
+                    placeholder="+39 0165 000 000">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-contact-email">E-post</label>
+                  <input type="email" id="acc-contact-email" name="contactEmail" class="form-input"
+                    placeholder="booking@example.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-contact-language">Kommunikationsspråk</label>
+                  <input type="text" id="acc-contact-language" name="contactLanguage" class="form-input"
+                    placeholder="t.ex. Italienska / Franska">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Priser -->
+        <section class="content-section" aria-labelledby="acc-pricing-heading">
+          <div class="section-header">
+            <h2 id="acc-pricing-heading">Priser</h2>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="acc-pricing-half">Halvpension</label>
+                  <input type="text" id="acc-pricing-half" name="pricingHalfBoard" class="form-input"
+                    placeholder="t.ex. 85–110 EUR / natt">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-pricing-full">Helpension</label>
+                  <input type="text" id="acc-pricing-full" name="pricingFullBoard" class="form-input"
+                    placeholder="t.ex. 110–140 EUR / natt">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-pricing-group">Grupprabatt</label>
+                  <input type="text" id="acc-pricing-group" name="pricingGroupDiscount" class="form-input"
+                    placeholder="t.ex. 10% för grupper ≥ 8 personer">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="acc-pricing-notes">Prisnoteringar</label>
+                <textarea id="acc-pricing-notes" name="pricingNotes" class="form-input" rows="2"
+                  placeholder="Övriga prisuppgifter, giltighetsperiod m.m."></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Kapacitet -->
+        <section class="content-section" aria-labelledby="acc-capacity-heading">
+          <div class="section-header">
+            <h2 id="acc-capacity-heading">Kapacitet</h2>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="acc-capacity-beds">Totalt antal bäddar</label>
+                  <input type="number" id="acc-capacity-beds" name="capacityTotalBeds" class="form-input"
+                    min="1" placeholder="t.ex. 28">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-capacity-group">Max gruppstorlek</label>
+                  <input type="number" id="acc-capacity-group" name="capacityGroupMaximum" class="form-input"
+                    min="1" placeholder="t.ex. 14">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="acc-capacity-rooms">Rumstyper</label>
+                <input type="text" id="acc-capacity-rooms" name="capacityRoomTypes" class="form-input"
+                  placeholder="t.ex. Dubbelrum, enkrum och 6-bäddssovsal">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Säsong -->
+        <section class="content-section" aria-labelledby="acc-season-heading">
+          <div class="section-header">
+            <h2 id="acc-season-heading">Säsong</h2>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="acc-season-open">Öppen period</label>
+                  <input type="text" id="acc-season-open" name="seasonOpenPeriod" class="form-input"
+                    placeholder="t.ex. Mitten juni – Slutet september">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="acc-season-peak">Högsäsong</label>
+                  <input type="text" id="acc-season-peak" name="seasonPeakPeriod" class="form-input"
+                    placeholder="t.ex. Juli – Augusti">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interna noteringar -->
+        <section class="content-section" aria-labelledby="acc-notes-heading">
+          <div class="section-header">
+            <h2 id="acc-notes-heading">Interna noteringar</h2>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label" for="acc-notes">Noteringar</label>
+                <textarea id="acc-notes" name="notes" class="form-input" rows="3"
+                  placeholder="Operativa noteringar, erfarenheter, övrigt att känna till."></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Formuläråtgärder -->
+        <div class="content-section">
+          <div id="acc-form-error" class="form-error" hidden>
+            <i data-feather="alert-circle" style="width:14px;height:14px" aria-hidden="true"></i>
+            <span id="acc-form-error-text">Rätta felen ovan och försök igen.</span>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="acc-submit-btn">
+              <i data-feather="save" style="width:16px;height:16px" aria-hidden="true"></i>
+              <span id="acc-submit-label">Spara boende</span>
+            </button>
+            <a id="acc-cancel-link" href="accommodations.html" class="btn btn-secondary">Avbryt</a>
+          </div>
         </div>
-        <p class="text-muted">
-          Denna ingångspunkt representerar manuell tillförsel till registret. Synkronisering, import och AI-generering är avsiktligt uteslutet i detta steg.
-        </p>
-      </section>
+
+      </form>
 
     </div>
   </main>
@@ -44,6 +303,8 @@
   <script src="js/mock-data.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/register-selection.js"></script>
+  <script src="js/accommodation-store.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (!localStorage.getItem('alpentind-user-logged-in')) {
@@ -51,6 +312,200 @@
         return;
       }
       initNavigation('nav-6');
+
+      var params         = new URLSearchParams(window.location.search);
+      var isEditMode     = params.get('mode') === 'edit';
+      var regionSlug     = params.get('region') || '';
+      var accommodationId = params.get('accommodation') || '';
+
+      // Populate region datalist from store
+      var regionList = document.getElementById('acc-region-list');
+      var storeData  = getAccommodationStoreRegisterData();
+      (storeData.regions || []).forEach(function(r) {
+        var opt = document.createElement('option');
+        opt.value = r.name;
+        regionList.appendChild(opt);
+      });
+
+      if (isEditMode) {
+        // --- EDIT MODE ---
+        document.getElementById('accommodation-add-title').textContent = 'Redigera boende';
+        document.getElementById('accommodation-add-subtitle').textContent =
+          'Uppdatera information för detta boende. Ändringar reflekteras omedelbart i registret.';
+        document.getElementById('accommodation-add-breadcrumb-current').textContent = 'Redigera boende';
+        document.getElementById('acc-submit-label').textContent = 'Spara ändringar';
+
+        var existing = getAccommodationFromStore(regionSlug, accommodationId);
+        if (existing) {
+          var acc    = existing.accommodation;
+          var region = existing.region;
+          var detail = getAccommodationWorkspaceDetailData(accommodationId) || {};
+
+          // Update cancel link to go back to workspace
+          document.getElementById('acc-cancel-link').href =
+            'accommodations-workspace.html?region=' + encodeURIComponent(regionSlug)
+            + '&accommodation=' + encodeURIComponent(accommodationId);
+
+          // Update breadcrumb
+          document.getElementById('accommodation-add-breadcrumb').innerHTML =
+            '<a href="accommodations.html" class="link">Boenden</a>'
+            + '<span aria-hidden="true">›</span>'
+            + '<a href="accommodations.html?region=' + encodeURIComponent(regionSlug) + '" class="link">'
+            + escapePreviewHtml(region.name) + '</a>'
+            + '<span aria-hidden="true">›</span>'
+            + '<a href="accommodations-workspace.html?region=' + encodeURIComponent(regionSlug)
+            + '&accommodation=' + encodeURIComponent(accommodationId) + '" class="link">'
+            + escapePreviewHtml(acc.name) + '</a>'
+            + '<span aria-hidden="true">›</span>'
+            + '<span>Redigera</span>';
+
+          // Pre-fill basic info
+          document.getElementById('acc-name').value      = acc.name      || '';
+          document.getElementById('acc-type').value      = acc.type      || '';
+          document.getElementById('acc-place').value     = acc.place     || '';
+          document.getElementById('acc-readiness').value = acc.readiness || 'Ny';
+          document.getElementById('acc-status').value    = detail.status || 'Aktiv';
+          document.getElementById('acc-purpose').value   = detail.purpose || '';
+
+          // Region is read-only when editing
+          var regionInput = document.getElementById('acc-region');
+          regionInput.value    = region.name;
+          regionInput.readOnly = true;
+          regionInput.style.opacity = '0.7';
+          document.getElementById('acc-region-hint').textContent =
+            'Region kan inte ändras efter registrering.';
+
+          // Contact
+          var contact = detail.contact || {};
+          document.getElementById('acc-contact-name').value     = contact.name     || '';
+          document.getElementById('acc-contact-phone').value    = contact.phone    || '';
+          document.getElementById('acc-contact-email').value    = contact.email    || '';
+          document.getElementById('acc-contact-language').value = contact.language || '';
+
+          // Pricing
+          var pricing = detail.pricing || {};
+          document.getElementById('acc-pricing-half').value  = pricing.halfBoard     || '';
+          document.getElementById('acc-pricing-full').value  = pricing.fullBoard     || '';
+          document.getElementById('acc-pricing-group').value = pricing.groupDiscount || '';
+          document.getElementById('acc-pricing-notes').value = pricing.notes         || '';
+
+          // Capacity
+          var capacity = detail.capacity || {};
+          document.getElementById('acc-capacity-beds').value  =
+            capacity.totalBeds    != null ? String(capacity.totalBeds)    : '';
+          document.getElementById('acc-capacity-group').value =
+            capacity.groupMaximum != null ? String(capacity.groupMaximum) : '';
+          document.getElementById('acc-capacity-rooms').value = capacity.roomTypes || '';
+
+          // Season
+          var season = detail.season || {};
+          document.getElementById('acc-season-open').value = season.openPeriod || '';
+          document.getElementById('acc-season-peak').value = season.peakPeriod || '';
+
+          // Notes
+          document.getElementById('acc-notes').value = detail.notes || '';
+
+        } else {
+          // Could not find accommodation – redirect
+          window.location.href = 'accommodations.html';
+          return;
+        }
+      }
+
+      if (typeof feather !== 'undefined') feather.replace();
+
+      // --- FORM SUBMISSION ---
+      document.getElementById('accommodation-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var form    = event.target;
+        var nameVal = document.getElementById('acc-name').value.trim();
+        var regionVal = document.getElementById('acc-region').value.trim();
+        var placeVal  = document.getElementById('acc-place').value.trim();
+        var typeVal   = document.getElementById('acc-type').value.trim();
+
+        // Reset errors
+        ['acc-name', 'acc-region', 'acc-place', 'acc-type'].forEach(function(id) {
+          document.getElementById(id).classList.remove('form-input-error');
+          document.getElementById(id + '-error').hidden = true;
+        });
+        document.getElementById('acc-form-error').hidden = true;
+
+        var hasError = false;
+        if (!nameVal) {
+          document.getElementById('acc-name').classList.add('form-input-error');
+          document.getElementById('acc-name-error').hidden = false;
+          hasError = true;
+        }
+        if (!regionVal) {
+          document.getElementById('acc-region').classList.add('form-input-error');
+          document.getElementById('acc-region-error').hidden = false;
+          hasError = true;
+        }
+        if (!placeVal) {
+          document.getElementById('acc-place').classList.add('form-input-error');
+          document.getElementById('acc-place-error').hidden = false;
+          hasError = true;
+        }
+        if (!typeVal) {
+          document.getElementById('acc-type').classList.add('form-input-error');
+          document.getElementById('acc-type-error').hidden = false;
+          hasError = true;
+        }
+
+        if (hasError) {
+          document.getElementById('acc-form-error').hidden = false;
+          if (typeof feather !== 'undefined') feather.replace();
+          return;
+        }
+
+        var formData = {
+          name:                form.name.value.trim(),
+          region:              form.region.value.trim(),
+          place:               form.place.value.trim(),
+          type:                form.type.value.trim(),
+          readiness:           form.readiness.value,
+          status:              form.status.value,
+          purpose:             form.purpose.value.trim(),
+          contactName:         form.contactName.value.trim(),
+          contactPhone:        form.contactPhone.value.trim(),
+          contactEmail:        form.contactEmail.value.trim(),
+          contactLanguage:     form.contactLanguage.value.trim(),
+          pricingHalfBoard:    form.pricingHalfBoard.value.trim(),
+          pricingFullBoard:    form.pricingFullBoard.value.trim(),
+          pricingGroupDiscount: form.pricingGroupDiscount.value.trim(),
+          pricingNotes:        form.pricingNotes.value.trim(),
+          capacityTotalBeds:   form.capacityTotalBeds.value,
+          capacityGroupMaximum: form.capacityGroupMaximum.value,
+          capacityRoomTypes:   form.capacityRoomTypes.value.trim(),
+          seasonOpenPeriod:    form.seasonOpenPeriod.value.trim(),
+          seasonPeakPeriod:    form.seasonPeakPeriod.value.trim(),
+          notes:               form.notes.value.trim(),
+        };
+
+        var submitBtn = document.getElementById('acc-submit-btn');
+        submitBtn.disabled = true;
+
+        if (isEditMode) {
+          var success = updateAccommodationInStore(regionSlug, accommodationId, formData);
+          if (success) {
+            window.location.href =
+              'accommodations-workspace.html?region=' + encodeURIComponent(regionSlug)
+              + '&accommodation=' + encodeURIComponent(accommodationId);
+          } else {
+            document.getElementById('acc-form-error').hidden = false;
+            document.getElementById('acc-form-error-text').textContent =
+              'Kunde inte spara ändringarna. Försök igen.';
+            submitBtn.disabled = false;
+            if (typeof feather !== 'undefined') feather.replace();
+          }
+        } else {
+          var result = createAccommodationInStore(formData);
+          window.location.href =
+            'accommodations-workspace.html?region=' + encodeURIComponent(result.region.slug)
+            + '&accommodation=' + encodeURIComponent(result.accommodation.id);
+        }
+      });
     });
   </script>
 </body>
