@@ -295,11 +295,12 @@ function closeCreateModal() {
 
 function commitCreateInquiry() {
   var name = String((document.getElementById('inquiry-new-name') || {}).value || '').trim();
+  var nameEl = document.getElementById('inquiry-new-name');
   if (!name) {
-    var nameEl = document.getElementById('inquiry-new-name');
     if (nameEl) { nameEl.focus(); nameEl.setAttribute('aria-invalid', 'true'); }
     return;
   }
+  if (nameEl) nameEl.removeAttribute('aria-invalid');
   var email = String((document.getElementById('inquiry-new-email') || {}).value || '').trim();
   var phone = String((document.getElementById('inquiry-new-phone') || {}).value || '').trim();
   var notes = String((document.getElementById('inquiry-new-notes') || {}).value || '').trim();
@@ -365,7 +366,7 @@ function saveFieldToActiveInquiry(field, value) {
   saveInquiryStore(store);
   // Update selector row preview without full re-render (avoid losing focus mid-edit)
   if (field === 'name' || field === 'notes') {
-    var activeRow = document.querySelector('[data-inquiry-select="' + inquiryEscapeHtml(inquiry.id) + '"]');
+    var activeRow = document.querySelector('[data-inquiry-select="' + inquiry.id + '"]');
     if (activeRow) {
       var nameEl = activeRow.querySelector('.inquiry-inbox-row-name');
       if (nameEl && field === 'name') nameEl.textContent = inquiry.name || '–';
@@ -425,7 +426,7 @@ function bindInquiryHandlers() {
   document.addEventListener('keydown', function(event) {
     var modal = document.getElementById('inquiry-create-modal');
     if (modal && !modal.hidden) {
-      if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') { commitCreateInquiry(); return; }
+      if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA' && event.target.tagName !== 'BUTTON') { commitCreateInquiry(); return; }
       if (event.key === 'Escape') { closeCreateModal(); return; }
     }
   });
