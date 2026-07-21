@@ -1,5 +1,6 @@
 var INQUIRY_ENGINE_STORE_KEY = 'alpentind-inquiry-engine-store';
 var INQUIRY_ENGINE_STORE_VERSION = 3;
+var INQUIRY_DIALOG_STORE_KEY = 'alpentind-dialog-store';
 var LEGACY_INQUIRY_SEED_FINGERPRINTS = {
   'INQ-001': { title: 'Direktbokning – Peter Nilsson', createdAt: '2026-07-15T09:15:00Z' },
   'INQ-002': { title: 'Rekommendationsförfrågan – Anna Andersson', createdAt: '2026-07-14T08:10:00Z' },
@@ -67,6 +68,7 @@ function migrateInquiryToV3(inquiry) {
     email: person.email || inquiry.email || '',
     phone: person.phone || inquiry.phone || '',
     notes: notesText,
+    readState: inquiry.readState || 'new',
     createdAt: inquiry.createdAt || inquiryNowIsoTime(),
     updatedAt: inquiry.updatedAt || inquiryNowIsoTime(),
   };
@@ -90,7 +92,9 @@ function normalizeInquiryStore(store) {
 
   var normalized = Object.assign(buildEmptyInquiryStore(), raw);
   normalized.inquiries = Array.isArray(normalized.inquiries)
-    ? normalized.inquiries.filter(function(item) { return item && item.id && !isLegacySeedInquiry(item); })
+    ? normalized.inquiries.filter(function(item) { return item && item.id && !isLegacySeedInquiry(item); }).map(function(item) {
+        return item.readState ? item : Object.assign({}, item, { readState: 'new' });
+      })
     : [];
 
   if (!normalized.inquiries.some(function(item) { return item.id === normalized.activeInquiryId; })) {
@@ -134,6 +138,29 @@ function getNextInquiryId(store) {
   return 'INQ-' + String(maxNumber + 1).padStart(3, '0');
 }
 
+// ── Dialog store ───────────────────────────────────────────────────────────────
+
+function getDialogStore() {
+  var raw = typeof localStorage !== 'undefined' ? localStorage.getItem(INQUIRY_DIALOG_STORE_KEY) : null;
+  if (raw) { try { return JSON.parse(raw); } catch (e) {} }
+  return { dialogs: [] };
+}
+
+function saveDialogStore(store) {
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(INQUIRY_DIALOG_STORE_KEY, JSON.stringify(store));
+  }
+}
+
+function getNextDialogId(store) {
+  var max = (store.dialogs || []).reduce(function(m, d) {
+    var match = d && d.id ? String(d.id).match(/^DIA-(\d+)$/) : null;
+    var n = match ? Number(match[1]) : 0;
+    return n > m ? n : m;
+  }, 0);
+  return 'DIA-' + String(max + 1).padStart(3, '0');
+}
+
 function getActiveInquiry(store) {
   if (!store || !store.inquiries || store.inquiries.length === 0) return null;
   return store.inquiries.find(function(item) { return item.id === store.activeInquiryId; })
@@ -150,9 +177,10 @@ function renderInquiryInbox(inquiries, activeId) {
     var activeClass = inquiry.id === activeId ? ' active' : '';
     var preview = String(inquiry.notes || '').replace(/\s+/g, ' ').trim().slice(0, 60);
     var previewText = preview ? inquiryEscapeHtml(preview) : '<em>Inga anteckningar</em>';
+    var unreadBadge = inquiry.readState === 'new' ? '<span class="inquiry-read-badge">Ny</span>' : '';
     return ''
       + '<button class="inquiry-inbox-row' + activeClass + '" type="button" data-inquiry-select="' + inquiryEscapeHtml(inquiry.id) + '">'
-      +   '<span class="inquiry-inbox-row-name">' + inquiryEscapeHtml(inquiry.name || '–') + '</span>'
+      +   '<span class="inquiry-inbox-row-name">' + inquiryEscapeHtml(inquiry.name || '–') + unreadBadge + '</span>'
       +   '<span class="inquiry-inbox-row-date">' + inquiryEscapeHtml(inquiryFormatDateTime(inquiry.createdAt)) + '</span>'
       +   '<span class="inquiry-inbox-row-preview">' + previewText + '</span>'
       + '</button>';
@@ -225,11 +253,11 @@ function renderInquiryEmptyInbox() {
     + '</div>';
 }
 
-function renderWebsiteNotificationBanner() {
+function renderWebsiteEntryPointBanner() {
   return ''
-    + '<div class="inquiry-website-notification" id="inquiry-website-notification" role="status" aria-label="Webbplatsnotis">'
+    + '<div class="inquiry-website-notification" id="inquiry-website-notification" role="status" aria-label="Webbplats ingångspunkt">'
     +   '<i data-feather="globe" style="width:14px;height:14px" aria-hidden="true"></i>'
-    +   '<span>Webbplatsintegrering inte aktiv — inkommande förfrågningar via webbplatsen visas här.</span>'
+    +   '<span>Webbplats ingångspunkt — inkommande förfrågningar via webbplatsen visas här.</span>'
     + '</div>';
 }
 
@@ -310,7 +338,7 @@ function commitCreateInquiry() {
   var id = getNextInquiryId(store);
   var now = inquiryNowIsoTime();
 
-  store.inquiries.unshift({ id: id, name: name, email: email, phone: phone, notes: notes, createdAt: now, updatedAt: now });
+  store.inquiries.unshift({ id: id, name: name, email: email, phone: phone, notes: notes, readState: 'new', createdAt: now, updatedAt: now });
   store.activeInquiryId = id;
   saveInquiryStore(store);
   closeCreateModal();
@@ -336,24 +364,30 @@ function createDialogFromInquiry() {
   var inquiry = getActiveInquiry(inquiryEngineState.store);
   if (!inquiry) return;
 
-  var banner = document.createElement('div');
-  banner.className = 'inquiry-dialog-toast';
-  banner.setAttribute('role', 'status');
-  banner.innerHTML = ''
-    + '<i data-feather="check-circle" style="width:16px;height:16px" aria-hidden="true"></i>'
-    + '<span>Dialog öppnad för <strong>' + inquiryEscapeHtml(inquiry.name) + '</strong> — fortsätt i <a href="dialog.html" class="link">Dialog Engine</a>.</span>';
+  // If already linked to a dialog, navigate directly
+  if (inquiry.dialogId) {
+    window.location.href = 'dialog.html';
+    return;
+  }
 
-  var existing = document.getElementById('inquiry-dialog-toast-container');
-  if (existing) existing.remove();
+  // Create dialog placeholder and link to inquiry
+  var dialogStore = getDialogStore();
+  var dialogId = getNextDialogId(dialogStore);
+  var now = inquiryNowIsoTime();
 
-  var container = document.createElement('div');
-  container.id = 'inquiry-dialog-toast-container';
-  container.appendChild(banner);
-  document.body.appendChild(container);
+  dialogStore.dialogs.push({
+    id: dialogId,
+    inquiryId: inquiry.id,
+    name: inquiry.name,
+    createdAt: now,
+  });
+  saveDialogStore(dialogStore);
 
-  if (typeof feather !== 'undefined') feather.replace();
+  inquiry.dialogId = dialogId;
+  inquiry.updatedAt = now;
+  saveInquiryStore(inquiryEngineState.store);
 
-  setTimeout(function() { if (container.parentNode) container.remove(); }, 6000);
+  window.location.href = 'dialog.html';
 }
 
 function saveFieldToActiveInquiry(field, value) {
@@ -398,6 +432,10 @@ function bindInquiryHandlers() {
       var id = rowTrigger.getAttribute('data-inquiry-select');
       if (!inquiryEngineState || !inquiryEngineState.store) return;
       inquiryEngineState.store.activeInquiryId = id;
+      var selectedInquiry = inquiryEngineState.store.inquiries.find(function(item) { return item.id === id; });
+      if (selectedInquiry && selectedInquiry.readState === 'new') {
+        selectedInquiry.readState = 'opened';
+      }
       saveInquiryStore(inquiryEngineState.store);
       renderInquiryEngine();
       return;
@@ -469,10 +507,10 @@ function renderInquiryEngine() {
     }
   }
 
-  // Website notification banner
+  // Website entry point banner
   var notifEl = document.getElementById('inquiry-website-notification-slot');
   if (notifEl && !notifEl.innerHTML.trim()) {
-    notifEl.innerHTML = renderWebsiteNotificationBanner();
+    notifEl.innerHTML = renderWebsiteEntryPointBanner();
   }
 
   // Create modal (inject once)

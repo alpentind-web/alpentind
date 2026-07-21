@@ -2820,7 +2820,7 @@ body.login-page {
   flex-wrap: wrap;
 }
 
-/* Website notification placeholder */
+/* Website Inquiry Entry Point */
 .inquiry-website-notification {
   display: flex;
   align-items: center;
@@ -2894,6 +2894,19 @@ body.login-page {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.inquiry-read-badge {
+  display: inline-block;
+  margin-left: var(--spacing-xs);
+  padding: 1px 5px;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary);
+  color: var(--color-bg-dark);
+  vertical-align: middle;
 }
 
 .inquiry-inbox-row-date {
