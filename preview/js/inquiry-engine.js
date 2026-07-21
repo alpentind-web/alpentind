@@ -95,8 +95,11 @@ function normalizeInquiryStore(store) {
         var result = item.readState ? item : Object.assign({}, item, { readState: 'new' });
         // Strip legacy Dialog ownership artifact; preserve hand-off marker if applicable
         if (result.dialogId) {
-          result = Object.assign({}, result, { dialogHandoffAt: result.dialogHandoffAt || result.updatedAt });
-          delete result.dialogId;
+          var handoffAt = result.dialogHandoffAt || result.updatedAt;
+          var stripped = {};
+          Object.keys(result).forEach(function(k) { if (k !== 'dialogId') stripped[k] = result[k]; });
+          stripped.dialogHandoffAt = handoffAt;
+          result = stripped;
         }
         return result;
       })
@@ -159,9 +162,12 @@ function createDialogFromInquiry() {
   // Record hand-off marker if not already set
   if (!inquiry.dialogHandoffAt) {
     var now = inquiryNowIsoTime();
-    inquiry.dialogHandoffAt = now;
-    inquiry.updatedAt = now;
-    saveInquiryStore(inquiryEngineState.store);
+    var store = inquiryEngineState.store;
+    var updated = Object.assign({}, inquiry, { dialogHandoffAt: now, updatedAt: now });
+    store.inquiries = store.inquiries.map(function(item) {
+      return item.id === updated.id ? updated : item;
+    });
+    saveInquiryStore(store);
   }
 
   // Navigate to Dialog entry point
