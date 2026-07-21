@@ -16,23 +16,31 @@
   <main class="main" id="main-content">
     <div class="page active" id="forfragningar-page">
 
-      <section class="page-header" aria-labelledby="inquiry-title">
-        <h1 id="inquiry-title">Förfrågningar</h1>
-        <p class="text-muted">Inquiry Workspace – hantera inkommande förfrågan från första kontakt till utfall.</p>
-      </section>
-
-      <section class="content-section inquiry-entry" aria-labelledby="inquiry-entry-heading">
-        <div class="section-header">
-          <h2 id="inquiry-entry-heading">Incoming Inquiry</h2>
-          <button class="btn btn-primary" type="button" id="inquiry-create-button">
-            <i data-feather="plus-circle" style="width:16px;height:16px" aria-hidden="true"></i>
-            Create Inquiry
-          </button>
+      <section class="page-header inquiry-page-header" aria-labelledby="inquiry-title">
+        <div class="inquiry-page-header-row">
+          <div>
+            <h1 id="inquiry-title">Förfrågningar</h1>
+            <p class="text-muted">Inkommande förfrågningar</p>
+          </div>
+          <div class="inquiry-page-header-actions">
+            <div id="inquiry-website-notification-slot"></div>
+            <button class="btn btn-primary" type="button" id="inquiry-create-button">
+              <i data-feather="plus" style="width:16px;height:16px" aria-hidden="true"></i>
+              Ny förfrågan
+            </button>
+          </div>
         </div>
-        <div class="inquiry-selector-bar" id="inquiry-selector" role="tablist" aria-label="Välj förfrågan"></div>
       </section>
 
-      <section class="inquiry-workspace-shell" id="inquiry-workspace"></section>
+      <div class="inquiry-inbox-layout">
+
+        <div class="inquiry-inbox-panel" role="list" aria-label="Förfrågningar">
+          <div id="inquiry-inbox-list"></div>
+        </div>
+
+        <div class="inquiry-editor-panel" id="inquiry-editor-panel" aria-label="Redigera förfrågan"></div>
+
+      </div>
 
     </div>
   </main>
@@ -41,7 +49,6 @@
   <script src="js/mock-data.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
-  <script src="js/workflow-guidance.js"></script>
   <script src="js/inquiry-engine.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {

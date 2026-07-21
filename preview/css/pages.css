@@ -2797,106 +2797,153 @@ body.login-page {
 }
 
 /* ========================================
-   Inquiry Workspace (RI-010)
+   Inquiry Inbox (RI-010 Reset)
    ======================================== */
 
-.inquiry-entry {
-  margin-bottom: var(--spacing-xl);
+/* Page header row */
+.inquiry-page-header {
+  margin-bottom: var(--spacing-lg);
 }
 
-.inquiry-selector-bar {
+.inquiry-page-header-row {
   display: flex;
-  gap: var(--spacing-sm);
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
   flex-wrap: wrap;
 }
 
-.inquiry-selector-item {
+.inquiry-page-header-actions {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
-  text-align: left;
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
-  background-color: var(--color-bg-medium);
-  padding: var(--spacing-sm) var(--spacing-md);
-  cursor: pointer;
-  min-width: 280px;
-  transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
-.inquiry-selector-item:hover {
-  border-color: var(--color-primary);
-}
-
-.inquiry-selector-item.active {
-  border-color: var(--color-primary);
-  background-color: rgba(184, 149, 90, 0.1);
-}
-
-.inquiry-selector-name {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-light);
-}
-
-.inquiry-selector-stage {
+/* Website notification placeholder */
+.inquiry-website-notification {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
   font-size: var(--font-size-xs);
   color: var(--color-text-dark);
+  background-color: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
 }
 
-.inquiry-workspace-shell {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
-}
-
-.inquiry-situation {
-  flex-direction: column;
-}
-
-.inquiry-avatar {
-  font-size: var(--font-size-base);
-  width: 56px;
-  height: 56px;
-}
-
-.inquiry-work-grid {
+/* Two-panel layout */
+.inquiry-inbox-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--spacing-lg);
   align-items: start;
 }
 
-.inquiry-inline-form {
-  display: flex;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
-  align-items: center;
-}
-
-.inquiry-inline-form input,
-.inquiry-inline-form select,
-.inquiry-inline-form textarea,
-.inquiry-action-input,
-#inquiry-close-reason {
-  background-color: var(--color-bg-dark);
+/* Inbox panel */
+.inquiry-inbox-panel {
   border: var(--border-thin);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-light);
-  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--color-bg-medium);
+}
+
+.inquiry-inbox-empty {
+  padding: var(--spacing-md);
   font-size: var(--font-size-sm);
+  color: var(--color-text-dark);
 }
 
-.inquiry-inline-form input,
-.inquiry-inline-form textarea,
-.inquiry-action-input {
-  flex: 1;
+/* Inbox row */
+.inquiry-inbox-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: var(--spacing-sm);
+  row-gap: 2px;
+  width: 100%;
+  text-align: left;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-bottom: var(--border-thin);
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
-.inquiry-inline-form--stack {
+.inquiry-inbox-row:last-child {
+  border-bottom: none;
+}
+
+.inquiry-inbox-row:hover {
+  background-color: var(--color-bg-light);
+}
+
+.inquiry-inbox-row.active {
+  background-color: rgba(184, 149, 90, 0.12);
+  border-left: 3px solid var(--color-primary);
+  padding-left: calc(var(--spacing-md) - 3px);
+}
+
+.inquiry-inbox-row-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inquiry-inbox-row-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  align-self: center;
+}
+
+.inquiry-inbox-row-preview {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  grid-column: 1 / -1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Editor panel */
+.inquiry-editor-card {
+  position: sticky;
+  top: var(--spacing-lg);
+}
+
+.inquiry-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.inquiry-editor-id {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  font-family: monospace;
+}
+
+.inquiry-editor-form {
+  display: flex;
   flex-direction: column;
-  align-items: stretch;
+  gap: var(--spacing-md);
 }
 
-.inquiry-label {
+.inquiry-editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.inquiry-editor-label {
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--color-text-dark);
@@ -2904,74 +2951,91 @@ body.login-page {
   letter-spacing: 0.5px;
 }
 
-.inquiry-history-block {
-  margin-top: var(--spacing-lg);
-  border-top: var(--border-thin);
+.inquiry-editor-input {
+  background-color: var(--color-bg-dark);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-light);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color var(--transition-fast);
+}
+
+.inquiry-editor-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Fixed-height notes textarea with internal scroll */
+.inquiry-notes-textarea {
+  background-color: var(--color-bg-dark);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-light);
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  height: 260px;
+  resize: none;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color var(--transition-fast);
+}
+
+.inquiry-notes-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.inquiry-editor-actions {
+  display: flex;
+  gap: var(--spacing-sm);
   padding-top: var(--spacing-md);
+  border-top: var(--border-thin);
+  flex-wrap: wrap;
 }
 
-.inquiry-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+/* Toast notification for Create Dialog */
+#inquiry-dialog-toast-container {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
 }
 
-.inquiry-list-item {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
-  border-bottom: 1px solid var(--color-bg-light);
-  padding-bottom: var(--spacing-xs);
-}
-
-.inquiry-list-item-time {
-  color: var(--color-text-dark);
-  font-size: var(--font-size-xs);
-  white-space: nowrap;
-}
-
-.inquiry-empty {
-  color: var(--color-text-dark);
-  font-size: var(--font-size-sm);
-}
-
-.inquiry-checkbox {
+.inquiry-dialog-toast {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-sm);
+  background-color: var(--color-accent-green);
+  color: var(--color-text-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-sm);
-  color: var(--color-text-medium);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
 }
 
-.inquiry-checkbox:last-child {
-  margin-bottom: 0;
+/* Create modal */
+.inquiry-create-modal-box {
+  max-width: 480px;
+  width: 100%;
 }
 
-.inquiry-action-input {
-  min-width: 280px;
+.inquiry-create-modal-box .inquiry-notes-textarea {
+  height: 120px;
 }
 
+/* Responsive */
 @media (max-width: 900px) {
-  .inquiry-selector-item {
-    min-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .inquiry-inline-form {
-    flex-direction: column;
-    align-items: stretch;
+  .inquiry-inbox-layout {
+    grid-template-columns: 1fr;
   }
 
-  .inquiry-action-input {
-    min-width: 0;
-    width: 100%;
+  .inquiry-editor-card {
+    position: static;
   }
 }
