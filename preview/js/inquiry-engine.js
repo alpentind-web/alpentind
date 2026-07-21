@@ -1,6 +1,5 @@
 var INQUIRY_ENGINE_STORE_KEY = 'alpentind-inquiry-engine-store';
 var INQUIRY_ENGINE_STORE_VERSION = 3;
-var INQUIRY_DIALOG_STORE_KEY = 'alpentind-dialog-store';
 var LEGACY_INQUIRY_SEED_FINGERPRINTS = {
   'INQ-001': { title: 'Direktbokning – Peter Nilsson', createdAt: '2026-07-15T09:15:00Z' },
   'INQ-002': { title: 'Rekommendationsförfrågan – Anna Andersson', createdAt: '2026-07-14T08:10:00Z' },
@@ -93,7 +92,13 @@ function normalizeInquiryStore(store) {
   var normalized = Object.assign(buildEmptyInquiryStore(), raw);
   normalized.inquiries = Array.isArray(normalized.inquiries)
     ? normalized.inquiries.filter(function(item) { return item && item.id && !isLegacySeedInquiry(item); }).map(function(item) {
-        return item.readState ? item : Object.assign({}, item, { readState: 'new' });
+        var result = item.readState ? item : Object.assign({}, item, { readState: 'new' });
+        // Strip legacy Dialog ownership artifact; preserve hand-off marker if applicable
+        if (result.dialogId) {
+          result = Object.assign({}, result, { dialogHandoffAt: result.dialogHandoffAt || result.updatedAt });
+          delete result.dialogId;
+        }
+        return result;
       })
     : [];
 
@@ -138,36 +143,30 @@ function getNextInquiryId(store) {
   return 'INQ-' + String(maxNumber + 1).padStart(3, '0');
 }
 
-// ── Dialog store ───────────────────────────────────────────────────────────────
-
-function getDialogStore() {
-  var raw = typeof localStorage !== 'undefined' ? localStorage.getItem(INQUIRY_DIALOG_STORE_KEY) : null;
-  if (raw) { try { return JSON.parse(raw); } catch (e) {} }
-  return { dialogs: [] };
-}
-
-function saveDialogStore(store) {
-  if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(INQUIRY_DIALOG_STORE_KEY, JSON.stringify(store));
-  }
-}
-
-function getNextDialogId(store) {
-  var max = (store.dialogs || []).reduce(function(m, d) {
-    var match = d && d.id ? String(d.id).match(/^DIA-(\d+)$/) : null;
-    var n = match ? Number(match[1]) : 0;
-    return n > m ? n : m;
-  }, 0);
-  return 'DIA-' + String(max + 1).padStart(3, '0');
-}
-
 function getActiveInquiry(store) {
   if (!store || !store.inquiries || store.inquiries.length === 0) return null;
   return store.inquiries.find(function(item) { return item.id === store.activeInquiryId; })
     || store.inquiries[0];
 }
 
-// ── Rendering ─────────────────────────────────────────────────────────────────
+// ── Dialog hand-off ───────────────────────────────────────────────────────────
+
+function createDialogFromInquiry() {
+  if (!inquiryEngineState) return;
+  var inquiry = getActiveInquiry(inquiryEngineState.store);
+  if (!inquiry) return;
+
+  // Record hand-off marker if not already set
+  if (!inquiry.dialogHandoffAt) {
+    var now = inquiryNowIsoTime();
+    inquiry.dialogHandoffAt = now;
+    inquiry.updatedAt = now;
+    saveInquiryStore(inquiryEngineState.store);
+  }
+
+  // Navigate to Dialog entry point
+  window.location.href = 'dialog.html';
+}
 
 function renderInquiryInbox(inquiries, activeId) {
   if (!inquiries || inquiries.length === 0) {
@@ -357,37 +356,6 @@ function deleteActiveInquiry() {
   store.activeInquiryId = store.inquiries.length > 0 ? store.inquiries[0].id : null;
   saveInquiryStore(store);
   renderInquiryEngine();
-}
-
-function createDialogFromInquiry() {
-  if (!inquiryEngineState) return;
-  var inquiry = getActiveInquiry(inquiryEngineState.store);
-  if (!inquiry) return;
-
-  // If already linked to a dialog, navigate directly
-  if (inquiry.dialogId) {
-    window.location.href = 'dialog.html';
-    return;
-  }
-
-  // Create dialog placeholder and link to inquiry
-  var dialogStore = getDialogStore();
-  var dialogId = getNextDialogId(dialogStore);
-  var now = inquiryNowIsoTime();
-
-  dialogStore.dialogs.push({
-    id: dialogId,
-    inquiryId: inquiry.id,
-    name: inquiry.name,
-    createdAt: now,
-  });
-  saveDialogStore(dialogStore);
-
-  inquiry.dialogId = dialogId;
-  inquiry.updatedAt = now;
-  saveInquiryStore(inquiryEngineState.store);
-
-  window.location.href = 'dialog.html';
 }
 
 function saveFieldToActiveInquiry(field, value) {
