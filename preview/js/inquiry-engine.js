@@ -93,8 +93,7 @@ function normalizeInquiryStore(store) {
   var normalized = Object.assign(buildEmptyInquiryStore(), raw);
   normalized.inquiries = Array.isArray(normalized.inquiries)
     ? normalized.inquiries.filter(function(item) { return item && item.id && !isLegacySeedInquiry(item); }).map(function(item) {
-        if (!item.readState) item.readState = 'new';
-        return item;
+        return item.readState ? item : Object.assign({}, item, { readState: 'new' });
       })
     : [];
 
