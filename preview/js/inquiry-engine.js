@@ -171,7 +171,7 @@ function createDialogFromInquiry() {
   }
 
   // Navigate to Dialog entry point
-  window.location.href = 'dialog.html';
+  window.location.href = 'dialog.html?from=inquiry&id=' + encodeURIComponent(inquiry.id);
 }
 
 function renderInquiryInbox(inquiries, activeId) {

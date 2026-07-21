@@ -3052,3 +3052,200 @@ body.login-page {
     position: static;
   }
 }
+
+/* ========================================
+   Dialog Engine RI-011
+   ======================================== */
+
+.dialog-inbox-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.dialog-inbox-panel {
+  background: #fff;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.dialog-inbox-empty {
+  margin: 0;
+  padding: var(--spacing-lg);
+  color: var(--color-gray-600);
+  font-size: var(--font-size-sm);
+}
+
+.dialog-inbox-row {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--color-gray-100);
+  background: #fff;
+  text-align: left;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+}
+
+.dialog-inbox-row:last-child {
+  border-bottom: 0;
+}
+
+.dialog-inbox-row:hover {
+  background: var(--color-gray-50);
+}
+
+.dialog-inbox-row.active {
+  background: #eef4f0;
+}
+
+.dialog-inbox-row-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dialog-inbox-row-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+.dialog-inbox-row-preview {
+  grid-column: 1 / -1;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dialog-workspace-panel {
+  min-width: 0;
+}
+
+.dialog-workspace-card {
+  border: 1px solid var(--color-gray-200);
+}
+
+.dialog-workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-workspace-id {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+}
+
+.dialog-workspace-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.dialog-section h2 {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-size-base);
+}
+
+.dialog-field-grid {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.dialog-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-700);
+}
+
+.dialog-input,
+.dialog-general-notes,
+.dialog-topic-notes {
+  width: 100%;
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-900);
+  background: #fff;
+}
+
+.dialog-input:focus,
+.dialog-general-notes:focus,
+.dialog-topic-notes:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(106, 158, 127, 0.15);
+}
+
+.dialog-general-notes {
+  min-height: 180px;
+  max-height: 180px;
+  resize: none;
+  overflow-y: auto;
+}
+
+.dialog-topics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.dialog-topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.dialog-topic {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.dialog-topic-header {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.dialog-topic-title {
+  flex: 1;
+}
+
+.dialog-topic-notes {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 1080px) {
+  .dialog-inbox-layout {
+    grid-template-columns: 1fr;
+  }
+}
