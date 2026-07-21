@@ -29,6 +29,7 @@
             <div class="workspace-avatar" id="person-avatar" aria-hidden="true">A</div>
             <div class="workspace-header-content">
               <a class="btn btn-secondary btn-sm" href="kontakter-gaster.html" id="back-link">← Tillbaka till Gäster</a>
+              <a class="btn btn-primary btn-sm" href="dialog.html?from=contact" id="dialog-entry-link">Skapa dialog</a>
               <div>
                 <h1 class="workspace-title" id="person-title">Person Workspace</h1>
                 <div class="workspace-header-meta">
@@ -635,6 +636,7 @@
 
       const breadcrumbLink = document.getElementById('breadcrumb-link');
       const backLink = document.getElementById('back-link');
+      const dialogEntryLink = document.getElementById('dialog-entry-link');
       const navigationConfig = person.type === 'Gäst'
         ? PERSON_WORKSPACE_NAVIGATION.guest
         : PERSON_WORKSPACE_NAVIGATION.default;
@@ -645,6 +647,15 @@
 
       if (document.referrer && document.referrer.includes('/preview/')) {
         backLink.href = document.referrer;
+      }
+
+      if (dialogEntryLink) {
+        const params = new URLSearchParams();
+        params.set('from', 'contact');
+        params.set('name', person.name || '');
+        if (person.email) params.set('email', person.email);
+        if (person.phone) params.set('phone', person.phone);
+        dialogEntryLink.href = 'dialog.html?' + params.toString();
       }
 
       if (person.lastContact) {

@@ -11,39 +11,32 @@
 </head>
 <body>
 
-  <!-- Sidopanel -->
   <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
-
-  <!-- Sidhuvud -->
   <header class="header" id="header" role="banner"></header>
 
-  <!-- Huvudinnehåll -->
   <main class="main" id="main-content">
     <div class="page active" id="dialog-page">
 
-      <div class="page-header">
-        <h1>Dialoger</h1>
-        <p class="text-muted">Hantera pågående samtal med personer</p>
-      </div>
-
-      <!-- Personväljare -->
-      <div class="dialog-selector-bar" id="dialog-selector" role="tablist" aria-label="Välj dialog"></div>
-
-      <!-- Tre-kolumns arbetsyta -->
-      <div class="dialog-workspace">
-
-        <!-- Vänster kolumn: PersonCard -->
-        <div id="dialog-person-slot"></div>
-
-        <!-- Mittkolumn: ConversationCard -->
-        <div id="dialog-conversation-slot"></div>
-
-        <!-- Höger kolumn: NextStepCard + RecommendationCard -->
-        <div>
-          <div id="dialog-nextstep-slot"></div>
-          <div id="dialog-recommendation-slot"></div>
+      <section class="page-header inquiry-page-header" aria-labelledby="dialog-title">
+        <div class="inquiry-page-header-row">
+          <div>
+            <h1 id="dialog-title">Dialog</h1>
+            <p class="text-muted">Organiserade anteckningar för pågående samtal</p>
+          </div>
+          <div class="inquiry-page-header-actions">
+            <button class="btn btn-primary" type="button" id="dialog-create-empty-button">
+              <i data-feather="plus" style="width:16px;height:16px" aria-hidden="true"></i>
+              Ny tom dialog
+            </button>
+          </div>
         </div>
+      </section>
 
+      <div class="dialog-inbox-layout">
+        <div class="dialog-inbox-panel" role="list" aria-label="Dialoginkorg">
+          <div id="dialog-inbox-list"></div>
+        </div>
+        <div class="dialog-workspace-panel" id="dialog-workspace-panel" aria-label="Dialog workspace"></div>
       </div>
 
     </div>
@@ -53,6 +46,7 @@
   <script src="js/mock-data.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/dialog-engine.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (!localStorage.getItem('alpentind-user-logged-in')) {
