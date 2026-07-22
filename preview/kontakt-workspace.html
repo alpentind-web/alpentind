@@ -122,6 +122,10 @@
               <i data-feather="edit-2" style="width:16px;height:16px" aria-hidden="true"></i>
               Redigera kontakt
             </button>
+            <button class="btn btn-tertiary" type="button" id="kontakt-action-delete">
+              <i data-feather="trash-2" style="width:16px;height:16px" aria-hidden="true"></i>
+              Radera kontakt
+            </button>
           </div>
         </section>
 
@@ -488,11 +492,62 @@
       renderInterests(contact);
       renderHistory(contact);
 
-      // Edit button
+      // ----------------------------------------
+    // Contact Deletion (lifecycle: delete contact, preserve dialogs/journeys)
+    // ----------------------------------------
+
+    // Removes the contactId link from all dialogs that reference this contact.
+    // Dialog data (snapshots, notes, topics) is preserved intact.
+    function unlinkDialogsFromContact(contactId) {
+      try {
+        var raw = localStorage.getItem(DIALOG_ENGINE_STORE_KEY);
+        if (!raw) return;
+        var parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed.dialogs)) return;
+        var changed = false;
+        parsed.dialogs.forEach(function(dialog) {
+          if (dialog && dialog.contactId === contactId) {
+            dialog.contactId = null;
+            changed = true;
+          }
+        });
+        if (changed) localStorage.setItem(DIALOG_ENGINE_STORE_KEY, JSON.stringify(parsed));
+      } catch (e) {
+        // Non-critical: dialog store may be absent or corrupt; dialogs are preserved regardless
+      }
+    }
+
+    function handleDeleteContact(contact, catInfo) {
+      showPlatformConfirmModal({
+        title: 'Radera kontakt?',
+        message: 'Kontakten raderas. Dialoger och resor bevaras men kopplas bort från kontakten. Åtgärden kan inte ångras.',
+        confirmLabel: 'Radera',
+        cancelLabel: 'Avbryt',
+        onConfirm: function() {
+          unlinkDialogsFromContact(contact.id);
+          var ok = deleteContact(contact.id);
+          if (!ok) {
+            showContactToast('Det gick inte att radera kontakten. Försök igen.', 'danger');
+            return;
+          }
+          window.location.href = catInfo.href;
+        },
+      });
+    }
+
+    // Edit button
       var editBtn = document.getElementById('kontakt-action-edit');
       if (editBtn) {
         editBtn.addEventListener('click', function() {
           openEditModal(contact, null);
+        });
+      }
+
+      // Delete button
+      var deleteBtn = document.getElementById('kontakt-action-delete');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', function() {
+          handleDeleteContact(contact, catInfo);
         });
       }
 
