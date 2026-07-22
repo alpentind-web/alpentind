@@ -6,6 +6,7 @@ var dialogEngineState = null;
 var dialogHandlersBound = false;
 var dialogAutoSaveTimeoutId = null;
 var dialogSaveErrorVisible = false;
+var dialogSaveErrorDialogId = null;
 var dialogLastSnapshot = '';
 var DIALOG_AUTOSAVE_DEBOUNCE_MS = 700;
 
@@ -345,8 +346,9 @@ function renderDialogWorkspace(dialog) {
     + '</div>';
 }
 
-function setDialogSaveErrorState(hasError) {
+function setDialogSaveErrorState(hasError, dialogId) {
   dialogSaveErrorVisible = Boolean(hasError);
+  dialogSaveErrorDialogId = dialogSaveErrorVisible ? dialogId : null;
   var errorEl = document.getElementById('dialog-save-error');
   if (!errorEl) return;
   errorEl.hidden = !dialogSaveErrorVisible;
@@ -463,9 +465,10 @@ function persistDialogFromWorkspace() {
     saveDialogStore(store);
     dialogLastSnapshot = snapshotString;
     refreshDialogLiveMeta(dialog);
-    setDialogSaveErrorState(false);
+    setDialogSaveErrorState(false, dialog.id);
   } catch (e) {
-    setDialogSaveErrorState(true);
+    console.warn('Dialog auto-save failed.', e);
+    setDialogSaveErrorState(true, dialog.id);
   }
 }
 
@@ -619,6 +622,11 @@ function renderDialog() {
   dialogLastSnapshot = getDialogSnapshotFromRecord(activeDialog);
 
   bindDialogHandlers();
-  setDialogSaveErrorState(dialogSaveErrorVisible);
+  setDialogSaveErrorState(
+    dialogSaveErrorVisible
+      && Boolean(activeDialog)
+      && dialogSaveErrorDialogId === activeDialog.id,
+    activeDialog ? activeDialog.id : null
+  );
   if (typeof feather !== 'undefined') feather.replace();
 }
