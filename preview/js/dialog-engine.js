@@ -4,6 +4,11 @@ var INQUIRY_ENGINE_STORE_KEY = 'alpentind-inquiry-engine-store';
 
 var dialogEngineState = null;
 var dialogHandlersBound = false;
+var dialogAutoSaveTimeoutId = null;
+var dialogSaveIndicatorTimeoutId = null;
+var dialogLastSnapshot = '';
+var DIALOG_AUTOSAVE_DEBOUNCE_MS = 700;
+var DIALOG_SAVE_INDICATOR_HIDE_MS = 1500;
 
 function dialogEscapeHtml(value) {
   return String(value == null ? '' : value)
@@ -295,7 +300,10 @@ function renderDialogWorkspace(dialog) {
     + '<div class="card dialog-workspace-card">'
     +   '<div class="card-header dialog-workspace-header">'
     +     '<span class="dialog-workspace-id">' + dialogEscapeHtml(dialog.id) + '</span>'
-    +     '<span class="text-muted" style="font-size:var(--font-size-xs)">' + dialogEscapeHtml(dialogFormatDate(dialog.updatedAt)) + '</span>'
+    +     '<div class="dialog-workspace-status">'
+    +       '<span class="text-muted dialog-workspace-updated-at" id="dialog-workspace-updated-at">' + dialogEscapeHtml(dialogFormatDate(dialog.updatedAt)) + '</span>'
+    +       '<span class="dialog-save-indicator" id="dialog-save-indicator" aria-live="polite"></span>'
+    +     '</div>'
     +   '</div>'
     +   '<div class="card-body dialog-workspace-body">'
     +     '<section class="dialog-section" aria-labelledby="dialog-person-heading">'
@@ -327,7 +335,6 @@ function renderDialogWorkspace(dialog) {
     +       '<div class="dialog-topics-list">' + (topics || '<p class="text-muted">Inga topics ännu.</p>') + '</div>'
     +     '</section>'
     +     '<section class="dialog-section dialog-actions" aria-label="Dialog actions">'
-    +       '<button class="btn btn-primary" type="button" data-dialog-action="save">Spara</button>'
     +       '<button class="btn btn-tertiary" type="button" data-dialog-action="delete-dialog">Ta bort dialog</button>'
     +       '<a class="btn btn-secondary" href="resa.html" data-dialog-action="book-guest">Book Guest</a>'
     +       '<a class="btn btn-secondary" href="kontakter.html" data-dialog-action="update-contact">Uppdatera kontakt</a>'
@@ -336,31 +343,157 @@ function renderDialogWorkspace(dialog) {
     + '</div>';
 }
 
-function saveDialogFromWorkspace() {
-  if (!dialogEngineState || !dialogEngineState.store) return;
-  var store = dialogEngineState.store;
-  var dialog = getActiveDialog(store);
-  if (!dialog) return;
+function setDialogSaveIndicator(state) {
+  if (dialogSaveIndicatorTimeoutId) {
+    clearTimeout(dialogSaveIndicatorTimeoutId);
+    dialogSaveIndicatorTimeoutId = null;
+  }
+
+  var indicator = document.getElementById('dialog-save-indicator');
+  if (!indicator) return;
+
+  if (state === 'saving') {
+    indicator.textContent = 'Sparar...';
+    indicator.classList.add('is-visible', 'is-saving');
+    indicator.classList.remove('is-saved');
+    return;
+  }
+
+  if (state === 'saved') {
+    indicator.textContent = '✓ Sparad';
+    indicator.classList.add('is-visible', 'is-saved');
+    indicator.classList.remove('is-saving');
+    dialogSaveIndicatorTimeoutId = setTimeout(function() {
+      setDialogSaveIndicator('hidden');
+    }, DIALOG_SAVE_INDICATOR_HIDE_MS);
+    return;
+  }
+
+  indicator.textContent = '';
+  indicator.classList.remove('is-visible', 'is-saving', 'is-saved');
+}
+
+function cancelDialogAutoSave() {
+  if (dialogAutoSaveTimeoutId) {
+    clearTimeout(dialogAutoSaveTimeoutId);
+    dialogAutoSaveTimeoutId = null;
+  }
+}
+
+function getDialogSnapshotFromWorkspace() {
+  if (!dialogEngineState || !dialogEngineState.store) return null;
+  var dialog = getActiveDialog(dialogEngineState.store);
+  if (!dialog) return null;
+
+  var snapshot = {
+    name: dialog.name,
+    email: dialog.email,
+    telephone: dialog.telephone,
+    notes: dialog.notes,
+    topics: (dialog.topics || []).map(function(topic) {
+      return {
+        id: topic.id,
+        title: topic.title,
+        notes: topic.notes,
+      };
+    }),
+  };
 
   var fieldNodes = document.querySelectorAll('[data-dialog-field]');
   fieldNodes.forEach(function(node) {
     var field = node.getAttribute('data-dialog-field');
-    if (field) dialog[field] = String(node.value || '').trim();
+    if (field) snapshot[field] = String(node.value || '').trim();
+  });
+
+  var topicMap = {};
+  (snapshot.topics || []).forEach(function(topic) {
+    topicMap[topic.id] = topic;
   });
 
   var topicFieldNodes = document.querySelectorAll('[data-topic-field][data-topic-id]');
   topicFieldNodes.forEach(function(node) {
     var topicId = node.getAttribute('data-topic-id');
     var field = node.getAttribute('data-topic-field');
-    var topic = (dialog.topics || []).find(function(item) { return item.id === topicId; });
+    var topic = topicMap[topicId];
     if (topic && field) {
       topic[field] = String(node.value || '').trim();
     }
   });
 
+  return snapshot;
+}
+
+function getDialogSnapshotFromRecord(dialog) {
+  if (!dialog) return '';
+  return JSON.stringify({
+    name: String(dialog.name || '').trim(),
+    email: String(dialog.email || '').trim(),
+    telephone: String(dialog.telephone || '').trim(),
+    notes: String(dialog.notes || '').trim(),
+    topics: (dialog.topics || []).map(function(topic) {
+      return {
+        id: topic.id,
+        title: String(topic.title || '').trim(),
+        notes: String(topic.notes || '').trim(),
+      };
+    }),
+  });
+}
+
+function refreshDialogLiveMeta(dialog) {
+  var updatedAtEl = document.getElementById('dialog-workspace-updated-at');
+  if (updatedAtEl) {
+    updatedAtEl.textContent = dialogFormatDate(dialog.updatedAt);
+  }
+
+  var activeRow = document.querySelector('[data-dialog-select="' + dialog.id + '"]');
+  if (activeRow) {
+    var dateEl = activeRow.querySelector('.dialog-inbox-row-date');
+    var previewEl = activeRow.querySelector('.dialog-inbox-row-preview');
+    if (dateEl) dateEl.textContent = dialogFormatDate(dialog.updatedAt);
+    if (previewEl) previewEl.textContent = getDialogPreview(dialog);
+  }
+}
+
+function persistDialogFromWorkspace() {
+  cancelDialogAutoSave();
+  if (!dialogEngineState || !dialogEngineState.store) return;
+  var store = dialogEngineState.store;
+  var dialog = getActiveDialog(store);
+  if (!dialog) return;
+
+  var snapshot = getDialogSnapshotFromWorkspace();
+  if (!snapshot) return;
+  var snapshotString = JSON.stringify(snapshot);
+  if (snapshotString === dialogLastSnapshot) return;
+
+  setDialogSaveIndicator('saving');
+
+  dialog.name = snapshot.name;
+  dialog.email = snapshot.email;
+  dialog.telephone = snapshot.telephone;
+  dialog.notes = snapshot.notes;
+  (dialog.topics || []).forEach(function(topic) {
+    var next = snapshot.topics.find(function(item) { return item.id === topic.id; });
+    if (next) {
+      topic.title = next.title;
+      topic.notes = next.notes;
+    }
+  });
+
   dialog.updatedAt = dialogNowIsoTime();
   saveDialogStore(store);
-  renderDialog();
+  dialogLastSnapshot = snapshotString;
+  refreshDialogLiveMeta(dialog);
+  setDialogSaveIndicator('saved');
+}
+
+function scheduleDialogAutoSave() {
+  cancelDialogAutoSave();
+  dialogAutoSaveTimeoutId = setTimeout(function() {
+    dialogAutoSaveTimeoutId = null;
+    persistDialogFromWorkspace();
+  }, DIALOG_AUTOSAVE_DEBOUNCE_MS);
 }
 
 function deleteActiveDialog() {
@@ -460,13 +593,26 @@ function bindDialogHandlers() {
     var actionTrigger = target.closest('[data-dialog-action]');
     if (actionTrigger) {
       var action = actionTrigger.getAttribute('data-dialog-action');
-      if (action === 'save') { saveDialogFromWorkspace(); return; }
       if (action === 'delete-dialog') { deleteActiveDialog(); return; }
       if (action === 'add-topic') { addTopicToActiveDialog(); return; }
       if (action === 'delete-topic') {
         deleteTopicFromActiveDialog(actionTrigger.getAttribute('data-topic-id'));
         return;
       }
+    }
+  });
+
+  document.addEventListener('input', function(event) {
+    var target = event.target;
+    if (target && target.matches('[data-dialog-field], [data-topic-field]')) {
+      scheduleDialogAutoSave();
+    }
+  });
+
+  document.addEventListener('focusout', function(event) {
+    var target = event.target;
+    if (target && target.matches('[data-dialog-field], [data-topic-field]')) {
+      persistDialogFromWorkspace();
     }
   });
 }
@@ -487,6 +633,10 @@ function renderDialog() {
   var workspaceEl = document.getElementById('dialog-workspace-panel');
   if (workspaceEl) workspaceEl.innerHTML = renderDialogWorkspace(activeDialog);
 
+  cancelDialogAutoSave();
+  dialogLastSnapshot = getDialogSnapshotFromRecord(activeDialog);
+
   bindDialogHandlers();
+  setDialogSaveIndicator('hidden');
   if (typeof feather !== 'undefined') feather.replace();
 }
