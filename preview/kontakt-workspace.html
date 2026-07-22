@@ -118,6 +118,10 @@
               <i data-feather="message-circle" style="width:16px;height:16px" aria-hidden="true"></i>
               Skapa dialog
             </a>
+            <a class="btn btn-primary" id="kontakt-action-book" href="resa.html">
+              <i data-feather="calendar" style="width:16px;height:16px" aria-hidden="true"></i>
+              Boka gäst
+            </a>
             <button class="btn btn-secondary" type="button" id="kontakt-action-edit">
               <i data-feather="edit-2" style="width:16px;height:16px" aria-hidden="true"></i>
               Redigera kontakt
@@ -220,6 +224,7 @@
               day: 'numeric',
             }) : '—',
             summary: summary || 'Dialog ' + dialog.id,
+            state: dialog.state || 'Active',
           };
         });
     }
@@ -327,9 +332,12 @@
         ? items.map(function(item) {
             var dateHtml = item.date ? '<span style="font-size:var(--font-size-xs);color:var(--color-text-dark);">' + esc(item.date) + '</span>' : '';
             var label = item.summary || item.name || '';
+            var archivedBadge = item.state === 'Archived'
+              ? '<span class="badge badge-warning" style="font-size:var(--font-size-xs);margin-left:var(--spacing-xs);">Arkiverad</span>'
+              : '';
             return '<a href="' + esc(item.href || '#') + '" class="register-row" role="listitem" style="padding:var(--spacing-sm) var(--spacing-md);">'
               + '<div style="display:flex;flex-direction:column;gap:2px;flex:1;">'
-              +   '<span class="register-row-primary" style="font-size:var(--font-size-sm);">' + esc(label) + '</span>'
+              +   '<span class="register-row-primary" style="font-size:var(--font-size-sm);">' + esc(label) + archivedBadge + '</span>'
               +   (dateHtml ? '<span>' + dateHtml + '</span>' : '')
               + '</div>'
               + '<span style="color:var(--color-text-dark);">→</span>'
@@ -349,7 +357,7 @@
       var derivedDialogs = getDerivedDialogHistory(contact.id);
       var journeys = getDerivedJourneyHistory(contact);
       el.innerHTML =
-        renderHistoryColumn('Dialoger', derivedDialogs, 'Inga tidigare dialoger.')
+        renderHistoryColumn('Dialoger (aktiva och arkiverade)', derivedDialogs, 'Inga tidigare dialoger.')
         + renderHistoryColumn('Resor', journeys, 'Inga tidigare resor.');
     }
 
