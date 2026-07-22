@@ -6,7 +6,6 @@ var dialogEngineState = null;
 var dialogHandlersBound = false;
 var dialogAutoSaveTimeoutId = null;
 var dialogSaveIndicatorTimeoutId = null;
-var dialogSaveIndicatorState = 'hidden';
 var dialogLastSnapshot = '';
 var DIALOG_AUTOSAVE_DEBOUNCE_MS = 700;
 var DIALOG_SAVE_INDICATOR_HIDE_MS = 1500;
@@ -345,8 +344,6 @@ function renderDialogWorkspace(dialog) {
 }
 
 function setDialogSaveIndicator(state) {
-  dialogSaveIndicatorState = state;
-
   if (dialogSaveIndicatorTimeoutId) {
     clearTimeout(dialogSaveIndicatorTimeoutId);
     dialogSaveIndicatorTimeoutId = null;
@@ -374,6 +371,13 @@ function setDialogSaveIndicator(state) {
 
   indicator.textContent = '';
   indicator.classList.remove('is-visible', 'is-saving', 'is-saved');
+}
+
+function cancelDialogAutoSave() {
+  if (dialogAutoSaveTimeoutId) {
+    clearTimeout(dialogAutoSaveTimeoutId);
+    dialogAutoSaveTimeoutId = null;
+  }
 }
 
 function getDialogSnapshotFromWorkspace() {
@@ -452,6 +456,7 @@ function refreshDialogLiveMeta(dialog) {
 }
 
 function persistDialogFromWorkspace() {
+  cancelDialogAutoSave();
   if (!dialogEngineState || !dialogEngineState.store) return;
   var store = dialogEngineState.store;
   var dialog = getActiveDialog(store);
@@ -484,7 +489,7 @@ function persistDialogFromWorkspace() {
 }
 
 function scheduleDialogAutoSave() {
-  if (dialogAutoSaveTimeoutId) clearTimeout(dialogAutoSaveTimeoutId);
+  cancelDialogAutoSave();
   dialogAutoSaveTimeoutId = setTimeout(function() {
     dialogAutoSaveTimeoutId = null;
     persistDialogFromWorkspace();
@@ -628,13 +633,10 @@ function renderDialog() {
   var workspaceEl = document.getElementById('dialog-workspace-panel');
   if (workspaceEl) workspaceEl.innerHTML = renderDialogWorkspace(activeDialog);
 
-  if (dialogAutoSaveTimeoutId) {
-    clearTimeout(dialogAutoSaveTimeoutId);
-    dialogAutoSaveTimeoutId = null;
-  }
+  cancelDialogAutoSave();
   dialogLastSnapshot = getDialogSnapshotFromRecord(activeDialog);
 
   bindDialogHandlers();
-  setDialogSaveIndicator(dialogSaveIndicatorState);
+  setDialogSaveIndicator('hidden');
   if (typeof feather !== 'undefined') feather.replace();
 }
