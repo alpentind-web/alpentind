@@ -31,57 +31,13 @@
       <section class="content-section" aria-labelledby="guider-list-heading">
         <div class="section-header">
           <h2 id="guider-list-heading">Guiderlista</h2>
+          <div style="margin-left:auto;">
+            <input class="form-input" type="search" id="guider-search"
+              placeholder="Sök namn…" aria-label="Sök guide"
+              style="width:200px;">
+          </div>
         </div>
-        <div class="register-list" role="list">
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Linda Svensson</div>
-            <div class="register-row-context">Alpine climbing</div>
-            <div class="register-row-status">Tour du Mont Blanc</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Marcus Bergström</div>
-            <div class="register-row-context">Mountaineering</div>
-            <div class="register-row-status">Haute Route</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Sofia Johansson</div>
-            <div class="register-row-context">Winter climbing</div>
-            <div class="register-row-status">Available</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Peter Lundström</div>
-            <div class="register-row-context">Ski touring</div>
-            <div class="register-row-status">Sarek Sommar</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Anna-Lisa Norberg</div>
-            <div class="register-row-context">Trekking</div>
-            <div class="register-row-status">Kebnekaise</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Torsten Eklund</div>
-            <div class="register-row-context">Rock climbing</div>
-            <div class="register-row-status">Available</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Katarina Svensson</div>
-            <div class="register-row-context">Alpine guide</div>
-            <div class="register-row-status">Tour du Mont Blanc</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">David Malmberg</div>
-            <div class="register-row-context">Mountain rescue</div>
-            <div class="register-row-status">Available</div>
-            <div class="register-row-open">→</div>
-          </a>
-        </div>
+        <div class="register-list" role="list" id="guider-register-list"></div>
       </section>
 
     </div>
@@ -91,6 +47,8 @@
   <script src="js/mock-data.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/contact-store.js"></script>
+  <script src="js/contact-register.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (!localStorage.getItem('alpentind-user-logged-in')) {
@@ -98,6 +56,7 @@
         return;
       }
       initNavigation('nav-4');
+      initContactRegisterPage({ category: 'Guide', listId: 'guider-register-list', searchId: 'guider-search' });
     });
   </script>
 </body>

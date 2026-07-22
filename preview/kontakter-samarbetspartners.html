@@ -31,87 +31,13 @@
       <section class="content-section" aria-labelledby="samarbetspartners-list-heading">
         <div class="section-header">
           <h2 id="samarbetspartners-list-heading">Partnerlista</h2>
+          <div style="margin-left:auto;">
+            <input class="form-input" type="search" id="samarbetspartners-search"
+              placeholder="Sök namn…" aria-label="Sök partner"
+              style="width:200px;">
+          </div>
         </div>
-        <div class="register-list" role="list">
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Refuge Bonatti</div>
-            <div class="register-row-context">Mountain hut</div>
-            <div class="register-row-status">Italian Alps</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Alpinabus</div>
-            <div class="register-row-context">Transport company</div>
-            <div class="register-row-status">Switzerland</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Hotel Chamonix</div>
-            <div class="register-row-context">Hotel</div>
-            <div class="register-row-status">France</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Mountain Guides Bureau</div>
-            <div class="register-row-context">Local operator</div>
-            <div class="register-row-status">Chamonix</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Taxi Zermatt</div>
-            <div class="register-row-context">Transport</div>
-            <div class="register-row-status">Zermatt</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Rifugio Sella Francesa</div>
-            <div class="register-row-context">Hut</div>
-            <div class="register-row-status">Italy</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Berghaus Tschiertschen</div>
-            <div class="register-row-context">Mountain hut</div>
-            <div class="register-row-status">Switzerland</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Air Alpes</div>
-            <div class="register-row-context">Flight operator</div>
-            <div class="register-row-status">Geneva</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Camping Alpine</div>
-            <div class="register-row-context">Accommodation</div>
-            <div class="register-row-status">France</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Bergsteiger Ausrüstung</div>
-            <div class="register-row-context">Equipment rental</div>
-            <div class="register-row-status">Switzerland</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Emergency Services Chamonix</div>
-            <div class="register-row-context">Emergency</div>
-            <div class="register-row-status">France</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Weather Forecast Service</div>
-            <div class="register-row-context">Local service</div>
-            <div class="register-row-status">Alps</div>
-            <div class="register-row-open">→</div>
-          </a>
-          <a href="person.html" class="register-row" role="listitem">
-            <div class="register-row-primary">Mountain Rescue Foundation</div>
-            <div class="register-row-context">Emergency</div>
-            <div class="register-row-status">Switzerland</div>
-            <div class="register-row-open">→</div>
-          </a>
-        </div>
+        <div class="register-list" role="list" id="samarbetspartners-register-list"></div>
       </section>
 
     </div>
@@ -121,6 +47,8 @@
   <script src="js/mock-data.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/contact-store.js"></script>
+  <script src="js/contact-register.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (!localStorage.getItem('alpentind-user-logged-in')) {
@@ -128,6 +56,7 @@
         return;
       }
       initNavigation('nav-4');
+      initContactRegisterPage({ category: 'Samarbetspartner', listId: 'samarbetspartners-register-list', searchId: 'samarbetspartners-search' });
     });
   </script>
 </body>

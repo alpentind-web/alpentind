@@ -1,5 +1,5 @@
 var DIALOG_ENGINE_STORE_KEY = 'alpentind-dialog-engine-store';
-var DIALOG_ENGINE_VERSION = 1;
+var DIALOG_ENGINE_VERSION = 2;
 var INQUIRY_ENGINE_STORE_KEY = 'alpentind-inquiry-engine-store';
 
 var dialogEngineState = null;
@@ -40,6 +40,64 @@ function buildEmptyDialogStore() {
   };
 }
 
+function parseLegacyDialogDate(value) {
+  var cleanValue = String(value || '').trim().toLowerCase();
+  if (!cleanValue) return dialogNowIsoTime();
+  var monthMap = {
+    jan: '01',
+    feb: '02',
+    mar: '03',
+    apr: '04',
+    maj: '05',
+    jun: '06',
+    jul: '07',
+    aug: '08',
+    sep: '09',
+    okt: '10',
+    nov: '11',
+    dec: '12',
+  };
+  var match = cleanValue.match(/^(\d{1,2})\s+(jan|feb|mar|apr|maj|jun|jul|aug|sep|okt|nov|dec)\s+(\d{4})$/);
+  if (!match) return dialogNowIsoTime();
+  return match[3] + '-' + monthMap[match[2]] + '-' + String(match[1]).padStart(2, '0') + 'T09:00:00.000Z';
+}
+
+function buildInitialDialogEntriesFromContacts() {
+  if (typeof CONTACT_MOCK_DATA === 'undefined' || !CONTACT_MOCK_DATA || !Array.isArray(CONTACT_MOCK_DATA.contacts)) {
+    return [];
+  }
+
+  var dialogs = [];
+  CONTACT_MOCK_DATA.contacts.forEach(function(contact) {
+    var history = contact && contact.history;
+    var historyDialogs = history && Array.isArray(history.dialogs) ? history.dialogs : [];
+    historyDialogs.forEach(function(historyDialog) {
+      var isoDate = parseLegacyDialogDate(historyDialog.date);
+      dialogs.push(createDialogRecord({
+        id: 'DIALOG-' + String(dialogs.length + 1).padStart(3, '0'),
+        name: contact.name || '',
+        email: contact.email || '',
+        telephone: contact.telephone || '',
+        address: contact.address || '',
+        notes: historyDialog.summary || '',
+        contactId: contact.id || null,
+        contactCategory: contact.category || 'Gäst',
+        source: {
+          type: 'contact-history-seed',
+          legacyDialogId: historyDialog.id || null,
+        },
+      }));
+      dialogs[dialogs.length - 1].createdAt = isoDate;
+      dialogs[dialogs.length - 1].updatedAt = isoDate;
+    });
+  });
+
+  dialogs.sort(function(a, b) {
+    return String(b.updatedAt || '').localeCompare(String(a.updatedAt || ''));
+  });
+  return dialogs;
+}
+
 function normalizeDialogStore(store) {
   var normalized = Object.assign(buildEmptyDialogStore(), store || {});
   normalized.dialogs = Array.isArray(normalized.dialogs)
@@ -49,6 +107,7 @@ function normalizeDialogStore(store) {
           name: String(dialog.name || ''),
           email: String(dialog.email || ''),
           telephone: String(dialog.telephone || dialog.phone || ''),
+          address: String(dialog.address || ''),
           notes: String(dialog.notes || ''),
           topics: Array.isArray(dialog.topics)
             ? dialog.topics.filter(function(topic) { return topic && topic.id; }).map(function(topic) {
@@ -59,6 +118,8 @@ function normalizeDialogStore(store) {
                 };
               })
             : [],
+          contactId: dialog.contactId || null,
+          contactCategory: String(dialog.contactCategory || ''),
           source: dialog.source || null,
           createdAt: dialog.createdAt || dialogNowIsoTime(),
           updatedAt: dialog.updatedAt || dialogNowIsoTime(),
@@ -88,6 +149,8 @@ function getDialogStore() {
     }
   }
   var emptyStore = buildEmptyDialogStore();
+  emptyStore.dialogs = buildInitialDialogEntriesFromContacts();
+  emptyStore.activeDialogId = emptyStore.dialogs.length > 0 ? emptyStore.dialogs[0].id : null;
   saveDialogStore(emptyStore);
   return emptyStore;
 }
@@ -128,8 +191,11 @@ function createDialogRecord(input) {
     name: String(input.name || '').trim(),
     email: String(input.email || '').trim(),
     telephone: String(input.telephone || '').trim(),
+    address: String(input.address || '').trim(),
     notes: String(input.notes || '').trim(),
     topics: [],
+    contactId: input.contactId || null,
+    contactCategory: String(input.contactCategory || '').trim(),
     source: input.source || null,
     createdAt: now,
     updatedAt: now,
@@ -188,12 +254,21 @@ function createDialogFromInquiryEntry(store, inquiryId) {
 }
 
 function createDialogFromContactEntry(store, params) {
-  var name = String(params.get('name') || '').trim();
-  var email = String(params.get('email') || '').trim();
-  var telephone = String(params.get('telephone') || params.get('phone') || '').trim();
+  var contactId = String(params.get('contactId') || '').trim();
+  var contact = contactId ? getContact(contactId) : null;
+  var name = String(contact ? contact.name : (params.get('name') || '')).trim();
+  var email = String(contact ? contact.email : (params.get('email') || '')).trim();
+  var telephone = String(contact ? contact.telephone : (params.get('telephone') || params.get('phone') || '')).trim();
+  var address = String(contact ? contact.address : (params.get('address') || '')).trim();
   var notes = String(params.get('notes') || '').trim();
 
-  if (!name && !email && !telephone && !notes) return false;
+  if (!hasAnyDialogContactField({
+    name: name,
+    email: email,
+    telephone: telephone,
+    address: address,
+    notes: notes,
+  }) && !contactId) return false;
 
   var id = getNextDialogId(store);
   var dialog = createDialogRecord({
@@ -201,12 +276,21 @@ function createDialogFromContactEntry(store, params) {
     name: name,
     email: email,
     telephone: telephone,
+    address: address,
     notes: notes,
-    source: { type: 'contact' },
+    contactId: contact ? contact.id : null,
+    contactCategory: contact ? contact.category : 'Gäst',
+    source: { type: 'contact', contactId: contact ? contact.id : null },
   });
   store.dialogs.unshift(dialog);
   store.activeDialogId = id;
   return true;
+}
+
+function hasAnyDialogContactField(fields) {
+  return ['name', 'email', 'telephone', 'address', 'notes'].some(function(field) {
+    return Boolean(String(fields[field] || '').trim());
+  });
 }
 
 function createEmptyDialogEntry(store) {
@@ -222,9 +306,13 @@ function createEmptyDialogEntry(store) {
 function handleDialogEntryPoint(store) {
   var params = new URLSearchParams(window.location.search || '');
   var from = params.get('from');
+  var requestedDialogId = params.get('dialogId');
   var changed = false;
 
-  if (from === 'inquiry') {
+  if (requestedDialogId && store.dialogs.some(function(dialog) { return dialog.id === requestedDialogId; })) {
+    store.activeDialogId = requestedDialogId;
+    changed = true;
+  } else if (from === 'inquiry') {
     changed = createDialogFromInquiryEntry(store, params.get('id'));
   } else if (from === 'contact') {
     changed = createDialogFromContactEntry(store, params);
@@ -324,8 +412,12 @@ function renderDialogWorkspace(dialog) {
     +           '<label class="dialog-label" for="dialog-person-telephone">Telefon</label>'
     +           '<input class="dialog-input" id="dialog-person-telephone" type="tel" data-dialog-field="telephone" value="' + dialogEscapeHtml(dialog.telephone) + '">'
     +         '</div>'
-    +       '</div>'
-    +     '</section>'
+    +   '<div class="dialog-field" style="grid-column:1 / -1;">'
+    +     '<label class="dialog-label" for="dialog-person-address">Adress</label>'
+    +     '<input class="dialog-input" id="dialog-person-address" type="text" data-dialog-field="address" value="' + dialogEscapeHtml(dialog.address) + '">'
+    +   '</div>'
+    + '</div>'
+    + '</section>'
     +     '<section class="dialog-section" aria-labelledby="dialog-notes-heading">'
     +       '<h2 id="dialog-notes-heading">General Notes</h2>'
     +       '<textarea class="dialog-general-notes" data-dialog-field="notes" placeholder="Anteckningar">' + dialogEscapeHtml(dialog.notes) + '</textarea>'
@@ -370,6 +462,7 @@ function getDialogSnapshotFromWorkspace() {
     name: dialog.name,
     email: dialog.email,
     telephone: dialog.telephone,
+    address: dialog.address,
     notes: dialog.notes,
     topics: (dialog.topics || []).map(function(topic) {
       return {
@@ -410,6 +503,7 @@ function getDialogSnapshotFromRecord(dialog) {
     name: String(dialog.name || '').trim(),
     email: String(dialog.email || '').trim(),
     telephone: String(dialog.telephone || '').trim(),
+    address: String(dialog.address || '').trim(),
     notes: String(dialog.notes || '').trim(),
     topics: (dialog.topics || []).map(function(topic) {
       return {
@@ -451,6 +545,7 @@ function persistDialogFromWorkspace() {
   dialog.name = snapshot.name;
   dialog.email = snapshot.email;
   dialog.telephone = snapshot.telephone;
+  dialog.address = snapshot.address;
   dialog.notes = snapshot.notes;
   (dialog.topics || []).forEach(function(topic) {
     var next = snapshot.topics.find(function(item) { return item.id === topic.id; });
@@ -480,6 +575,53 @@ function scheduleDialogAutoSave() {
     dialogAutoSaveTimeoutId = null;
     persistDialogFromWorkspace();
   }, DIALOG_AUTOSAVE_DEBOUNCE_MS);
+}
+
+function updateContactFromActiveDialog() {
+  persistDialogFromWorkspace();
+  if (!dialogEngineState || !dialogEngineState.store) return;
+  var store = dialogEngineState.store;
+  var dialog = getActiveDialog(store);
+  if (!dialog) return;
+
+  if (!hasAnyDialogContactField(dialog)) {
+    window.alert('Lägg till minst en kontaktuppgift innan kontakten uppdateras.');
+    return;
+  }
+
+  var matchedContact = findContactMatch({
+    name: dialog.name,
+    email: dialog.email,
+    telephone: dialog.telephone,
+  }, dialog.contactId);
+  var contactPatch = {
+    name: dialog.name,
+    telephone: dialog.telephone,
+    email: dialog.email,
+    address: dialog.address,
+    category: matchedContact ? matchedContact.category : (dialog.contactCategory || 'Gäst'),
+  };
+  var contact = matchedContact;
+
+  if (contact) {
+    if (!saveContact(contact.id, contactPatch)) {
+      window.alert('Det gick inte att uppdatera kontakten. Försök igen.');
+      return;
+    }
+    contact = getContact(contact.id);
+  } else {
+    contact = createContact(contactPatch);
+    if (!contact) {
+      window.alert('Det gick inte att skapa kontakten. Försök igen.');
+      return;
+    }
+  }
+
+  dialog.contactId = contact.id;
+  dialog.contactCategory = contact.category;
+  dialog.updatedAt = dialogNowIsoTime();
+  saveDialogStore(store);
+  window.location.href = 'kontakt-workspace.html?id=' + encodeURIComponent(contact.id);
 }
 
 function deleteActiveDialog() {
@@ -582,6 +724,11 @@ function bindDialogHandlers() {
       if (action === 'delete-dialog') { deleteActiveDialog(); return; }
       if (action === 'add-topic') { addTopicToActiveDialog(); return; }
       if (action === 'retry-save') { persistDialogFromWorkspace(); return; }
+      if (action === 'update-contact') {
+        event.preventDefault();
+        updateContactFromActiveDialog();
+        return;
+      }
       if (action === 'delete-topic') {
         deleteTopicFromActiveDialog(actionTrigger.getAttribute('data-topic-id'));
         return;
