@@ -330,7 +330,7 @@ function renderDialogWorkspace(dialog) {
     +       '<button class="btn btn-primary" type="button" data-dialog-action="save">Spara</button>'
     +       '<button class="btn btn-tertiary" type="button" data-dialog-action="delete-dialog">Ta bort dialog</button>'
     +       '<a class="btn btn-secondary" href="resa.html" data-dialog-action="book-guest">Book Guest</a>'
-    +       '<button class="btn btn-secondary" type="button" data-dialog-action="update-contact">Uppdatera kontakt</button>'
+    +       '<a class="btn btn-secondary" href="kontakter.html" data-dialog-action="update-contact">Uppdatera kontakt</a>'
     +     '</section>'
     +   '</div>'
     + '</div>';
@@ -463,7 +463,6 @@ function bindDialogHandlers() {
       if (action === 'save') { saveDialogFromWorkspace(); return; }
       if (action === 'delete-dialog') { deleteActiveDialog(); return; }
       if (action === 'add-topic') { addTopicToActiveDialog(); return; }
-      if (action === 'update-contact') { return; }
       if (action === 'delete-topic') {
         deleteTopicFromActiveDialog(actionTrigger.getAttribute('data-topic-id'));
         return;
