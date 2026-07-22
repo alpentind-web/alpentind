@@ -190,12 +190,16 @@
       }
     }
 
-    function getDerivedDialogHistory(contactId) {
+    function getDerivedDialogRecords(contactId) {
       return getDialogStoreData()
         .filter(function(dialog) { return dialog && dialog.contactId === contactId; })
         .sort(function(a, b) {
           return String(b.updatedAt || '').localeCompare(String(a.updatedAt || ''));
-        })
+        });
+    }
+
+    function getDerivedDialogHistory(contactId) {
+      return getDerivedDialogRecords(contactId)
         .map(function(dialog) {
           var summary = String(dialog.notes || '').trim();
           if (!summary && Array.isArray(dialog.topics) && dialog.topics.length > 0) {
@@ -229,19 +233,12 @@
     }
 
     function deriveRelationship(contact) {
-      var dialogs = getDerivedDialogHistory(contact.id);
+      var dialogs = getDerivedDialogRecords(contact.id);
       var journeys = contact.journeys || [];
       var signals = [];
 
       dialogs.forEach(function(dialog) {
-        signals.push({
-          sortValue: dialog.date ? dialog.date : '',
-          isoValue: dialog.href,
-        });
-      });
-
-      getDialogStoreData().forEach(function(dialog) {
-        if (dialog && dialog.contactId === contact.id && dialog.createdAt) {
+        if (dialog.createdAt) {
           signals.push({
             sortValue: dialog.createdAt,
             label: new Date(dialog.createdAt).toLocaleDateString('sv-SE', {
