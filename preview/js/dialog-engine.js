@@ -121,6 +121,7 @@ function normalizeDialogStore(store) {
           contactId: dialog.contactId || null,
           contactCategory: String(dialog.contactCategory || ''),
           source: dialog.source || null,
+          state: dialog.state === 'Archived' ? 'Archived' : 'Active',
           createdAt: dialog.createdAt || dialogNowIsoTime(),
           updatedAt: dialog.updatedAt || dialogNowIsoTime(),
         };
@@ -197,6 +198,7 @@ function createDialogRecord(input) {
     contactId: input.contactId || null,
     contactCategory: String(input.contactCategory || '').trim(),
     source: input.source || null,
+    state: 'Active',
     createdAt: now,
     updatedAt: now,
   };
@@ -346,7 +348,7 @@ function getDialogPreview(dialog) {
 
 function renderDialogInbox(dialogs, activeId) {
   if (!dialogs || dialogs.length === 0) {
-    return '<p class="dialog-inbox-empty">Inga dialoger ännu.</p>';
+    return '<p class="dialog-inbox-empty">Inga aktiva dialoger.</p>';
   }
 
   return dialogs.map(function(dialog) {
@@ -431,7 +433,7 @@ function renderDialogWorkspace(dialog) {
     +     '</section>'
     +     '<section class="dialog-section dialog-actions" aria-label="Dialog actions">'
     +       '<button class="btn btn-tertiary" type="button" data-dialog-action="delete-dialog">Ta bort dialog</button>'
-    +       '<a class="btn btn-secondary" href="resa.html" data-dialog-action="book-guest">Book Guest</a>'
+    +       '<button class="btn btn-secondary" type="button" data-dialog-action="archive-dialog">Arkivera dialog</button>'
     +       '<a class="btn btn-secondary" href="kontakter.html" data-dialog-action="update-contact">Uppdatera kontakt</a>'
     +     '</section>'
     +   '</div>'
@@ -646,6 +648,34 @@ function deleteActiveDialog() {
   });
 }
 
+function archiveActiveDialog() {
+  if (!dialogEngineState || !dialogEngineState.store) return;
+  var store = dialogEngineState.store;
+  var activeId = store.activeDialogId;
+  if (!activeId) return;
+
+  function commitArchiveDialog() {
+    var dialog = store.dialogs.find(function(d) { return d.id === activeId; });
+    if (!dialog) return;
+    dialog.state = 'Archived';
+    dialog.updatedAt = dialogNowIsoTime();
+    var activeDialogs = store.dialogs
+      .filter(function(d) { return d.state !== 'Archived'; })
+      .sort(function(a, b) { return String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')); });
+    store.activeDialogId = activeDialogs.length > 0 ? activeDialogs[0].id : null;
+    saveDialogStore(store);
+    renderDialog();
+  }
+
+  showPlatformConfirmModal({
+    title: 'Arkivera dialog?',
+    message: 'Dialogen arkiveras och försvinner från registret. Den förblir tillgänglig via kontaktens historik.',
+    confirmLabel: 'Arkivera',
+    cancelLabel: 'Avbryt',
+    onConfirm: commitArchiveDialog,
+  });
+}
+
 function addTopicToActiveDialog() {
   if (!dialogEngineState || !dialogEngineState.store) return;
   var store = dialogEngineState.store;
@@ -722,6 +752,7 @@ function bindDialogHandlers() {
     if (actionTrigger) {
       var action = actionTrigger.getAttribute('data-dialog-action');
       if (action === 'delete-dialog') { deleteActiveDialog(); return; }
+      if (action === 'archive-dialog') { archiveActiveDialog(); return; }
       if (action === 'add-topic') { addTopicToActiveDialog(); return; }
       if (action === 'retry-save') { persistDialogFromWorkspace(); return; }
       if (action === 'update-contact') {
@@ -762,7 +793,8 @@ function renderDialog() {
   dialogEngineState = { store: store, activeDialog: activeDialog };
 
   var inboxEl = document.getElementById('dialog-inbox-list');
-  if (inboxEl) inboxEl.innerHTML = renderDialogInbox(store.dialogs, store.activeDialogId);
+  var activeDialogs = store.dialogs.filter(function(d) { return d.state !== 'Archived'; });
+  if (inboxEl) inboxEl.innerHTML = renderDialogInbox(activeDialogs, store.activeDialogId);
 
   var workspaceEl = document.getElementById('dialog-workspace-panel');
   if (workspaceEl) workspaceEl.innerHTML = renderDialogWorkspace(activeDialog);
