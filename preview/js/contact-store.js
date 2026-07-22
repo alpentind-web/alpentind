@@ -335,7 +335,7 @@ var CONTACT_ADDITIONAL_CONTACTS = [
     category: 'Guide',
     registerContext: 'Mountaineering',
     registerStatus: 'Haute Route',
-    interests: ['Mountaineering', 'Skidalpinism'],
+    interests: ['Bergsklättring', 'Skidalpinism'],
     journeys: [
       { id: 'GUIDE-JRN-002', name: 'Haute Route', date: 'Mars 2027', href: 'resa.html' },
     ],
