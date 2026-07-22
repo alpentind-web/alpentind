@@ -3156,6 +3156,37 @@ body.login-page {
   justify-content: space-between;
 }
 
+.dialog-workspace-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.dialog-workspace-updated-at {
+  font-size: var(--font-size-xs);
+}
+
+.dialog-save-indicator {
+  min-width: 70px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  opacity: 0;
+  transition: opacity 120ms ease-in-out;
+  text-align: right;
+}
+
+.dialog-save-indicator.is-visible {
+  opacity: 1;
+}
+
+.dialog-save-indicator.is-saving {
+  color: var(--color-text-dark);
+}
+
+.dialog-save-indicator.is-saved {
+  color: var(--status-success);
+}
+
 .dialog-workspace-id {
   font-size: var(--font-size-xs);
   color: var(--color-text-dark);
