@@ -460,6 +460,7 @@ function persistDialogFromWorkspace() {
     }
   });
 
+  var previousUpdatedAt = dialog.updatedAt;
   dialog.updatedAt = dialogNowIsoTime();
   try {
     saveDialogStore(store);
@@ -467,6 +468,7 @@ function persistDialogFromWorkspace() {
     refreshDialogLiveMeta(dialog);
     setDialogSaveErrorState(false, dialog.id);
   } catch (e) {
+    dialog.updatedAt = previousUpdatedAt;
     console.warn('Dialog auto-save failed.', e);
     setDialogSaveErrorState(true, dialog.id);
   }
