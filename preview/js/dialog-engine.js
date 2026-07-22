@@ -5,10 +5,9 @@ var INQUIRY_ENGINE_STORE_KEY = 'alpentind-inquiry-engine-store';
 var dialogEngineState = null;
 var dialogHandlersBound = false;
 var dialogAutoSaveTimeoutId = null;
-var dialogSaveIndicatorTimeoutId = null;
+var dialogSaveErrorVisible = false;
 var dialogLastSnapshot = '';
 var DIALOG_AUTOSAVE_DEBOUNCE_MS = 700;
-var DIALOG_SAVE_INDICATOR_HIDE_MS = 1500;
 
 function dialogEscapeHtml(value) {
   return String(value == null ? '' : value)
@@ -302,10 +301,13 @@ function renderDialogWorkspace(dialog) {
     +     '<span class="dialog-workspace-id">' + dialogEscapeHtml(dialog.id) + '</span>'
     +     '<div class="dialog-workspace-status">'
     +       '<span class="text-muted dialog-workspace-updated-at" id="dialog-workspace-updated-at">' + dialogEscapeHtml(dialogFormatDate(dialog.updatedAt)) + '</span>'
-    +       '<span class="dialog-save-indicator" id="dialog-save-indicator" aria-live="polite"></span>'
     +     '</div>'
     +   '</div>'
     +   '<div class="card-body dialog-workspace-body">'
+    +     '<div class="dialog-save-error" id="dialog-save-error" role="status" aria-live="polite" hidden>'
+    +       '<span>Kunde inte spara ändringarna.</span>'
+    +       '<button class="btn btn-tertiary btn-sm" type="button" data-dialog-action="retry-save">Försök igen</button>'
+    +     '</div>'
     +     '<section class="dialog-section" aria-labelledby="dialog-person-heading">'
     +       '<h2 id="dialog-person-heading">Person</h2>'
     +       '<div class="dialog-field-grid">'
@@ -343,34 +345,11 @@ function renderDialogWorkspace(dialog) {
     + '</div>';
 }
 
-function setDialogSaveIndicator(state) {
-  if (dialogSaveIndicatorTimeoutId) {
-    clearTimeout(dialogSaveIndicatorTimeoutId);
-    dialogSaveIndicatorTimeoutId = null;
-  }
-
-  var indicator = document.getElementById('dialog-save-indicator');
-  if (!indicator) return;
-
-  if (state === 'saving') {
-    indicator.textContent = 'Sparar...';
-    indicator.classList.add('is-visible', 'is-saving');
-    indicator.classList.remove('is-saved');
-    return;
-  }
-
-  if (state === 'saved') {
-    indicator.textContent = '✓ Sparad';
-    indicator.classList.add('is-visible', 'is-saved');
-    indicator.classList.remove('is-saving');
-    dialogSaveIndicatorTimeoutId = setTimeout(function() {
-      setDialogSaveIndicator('hidden');
-    }, DIALOG_SAVE_INDICATOR_HIDE_MS);
-    return;
-  }
-
-  indicator.textContent = '';
-  indicator.classList.remove('is-visible', 'is-saving', 'is-saved');
+function setDialogSaveErrorState(hasError) {
+  dialogSaveErrorVisible = Boolean(hasError);
+  var errorEl = document.getElementById('dialog-save-error');
+  if (!errorEl) return;
+  errorEl.hidden = !dialogSaveErrorVisible;
 }
 
 function cancelDialogAutoSave() {
@@ -467,8 +446,6 @@ function persistDialogFromWorkspace() {
   var snapshotString = JSON.stringify(snapshot);
   if (snapshotString === dialogLastSnapshot) return;
 
-  setDialogSaveIndicator('saving');
-
   dialog.name = snapshot.name;
   dialog.email = snapshot.email;
   dialog.telephone = snapshot.telephone;
@@ -482,10 +459,14 @@ function persistDialogFromWorkspace() {
   });
 
   dialog.updatedAt = dialogNowIsoTime();
-  saveDialogStore(store);
-  dialogLastSnapshot = snapshotString;
-  refreshDialogLiveMeta(dialog);
-  setDialogSaveIndicator('saved');
+  try {
+    saveDialogStore(store);
+    dialogLastSnapshot = snapshotString;
+    refreshDialogLiveMeta(dialog);
+    setDialogSaveErrorState(false);
+  } catch (e) {
+    setDialogSaveErrorState(true);
+  }
 }
 
 function scheduleDialogAutoSave() {
@@ -595,6 +576,7 @@ function bindDialogHandlers() {
       var action = actionTrigger.getAttribute('data-dialog-action');
       if (action === 'delete-dialog') { deleteActiveDialog(); return; }
       if (action === 'add-topic') { addTopicToActiveDialog(); return; }
+      if (action === 'retry-save') { persistDialogFromWorkspace(); return; }
       if (action === 'delete-topic') {
         deleteTopicFromActiveDialog(actionTrigger.getAttribute('data-topic-id'));
         return;
@@ -637,6 +619,6 @@ function renderDialog() {
   dialogLastSnapshot = getDialogSnapshotFromRecord(activeDialog);
 
   bindDialogHandlers();
-  setDialogSaveIndicator('hidden');
+  setDialogSaveErrorState(dialogSaveErrorVisible);
   if (typeof feather !== 'undefined') feather.replace();
 }
