@@ -31,81 +31,86 @@
       <section class="content-section" aria-labelledby="gaster-list-heading">
         <div class="section-header">
           <h2 id="gaster-list-heading">Gästlista</h2>
+          <div style="margin-left:auto;">
+            <input class="form-input" type="search" id="gaster-search"
+              placeholder="Sök namn…" aria-label="Sök kontakt"
+              style="width:200px;">
+          </div>
         </div>
-        <div class="register-list" role="list">
-          <a href="person.html?id=anna-andersson" class="register-row" role="listitem">
+        <div class="register-list" role="list" id="gaster-register-list">
+          <a href="kontakt-workspace.html?id=anna-andersson" class="register-row" role="listitem">
             <div class="register-row-primary">Anna Andersson</div>
             <div class="register-row-context">Tour du Mont Blanc 2026</div>
             <div class="register-row-status">Active</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=erik-bergstrom" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=erik-bergstrom" class="register-row" role="listitem">
             <div class="register-row-primary">Erik Bergström</div>
             <div class="register-row-context">Haute Route 2026</div>
             <div class="register-row-status">Confirmed</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=sofia-lofgren" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=sofia-lofgren" class="register-row" role="listitem">
             <div class="register-row-primary">Sofia Löfgren</div>
             <div class="register-row-context">Sarek Sommar 2026</div>
             <div class="register-row-status">Active</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=per-nystrom" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=per-nystrom" class="register-row" role="listitem">
             <div class="register-row-primary">Per Nyström</div>
             <div class="register-row-context">Kebnekaise 2026</div>
             <div class="register-row-status">Confirmed</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=maria-eklund" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=maria-eklund" class="register-row" role="listitem">
             <div class="register-row-primary">Maria Eklund</div>
             <div class="register-row-context">Tour du Mont Blanc 2026</div>
             <div class="register-row-status">Waiting</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=johan-lundgren" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=johan-lundgren" class="register-row" role="listitem">
             <div class="register-row-primary">Johan Lundgren</div>
             <div class="register-row-context">Haute Route 2026</div>
             <div class="register-row-status">Active</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=emma-svensson" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=emma-svensson" class="register-row" role="listitem">
             <div class="register-row-primary">Emma Svensson</div>
             <div class="register-row-context">Sarek Sommar 2026</div>
             <div class="register-row-status">Confirmed</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=karl-olsson" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=karl-olsson" class="register-row" role="listitem">
             <div class="register-row-primary">Karl Olsson</div>
             <div class="register-row-context">Kebnekaise 2026</div>
             <div class="register-row-status">Active</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=lisa-norberg" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=lisa-norberg" class="register-row" role="listitem">
             <div class="register-row-primary">Lisa Norberg</div>
             <div class="register-row-context">Tour du Mont Blanc 2026</div>
             <div class="register-row-status">Confirmed</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=andreas-strom" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=andreas-strom" class="register-row" role="listitem">
             <div class="register-row-primary">Andreas Ström</div>
             <div class="register-row-context">Haute Route 2026</div>
             <div class="register-row-status">Waiting</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=karin-lindqvist" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=karin-lindqvist" class="register-row" role="listitem">
             <div class="register-row-primary">Karin Lindqvist</div>
             <div class="register-row-context">Sarek Sommar 2026</div>
             <div class="register-row-status">Active</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=robert-malmberg" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=robert-malmberg" class="register-row" role="listitem">
             <div class="register-row-primary">Robert Malmberg</div>
             <div class="register-row-context">Kebnekaise 2026</div>
             <div class="register-row-status">Confirmed</div>
             <div class="register-row-open">→</div>
           </a>
-          <a href="person.html?id=ingrid-petersson" class="register-row" role="listitem">
+          <a href="kontakt-workspace.html?id=ingrid-petersson" class="register-row" role="listitem">
             <div class="register-row-primary">Ingrid Petersson</div>
             <div class="register-row-context">Tour du Mont Blanc 2026</div>
             <div class="register-row-status">Active</div>
@@ -128,6 +133,18 @@
         return;
       }
       initNavigation('nav-4');
+
+      var searchInput = document.getElementById('gaster-search');
+      if (searchInput) {
+        searchInput.addEventListener('input', function() {
+          var query = this.value.toLowerCase().trim();
+          var rows = document.querySelectorAll('#gaster-register-list .register-row');
+          rows.forEach(function(row) {
+            var name = (row.querySelector('.register-row-primary') || {}).textContent || '';
+            row.style.display = (!query || name.toLowerCase().indexOf(query) !== -1) ? '' : 'none';
+          });
+        });
+      }
     });
   </script>
 </body>
