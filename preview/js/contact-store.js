@@ -8,6 +8,7 @@
    ======================================== */
 
 var CONTACT_STORE_KEY = 'alpentind-contact-store';
+var CONTACT_STORE_VERSION = 2;
 
 var CONTACT_MOCK_DATA = {
   contacts: [
@@ -310,22 +311,253 @@ var CONTACT_MOCK_DATA = {
   ],
 };
 
+var CONTACT_ADDITIONAL_CONTACTS = [
+  {
+    id: 'linda-svensson',
+    name: 'Linda Svensson',
+    telephone: '+46 70 111 22 33',
+    email: 'linda.svensson@example.com',
+    address: 'Årevägen 8, 837 52 Åre',
+    category: 'Guide',
+    registerContext: 'Alpine climbing',
+    registerStatus: 'Tour du Mont Blanc',
+    interests: ['Alpin klättring', 'Glaciär', 'Utbildning'],
+    journeys: [
+      { id: 'GUIDE-JRN-001', name: 'Tour du Mont Blanc', date: 'Juli 2027', href: 'resa.html' },
+    ],
+  },
+  {
+    id: 'marcus-bergstrom',
+    name: 'Marcus Bergström',
+    telephone: '+46 70 222 33 44',
+    email: 'marcus.bergstrom@example.com',
+    address: 'Bergsstigen 4, 981 38 Kiruna',
+    category: 'Guide',
+    registerContext: 'Mountaineering',
+    registerStatus: 'Haute Route',
+    interests: ['Mountaineering', 'Skidalpinism'],
+    journeys: [
+      { id: 'GUIDE-JRN-002', name: 'Haute Route', date: 'Mars 2027', href: 'resa.html' },
+    ],
+  },
+  {
+    id: 'sofia-johansson',
+    name: 'Sofia Johansson',
+    telephone: '+46 70 333 44 55',
+    email: 'sofia.johansson@example.com',
+    address: 'Stenbacken 12, 831 34 Östersund',
+    category: 'Guide',
+    registerContext: 'Winter climbing',
+    registerStatus: 'Available',
+    interests: ['Vinterklättring', 'Isfall'],
+    journeys: [],
+  },
+  {
+    id: 'peter-lundstrom',
+    name: 'Peter Lundström',
+    telephone: '+46 70 444 55 66',
+    email: 'peter.lundstrom@example.com',
+    address: 'Fjällgatan 3, 981 31 Kiruna',
+    category: 'Guide',
+    registerContext: 'Ski touring',
+    registerStatus: 'Sarek Sommar',
+    interests: ['Topptur', 'Logistik'],
+    journeys: [
+      { id: 'GUIDE-JRN-003', name: 'Sarek Sommar', date: 'Augusti 2027', href: 'resa.html' },
+    ],
+  },
+  {
+    id: 'refuge-bonatti',
+    name: 'Refuge Bonatti',
+    telephone: '+39 0165 555 100',
+    email: 'operations@bonatti.example.com',
+    address: 'Val Ferret, Courmayeur, Italien',
+    category: 'Samarbetspartner',
+    registerContext: 'Mountain hut',
+    registerStatus: 'Italian Alps',
+    interests: ['Boende', 'Logistik'],
+    journeys: [
+      { id: 'PARTNER-JRN-001', name: 'Tour du Mont Blanc', date: 'Juli 2027', href: 'resa.html' },
+    ],
+  },
+  {
+    id: 'alpinabus',
+    name: 'Alpinabus',
+    telephone: '+41 22 555 20 20',
+    email: 'dispatch@alpinabus.example.com',
+    address: 'Rue des Alpes 22, Genève, Schweiz',
+    category: 'Samarbetspartner',
+    registerContext: 'Transport company',
+    registerStatus: 'Switzerland',
+    interests: ['Transfer', 'Koordinering'],
+    journeys: [],
+  },
+  {
+    id: 'hotel-chamonix',
+    name: 'Hotel Chamonix',
+    telephone: '+33 4 50 55 66 77',
+    email: 'booking@hotelchamonix.example.com',
+    address: '12 Rue du Mont Blanc, Chamonix, Frankrike',
+    category: 'Samarbetspartner',
+    registerContext: 'Hotel',
+    registerStatus: 'France',
+    interests: ['Boende', 'Grupper'],
+    journeys: [
+      { id: 'PARTNER-JRN-002', name: 'Haute Route', date: 'Mars 2027', href: 'resa.html' },
+    ],
+  },
+  {
+    id: 'mountain-guides-bureau',
+    name: 'Mountain Guides Bureau',
+    telephone: '+33 4 50 11 22 33',
+    email: 'office@guidesbureau.example.com',
+    address: '8 Avenue de l\'Aiguille, Chamonix, Frankrike',
+    category: 'Samarbetspartner',
+    registerContext: 'Local operator',
+    registerStatus: 'Chamonix',
+    interests: ['Lokala operatörer', 'Säkerhet'],
+    journeys: [],
+  },
+];
+
+CONTACT_MOCK_DATA.contacts = CONTACT_MOCK_DATA.contacts.concat(CONTACT_ADDITIONAL_CONTACTS);
+
+function cloneContactValue(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function normalizeContactText(value) {
+  return String(value || '').trim();
+}
+
+function normalizeContactLookupValue(value) {
+  return normalizeContactText(value).toLowerCase();
+}
+
+function normalizeTelephoneLookupValue(value) {
+  return normalizeContactText(value).replace(/[^\d+]/g, '');
+}
+
+function parseJourneyDateValue(value) {
+  var cleanValue = normalizeContactText(value);
+  if (!cleanValue) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(cleanValue)) return cleanValue;
+
+  var monthMap = {
+    januari: '01',
+    februari: '02',
+    mars: '03',
+    april: '04',
+    maj: '05',
+    juni: '06',
+    juli: '07',
+    augusti: '08',
+    september: '09',
+    oktober: '10',
+    november: '11',
+    december: '12',
+  };
+  var monthMatch = cleanValue.toLowerCase().match(/^(januari|februari|mars|april|maj|juni|juli|augusti|september|oktober|november|december)\s+(\d{4})$/);
+  if (monthMatch) {
+    return monthMatch[2] + '-' + monthMap[monthMatch[1]] + '-01';
+  }
+  return '';
+}
+
+function normalizeJourneyEntry(journey, index) {
+  var normalizedJourney = journey || {};
+  return {
+    id: normalizeContactText(normalizedJourney.id || ('JOURNEY-' + String(index + 1).padStart(3, '0'))),
+    name: normalizeContactText(normalizedJourney.name || normalizedJourney.summary || 'Resa'),
+    dateLabel: normalizeContactText(normalizedJourney.dateLabel || normalizedJourney.date),
+    dateValue: normalizeContactText(normalizedJourney.dateValue || parseJourneyDateValue(normalizedJourney.dateLabel || normalizedJourney.date)),
+    href: normalizeContactText(normalizedJourney.href || 'resa.html') || 'resa.html',
+  };
+}
+
+function getContactDefaultRegisterContext(contact) {
+  if (contact.registerContext) return contact.registerContext;
+  var journeys = contact.journeys || [];
+  if (journeys.length > 0) return journeys[0].name;
+  if (contact.category === 'Guide') return 'Operativ guide';
+  if (contact.category === 'Samarbetspartner') return 'Operativ partner';
+  return 'Ingen aktiv resa';
+}
+
+function getContactDefaultRegisterStatus(contact) {
+  if (contact.registerStatus) return contact.registerStatus;
+  var journeys = contact.journeys || [];
+  if (journeys.length > 0) {
+    return journeys[0].dateLabel || 'Aktiv';
+  }
+  return contact.category === 'Gäst' ? 'Under bearbetning' : 'Available';
+}
+
+function normalizeContactRecord(contact, index) {
+  var legacyHistory = contact && contact.history ? contact.history : {};
+  var journeysSource = Array.isArray(contact && contact.journeys)
+    ? contact.journeys
+    : Array.isArray(legacyHistory.journeys) ? legacyHistory.journeys : [];
+  var normalized = {
+    id: normalizeContactText(contact && contact.id),
+    name: normalizeContactText(contact && contact.name),
+    telephone: normalizeContactText(contact && contact.telephone),
+    email: normalizeContactText(contact && contact.email),
+    address: normalizeContactText(contact && contact.address),
+    category: normalizeContactText(contact && contact.category) || 'Gäst',
+    interests: Array.isArray(contact && contact.interests)
+      ? contact.interests.map(normalizeContactText).filter(Boolean)
+      : [],
+    journeys: journeysSource.map(normalizeJourneyEntry),
+    registerContext: normalizeContactText(contact && contact.registerContext),
+    registerStatus: normalizeContactText(contact && contact.registerStatus),
+  };
+
+  normalized.registerContext = getContactDefaultRegisterContext(normalized);
+  normalized.registerStatus = getContactDefaultRegisterStatus(normalized);
+  if (!normalized.id) {
+    normalized.id = buildSuggestedContactId(normalized.name || normalized.email || ('kontakt-' + index));
+  }
+  return normalized;
+}
+
+function normalizeContactStore(store) {
+  var normalizedStore = {
+    version: CONTACT_STORE_VERSION,
+    contacts: Array.isArray(store && store.contacts)
+      ? store.contacts.map(normalizeContactRecord)
+      : [],
+  };
+  normalizedStore.contacts = normalizedStore.contacts.filter(function(contact, index, contacts) {
+    return contact.id && contacts.findIndex(function(other) { return other.id === contact.id; }) === index;
+  });
+  return normalizedStore;
+}
+
 function getContactStore() {
+  var normalizedStore = null;
   try {
     var raw = localStorage.getItem(CONTACT_STORE_KEY);
     if (raw) {
-      var parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.contacts)) return parsed;
+      normalizedStore = normalizeContactStore(JSON.parse(raw));
     }
   } catch (e) {
-    // fall through to mock data
+    normalizedStore = null;
   }
-  return JSON.parse(JSON.stringify(CONTACT_MOCK_DATA));
+
+  if (!normalizedStore) {
+    normalizedStore = normalizeContactStore(cloneContactValue(CONTACT_MOCK_DATA));
+  }
+
+  if (!localStorage.getItem(CONTACT_STORE_KEY) || normalizedStore.version !== CONTACT_STORE_VERSION) {
+    saveContactStore(normalizedStore);
+  }
+  return normalizedStore;
 }
 
 function saveContactStore(store) {
   try {
-    localStorage.setItem(CONTACT_STORE_KEY, JSON.stringify(store));
+    localStorage.setItem(CONTACT_STORE_KEY, JSON.stringify(normalizeContactStore(store)));
     return true;
   } catch (e) {
     return false;
@@ -340,13 +572,79 @@ function getContact(id) {
   return null;
 }
 
+function getContactsByCategory(category) {
+  var store = getContactStore();
+  return store.contacts.filter(function(contact) {
+    return contact.category === category;
+  });
+}
+
+function buildSuggestedContactId(seed) {
+  var slug = normalizeContactText(seed)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return slug || 'kontakt';
+}
+
+function ensureUniqueContactId(store, baseId) {
+  var candidate = buildSuggestedContactId(baseId);
+  var suffix = 2;
+  while (store.contacts.some(function(contact) { return contact.id === candidate; })) {
+    candidate = buildSuggestedContactId(baseId) + '-' + suffix;
+    suffix += 1;
+  }
+  return candidate;
+}
+
+function createContact(patch) {
+  var store = getContactStore();
+  var contact = normalizeContactRecord(patch || {}, store.contacts.length);
+  contact.id = ensureUniqueContactId(store, contact.id || contact.name || contact.email || 'kontakt');
+  store.contacts.push(contact);
+  if (!saveContactStore(store)) return null;
+  return contact;
+}
+
 function saveContact(id, patch) {
   var store = getContactStore();
   for (var i = 0; i < store.contacts.length; i++) {
     if (store.contacts[i].id === id) {
-      store.contacts[i] = Object.assign({}, store.contacts[i], patch);
+      store.contacts[i] = normalizeContactRecord(Object.assign({}, store.contacts[i], patch), i);
+      store.contacts[i].id = id;
       return saveContactStore(store);
     }
   }
   return false;
+}
+
+function findContactMatch(fields, preferredContactId) {
+  var store = getContactStore();
+  if (preferredContactId) {
+    var preferredContact = getContact(preferredContactId);
+    if (preferredContact) return preferredContact;
+  }
+
+  var email = normalizeContactLookupValue(fields && fields.email);
+  var telephone = normalizeTelephoneLookupValue(fields && fields.telephone);
+  var name = normalizeContactLookupValue(fields && fields.name);
+
+  if (email) {
+    for (var i = 0; i < store.contacts.length; i++) {
+      if (normalizeContactLookupValue(store.contacts[i].email) === email) return store.contacts[i];
+    }
+  }
+  if (telephone) {
+    for (var j = 0; j < store.contacts.length; j++) {
+      if (normalizeTelephoneLookupValue(store.contacts[j].telephone) === telephone) return store.contacts[j];
+    }
+  }
+  if (name) {
+    for (var k = 0; k < store.contacts.length; k++) {
+      if (normalizeContactLookupValue(store.contacts[k].name) === name) return store.contacts[k];
+    }
+  }
+  return null;
 }

@@ -170,11 +170,110 @@
     // ----------------------------------------
     // Render helpers
     // ----------------------------------------
+    var DIALOG_ENGINE_STORE_KEY = 'alpentind-dialog-engine-store';
+
     function renderInfoField(label, value) {
       return '<div class="dialog-info-group">'
         + '<p class="dialog-info-label">' + esc(label) + '</p>'
         + '<p class="dialog-info-value">' + esc(value || '—') + '</p>'
         + '</div>';
+    }
+
+    function getDialogStoreData() {
+      try {
+        var raw = localStorage.getItem(DIALOG_ENGINE_STORE_KEY);
+        if (!raw) return [];
+        var parsed = JSON.parse(raw);
+        return Array.isArray(parsed.dialogs) ? parsed.dialogs : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function getDerivedDialogHistory(contactId) {
+      return getDialogStoreData()
+        .filter(function(dialog) { return dialog && dialog.contactId === contactId; })
+        .sort(function(a, b) {
+          return String(b.updatedAt || '').localeCompare(String(a.updatedAt || ''));
+        })
+        .map(function(dialog) {
+          var summary = String(dialog.notes || '').trim();
+          if (!summary && Array.isArray(dialog.topics) && dialog.topics.length > 0) {
+            var firstTopic = dialog.topics.find(function(topic) {
+              return String(topic && (topic.notes || topic.title) || '').trim();
+            });
+            if (firstTopic) summary = String(firstTopic.notes || firstTopic.title || '').trim();
+          }
+          return {
+            href: 'dialog.html?dialogId=' + encodeURIComponent(dialog.id),
+            date: dialog.updatedAt ? new Date(dialog.updatedAt).toLocaleDateString('sv-SE', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }) : '—',
+            summary: summary || 'Dialog ' + dialog.id,
+          };
+        });
+    }
+
+    function getDerivedJourneyHistory(contact) {
+      return (contact.journeys || []).slice().sort(function(a, b) {
+        return String(b.dateValue || '').localeCompare(String(a.dateValue || ''));
+      }).map(function(journey) {
+        return {
+          href: journey.href || 'resa.html',
+          date: journey.dateLabel || '—',
+          name: journey.name || 'Resa',
+        };
+      });
+    }
+
+    function deriveRelationship(contact) {
+      var dialogs = getDerivedDialogHistory(contact.id);
+      var journeys = contact.journeys || [];
+      var signals = [];
+
+      dialogs.forEach(function(dialog) {
+        signals.push({
+          sortValue: dialog.date ? dialog.date : '',
+          isoValue: dialog.href,
+        });
+      });
+
+      getDialogStoreData().forEach(function(dialog) {
+        if (dialog && dialog.contactId === contact.id && dialog.createdAt) {
+          signals.push({
+            sortValue: dialog.createdAt,
+            label: new Date(dialog.createdAt).toLocaleDateString('sv-SE', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            }),
+          });
+        }
+      });
+
+      journeys.forEach(function(journey) {
+        if (journey.dateValue) {
+          signals.push({
+            sortValue: journey.dateValue,
+            label: journey.dateLabel || journey.dateValue,
+          });
+        }
+      });
+
+      signals.sort(function(a, b) {
+        return String(a.sortValue || '').localeCompare(String(b.sortValue || ''));
+      });
+
+      var sortedJourneys = journeys.slice().sort(function(a, b) {
+        return String(b.dateValue || '').localeCompare(String(a.dateValue || ''));
+      });
+
+      return {
+        firstContact: signals.length > 0 ? (signals[0].label || '—') : '—',
+        latestJourney: sortedJourneys.length > 0 ? sortedJourneys[0].name : '—',
+      };
     }
 
     function renderContactInfo(contact) {
@@ -190,24 +289,35 @@
     function renderRelationship(contact) {
       var el = document.getElementById('kontakt-relation-body');
       if (!el) return;
-      var rel = contact.relationship || {};
+      var rel = deriveRelationship(contact);
       el.innerHTML =
         renderInfoField('Första kontakt', rel.firstContact)
-        + renderInfoField('Senaste resa', rel.latestJourney);
+        + renderInfoField('Senaste resa', rel.latestJourney)
+        + '<p class="text-muted" style="margin-top:var(--spacing-md);">Härledd information från dialoger och resor. Fälten är skrivskyddade.</p>';
     }
 
+    // Temporary RI-012.1 validation-only interest editing remains on Contact
+    // until long-term ownership is moved to a dedicated engine.
     function renderInterests(contact) {
       var el = document.getElementById('kontakt-intressen-body');
       if (!el) return;
       var interests = contact.interests || [];
-      if (interests.length === 0) {
-        el.innerHTML = '<p class="text-muted" style="margin:0;">Inga intressen registrerade.</p>';
-        return;
-      }
-      el.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:var(--spacing-sm);">'
-        + interests.map(function(i) {
-            return '<span class="badge badge-primary">' + esc(i) + '</span>';
-          }).join('')
+      var interestsHtml = interests.length > 0
+        ? '<div style="display:flex;flex-wrap:wrap;gap:var(--spacing-sm);">'
+            + interests.map(function(i, index) {
+                return '<span class="badge badge-primary" style="display:inline-flex;align-items:center;gap:var(--spacing-xs);">'
+                  + esc(i)
+                  + '<button class="btn btn-tertiary btn-sm" type="button" data-interest-remove-index="' + index + '" aria-label="Ta bort intresse ' + esc(i) + '">×</button>'
+                  + '</span>';
+              }).join('')
+          + '</div>'
+        : '<p class="text-muted" style="margin:0;">Inga intressen registrerade.</p>';
+
+      el.innerHTML = ''
+        + interestsHtml
+        + '<div style="margin-top:var(--spacing-md);display:flex;justify-content:space-between;align-items:center;gap:var(--spacing-sm);">'
+        +   '<p class="text-muted" style="margin:0;">Temporär valideringslösning för intressen på kontakt.</p>'
+        +   '<button class="btn btn-secondary btn-sm" type="button" id="kontakt-interest-add">Lägg till intresse</button>'
         + '</div>';
     }
 
@@ -235,10 +345,11 @@
     function renderHistory(contact) {
       var el = document.getElementById('kontakt-historik-body');
       if (!el) return;
-      var hist = contact.history || {};
+      var derivedDialogs = getDerivedDialogHistory(contact.id);
+      var journeys = getDerivedJourneyHistory(contact);
       el.innerHTML =
-        renderHistoryColumn('Dialoger', hist.dialogs || [], 'Inga tidigare dialoger.')
-        + renderHistoryColumn('Resor', hist.journeys || [], 'Inga tidigare resor.');
+        renderHistoryColumn('Dialoger', derivedDialogs, 'Inga tidigare dialoger.')
+        + renderHistoryColumn('Resor', journeys, 'Inga tidigare resor.');
     }
 
     // ----------------------------------------
@@ -277,8 +388,10 @@
             showContactToast('Det gick inte att spara kontaktuppgifterna. Försök igen.', 'danger');
             return;
           }
-          Object.assign(contact, patch);
+          Object.assign(contact, getContact(contact.id));
           renderContactInfo(contact);
+          renderRelationship(contact);
+          renderHistory(contact);
           document.getElementById('kontakt-title').textContent = contact.name;
           document.getElementById('kontakt-breadcrumb-name').textContent = contact.name;
           document.getElementById('kontakt-avatar').textContent = contact.name.charAt(0).toUpperCase();
@@ -286,6 +399,45 @@
           if (typeof onSaved === 'function') onSaved();
         },
       });
+    }
+
+    function addInterestToContact(contact) {
+      showPlatformInputModal({
+        title: 'Lägg till intresse',
+        description: 'Temporär valideringslösning för att redigera kontaktintressen.',
+        placeholder: 'Ange intresse',
+        confirmLabel: 'Lägg till',
+        cancelLabel: 'Avbryt',
+        onConfirm: function(value) {
+          var cleanValue = value.trim();
+          var interests = (contact.interests || []).slice();
+          if (!cleanValue) return;
+          if (interests.some(function(interest) { return interest.toLowerCase() === cleanValue.toLowerCase(); })) {
+            showContactToast('Intresset finns redan på kontakten.', 'danger');
+            return;
+          }
+          interests.push(cleanValue);
+          if (!saveContact(contact.id, { interests: interests })) {
+            showContactToast('Det gick inte att spara intresset. Försök igen.', 'danger');
+            return;
+          }
+          Object.assign(contact, getContact(contact.id));
+          renderInterests(contact);
+          if (typeof feather !== 'undefined') feather.replace();
+        },
+      });
+    }
+
+    function removeInterestFromContact(contact, index) {
+      var interests = (contact.interests || []).slice();
+      interests.splice(index, 1);
+      if (!saveContact(contact.id, { interests: interests })) {
+        showContactToast('Det gick inte att ta bort intresset. Försök igen.', 'danger');
+        return;
+      }
+      Object.assign(contact, getContact(contact.id));
+      renderInterests(contact);
+      if (typeof feather !== 'undefined') feather.replace();
     }
 
     // ----------------------------------------
@@ -346,6 +498,19 @@
           openEditModal(contact, null);
         });
       }
+
+      document.addEventListener('click', function(event) {
+        var addInterestBtn = event.target.closest('#kontakt-interest-add');
+        if (addInterestBtn) {
+          addInterestToContact(contact);
+          return;
+        }
+
+        var removeInterestBtn = event.target.closest('[data-interest-remove-index]');
+        if (removeInterestBtn) {
+          removeInterestFromContact(contact, Number(removeInterestBtn.getAttribute('data-interest-remove-index')));
+        }
+      });
 
       if (typeof feather !== 'undefined') feather.replace();
     });
