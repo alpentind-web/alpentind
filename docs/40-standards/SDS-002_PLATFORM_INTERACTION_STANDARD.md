@@ -9,7 +9,7 @@ The purpose of this document is to define a shared interaction language for Alpe
 
 This standard is normative and reusable across all Business Engines.
 
-Users shall not need to relearn interaction patterns between engines.
+Users MUST NOT be required to relearn interaction patterns between engines.
 
 Consistency takes precedence over local optimization.
 
@@ -27,46 +27,60 @@ It does not introduce architecture changes.
 
 ---
 
+## Normative Language
+
+The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119):
+
+- **MUST** — absolute requirement; no deviation is permitted.
+- **MUST NOT** — absolute prohibition; the behaviour is never allowed.
+- **SHOULD** — recommended behaviour; deviation is permitted only with a documented reason.
+- **SHOULD NOT** — behaviour that is not recommended; deviation is permitted only with a documented reason.
+- **MAY** — optional behaviour; implementations may include or omit it at their discretion.
+
+---
+
 ## Interaction Principles
 
 ### 1. Simplicity
 
-Interaction flows shall be simple, direct, and easy to understand.
+Interaction flows MUST be simple, direct, and easy to understand.
 
-- Avoid unnecessary confirmations
-- Avoid unnecessary dialogs
-- Avoid unnecessary workflow steps
-- Prefer the shortest clear path to action
+- Unnecessary confirmations SHOULD NOT be introduced
+- Unnecessary dialogs SHOULD NOT be introduced
+- Unnecessary workflow steps SHOULD NOT be introduced
+- Implementations SHOULD follow the shortest clear path to action
 
 ### 2. Consistency
 
-The same interaction pattern shall behave the same way across the platform.
+The same interaction pattern MUST behave the same way across the platform.
 
-- The same modal purpose should use the same layout
-- The same action type should use the same button order
-- The same wording should use the same terminology
+- The same modal purpose MUST use the same layout
+- The same action type MUST use the same button order
+- The same wording MUST use the same terminology
 
 ### 3. Visibility
 
-The user shall always understand the current state and the next available action.
+The user MUST always be able to understand the current state and the next available action.
 
-- Current context should be clear
-- Available actions should be visible
-- Outcomes should be communicated clearly
-- Critical actions must never be hidden
+- Current context SHOULD be clear
+- Available actions SHOULD be visible
+- Outcomes SHOULD be communicated clearly
+- Critical actions MUST NOT be hidden
 
 ### 4. Minimal Cognitive Load
 
-The platform should reduce mental effort.
+The platform SHOULD reduce mental effort.
 
-- Use predictable interaction patterns
-- Reduce unnecessary decisions
-- Keep choices limited and clear
-- Preserve recognizable behaviour across engines
+- Implementations MUST use predictable interaction patterns
+- Unnecessary decisions SHOULD be reduced
+- Choices SHOULD be limited and clear
+- Recognisable behaviour MUST be preserved across engines
 
 ---
 
 ## Platform Modal Types
+
+Platform modals MUST replace all browser dialog components (`window.alert`, `window.confirm`, `window.prompt`).
 
 ### Confirmation Modal
 
@@ -86,11 +100,11 @@ Confirm destructive actions.
 - Buttons: `[ Nej ] [ Ja ]`
 
 **Rules**
-- `Nej` always first
-- `Ja` always second
-- Escape closes the modal
-- Outside click closes the modal unless the user must resolve the dialog before returning to the underlying workflow
-- All delete actions must use a Confirmation Modal
+- `Nej` MUST appear first
+- `Ja` MUST appear second
+- Escape MUST close the modal
+- Outside-click MAY close the modal; it MUST NOT close the modal when the user is required to resolve the dialog before returning to the underlying workflow
+- All delete operations MUST use a Confirmation Modal
 
 ### Input Modal
 
@@ -108,9 +122,9 @@ Collect one text value.
 - Buttons: `[ Avbryt ] [ Skapa ]`
 
 **Rules**
-- Initial focus is in the input
-- Enter confirms
-- Escape cancels
+- Initial focus MUST be placed in the input field
+- Enter MUST confirm the action
+- Escape MUST cancel the action
 
 ### Create Modal
 
@@ -132,7 +146,7 @@ Modify an existing object.
 
 ## Toast Notification Standard
 
-Toast messages shall be used only for successful operations.
+Toast messages MUST be used only for successful operations.
 
 **Examples**
 - `Dialog skapad.`
@@ -140,21 +154,21 @@ Toast messages shall be used only for successful operations.
 - `Kontakt uppdaterad.`
 
 **Rules**
-- Toasts auto-dismiss
-- Toasts do not include a confirmation button
+- Toasts MUST auto-dismiss
+- Toasts MUST NOT include a confirmation button
 
 ---
 
 ## Error Message Standard
 
-Errors shall be shown:
+Errors MUST be shown:
 
 - inline, or
 - inside platform modals
 
-Browser alerts shall never be used for errors.
+Browser alerts MUST NOT be used for errors.
 
-Error communication must always clarify:
+Error communication MUST always clarify:
 
 - what failed
 - what the user can do next
@@ -163,7 +177,7 @@ Error communication must always clarify:
 
 ## Button Order Standard
 
-Universal button order shall be:
+The universal button order MUST be:
 
 **Confirmation**
 - `[ Nej ] [ Ja ]`
@@ -178,19 +192,19 @@ Universal button order shall be:
 
 ## Prohibited Browser Components
 
-The following browser components shall not be used:
+The following browser components MUST NOT be used:
 
 - `window.alert()`
 - `window.confirm()`
 - `window.prompt()`
 
-Platform interaction components shall be used instead.
+Platform interaction components MUST be used instead.
 
 ---
 
 ## Platform Language Standard
 
-Preferred terms:
+The following terms MUST be used:
 
 - Skapa
 - Spara
@@ -202,20 +216,22 @@ Preferred terms:
 - Uppdatera
 - Boka
 
-Inconsistent alternatives should be avoided.
+Inconsistent alternatives MUST NOT be used.
 
 ---
 
 ## Accessibility Requirements
 
-Minimum accessibility and keyboard behaviour:
+The following keyboard and accessibility behaviours MUST be implemented:
 
-- Escape closes dialogs
-- Tab navigation follows a natural order
-- Focus returns to the origin control after close
-- Buttons behave consistently with the keyboard across the platform
+- Escape MUST close dialogs
+- Tab navigation MUST follow a natural order
+- Focus MUST return to the origin control after a dialog closes
+- Buttons MUST behave consistently with the keyboard across the platform
 
-Accessibility behaviour shall be consistent across all Business Engines.
+Accessibility behaviour MUST be consistent across all Business Engines.
+
+Topic suggestions MAY be displayed to assist users during content entry.
 
 ---
 
@@ -226,4 +242,4 @@ SDS-002 complements the following standards:
 - Workspace Design Standard
 - Engineering Constitution
 
-Future Business Engines must follow both those standards and this interaction standard.
+Future Business Engines MUST follow both those standards and this interaction standard.
