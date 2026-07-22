@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <header class="header" id="header" role="banner"></header>
+
+  <main class="main" id="main-content">
+    <div class="page active" id="kontakt-workspace-page">
+
+      <!-- Not found -->
+      <div id="kontakt-not-found" hidden>
+        <section class="page-header" aria-labelledby="not-found-title">
+          <nav class="workspace-nav" aria-label="Navigeringsstig">
+            <a href="kontakter.html" class="link">Kontakter</a>
+            <span aria-hidden="true">›</span>
+            <span>Kontakt</span>
+          </nav>
+          <h1 id="not-found-title">Kontakt hittades inte</h1>
+          <p class="text-muted">Kontakten kunde inte hittas. Kontrollera att ID är korrekt.</p>
+        </section>
+        <div style="padding: var(--spacing-lg);">
+          <a href="kontakter.html" class="btn btn-secondary">
+            <i data-feather="arrow-left" style="width:16px;height:16px" aria-hidden="true"></i>
+            Tillbaka till Kontakter
+          </a>
+        </div>
+      </div>
+
+      <!-- Workspace -->
+      <div id="kontakt-workspace" class="person-workspace-shell" hidden>
+
+        <nav class="workspace-nav" aria-label="Navigeringsstig">
+          <a href="kontakter.html" class="link">Kontakter</a>
+          <span aria-hidden="true">›</span>
+          <a href="#" class="link" id="kontakt-breadcrumb-list">Gäster</a>
+          <span aria-hidden="true">›</span>
+          <span id="kontakt-breadcrumb-name">—</span>
+        </nav>
+
+        <section class="workspace-header" aria-labelledby="kontakt-title">
+          <div class="workspace-header-main">
+            <div class="workspace-avatar" id="kontakt-avatar" aria-hidden="true">?</div>
+            <div class="workspace-header-content">
+              <h1 class="workspace-title" id="kontakt-title">—</h1>
+              <div class="workspace-header-meta">
+                <span class="badge badge-primary" id="kontakt-category">—</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="workspace-grid" style="margin-top: var(--spacing-lg);">
+
+          <!-- 1. Contact Information -->
+          <section class="card workspace-block workspace-block--wide" aria-labelledby="kontakt-info-heading">
+            <div class="card-header">
+              <h2 id="kontakt-info-heading">Kontaktuppgifter</h2>
+            </div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--spacing-md);" id="kontakt-info-fields">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Relationship -->
+          <section class="card workspace-block" aria-labelledby="kontakt-relation-heading">
+            <div class="card-header">
+              <h2 id="kontakt-relation-heading">Relation</h2>
+            </div>
+            <div class="card-body" id="kontakt-relation-body">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- 3. Interests -->
+          <section class="card workspace-block" aria-labelledby="kontakt-intressen-heading">
+            <div class="card-header">
+              <h2 id="kontakt-intressen-heading">Intressen</h2>
+            </div>
+            <div class="card-body" id="kontakt-intressen-body">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- 4. History -->
+          <section class="card workspace-block workspace-block--wide" aria-labelledby="kontakt-historik-heading">
+            <div class="card-header">
+              <h2 id="kontakt-historik-heading">Historik</h2>
+            </div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--spacing-lg);" id="kontakt-historik-body">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Actions -->
+        <section class="content-section" aria-labelledby="kontakt-actions-heading" style="margin-top: var(--spacing-lg);">
+          <div class="section-header">
+            <h2 id="kontakt-actions-heading">Åtgärder</h2>
+          </div>
+          <div class="quick-actions">
+            <a class="btn btn-primary" id="kontakt-action-dialog" href="dialog.html?from=contact">
+              <i data-feather="message-circle" style="width:16px;height:16px" aria-hidden="true"></i>
+              Skapa dialog
+            </a>
+            <button class="btn btn-secondary" type="button" id="kontakt-action-edit">
+              <i data-feather="edit-2" style="width:16px;height:16px" aria-hidden="true"></i>
+              Redigera kontakt
+            </button>
+          </div>
+        </section>
+
+      </div><!-- /kontakt-workspace -->
+
+    </div>
+  </main>
+
+  <div id="kontakt-toast-area" style="position:fixed;bottom:var(--spacing-xl);right:var(--spacing-xl);z-index:9999;display:flex;flex-direction:column;gap:var(--spacing-sm);pointer-events:none;" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/platform-modal.js"></script>
+  <script src="js/contact-store.js"></script>
+  <script>
+
+    // ----------------------------------------
+    // Toast (failure notification only)
+    // ----------------------------------------
+    function showContactToast(message, type) {
+      var area = document.getElementById('kontakt-toast-area');
+      if (!area) return;
+      var toast = document.createElement('div');
+      toast.className = 'toast toast-' + (type || 'danger');
+      toast.style.pointerEvents = 'auto';
+      toast.textContent = message;
+      area.appendChild(toast);
+      if (typeof feather !== 'undefined') feather.replace();
+      setTimeout(function() {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 4000);
+    }
+
+    // ----------------------------------------
+    // Escape helper
+    // ----------------------------------------
+    function esc(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // ----------------------------------------
+    // Render helpers
+    // ----------------------------------------
+    function renderInfoField(label, value) {
+      return '<div class="dialog-info-group">'
+        + '<p class="dialog-info-label">' + esc(label) + '</p>'
+        + '<p class="dialog-info-value">' + esc(value || '—') + '</p>'
+        + '</div>';
+    }
+
+    function renderContactInfo(contact) {
+      var el = document.getElementById('kontakt-info-fields');
+      if (!el) return;
+      el.innerHTML =
+        renderInfoField('Namn', contact.name)
+        + renderInfoField('Telefon', contact.telephone)
+        + renderInfoField('E-post', contact.email)
+        + renderInfoField('Adress', contact.address);
+    }
+
+    function renderRelationship(contact) {
+      var el = document.getElementById('kontakt-relation-body');
+      if (!el) return;
+      var rel = contact.relationship || {};
+      el.innerHTML =
+        renderInfoField('Första kontakt', rel.firstContact)
+        + renderInfoField('Senaste resa', rel.latestJourney);
+    }
+
+    function renderInterests(contact) {
+      var el = document.getElementById('kontakt-intressen-body');
+      if (!el) return;
+      var interests = contact.interests || [];
+      if (interests.length === 0) {
+        el.innerHTML = '<p class="text-muted" style="margin:0;">Inga intressen registrerade.</p>';
+        return;
+      }
+      el.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:var(--spacing-sm);">'
+        + interests.map(function(i) {
+            return '<span class="badge badge-primary">' + esc(i) + '</span>';
+          }).join('')
+        + '</div>';
+    }
+
+    function renderHistoryColumn(heading, items, emptyText) {
+      var itemsHtml = items.length > 0
+        ? items.map(function(item) {
+            var dateHtml = item.date ? '<span style="font-size:var(--font-size-xs);color:var(--color-text-dark);">' + esc(item.date) + '</span>' : '';
+            var label = item.summary || item.name || '';
+            return '<a href="' + esc(item.href || '#') + '" class="register-row" role="listitem" style="padding:var(--spacing-sm) var(--spacing-md);">'
+              + '<div style="display:flex;flex-direction:column;gap:2px;flex:1;">'
+              +   '<span class="register-row-primary" style="font-size:var(--font-size-sm);">' + esc(label) + '</span>'
+              +   (dateHtml ? '<span>' + dateHtml + '</span>' : '')
+              + '</div>'
+              + '<span style="color:var(--color-text-dark);">→</span>'
+              + '</a>';
+          }).join('')
+        : '<p class="text-muted" style="margin:0;">' + esc(emptyText) + '</p>';
+
+      return '<div>'
+        + '<p class="dialog-info-label" style="margin-bottom:var(--spacing-sm);">' + esc(heading) + '</p>'
+        + '<div class="register-list" role="list">' + itemsHtml + '</div>'
+        + '</div>';
+    }
+
+    function renderHistory(contact) {
+      var el = document.getElementById('kontakt-historik-body');
+      if (!el) return;
+      var hist = contact.history || {};
+      el.innerHTML =
+        renderHistoryColumn('Dialoger', hist.dialogs || [], 'Inga tidigare dialoger.')
+        + renderHistoryColumn('Resor', hist.journeys || [], 'Inga tidigare resor.');
+    }
+
+    // ----------------------------------------
+    // Category → list page mapping
+    // ----------------------------------------
+    var CATEGORY_LIST_MAP = {
+      'Gäst':               { href: 'kontakter-gaster.html',         label: 'Gäster' },
+      'Guide':              { href: 'kontakter-guider.html',          label: 'Guider' },
+      'Samarbetspartner':   { href: 'kontakter-samarbetspartners.html', label: 'Samarbetspartners' },
+      'Övrig':              { href: 'kontakter-ovriga.html',          label: 'Övriga kontakter' },
+    };
+
+    // ----------------------------------------
+    // Edit Contact
+    // ----------------------------------------
+    function openEditModal(contact, onSaved) {
+      showPlatformEditModal({
+        title: 'Redigera kontakt',
+        fields: [
+          { id: 'edit-name',      label: 'Namn',     type: 'text',  value: contact.name,      placeholder: 'Namn' },
+          { id: 'edit-telephone', label: 'Telefon',  type: 'tel',   value: contact.telephone,  placeholder: '+46 70 000 00 00' },
+          { id: 'edit-email',     label: 'E-post',   type: 'email', value: contact.email,      placeholder: 'namn@example.com' },
+          { id: 'edit-address',   label: 'Adress',   type: 'text',  value: contact.address,    placeholder: 'Gatuadress, postnummer Ort' },
+        ],
+        confirmLabel: 'Spara',
+        cancelLabel: 'Avbryt',
+        onConfirm: function(values) {
+          var patch = {
+            name:      values['edit-name'].trim()      || contact.name,
+            telephone: values['edit-telephone'].trim() || contact.telephone,
+            email:     values['edit-email'].trim()     || contact.email,
+            address:   values['edit-address'].trim()   || contact.address,
+          };
+          var ok = saveContact(contact.id, patch);
+          if (!ok) {
+            showContactToast('Det gick inte att spara kontaktuppgifterna. Försök igen.', 'danger');
+            return;
+          }
+          Object.assign(contact, patch);
+          renderContactInfo(contact);
+          document.getElementById('kontakt-title').textContent = contact.name;
+          document.getElementById('kontakt-breadcrumb-name').textContent = contact.name;
+          document.getElementById('kontakt-avatar').textContent = contact.name.charAt(0).toUpperCase();
+          if (typeof feather !== 'undefined') feather.replace();
+          if (typeof onSaved === 'function') onSaved();
+        },
+      });
+    }
+
+    // ----------------------------------------
+    // Init
+    // ----------------------------------------
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      initNavigation('nav-4');
+
+      var params = new URLSearchParams(window.location.search);
+      var contactId = params.get('id');
+      var contact = contactId ? getContact(contactId) : null;
+
+      var wsEl     = document.getElementById('kontakt-workspace');
+      var notFound = document.getElementById('kontakt-not-found');
+
+      if (!contact) {
+        if (notFound)  notFound.hidden  = false;
+        if (typeof feather !== 'undefined') feather.replace();
+        return;
+      }
+
+      // Show workspace
+      wsEl.hidden = false;
+
+      // Breadcrumb
+      var catInfo = CATEGORY_LIST_MAP[contact.category] || { href: 'kontakter.html', label: 'Kontakter' };
+      var bcList = document.getElementById('kontakt-breadcrumb-list');
+      if (bcList) { bcList.textContent = catInfo.label; bcList.href = catInfo.href; }
+      var bcName = document.getElementById('kontakt-breadcrumb-name');
+      if (bcName) bcName.textContent = contact.name;
+
+      // Header
+      var avatarEl = document.getElementById('kontakt-avatar');
+      if (avatarEl) avatarEl.textContent = contact.name.charAt(0).toUpperCase();
+      var titleEl = document.getElementById('kontakt-title');
+      if (titleEl) titleEl.textContent = contact.name;
+      var categoryEl = document.getElementById('kontakt-category');
+      if (categoryEl) categoryEl.textContent = contact.category || 'Kontakt';
+
+      // Dialog link: pass contact id
+      var dialogLink = document.getElementById('kontakt-action-dialog');
+      if (dialogLink) dialogLink.href = 'dialog.html?from=contact&contactId=' + encodeURIComponent(contact.id);
+
+      // Sections
+      renderContactInfo(contact);
+      renderRelationship(contact);
+      renderInterests(contact);
+      renderHistory(contact);
+
+      // Edit button
+      var editBtn = document.getElementById('kontakt-action-edit');
+      if (editBtn) {
+        editBtn.addEventListener('click', function() {
+          openEditModal(contact, null);
+        });
+      }
+
+      if (typeof feather !== 'undefined') feather.replace();
+    });
+
+  </script>
+</body>
+</html>

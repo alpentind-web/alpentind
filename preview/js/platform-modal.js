@@ -93,6 +93,77 @@ function showPlatformConfirmModal(options) {
   if (confirmBtn) confirmBtn.focus();
 }
 
+function showPlatformEditModal(options) {
+  var opts = options || {};
+  var title = opts.title || 'Redigera';
+  var fields = opts.fields || [];
+  var confirmLabel = opts.confirmLabel || 'Spara';
+  var cancelLabel = opts.cancelLabel || 'Avbryt';
+  var titleId = 'platform-edit-modal-title';
+
+  var fieldsHtml = fields.map(function(field) {
+    return '<div class="form-group">'
+      + '<label class="form-label" for="' + platformModalEscapeHtml(field.id) + '">' + platformModalEscapeHtml(field.label) + '</label>'
+      + '<input class="form-input platform-modal-input" id="' + platformModalEscapeHtml(field.id) + '"'
+      + ' type="' + platformModalEscapeHtml(field.type || 'text') + '"'
+      + ' value="' + platformModalEscapeHtml(field.value || '') + '"'
+      + ' placeholder="' + platformModalEscapeHtml(field.placeholder || '') + '"'
+      + ' autocomplete="off">'
+      + '</div>';
+  }).join('');
+
+  var overlay = buildPlatformModal({
+    title: title,
+    titleId: titleId,
+    bodyHtml: '<div style="display:flex;flex-direction:column;gap:var(--spacing-md);">' + fieldsHtml + '</div>',
+    footerHtml: ''
+      + '<button class="btn btn-secondary" type="button" data-platform-modal-action="cancel">' + platformModalEscapeHtml(cancelLabel) + '</button>'
+      + '<button class="btn btn-primary" type="button" data-platform-modal-action="confirm">' + platformModalEscapeHtml(confirmLabel) + '</button>',
+  });
+
+  var resolved = false;
+  function cleanup() { document.removeEventListener('keydown', onKeydown); }
+
+  function collectValues() {
+    var values = {};
+    fields.forEach(function(field) {
+      var el = overlay.querySelector('#' + field.id);
+      values[field.id] = el ? el.value : '';
+    });
+    return values;
+  }
+
+  function resolveAndClose(handler) {
+    if (resolved) return;
+    resolved = true;
+    cleanup();
+    closePlatformModal();
+    if (typeof handler === 'function') handler();
+  }
+
+  overlay.addEventListener('click', function(event) {
+    if (event.target === overlay) { resolveAndClose(opts.onCancel); return; }
+    var actionTrigger = event.target.closest('[data-platform-modal-action]');
+    if (!actionTrigger) return;
+    var action = actionTrigger.getAttribute('data-platform-modal-action');
+    if (action === 'confirm') {
+      var values = collectValues();
+      resolveAndClose(function() {
+        if (typeof opts.onConfirm === 'function') opts.onConfirm(values);
+      });
+    }
+    if (action === 'cancel') resolveAndClose(opts.onCancel);
+  });
+
+  function onKeydown(event) {
+    if (event.key === 'Escape') resolveAndClose(opts.onCancel);
+  }
+  document.addEventListener('keydown', onKeydown);
+
+  var firstInput = overlay.querySelector('.platform-modal-input');
+  if (firstInput) { firstInput.focus(); firstInput.select(); }
+}
+
 function showPlatformInputModal(options) {
   var opts = options || {};
   var title = opts.title || 'Ange värde';
