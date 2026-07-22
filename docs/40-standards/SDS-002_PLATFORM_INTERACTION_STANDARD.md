@@ -74,7 +74,7 @@ The platform SHOULD reduce mental effort.
 - Implementations MUST use predictable interaction patterns
 - Unnecessary decisions SHOULD be reduced
 - Choices SHOULD be limited and clear
-- Recognisable behaviour MUST be preserved across engines
+- Recognizable behaviour MUST be preserved across engines
 
 ---
 
@@ -230,8 +230,6 @@ The following keyboard and accessibility behaviours MUST be implemented:
 - Buttons MUST behave consistently with the keyboard across the platform
 
 Accessibility behaviour MUST be consistent across all Business Engines.
-
-Topic suggestions MAY be displayed to assist users during content entry.
 
 ---
 
