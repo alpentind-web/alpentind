@@ -305,7 +305,7 @@ function renderDialogWorkspace(dialog) {
     +     '</div>'
     +   '</div>'
     +   '<div class="card-body dialog-workspace-body">'
-    +     '<div class="dialog-save-error" id="dialog-save-error" role="status" aria-live="polite" hidden>'
+    +     '<div class="dialog-save-error" id="dialog-save-error" role="alert" aria-live="assertive" hidden>'
     +       '<span>Kunde inte spara ändringarna.</span>'
     +       '<button class="btn btn-tertiary btn-sm" type="button" data-dialog-action="retry-save">Försök igen</button>'
     +     '</div>'
