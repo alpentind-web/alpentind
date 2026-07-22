@@ -620,6 +620,14 @@ function saveContact(id, patch) {
   return false;
 }
 
+function deleteContact(id) {
+  var store = getContactStore();
+  var newContacts = store.contacts.filter(function(contact) { return contact.id !== id; });
+  if (newContacts.length === store.contacts.length) return false;
+  store.contacts = newContacts;
+  return saveContactStore(store);
+}
+
 function findContactMatch(fields, preferredContactId) {
   var store = getContactStore();
   if (preferredContactId) {
