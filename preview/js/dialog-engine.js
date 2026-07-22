@@ -322,14 +322,15 @@ function renderDialogWorkspace(dialog) {
     +     '<section class="dialog-section" aria-labelledby="dialog-topics-heading">'
     +       '<div class="dialog-topics-header">'
     +         '<h2 id="dialog-topics-heading">Topics</h2>'
-    +         '<button class="btn btn-secondary btn-sm" type="button" data-dialog-action="add-topic">+ Add Topic</button>'
+    +         '<button class="btn btn-secondary btn-sm" type="button" data-dialog-action="add-topic">Nytt ämne</button>'
     +       '</div>'
     +       '<div class="dialog-topics-list">' + (topics || '<p class="text-muted">Inga topics ännu.</p>') + '</div>'
     +     '</section>'
     +     '<section class="dialog-section dialog-actions" aria-label="Dialog actions">'
-    +       '<button class="btn btn-primary" type="button" data-dialog-action="save">Save</button>'
-    +       '<button class="btn btn-tertiary" type="button" data-dialog-action="delete-dialog">Delete Dialog</button>'
+    +       '<button class="btn btn-primary" type="button" data-dialog-action="save">Spara</button>'
+    +       '<button class="btn btn-tertiary" type="button" data-dialog-action="delete-dialog">Ta bort dialog</button>'
     +       '<a class="btn btn-secondary" href="resa.html" data-dialog-action="book-guest">Book Guest</a>'
+    +       '<a class="btn btn-secondary" href="kontakter.html" data-dialog-action="update-contact">Uppdatera kontakt</a>'
     +     '</section>'
     +   '</div>'
     + '</div>';
@@ -367,12 +368,21 @@ function deleteActiveDialog() {
   var store = dialogEngineState.store;
   var activeId = store.activeDialogId;
   if (!activeId) return;
-  if (!window.confirm('Ta bort dialog? Åtgärden kan inte ångras.')) return;
 
-  store.dialogs = store.dialogs.filter(function(dialog) { return dialog.id !== activeId; });
-  store.activeDialogId = store.dialogs.length > 0 ? store.dialogs[0].id : null;
-  saveDialogStore(store);
-  renderDialog();
+  function commitDeleteDialog() {
+    store.dialogs = store.dialogs.filter(function(dialog) { return dialog.id !== activeId; });
+    store.activeDialogId = store.dialogs.length > 0 ? store.dialogs[0].id : null;
+    saveDialogStore(store);
+    renderDialog();
+  }
+
+  showPlatformConfirmModal({
+    title: 'Radera?',
+    message: 'Ta bort dialog? Åtgärden kan inte ångras.',
+    confirmLabel: 'Ja',
+    cancelLabel: 'Nej',
+    onConfirm: commitDeleteDialog,
+  });
 }
 
 function addTopicToActiveDialog() {
@@ -382,19 +392,23 @@ function addTopicToActiveDialog() {
   if (!dialog) return;
 
   var suggestions = getTopicSuggestions(store, dialog.id);
-  var suggestionHint = suggestions.length > 0
-    ? '\n\nFörslag: ' + suggestions.slice(0, 5).join(', ')
-    : '';
-  var title = window.prompt('Ange topic-titel.' + suggestionHint, '');
-  if (title == null) return;
+  var suggestionHint = suggestions.length > 0 ? 'Förslag: ' + suggestions.slice(0, 5).join(', ') : '';
 
-  var cleanTitle = String(title).trim();
-  if (!cleanTitle) return;
+  function commitAddTopic(cleanTitle) {
+    dialog.topics.push({ id: getNextTopicId(dialog), title: cleanTitle, notes: '' });
+    dialog.updatedAt = dialogNowIsoTime();
+    saveDialogStore(store);
+    renderDialog();
+  }
 
-  dialog.topics.push({ id: getNextTopicId(dialog), title: cleanTitle, notes: '' });
-  dialog.updatedAt = dialogNowIsoTime();
-  saveDialogStore(store);
-  renderDialog();
+  showPlatformInputModal({
+    title: 'Nytt ämne',
+    description: suggestionHint,
+    placeholder: 'Ämnestitel',
+    confirmLabel: 'Skapa',
+    cancelLabel: 'Avbryt',
+    onConfirm: commitAddTopic,
+  });
 }
 
 function deleteTopicFromActiveDialog(topicId) {
@@ -402,12 +416,20 @@ function deleteTopicFromActiveDialog(topicId) {
   var store = dialogEngineState.store;
   var dialog = getActiveDialog(store);
   if (!dialog) return;
-  if (!window.confirm('Ta bort topic?')) return;
+  function commitDeleteTopic() {
+    dialog.topics = (dialog.topics || []).filter(function(topic) { return topic.id !== topicId; });
+    dialog.updatedAt = dialogNowIsoTime();
+    saveDialogStore(store);
+    renderDialog();
+  }
 
-  dialog.topics = (dialog.topics || []).filter(function(topic) { return topic.id !== topicId; });
-  dialog.updatedAt = dialogNowIsoTime();
-  saveDialogStore(store);
-  renderDialog();
+  showPlatformConfirmModal({
+    title: 'Radera?',
+    message: 'Ta bort ämne?',
+    confirmLabel: 'Ja',
+    cancelLabel: 'Nej',
+    onConfirm: commitDeleteTopic,
+  });
 }
 
 function bindDialogHandlers() {

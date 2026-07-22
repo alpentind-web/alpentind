@@ -2944,19 +2944,22 @@ body.login-page {
   font-family: monospace;
 }
 
-.inquiry-editor-form {
+.inquiry-editor-form,
+.dialog-workspace-body {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-.inquiry-editor-field {
+.inquiry-editor-field,
+.dialog-field {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
 }
 
-.inquiry-editor-label {
+.inquiry-editor-label,
+.dialog-label {
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--color-text-dark);
@@ -2964,7 +2967,10 @@ body.login-page {
   letter-spacing: 0.5px;
 }
 
-.inquiry-editor-input {
+.inquiry-editor-input,
+.dialog-input,
+.dialog-general-notes,
+.dialog-topic-notes {
   background-color: var(--color-bg-dark);
   border: var(--border-thin);
   border-radius: var(--radius-sm);
@@ -2976,7 +2982,10 @@ body.login-page {
   transition: border-color var(--transition-fast);
 }
 
-.inquiry-editor-input:focus {
+.inquiry-editor-input:focus,
+.dialog-input:focus,
+.dialog-general-notes:focus,
+.dialog-topic-notes:focus {
   outline: none;
   border-color: var(--color-primary);
 }
@@ -3003,7 +3012,8 @@ body.login-page {
   border-color: var(--color-primary);
 }
 
-.inquiry-editor-actions {
+.inquiry-editor-actions,
+.dialog-actions {
   display: flex;
   gap: var(--spacing-sm);
   padding-top: var(--spacing-md);
@@ -3059,34 +3069,34 @@ body.login-page {
 
 .dialog-inbox-layout {
   display: grid;
-  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  grid-template-columns: 260px 1fr;
   gap: var(--spacing-lg);
   align-items: start;
 }
 
 .dialog-inbox-panel {
-  background: #fff;
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-lg);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
   overflow: hidden;
+  background-color: var(--color-bg-medium);
 }
 
 .dialog-inbox-empty {
   margin: 0;
-  padding: var(--spacing-lg);
-  color: var(--color-gray-600);
+  padding: var(--spacing-md);
+  color: var(--color-text-dark);
   font-size: var(--font-size-sm);
 }
 
 .dialog-inbox-row {
   width: 100%;
   border: 0;
-  border-bottom: 1px solid var(--color-gray-100);
-  background: #fff;
+  border-bottom: var(--border-thin);
+  background: transparent;
   text-align: left;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--spacing-xs) var(--spacing-sm);
+  grid-template-columns: 1fr auto;
+  gap: 2px var(--spacing-sm);
   padding: var(--spacing-sm) var(--spacing-md);
   cursor: pointer;
 }
@@ -3096,17 +3106,19 @@ body.login-page {
 }
 
 .dialog-inbox-row:hover {
-  background: var(--color-gray-50);
+  background: var(--color-bg-light);
 }
 
 .dialog-inbox-row.active {
-  background: #eef4f0;
+  background-color: rgba(184, 149, 90, 0.12);
+  border-left: 3px solid var(--color-primary);
+  padding-left: calc(var(--spacing-md) - 3px);
 }
 
 .dialog-inbox-row-name {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-gray-900);
+  color: var(--color-text-light);
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
@@ -3115,13 +3127,14 @@ body.login-page {
 
 .dialog-inbox-row-date {
   font-size: var(--font-size-xs);
-  color: var(--color-gray-500);
+  color: var(--color-text-dark);
+  align-self: center;
 }
 
 .dialog-inbox-row-preview {
   grid-column: 1 / -1;
   font-size: var(--font-size-xs);
-  color: var(--color-gray-600);
+  color: var(--color-text-dark);
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
@@ -3133,7 +3146,8 @@ body.login-page {
 }
 
 .dialog-workspace-card {
-  border: 1px solid var(--color-gray-200);
+  position: sticky;
+  top: var(--spacing-lg);
 }
 
 .dialog-workspace-header {
@@ -3144,13 +3158,12 @@ body.login-page {
 
 .dialog-workspace-id {
   font-size: var(--font-size-xs);
-  color: var(--color-gray-600);
+  color: var(--color-text-dark);
+  font-family: monospace;
 }
 
 .dialog-workspace-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
 }
 
 .dialog-section h2 {
@@ -3164,34 +3177,24 @@ body.login-page {
 }
 
 .dialog-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-2xs);
+  gap: var(--spacing-xs);
 }
 
 .dialog-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .dialog-input,
 .dialog-general-notes,
 .dialog-topic-notes {
   width: 100%;
-  border: 1px solid var(--color-gray-300);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-900);
-  background: #fff;
 }
 
 .dialog-input:focus,
 .dialog-general-notes:focus,
 .dialog-topic-notes:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(106, 158, 127, 0.15);
+  box-shadow: none;
 }
 
 .dialog-general-notes {
@@ -3215,9 +3218,10 @@ body.login-page {
 }
 
 .dialog-topic {
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
   padding: var(--spacing-sm);
+  background-color: var(--color-bg-medium);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
@@ -3239,9 +3243,7 @@ body.login-page {
 }
 
 .dialog-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  justify-content: flex-start;
 }
 
 @media (max-width: 1080px) {

@@ -156,6 +156,7 @@ function getActiveInquiry(store) {
 
 function createDialogFromInquiry() {
   if (!inquiryEngineState) return;
+  syncActiveInquiryFromEditorDraft();
   var inquiry = getActiveInquiry(inquiryEngineState.store);
   if (!inquiry) return;
 
@@ -172,6 +173,30 @@ function createDialogFromInquiry() {
 
   // Navigate to Dialog entry point
   window.location.href = 'dialog.html?from=inquiry&id=' + encodeURIComponent(inquiry.id);
+}
+
+function syncActiveInquiryFromEditorDraft() {
+  if (!inquiryEngineState || !inquiryEngineState.store) return;
+  var store = inquiryEngineState.store;
+  var inquiry = getActiveInquiry(store);
+  if (!inquiry) return;
+
+  var changed = false;
+  var fieldNodes = document.querySelectorAll('[data-inquiry-field]');
+  fieldNodes.forEach(function(node) {
+    var field = node.getAttribute('data-inquiry-field');
+    if (!field) return;
+    var nextValue = String(node.value || '').trim();
+    if (inquiry[field] !== nextValue) {
+      inquiry[field] = nextValue;
+      changed = true;
+    }
+  });
+
+  if (changed) {
+    inquiry.updatedAt = inquiryNowIsoTime();
+    saveInquiryStore(store);
+  }
 }
 
 function renderInquiryInbox(inquiries, activeId) {
@@ -356,12 +381,18 @@ function deleteActiveInquiry() {
   var activeId = store.activeInquiryId;
   if (!activeId) return;
 
-  if (!window.confirm('Ta bort förfrågan? Åtgärden kan inte ångras.')) return;
-
-  store.inquiries = store.inquiries.filter(function(item) { return item.id !== activeId; });
-  store.activeInquiryId = store.inquiries.length > 0 ? store.inquiries[0].id : null;
-  saveInquiryStore(store);
-  renderInquiryEngine();
+  showPlatformConfirmModal({
+    title: 'Radera?',
+    message: 'Ta bort förfrågan? Åtgärden kan inte ångras.',
+    confirmLabel: 'Ja',
+    cancelLabel: 'Nej',
+    onConfirm: function() {
+      store.inquiries = store.inquiries.filter(function(item) { return item.id !== activeId; });
+      store.activeInquiryId = store.inquiries.length > 0 ? store.inquiries[0].id : null;
+      saveInquiryStore(store);
+      renderInquiryEngine();
+    },
+  });
 }
 
 function saveFieldToActiveInquiry(field, value) {
