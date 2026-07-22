@@ -469,7 +469,7 @@ function persistDialogFromWorkspace() {
     setDialogSaveErrorState(false, dialog.id);
   } catch (e) {
     dialog.updatedAt = previousUpdatedAt;
-    console.warn('Dialog auto-save failed.', e);
+    console.warn('Dialog auto-save failed for dialog ' + dialog.id + '.', e);
     setDialogSaveErrorState(true, dialog.id);
   }
 }
