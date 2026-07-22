@@ -62,7 +62,7 @@ The platform should reduce mental effort.
 - Use predictable interaction patterns
 - Reduce unnecessary decisions
 - Keep choices limited and clear
-- Preserve recognisable behaviour across engines
+- Preserve recognizable behaviour across engines
 
 ---
 
@@ -89,7 +89,8 @@ Confirm destructive actions.
 - `Nej` always first
 - `Ja` always second
 - Escape closes the modal
-- Outside click closes the modal unless explicitly disabled
+- Outside click closes the modal unless the user must resolve the dialog before returning to the underlying workflow
+- All delete actions must use a Confirmation Modal
 
 ### Input Modal
 
@@ -172,9 +173,6 @@ Universal button order shall be:
 
 **Edit**
 - `[ Avbryt ] [ Spara ]`
-
-**Delete**
-- Delete actions must always require confirmation
 
 ---
 
