@@ -1,12 +1,19 @@
-function renderContactRegisterRows(category) {
-  return getContactsByCategory(category).map(function(contact) {
-    return '<a href="kontakt-workspace.html?id=' + encodeURIComponent(contact.id) + '" class="register-row" role="listitem">'
-      + '<div class="register-row-primary">' + contact.name + '</div>'
-      + '<div class="register-row-context">' + (contact.registerContext || '—') + '</div>'
-      + '<div class="register-row-status">' + (contact.registerStatus || '—') + '</div>'
-      + '<div class="register-row-open">→</div>'
-      + '</a>';
-  }).join('');
+function escapeContactRegisterHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function renderContactRegisterRow(contact) {
+  return '<a href="kontakt-workspace.html?id=' + encodeURIComponent(contact.id) + '" class="register-row" role="listitem">'
+    + '<div class="register-row-primary">' + escapeContactRegisterHtml(contact.name) + '</div>'
+    + '<div class="register-row-context">' + escapeContactRegisterHtml(contact.registerContext || '—') + '</div>'
+    + '<div class="register-row-status">' + escapeContactRegisterHtml(contact.registerStatus || '—') + '</div>'
+    + '<div class="register-row-open">→</div>'
+    + '</a>';
 }
 
 function initContactRegisterPage(config) {
@@ -24,14 +31,7 @@ function initContactRegisterPage(config) {
       return;
     }
 
-    listEl.innerHTML = contacts.map(function(contact) {
-      return '<a href="kontakt-workspace.html?id=' + encodeURIComponent(contact.id) + '" class="register-row" role="listitem">'
-        + '<div class="register-row-primary">' + contact.name + '</div>'
-        + '<div class="register-row-context">' + (contact.registerContext || '—') + '</div>'
-        + '<div class="register-row-status">' + (contact.registerStatus || '—') + '</div>'
-        + '<div class="register-row-open">→</div>'
-        + '</a>';
-    }).join('');
+    listEl.innerHTML = contacts.map(renderContactRegisterRow).join('');
   }
 
   render('');
