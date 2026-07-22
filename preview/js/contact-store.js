@@ -411,7 +411,7 @@ var CONTACT_ADDITIONAL_CONTACTS = [
     name: 'Mountain Guides Bureau',
     telephone: '+33 4 50 11 22 33',
     email: 'office@guidesbureau.example.com',
-    address: '8 Avenue de l\'Aiguille, Chamonix, Frankrike',
+    address: "8 Avenue de l'Aiguille, Chamonix, Frankrike",
     category: 'Samarbetspartner',
     registerContext: 'Local operator',
     registerStatus: 'Chamonix',

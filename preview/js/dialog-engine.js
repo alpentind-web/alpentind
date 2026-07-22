@@ -262,7 +262,13 @@ function createDialogFromContactEntry(store, params) {
   var address = String(contact ? contact.address : (params.get('address') || '')).trim();
   var notes = String(params.get('notes') || '').trim();
 
-  if (!name && !email && !telephone && !address && !notes && !contactId) return false;
+  if (!hasAnyDialogContactField({
+    name: name,
+    email: email,
+    telephone: telephone,
+    address: address,
+    notes: notes,
+  }) && !contactId) return false;
 
   var id = getNextDialogId(store);
   var dialog = createDialogRecord({
@@ -279,6 +285,12 @@ function createDialogFromContactEntry(store, params) {
   store.dialogs.unshift(dialog);
   store.activeDialogId = id;
   return true;
+}
+
+function hasAnyDialogContactField(fields) {
+  return ['name', 'email', 'telephone', 'address', 'notes'].some(function(field) {
+    return Boolean(String(fields[field] || '').trim());
+  });
 }
 
 function createEmptyDialogEntry(store) {
@@ -572,7 +584,7 @@ function updateContactFromActiveDialog() {
   var dialog = getActiveDialog(store);
   if (!dialog) return;
 
-  if (!dialog.name && !dialog.email && !dialog.telephone && !dialog.address) {
+  if (!hasAnyDialogContactField(dialog)) {
     window.alert('Lägg till minst en kontaktuppgift innan kontakten uppdateras.');
     return;
   }
