@@ -659,7 +659,9 @@ function archiveActiveDialog() {
     if (!dialog) return;
     dialog.state = 'Archived';
     dialog.updatedAt = dialogNowIsoTime();
-    var activeDialogs = store.dialogs.filter(function(d) { return d.state !== 'Archived'; });
+    var activeDialogs = store.dialogs
+      .filter(function(d) { return d.state !== 'Archived'; })
+      .sort(function(a, b) { return String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')); });
     store.activeDialogId = activeDialogs.length > 0 ? activeDialogs[0].id : null;
     saveDialogStore(store);
     renderDialog();
