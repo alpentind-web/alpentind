@@ -73,6 +73,7 @@
   <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
   <script src="js/mock-data.js"></script>
   <script src="js/calendar-store.js"></script>
+  <script src="js/platform-modal.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
   <script>
@@ -133,7 +134,6 @@
     var MAX_EVENT_DOTS = 3;
 
     var EVENT_COLORS = {
-      primary: 'var(--color-primary)',
       danger:  'var(--color-danger)',
       warning: 'var(--color-warning)',
       info:    'var(--color-info)',
@@ -247,10 +247,22 @@
       } else {
         eventsEl.innerHTML = allEvents.map(function(ev) {
           var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
-          return '<div class="pv-day-event">'
+          var safeHref = kalenderSafeWorkspaceHref(ev.workspaceHref);
+          var isNavigable = Boolean(ev.navigable && safeHref);
+          var rawEventTitle = String(ev.title == null ? '' : ev.title);
+          var eventTitle = kalenderEsc(rawEventTitle);
+          var containerTag = isNavigable ? 'a' : 'div';
+          var hrefAttr = isNavigable ? ' href="' + kalenderEsc(safeHref) + '"' : '';
+          var rawAriaLabel = 'Öppna ' + kalenderWorkspaceLabel(ev.workspaceType) + ' för: ' + rawEventTitle;
+          var ariaLabel = isNavigable
+            ? ' aria-label="' + kalenderEsc(rawAriaLabel) + '"'
+            : '';
+          var roleHint = isNavigable ? '<i data-feather="arrow-up-right" style="width:14px;height:14px;opacity:0.7" aria-hidden="true"></i>' : '';
+          return '<' + containerTag + ' class="pv-day-event' + (isNavigable ? ' pv-day-event--link' : '') + '"' + hrefAttr + ariaLabel + '>'
             + '<span class="pv-day-event-bar" style="background:' + col + '"></span>'
-            + '<span class="pv-day-event-title">' + kalenderEsc(ev.title) + '</span>'
-            + '</div>';
+            + '<span class="pv-day-event-title">' + eventTitle + '</span>'
+            + roleHint
+            + '</' + containerTag + '>';
         }).join('');
       }
 
@@ -285,11 +297,17 @@
         notesEl.querySelectorAll('.pv-note-delete-btn').forEach(function(btn) {
           btn.addEventListener('click', function() {
             var noteId = this.dataset.noteId;
-            if (confirm('Ta bort anteckning?')) {
+            showPlatformConfirmModal({
+              title: 'Ta bort anteckning',
+              message: 'Vill du ta bort anteckningen?',
+              cancelLabel: 'Nej',
+              confirmLabel: 'Ja',
+              onConfirm: function() {
               calendarNoteDelete(noteId);
               kalenderRenderNotes(date);
               kalenderRenderMonthGrid();
-            }
+              }
+            });
           });
         });
       }
@@ -355,6 +373,24 @@
       var d = parseInt(parts[2], 10);
       var m = parseInt(parts[1], 10) - 1;
       return d + ' ' + MONTH_NAMES[m];
+    }
+
+    function kalenderWorkspaceLabel(workspaceType) {
+      var type = String(workspaceType || '').toLowerCase();
+      if (type === 'journey') return 'Resa Workspace';
+      if (type === 'dialog') return 'Dialog Workspace';
+      if (type === 'inquiry') return 'Förfrågningar Workspace';
+      if (type === 'contact') return 'Kontakt Workspace';
+      return 'workspace';
+    }
+
+    function kalenderSafeWorkspaceHref(href) {
+      var value = String(href || '').trim();
+      if (!value) return '';
+      if (typeof isValidCalendarWorkspaceHref === 'function') {
+        return isValidCalendarWorkspaceHref(value) ? value : '';
+      }
+      return /^[a-z0-9-]+\.html(?:\?[a-z0-9=&_%.-]*)?$/i.test(value) ? value : '';
     }
 
     function kalenderEsc(text) {

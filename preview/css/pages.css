@@ -3599,6 +3599,16 @@ body.login-page {
   margin-bottom: var(--spacing-xs);
 }
 
+.pv-day-event--link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pv-day-event--link:hover {
+  border-color: var(--color-border-dark);
+  background: var(--color-bg-subtle);
+}
+
 .pv-day-event-bar {
   display: inline-block;
   width: 4px;
