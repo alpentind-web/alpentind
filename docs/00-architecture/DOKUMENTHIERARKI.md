@@ -2,7 +2,7 @@
 
 *Den permanenta dokumentstrukturen för AlpenTind Platform.*
 
-Dokument placeras efter **arkitektoniskt ansvar**, aldrig efter kronologi. Varje dokumenttyp äger ett ansvar och får inte överlappa en annan dokumenttyp.
+Dokument placeras efter **arkitekturansvar**, aldrig efter kronologi. Varje dokumenttyp äger ett ansvar och får inte överlappa en annan dokumenttyp.
 
 ---
 
@@ -58,7 +58,7 @@ Discovery ligger alltså efter validering i styrmodellen. Placering av dokument 
 2. PDR krävs före ESR.
 3. ESR krävs före RI.
 4. BVR krävs innan arkitektur anses komplett.
-5. Arkitektur utvecklas genom validerat affärslärande, inte genom implementation ensam.
+5. Arkitektur utvecklas genom validerat affärslärande, inte genom implementering ensam.
 6. Ingen dokumenttyp får ta över en annan dokumenttyps ansvar.
 7. Ingen dokumentplacering får motiveras av datum, sprint eller historik.
 
@@ -86,6 +86,6 @@ Discovery ligger alltså efter validering i styrmodellen. Placering av dokument 
 | Nytt plattformsansvar | Skapa eller uppdatera PDR i `10-platform/` |
 | Nytt business engine-ansvar | Skapa eller uppdatera PDR i `20-business/` |
 | Engineering ska börja | Säkerställ godkänd PDR och skapa ESR |
-| Implementation är genomförd | Dokumentera RI före BVR |
+| Implementering är genomförd | Dokumentera RI före BVR |
 | Arkitektur ska betraktas som färdig | Säkerställ att BVR finns |
 | Nytt lärande från verkligt arbete | För tillbaka det via Discovery till framtida ADR/PDR |

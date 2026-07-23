@@ -24,7 +24,7 @@ Governance definierar spelreglerna. Arkitektur, design och kod måste följa des
 
 **AlpenTind Way är projektets högsta verksamhetsdokument och ägs av Produktägaren.**
 
-Se [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) för den ansvarsstyrda modellen.
+Se [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) för den ansvarsdrivna modellen.
 
 ---
 
