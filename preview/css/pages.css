@@ -3270,3 +3270,376 @@ body.login-page {
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   Platform Views – RI-013
+   Overview & Calendar Platform Views
+   ======================================== */
+
+/* ── Overview Platform View ──────────────────────────────────────────────── */
+
+.pv-oversikt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+/* Dominant calendar section */
+.pv-section--dominant {
+  /* Gives the calendar section visual weight */
+}
+
+/* Lower grid: Attention + Active Work side by side */
+.pv-lower-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .pv-lower-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Platform navigation shortcuts */
+.pv-nav-shortcuts {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-sm);
+}
+
+.pv-shortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-full);
+  color: var(--color-text-medium);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  transition: border-color var(--transition-fast), color var(--transition-fast),
+              background-color var(--transition-fast);
+}
+
+.pv-shortcut:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-bg-light);
+}
+
+/* Placeholder badge on Attention section */
+.pv-placeholder-tag {
+  display: inline-block;
+  margin-left: var(--spacing-sm);
+  padding: 1px var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  font-style: italic;
+  color: var(--color-text-dark);
+  background: var(--color-bg-light);
+  border: 1px dashed var(--color-bg-light);
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+}
+
+/* Attention items */
+.pv-attention-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pv-attention-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.pv-attention-item-title {
+  margin: 0 0 2px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pv-attention-item-sub {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Active Work projection items */
+.pv-active-work-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  color: var(--color-text-medium);
+  text-decoration: none;
+  margin-bottom: var(--spacing-sm);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.pv-active-work-item:hover {
+  border-color: var(--color-primary);
+  background: var(--color-bg-light);
+  color: var(--color-text-light);
+}
+
+.pv-active-work-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.pv-active-work-count {
+  display: block;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.pv-active-work-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-medium);
+}
+
+/* ── Shared Calendar Grid (Overview + Calendar View) ─────────────────────── */
+
+.pv-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.pv-cal-day-header {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-dark);
+  padding: var(--spacing-xs) 0 var(--spacing-sm);
+}
+
+.pv-cal-cell {
+  position: relative;
+  background: var(--color-bg-medium);
+  border: 1px solid var(--color-bg-dark);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs);
+  min-height: 56px;
+  overflow: hidden;
+}
+
+.pv-cal-cell--empty {
+  background: transparent;
+  border-color: transparent;
+}
+
+.pv-cal-cell--today {
+  border-color: var(--color-primary);
+  background: rgba(184, 149, 90, 0.08);
+}
+
+.pv-cal-cell--today .pv-cal-day-num {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.pv-cal-day-num {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-medium);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+/* Event labels inside calendar cells (Overview) */
+.pv-cal-event-label {
+  display: block;
+  font-size: 10px;
+  color: #fff;
+  border-radius: 2px;
+  padding: 1px 4px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.pv-cal-event-more {
+  display: block;
+  font-size: 10px;
+  color: var(--color-text-dark);
+  margin-top: 1px;
+}
+
+/* Event dots inside calendar cells (Calendar View) */
+.pv-cal-dots {
+  display: flex;
+  gap: 2px;
+  margin-top: 3px;
+}
+
+.pv-cal-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Legend */
+.pv-cal-legend {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  border-top: var(--border-thin);
+}
+
+.pv-cal-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-dark);
+}
+
+.pv-cal-legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Overview calendar wrapper */
+.pv-cal-oversikt {
+  background: var(--color-bg-card, var(--color-bg-medium));
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+/* ── Calendar Platform View layout ───────────────────────────────────────── */
+
+.pv-kalender-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.pv-kalender-primary {
+  min-width: 0;
+}
+
+.pv-kalender-panel {
+  min-width: 0;
+}
+
+@media (max-width: 1000px) {
+  .pv-kalender-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Calendar View cell – taller for full view */
+.pv-kalender-layout .pv-cal-cell {
+  min-height: 80px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.pv-kalender-layout .pv-cal-cell:not(.pv-cal-cell--empty):hover {
+  border-color: var(--color-primary);
+  background: var(--color-bg-light);
+}
+
+.pv-kalender-layout .pv-cal-cell--selected {
+  border-color: var(--color-primary);
+  background: rgba(184, 149, 90, 0.14);
+}
+
+.pv-kalender-layout .pv-cal-cell--selected .pv-cal-day-num {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Day event list in panel */
+.pv-day-event {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pv-day-event-bar {
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.pv-day-event-title {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Calendar notes */
+.pv-note-item {
+  background: var(--color-bg-medium);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pv-note-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
+  word-break: break-word;
+}
+
+.pv-note-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.pv-note-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
