@@ -14,9 +14,9 @@ It answers one architectural question:
 
 ADR-001 is the mandatory entry point for future architectural decisions before Discovery, engineering, or implementation work begins.
 
-It does not include implementation detail.  
-It does not include engineering specification.  
-It does not include UI specification.  
+It does not include implementation detail.
+It does not include engineering specification.
+It does not include UI specification.
 It does not redefine existing PDR ownership boundaries.
 
 ---
@@ -124,11 +124,11 @@ Path:
 
 The canonical decision flow is:
 
-**New Idea**  
-→ **Architecture Classification**  
-→ **Business Engine?**  
-→ **Platform Service?**  
-→ **Platform View?**  
+**New Idea**
+→ **Architecture Classification**
+→ **Business Engine?**
+→ **Platform Service?**
+→ **Platform View?**
 → **Existing Behavior?**  
 → **Proceed with corresponding Discovery process**
 
@@ -228,7 +228,7 @@ Future ADR documents must begin from the classification outcome defined by ADR-0
 
 ADR-001 is therefore the entry point for future architectural decisions concerning new capabilities, new platform components, or proposals that require explicit architectural rationale.
 
-Later ADRs may refine a classified direction.  
+Later ADRs may refine a classified direction.
 They do not bypass classification.
 
 ---
@@ -243,8 +243,8 @@ ADR-001 is used in practice as follows:
 
 If a proposal cannot justify a new Business Engine, Platform Service, or Platform View, it must be treated as Existing Behavior.
 
-No Discovery starts without classification.  
-No engineering starts without Discovery.  
+No Discovery starts without classification.
+No engineering starts without Discovery.
 No implementation starts without engineering.
 
 ---
