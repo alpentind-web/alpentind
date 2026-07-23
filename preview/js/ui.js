@@ -151,7 +151,7 @@ function renderDashboard() {
   renderSidebar();
   renderHeader();
   renderInfoBanner();
-  renderOperationalCalendar();
+  renderWorkdayForwardFocus();
   renderWeekAgenda();
   renderAttentionSection();
   renderUpcomingExperiences();
@@ -323,6 +323,32 @@ function renderWeekAgenda() {
               <span class="badge ${item.status === 'planned' ? 'badge-info' : 'badge-warning'}">${item.status === 'planned' ? 'Planerad' : 'Pågår'}</span>
             </article>
           `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderWorkdayForwardFocus() {
+  const container = document.getElementById('workday-forward-focus');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-body" style="display:grid;gap:var(--spacing-sm)">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-md)">
+          <div>
+            <p style="margin:0;font-size:var(--font-size-sm);font-weight:600">Uppföljningar</p>
+            <p class="text-xs text-muted" style="margin:2px 0 0">Kommande plats för prioriterade uppföljningar</p>
+          </div>
+          <span class="badge badge-info">Platshållare</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-md)">
+          <div>
+            <p style="margin:0;font-size:var(--font-size-sm);font-weight:600">Deadlines</p>
+            <p class="text-xs text-muted" style="margin:2px 0 0">Kommande plats för tidskritiska deadlines</p>
+          </div>
+          <span class="badge badge-warning">Platshållare</span>
         </div>
       </div>
     </div>
@@ -605,7 +631,6 @@ function renderOversiktCalendar() {
   });
 
   const colorMap = {
-    primary: 'var(--color-primary)',
     danger:  'var(--color-danger)',
     warning: 'var(--color-warning)',
     info:    'var(--color-info)',
@@ -625,6 +650,9 @@ function renderOversiktCalendar() {
 
     const evLines = dayEvents.slice(0, MAX_VISIBLE_EVENTS_PER_DAY).map(ev => {
       const col = colorMap[ev.color] || 'var(--color-primary)';
+      if (ev.navigable && ev.workspaceHref) {
+        return `<a class="pv-cal-event-label" style="background:${col}" title="${ev.title}" href="${ev.workspaceHref}">${ev.title}</a>`;
+      }
       return `<span class="pv-cal-event-label" style="background:${col}" title="${ev.title}">${ev.title}</span>`;
     }).join('');
 
@@ -649,16 +677,16 @@ function renderOversiktCalendar() {
       </div>
       <div class="pv-cal-legend" aria-label="Förklaring">
         <span class="pv-cal-legend-item">
-          <span class="pv-cal-legend-dot" style="background:var(--color-primary)"></span>Upplevelse
+          <span class="pv-cal-legend-dot" style="background:var(--color-danger)"></span>Omedelbar uppmärksamhet
         </span>
         <span class="pv-cal-legend-item">
-          <span class="pv-cal-legend-dot" style="background:var(--color-info)"></span>Anteckning / Möte
+          <span class="pv-cal-legend-dot" style="background:var(--color-warning)"></span>Viktig
         </span>
         <span class="pv-cal-legend-item">
-          <span class="pv-cal-legend-dot" style="background:var(--color-warning)"></span>Uppföljning
+          <span class="pv-cal-legend-dot" style="background:var(--color-info)"></span>Information
         </span>
         <span class="pv-cal-legend-item">
-          <span class="pv-cal-legend-dot" style="background:var(--color-danger)"></span>Deadline
+          <span class="pv-cal-legend-dot" style="background:var(--color-success)"></span>Slutförd
         </span>
       </div>
     </div>

@@ -6,6 +6,14 @@
 
 var CALENDAR_STORE_KEY = 'alpentind-calendar-store';
 var CALENDAR_STORE_VERSION = 1;
+var MAX_EVENT_TITLE_LENGTH = 60;
+
+var CALENDAR_SEMANTIC_COLOR_TOKEN = {
+  immediate_attention: 'danger',
+  important: 'warning',
+  informational: 'info',
+  completed: 'success',
+};
 
 // ── Store ─────────────────────────────────────────────────────────────────────
 
@@ -90,14 +98,72 @@ function calendarAllNotes() {
   return loadCalendarStore().notes;
 }
 
+function normalizeCalendarSemantic(rawEvent) {
+  var ev = rawEvent || {};
+  var semantic = String(ev.semantic || '').trim().toLowerCase();
+  if (semantic === 'immediate_attention'
+    || semantic === 'important'
+    || semantic === 'informational'
+    || semantic === 'completed') {
+    return semantic;
+  }
+
+  var state = String(ev.state || '').trim().toLowerCase();
+  if (state === 'completed' || state === 'done' || state === 'closed') return 'completed';
+
+  var priority = String(ev.priority || '').trim().toLowerCase();
+  if (priority === 'high' || priority === 'critical' || priority === 'urgent') return 'immediate_attention';
+  if (priority === 'medium' || priority === 'important') return 'important';
+
+  var type = String(ev.type || '').trim().toLowerCase();
+  if (type === 'deadline' || type === 'payment_due') return 'immediate_attention';
+  if (type === 'followup' || type === 'follow_up') return 'important';
+  if (type === 'note' || type === 'meeting' || type === 'information') return 'informational';
+
+  return 'informational';
+}
+
+function calendarColorTokenForSemantic(semantic) {
+  return CALENDAR_SEMANTIC_COLOR_TOKEN[semantic] || CALENDAR_SEMANTIC_COLOR_TOKEN.informational;
+}
+
+function resolveCalendarWorkspaceTarget(rawEvent) {
+  var ev = rawEvent || {};
+  var workspaceType = String(ev.workspaceType || '').trim().toLowerCase();
+  var type = String(ev.type || '').trim().toLowerCase();
+
+  if (!workspaceType) {
+    if (type === 'journey' || type === 'experience') workspaceType = 'journey';
+    else if (type === 'dialog' || type === 'meeting') workspaceType = 'dialog';
+    else if (type === 'inquiry' || type === 'followup' || type === 'follow_up') workspaceType = 'inquiry';
+    else if (type === 'contact') workspaceType = 'contact';
+  }
+
+  if (workspaceType === 'journey') {
+    return { workspaceType: 'journey', href: ev.workspaceHref || 'resa.html' };
+  }
+  if (workspaceType === 'dialog') {
+    var dialogHref = ev.workspaceHref
+      || (ev.dialogId ? 'dialog.html?dialogId=' + encodeURIComponent(ev.dialogId) : 'dialog.html');
+    return { workspaceType: 'dialog', href: dialogHref };
+  }
+  if (workspaceType === 'inquiry') {
+    var inquiryHref = ev.workspaceHref
+      || (ev.inquiryId ? 'forfragningar.html?id=' + encodeURIComponent(ev.inquiryId) : 'forfragningar.html');
+    return { workspaceType: 'inquiry', href: inquiryHref };
+  }
+  if (workspaceType === 'contact') {
+    var contactHref = ev.workspaceHref
+      || (ev.contactId ? 'kontakt-workspace.html?id=' + encodeURIComponent(ev.contactId) : 'kontakter.html');
+    return { workspaceType: 'contact', href: contactHref };
+  }
+
+  return { workspaceType: null, href: null };
+}
+
 // ── Calendar Event Projection ─────────────────────────────────────────────────
 // Projects a uniform event list from multiple sources.
 // Platform Views consume this list; no origin-specific branching in display.
-//
-// Possible origins: calendar-note, experience-engine, journey-engine
-// Future: additional Platform Services may contribute events here.
-
-var MAX_EVENT_TITLE_LENGTH = 60;
 
 function projectCalendarEvents(seedEvents) {
   var events = [];
@@ -112,22 +178,32 @@ function projectCalendarEvents(seedEvents) {
         ? note.text.slice(0, MAX_EVENT_TITLE_LENGTH - 3) + '\u2026'
         : note.text,
       type: 'note',
-      color: 'info',
+      semantic: 'informational',
+      color: calendarColorTokenForSemantic('informational'),
       origin: 'calendar-note',
       sourceId: note.id,
+      workspaceType: null,
+      workspaceHref: null,
+      navigable: false,
     });
   });
 
   // Project from seed events (e.g. mockData.calendarEvents from Experience Engine)
   (seedEvents || []).forEach(function(ev) {
+    var semantic = normalizeCalendarSemantic(ev);
+    var target = resolveCalendarWorkspaceTarget(ev);
     events.push({
       id: 'EVT-SRC-' + ev.id,
       date: ev.date,
       title: ev.title,
       type: ev.type || 'event',
-      color: ev.color || 'primary',
+      semantic: semantic,
+      color: calendarColorTokenForSemantic(semantic),
       origin: 'source',
       sourceId: ev.id,
+      workspaceType: target.workspaceType,
+      workspaceHref: target.href,
+      navigable: Boolean(target.href),
     });
   });
 

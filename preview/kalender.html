@@ -73,6 +73,7 @@
   <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
   <script src="js/mock-data.js"></script>
   <script src="js/calendar-store.js"></script>
+  <script src="js/platform-modal.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
   <script>
@@ -133,7 +134,6 @@
     var MAX_EVENT_DOTS = 3;
 
     var EVENT_COLORS = {
-      primary: 'var(--color-primary)',
       danger:  'var(--color-danger)',
       warning: 'var(--color-warning)',
       info:    'var(--color-info)',
@@ -247,10 +247,16 @@
       } else {
         eventsEl.innerHTML = allEvents.map(function(ev) {
           var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
-          return '<div class="pv-day-event">'
+          var isNavigable = Boolean(ev.navigable && ev.workspaceHref);
+          var eventTitle = kalenderEsc(ev.title);
+          var containerTag = isNavigable ? 'a' : 'div';
+          var hrefAttr = isNavigable ? ' href="' + kalenderEsc(ev.workspaceHref) + '"' : '';
+          var roleHint = isNavigable ? '<i data-feather="arrow-up-right" style="width:14px;height:14px;opacity:0.7" aria-hidden="true"></i>' : '';
+          return '<' + containerTag + ' class="pv-day-event' + (isNavigable ? ' pv-day-event--link' : '') + '"' + hrefAttr + '>'
             + '<span class="pv-day-event-bar" style="background:' + col + '"></span>'
-            + '<span class="pv-day-event-title">' + kalenderEsc(ev.title) + '</span>'
-            + '</div>';
+            + '<span class="pv-day-event-title">' + eventTitle + '</span>'
+            + roleHint
+            + '</' + containerTag + '>';
         }).join('');
       }
 
@@ -285,11 +291,17 @@
         notesEl.querySelectorAll('.pv-note-delete-btn').forEach(function(btn) {
           btn.addEventListener('click', function() {
             var noteId = this.dataset.noteId;
-            if (confirm('Ta bort anteckning?')) {
+            showPlatformConfirmModal({
+              title: 'Ta bort anteckning',
+              message: 'Vill du ta bort anteckningen?',
+              cancelLabel: 'Nej',
+              confirmLabel: 'Ja',
+              onConfirm: function() {
               calendarNoteDelete(noteId);
               kalenderRenderNotes(date);
               kalenderRenderMonthGrid();
-            }
+              }
+            });
           });
         });
       }
