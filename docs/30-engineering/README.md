@@ -27,7 +27,7 @@ Business Architecture owns the requirements. Implementation owns the execution. 
 ## Structure
 
 ```
-docs/50-engineering/
+docs/30-engineering/
 ├── README.md       – this document
 ├── TEMPLATE.md     – standard template for new ESR documents
 └── ESR-NNN-Name.md – individual specifications

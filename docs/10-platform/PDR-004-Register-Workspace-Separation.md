@@ -231,7 +231,7 @@ These should never compete for the user's attention.
 
 ## Relationship to Other Architectural Documents
 
-**Workspace Architecture (WS-001)** ([WORKSPACE_ARCHITECTURE.md](../20-business/WORKSPACE_ARCHITECTURE.md)):
+**Workspace Architecture (WS-001)** ([WORKSPACE_ARCHITECTURE.md](../10-platform/WORKSPACE_ARCHITECTURE.md)):
 - Defines how operational work is organised
 - Applies to all Workspaces
 

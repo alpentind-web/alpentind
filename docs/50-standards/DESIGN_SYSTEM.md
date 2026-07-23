@@ -6,7 +6,7 @@
 
 ## Designprinciper
 
-Se [../00-governance/ALPENTIND_WAY.md](../00-governance/ALPENTIND_WAY.md) för de grundläggande designprinciperna:
+Se [../20-business/ALPENTIND_WAY.md](../20-business/ALPENTIND_WAY.md) för de grundläggande designprinciperna:
 **Lugnt · Premium · Skandinaviskt · Professionellt · Tillgängligt**
 
 ---

@@ -43,7 +43,7 @@ Vid konflikt:
 
 ### 1. AlpenTind Way
 
-**Plats:** [ALPENTIND_WAY.md](./ALPENTIND_WAY.md)
+**Plats:** [ALPENTIND_WAY.md](../20-business/ALPENTIND_WAY.md)
 
 Definierar grundvärderingar, designprinciper och tekniska regler. Det här är "The AlpenTind Way" – hur vi bygger och varför.
 
@@ -53,7 +53,7 @@ Definierar grundvärderingar, designprinciper och tekniska regler. Det här är 
 
 ### 2. Affärsplan
 
-**Plats:** [../10-business/AFFARSPLAN.md](../10-business/AFFARSPLAN.md)
+**Plats:** [../20-business/AFFARSPLAN.md](../20-business/AFFARSPLAN.md)
 
 Beskriver vad AlpenTind Platform ska åstadkomma ur ett affärsperspektiv. Definierar vision, principer och definition of done på projektnivå.
 
@@ -63,7 +63,7 @@ Beskriver vad AlpenTind Platform ska åstadkomma ur ett affärsperspektiv. Defin
 
 ### 3. Produktkrav
 
-**Plats:** [../10-business/PRODUKTKRAV.md](../10-business/PRODUKTKRAV.md)
+**Plats:** [../20-business/PRODUKTKRAV.md](../20-business/PRODUKTKRAV.md)
 
 Specificerar vad systemet ska göra ur användarens perspektiv. Funktionella och icke-funktionella krav som måste uppfyllas.
 
@@ -73,7 +73,7 @@ Specificerar vad systemet ska göra ur användarens perspektiv. Funktionella och
 
 ### 4. Affärsregler
 
-**Plats:** [../10-business/AFFARSREGLER.md](../10-business/AFFARSREGLER.md)
+**Plats:** [../20-business/AFFARSREGLER.md](../20-business/AFFARSREGLER.md)
 
 Regler som styr affärslogiken i systemet. Dessa regler reflekterar verksamhetens processer och begränsningar.
 
@@ -83,8 +83,8 @@ Regler som styr affärslogiken i systemet. Dessa regler reflekterar verksamheten
 
 ### 5. Arkitektur
 
-**Plats:** [../20-architecture/ARCHITECTURE.md](../20-architecture/ARCHITECTURE.md)  
-**ADRs:** [../20-architecture/ADR-*.md](../20-architecture/)
+**Plats:** [../10-platform/ARCHITECTURE.md](../10-platform/ARCHITECTURE.md)  
+**ADRs:** [../00-architecture/ADR-*.md](../00-architecture/)
 
 Teknisk arkitektur och alla arkitekturella beslut (ADRs). Definierar systemets struktur och tekniska ramar.
 
@@ -94,7 +94,7 @@ Teknisk arkitektur och alla arkitekturella beslut (ADRs). Definierar systemets s
 
 ### 6. Designsystem
 
-**Plats:** [../30-design/DESIGN_SYSTEM.md](../30-design/DESIGN_SYSTEM.md)
+**Plats:** [../50-standards/DESIGN_SYSTEM.md](../50-standards/DESIGN_SYSTEM.md)
 
 Färger, typografi, komponenter och UX-riktlinjer. Designsystemet implementerar AlpenTind Way visuellt.
 
