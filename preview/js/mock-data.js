@@ -510,7 +510,7 @@ const calendarEvents = [
     title: 'Betalning Martin Nilsson',
     semantic: 'immediate_attention',
     workspaceType: 'contact',
-    workspaceHref: 'kontakter.html',
+    workspaceHref: 'kontakt-workspace.html',
   },
   {
     id: 'CAL-005',

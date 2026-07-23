@@ -305,6 +305,32 @@ function createEmptyDialogEntry(store) {
   return true;
 }
 
+// ── Inquiry consumption ───────────────────────────────────────────────────────
+// Called only after confirmed successful Dialog creation.
+// Removes the originating Inquiry from the Inquiry store so the register stays clean.
+// If anything fails the Inquiry is silently retained.
+
+function consumeInquiryAfterDialogCreation(inquiryId) {
+  if (!inquiryId) return;
+  try {
+    var raw = typeof localStorage !== 'undefined'
+      ? localStorage.getItem(INQUIRY_ENGINE_STORE_KEY)
+      : null;
+    if (!raw) return;
+    var store = JSON.parse(raw);
+    if (!store || !Array.isArray(store.inquiries)) return;
+    store.inquiries = store.inquiries.filter(function(item) {
+      return item && item.id !== inquiryId;
+    });
+    if (store.activeInquiryId === inquiryId) {
+      store.activeInquiryId = store.inquiries.length > 0 ? store.inquiries[0].id : null;
+    }
+    localStorage.setItem(INQUIRY_ENGINE_STORE_KEY, JSON.stringify(store));
+  } catch (e) {
+    // storage unavailable or parse error – Inquiry silently retained
+  }
+}
+
 function handleDialogEntryPoint(store) {
   var params = new URLSearchParams(window.location.search || '');
   var from = params.get('from');
@@ -315,7 +341,11 @@ function handleDialogEntryPoint(store) {
     store.activeDialogId = requestedDialogId;
     changed = true;
   } else if (from === 'inquiry') {
-    changed = createDialogFromInquiryEntry(store, params.get('id'));
+    var inquiryId = params.get('id');
+    changed = createDialogFromInquiryEntry(store, inquiryId);
+    if (changed && inquiryId) {
+      consumeInquiryAfterDialogCreation(inquiryId);
+    }
   } else if (from === 'contact') {
     changed = createDialogFromContactEntry(store, params);
   } else if (from === 'empty') {
