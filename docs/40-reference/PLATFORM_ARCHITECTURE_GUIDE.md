@@ -413,25 +413,23 @@ Reuse is preferred. A new pattern may only be introduced with explicit architect
 
 ### 5.4 Implementation Process
 
-Every new feature must follow the Engineering Constitution:
+Every new feature must follow the authoritative documentation chain defined by Documentation Architecture and the Engineering Constitution:
 
 ```text
-Business Need
+ADR
     ↓
-Engineering Specification (ESR)
+PDR
     ↓
-Approval
+ESR
     ↓
-Implementation
+RI
     ↓
-Engineering Review
+BVR
     ↓
-Architecture Review
-    ↓
-Merge
+Discovery
 ```
 
-No step may be skipped. No implementation begins without an approved ESR.
+This guide is reference material only. It does not define an alternate governance path. No implementation begins without the approved upstream architecture and engineering documents.
 
 ---
 

@@ -12,7 +12,7 @@ It answers one architectural question:
 
 > **"What kind of architectural component is this?"**
 
-ADR-001 is the mandatory entry point for future architectural decisions before Discovery, engineering, or implementation work begins.
+ADR-001 is the mandatory entry point for future architectural decisions before PDR, engineering, or implementation work begins.
 
 It does not include implementation detail.
 It does not include engineering specification.
@@ -28,9 +28,11 @@ Architecture governs change before solution work begins.
 The mandatory sequence is:
 
 - Architecture precedes implementation
-- Classification precedes Discovery
-- Discovery precedes Engineering
-- Engineering precedes implementation
+- Classification precedes PDR
+- PDR precedes ESR
+- ESR precedes RI
+- RI precedes Business Validation
+- Business Validation precedes Discovery-led architectural evolution
 
 No implementation starts without architecture classification.
 
@@ -49,7 +51,7 @@ Classification determines whether the proposal is:
 - a **Platform View**
 - **Existing Behavior**
 
-The classification outcome determines the correct Discovery track.
+The classification outcome determines the correct PDR owner and responsibility path.
 
 ---
 
@@ -130,7 +132,7 @@ The canonical decision flow is:
 → **Platform Service?**
 → **Platform View?**
 → **Existing Behavior?**  
-→ **Proceed with corresponding Discovery process**
+→ **Proceed with corresponding PDR path**
 
 This flow is mandatory for all new capability proposals.
 
@@ -218,7 +220,7 @@ This decision aligns with:
 
 ADR-001 operationalizes that architecture as the first decision checkpoint for future proposals.
 
-It ensures that reusable capability, ownership, and projection are distinguished before Discovery begins.
+It ensures that reusable capability, ownership, and projection are distinguished before the responsible PDR is written.
 
 ---
 
@@ -238,13 +240,13 @@ They do not bypass classification.
 ADR-001 is used in practice as follows:
 
 - it is the mandatory first checkpoint for any new capability proposal
-- the classification outcome determines the Discovery track
+- the classification outcome determines the responsible PDR track
 - reclassification is allowed only with explicit architectural rationale
 
 If a proposal cannot justify a new Business Engine, Platform Service, or Platform View, it must be treated as Existing Behavior.
 
-No Discovery starts without classification.
-No engineering starts without Discovery.
+No PDR starts without classification.
+No ESR starts without an approved PDR.
 No implementation starts without engineering.
 
 ---
@@ -267,7 +269,7 @@ This ADR is architecture governance only.
 The model is explicit:
 
 - architecture classification is the first mandatory checkpoint
-- classification determines the Discovery path
+- classification determines the responsible PDR path
 - ownership remains with the responsible Business Engine
 - reusable capability is separated from business ownership
 - projection never changes ownership
