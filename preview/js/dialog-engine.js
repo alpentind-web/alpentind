@@ -313,9 +313,7 @@ function createEmptyDialogEntry(store) {
 function consumeInquiryAfterDialogCreation(inquiryId) {
   if (!inquiryId) return;
   try {
-    var raw = typeof localStorage !== 'undefined'
-      ? localStorage.getItem(INQUIRY_ENGINE_STORE_KEY)
-      : null;
+    var raw = localStorage.getItem(INQUIRY_ENGINE_STORE_KEY);
     if (!raw) return;
     var store = JSON.parse(raw);
     if (!store || !Array.isArray(store.inquiries)) return;
@@ -323,7 +321,8 @@ function consumeInquiryAfterDialogCreation(inquiryId) {
       return item && item.id !== inquiryId;
     });
     if (store.activeInquiryId === inquiryId) {
-      store.activeInquiryId = store.inquiries.length > 0 ? store.inquiries[0].id : null;
+      var first = store.inquiries.length > 0 ? store.inquiries[0] : null;
+      store.activeInquiryId = first ? first.id : null;
     }
     localStorage.setItem(INQUIRY_ENGINE_STORE_KEY, JSON.stringify(store));
   } catch (e) {
