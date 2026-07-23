@@ -176,7 +176,7 @@ function resolveCalendarWorkspaceTarget(rawEvent) {
       workspaceType: 'contact',
       href: ev.contactId
         ? 'kontakt-workspace.html?id=' + encodeURIComponent(ev.contactId)
-        : 'kontakter.html',
+        : 'kontakt-workspace.html',
     };
   }
 
