@@ -97,6 +97,8 @@ function calendarAllNotes() {
 // Possible origins: calendar-note, experience-engine, journey-engine
 // Future: additional Platform Services may contribute events here.
 
+var MAX_EVENT_TITLE_LENGTH = 60;
+
 function projectCalendarEvents(seedEvents) {
   var events = [];
 
@@ -106,7 +108,9 @@ function projectCalendarEvents(seedEvents) {
     events.push({
       id: 'EVT-NOTE-' + note.id,
       date: note.date,
-      title: note.text.length > 60 ? note.text.slice(0, 57) + '\u2026' : note.text,
+      title: note.text.length > MAX_EVENT_TITLE_LENGTH
+        ? note.text.slice(0, MAX_EVENT_TITLE_LENGTH - 3) + '\u2026'
+        : note.text,
       type: 'note',
       color: 'info',
       origin: 'calendar-note',

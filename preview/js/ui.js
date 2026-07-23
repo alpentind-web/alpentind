@@ -574,6 +574,8 @@ function renderOversiktCalendar() {
   const container = document.getElementById('oversikt-month-calendar');
   if (!container) return;
 
+  const MAX_VISIBLE_EVENTS_PER_DAY = 2;
+
   const today = new Date();
   const year  = today.getFullYear();
   const month = today.getMonth();
@@ -621,12 +623,12 @@ function renderOversiktCalendar() {
     const isToday   = (dateStr === todayStr);
     const hasEvents = dayEvents.length > 0;
 
-    const evLines = dayEvents.slice(0, 2).map(ev => {
+    const evLines = dayEvents.slice(0, MAX_VISIBLE_EVENTS_PER_DAY).map(ev => {
       const col = colorMap[ev.color] || 'var(--color-primary)';
       return `<span class="pv-cal-event-label" style="background:${col}" title="${ev.title}">${ev.title}</span>`;
     }).join('');
 
-    const moreCount = dayEvents.length - 2;
+    const moreCount = dayEvents.length - MAX_VISIBLE_EVENTS_PER_DAY;
     const moreLabel = moreCount > 0
       ? `<span class="pv-cal-event-more">+${moreCount}</span>`
       : '';

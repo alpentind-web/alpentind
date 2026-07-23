@@ -130,6 +130,7 @@
       'Juli','Augusti','September','Oktober','November','December'
     ];
     var DAY_NAMES = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+    var MAX_EVENT_DOTS = 3;
 
     var EVENT_COLORS = {
       primary: 'var(--color-primary)',
@@ -183,7 +184,7 @@
         if (isSelected) classList += ' pv-cal-cell--selected';
         if (hasEvents)  classList += ' pv-cal-cell--has-events';
 
-        var evDots = dayEvents.slice(0, 3).map(function(ev) {
+        var evDots = dayEvents.slice(0, MAX_EVENT_DOTS).map(function(ev) {
           var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
           return '<span class="pv-cal-dot" style="background:' + col + '" title="' + kalenderEsc(ev.title) + '"></span>';
         }).join('');
