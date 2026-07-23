@@ -636,6 +636,11 @@ function renderOversiktCalendar() {
     info:    'var(--color-info)',
     success: 'var(--color-success)',
   };
+  const esc = (value) => String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
   const getSafeWorkspaceHref = (href) => {
     if (typeof href !== 'string') return '';
     const trimmed = href.trim();
@@ -660,10 +665,11 @@ function renderOversiktCalendar() {
     const evLines = dayEvents.slice(0, MAX_VISIBLE_EVENTS_PER_DAY).map(ev => {
       const col = colorMap[ev.color] || 'var(--color-primary)';
       const safeHref = getSafeWorkspaceHref(ev.workspaceHref);
+      const title = esc(ev.title);
       if (ev.navigable && safeHref) {
-        return `<a class="pv-cal-event-label" style="background:${col}" title="${ev.title}" href="${safeHref}">${ev.title}</a>`;
+        return `<a class="pv-cal-event-label" style="background:${col}" title="${title}" href="${safeHref}">${title}</a>`;
       }
-      return `<span class="pv-cal-event-label" style="background:${col}" title="${ev.title}">${ev.title}</span>`;
+      return `<span class="pv-cal-event-label" style="background:${col}" title="${title}">${title}</span>`;
     }).join('');
 
     const moreCount = dayEvents.length - MAX_VISIBLE_EVENTS_PER_DAY;

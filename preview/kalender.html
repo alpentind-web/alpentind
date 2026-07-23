@@ -249,11 +249,13 @@
           var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
           var safeHref = kalenderSafeWorkspaceHref(ev.workspaceHref);
           var isNavigable = Boolean(ev.navigable && safeHref);
-          var eventTitle = kalenderEsc(ev.title);
+          var rawEventTitle = String(ev.title == null ? '' : ev.title);
+          var eventTitle = kalenderEsc(rawEventTitle);
           var containerTag = isNavigable ? 'a' : 'div';
           var hrefAttr = isNavigable ? ' href="' + kalenderEsc(safeHref) + '"' : '';
+          var rawAriaLabel = 'Öppna ' + kalenderWorkspaceLabel(ev.workspaceType) + ' för: ' + rawEventTitle;
           var ariaLabel = isNavigable
-            ? ' aria-label="Öppna ' + kalenderEsc(kalenderWorkspaceLabel(ev.workspaceType)) + ' för: ' + eventTitle + '"'
+            ? ' aria-label="' + kalenderEsc(rawAriaLabel) + '"'
             : '';
           var roleHint = isNavigable ? '<i data-feather="arrow-up-right" style="width:14px;height:14px;opacity:0.7" aria-hidden="true"></i>' : '';
           return '<' + containerTag + ' class="pv-day-event' + (isNavigable ? ' pv-day-event--link' : '') + '"' + hrefAttr + ariaLabel + '>'

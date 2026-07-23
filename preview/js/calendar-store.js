@@ -133,7 +133,7 @@ function isValidCalendarWorkspaceHref(href) {
 function buildWorkspaceHref(defaultHref, queryKey, queryValue, explicitHref) {
   if (isValidCalendarWorkspaceHref(explicitHref)) return explicitHref;
   if (queryValue) {
-    return defaultHref + '?' + queryKey + '=' + encodeURIComponent(queryValue);
+    return defaultHref + '?' + encodeURIComponent(queryKey) + '=' + encodeURIComponent(queryValue);
   }
   return defaultHref;
 }
