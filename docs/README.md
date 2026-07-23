@@ -4,7 +4,7 @@ This documentation is organized by **architectural responsibility**. Placement i
 
 ## Where do I start?
 
-- **I have significant new work** → start with [ADR-001 – Architecture Classification](./00-architecture/ADR-001_ARCHITECTURE_CLASSIFICATION.md), then continue through the approved chain in [Documentation Architecture](./00-architecture/DOCUMENTATION_ARCHITECTURE.md).
+- **I have significant new work** → start with [ADR-001_ARCHITECTURE_CLASSIFICATION](./00-architecture/ADR-001_ARCHITECTURE_CLASSIFICATION.md), then continue through the approved chain in [Documentation Architecture](./00-architecture/DOCUMENTATION_ARCHITECTURE.md).
 - **I need documentation governance** → start in [00-architecture/README.md](./00-architecture/README.md).
 - **I need to understand a Business Engine** → start in [20-business/README.md](./20-business/README.md) with the responsible PDR, then continue through ESR, RI, BVR, and Discovery.
 - **I need to understand platform architecture** → start in [10-platform/](./10-platform/), then follow supporting standards, references, and validation evidence as needed.

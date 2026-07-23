@@ -169,7 +169,7 @@ Implementation is complete only when:
 - ✅ Commit approved — the commit references the ESR and has been accepted by the Architecture Review.
 - ✅ Merge completed — the implementation has been merged into the repository.
 
-Until all eight conditions are satisfied, the implementation is not done.
+Until all listed conditions are satisfied, the implementation is not done.
 
 ---
 
