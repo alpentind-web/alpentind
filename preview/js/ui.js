@@ -534,18 +534,238 @@ function renderWorkQueueSummary() {
 }
 
 // ========================================
-// Översikt – sammansättning av workspace
+// Översikt – Platform View (RI-013)
 // ========================================
 
 function renderOversikt() {
   renderSidebar();
   renderHeader();
-  renderInfoBanner();
-  renderOperationalCalendar();
-  renderWeekAgenda();
-  renderUpcomingExperiences();
-  renderWorkQueueSummary();
-  renderQuickActions();
+  renderOversiktNavShortcuts();
+  renderOversiktCalendar();
+  renderOversiktAttention();
+  renderOversiktActiveWork();
+}
+
+// Snabblänkar till Kalender, Dialog, Förfrågningar och Kontakter
+function renderOversiktNavShortcuts() {
+  const container = document.getElementById('oversikt-nav-shortcuts');
+  if (!container) return;
+
+  const shortcuts = [
+    { label: 'Kalender',      icon: 'calendar',       href: 'kalender.html'      },
+    { label: 'Dialog',        icon: 'message-circle', href: 'dialog.html'        },
+    { label: 'Förfrågningar', icon: 'inbox',          href: 'forfragningar.html' },
+    { label: 'Kontakter',     icon: 'users',          href: 'kontakter.html'     },
+  ];
+
+  container.innerHTML = shortcuts.map(s => `
+    <a class="pv-shortcut" href="${s.href}" aria-label="${s.label}">
+      <i data-feather="${s.icon}" style="width:16px;height:16px" aria-hidden="true"></i>
+      <span>${s.label}</span>
+    </a>
+  `).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+// Kalender – dominant sektion i Översikt
+// Visar aktuell månad med projekterade händelser (noter + upplevelser)
+function renderOversiktCalendar() {
+  const container = document.getElementById('oversikt-month-calendar');
+  if (!container) return;
+
+  const today = new Date();
+  const year  = today.getFullYear();
+  const month = today.getMonth();
+
+  const monthNames = [
+    'Januari','Februari','Mars','April','Maj','Juni',
+    'Juli','Augusti','September','Oktober','November','December',
+  ];
+  const dayNames = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+
+  const firstDay  = new Date(year, month, 1);
+  const lastDay   = new Date(year, month + 1, 0);
+  const startOffset = (firstDay.getDay() + 6) % 7;
+  const totalDays = lastDay.getDate();
+
+  const todayStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+  // Projected events (notes + seed events)
+  const allEvents = (typeof projectCalendarEvents !== 'undefined')
+    ? projectCalendarEvents(mockData.calendarEvents)
+    : mockData.calendarEvents.map(ev => ({ ...ev, color: ev.color || 'primary' }));
+
+  const eventsByDate = {};
+  allEvents.forEach(ev => {
+    if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
+    eventsByDate[ev.date].push(ev);
+  });
+
+  const colorMap = {
+    primary: 'var(--color-primary)',
+    danger:  'var(--color-danger)',
+    warning: 'var(--color-warning)',
+    info:    'var(--color-info)',
+    success: 'var(--color-success)',
+  };
+
+  let cells = '';
+  for (let i = 0; i < startOffset; i++) {
+    cells += `<div class="pv-cal-cell pv-cal-cell--empty" aria-hidden="true"></div>`;
+  }
+
+  for (let d = 1; d <= totalDays; d++) {
+    const dateStr   = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const dayEvents = eventsByDate[dateStr] || [];
+    const isToday   = (dateStr === todayStr);
+    const hasEvents = dayEvents.length > 0;
+
+    const evLines = dayEvents.slice(0, 2).map(ev => {
+      const col = colorMap[ev.color] || 'var(--color-primary)';
+      return `<span class="pv-cal-event-label" style="background:${col}" title="${ev.title}">${ev.title}</span>`;
+    }).join('');
+
+    const moreCount = dayEvents.length - 2;
+    const moreLabel = moreCount > 0
+      ? `<span class="pv-cal-event-more">+${moreCount}</span>`
+      : '';
+
+    cells += `
+      <div class="pv-cal-cell${isToday ? ' pv-cal-cell--today' : ''}${hasEvents ? ' pv-cal-cell--has-events' : ''}">
+        <span class="pv-cal-day-num">${d}</span>
+        ${evLines}${moreLabel}
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div class="pv-cal-oversikt">
+      <div class="pv-cal-grid">
+        ${dayNames.map(n => `<div class="pv-cal-day-header" aria-hidden="true">${n}</div>`).join('')}
+        ${cells}
+      </div>
+      <div class="pv-cal-legend" aria-label="Förklaring">
+        <span class="pv-cal-legend-item">
+          <span class="pv-cal-legend-dot" style="background:var(--color-primary)"></span>Upplevelse
+        </span>
+        <span class="pv-cal-legend-item">
+          <span class="pv-cal-legend-dot" style="background:var(--color-info)"></span>Anteckning / Möte
+        </span>
+        <span class="pv-cal-legend-item">
+          <span class="pv-cal-legend-dot" style="background:var(--color-warning)"></span>Uppföljning
+        </span>
+        <span class="pv-cal-legend-item">
+          <span class="pv-cal-legend-dot" style="background:var(--color-danger)"></span>Deadline
+        </span>
+      </div>
+    </div>
+  `;
+}
+
+// Uppmärksamhet – platshållare, validerar placering
+// Visar mock-data för layoutvalidering. Äger ingen affärsinformation.
+function renderOversiktAttention() {
+  const container = document.getElementById('oversikt-attention');
+  if (!container) return;
+
+  const items = mockData.attentionItems || [];
+
+  if (items.length === 0) {
+    container.innerHTML = '<p class="text-sm text-muted">Inget kräver uppmärksamhet just nu.</p>';
+    return;
+  }
+
+  const priorityIconMap = {
+    high:   { icon: 'alert-circle', cls: 'var(--color-danger)'  },
+    medium: { icon: 'alert-triangle', cls: 'var(--color-warning)' },
+    low:    { icon: 'info', cls: 'var(--color-info)' },
+  };
+
+  container.innerHTML = items.map(item => {
+    const pi = priorityIconMap[item.priority] || priorityIconMap.low;
+    return `
+      <div class="pv-attention-item">
+        <i data-feather="${pi.icon}" style="width:16px;height:16px;flex-shrink:0;color:${pi.cls}" aria-hidden="true"></i>
+        <div class="pv-attention-item-body">
+          <p class="pv-attention-item-title">${item.title}</p>
+          <p class="pv-attention-item-sub">${item.subtitle}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (typeof feather !== 'undefined') feather.replace();
+}
+
+// Aktivt arbete – projektion från Dialog och Förfrågningar
+// Läser från respektive engines localStorage-lager. Äger ingen information.
+function renderOversiktActiveWork() {
+  const container = document.getElementById('oversikt-active-work');
+  if (!container) return;
+
+  // Projicera aktiva dialoger
+  let activeDialogs = [];
+  try {
+    const raw = localStorage.getItem('alpentind-dialog-engine-store');
+    if (raw) {
+      const store = JSON.parse(raw);
+      activeDialogs = (store.dialogs || []).filter(d => d.state !== 'Archived');
+    }
+  } catch (e) {
+    // engine not initialized or unavailable
+  }
+
+  // Projicera öppna förfrågningar
+  let openInquiries = [];
+  try {
+    const raw = localStorage.getItem('alpentind-inquiry-engine-store');
+    if (raw) {
+      const store = JSON.parse(raw);
+      openInquiries = (store.inquiries || []).filter(i => !i.closedAt);
+    }
+  } catch (e) {
+    // engine not initialized or unavailable
+  }
+
+  const dialogCount  = activeDialogs.length;
+  const inquiryCount = openInquiries.length;
+
+  if (dialogCount === 0 && inquiryCount === 0) {
+    container.innerHTML = '<p class="text-sm text-muted">Inga aktiva dialoger eller öppna förfrågningar just nu.</p>';
+    return;
+  }
+
+  let html = '';
+
+  if (dialogCount > 0) {
+    html += `
+      <a class="pv-active-work-item" href="dialog.html" aria-label="${dialogCount} aktiva dialoger – öppna Dialog">
+        <i data-feather="message-circle" style="width:18px;height:18px;flex-shrink:0" aria-hidden="true"></i>
+        <div class="pv-active-work-body">
+          <span class="pv-active-work-count">${dialogCount}</span>
+          <span class="pv-active-work-label">Aktiva dialoger</span>
+        </div>
+        <i data-feather="chevron-right" style="width:16px;height:16px;flex-shrink:0;color:var(--color-text-dark)" aria-hidden="true"></i>
+      </a>
+    `;
+  }
+
+  if (inquiryCount > 0) {
+    html += `
+      <a class="pv-active-work-item" href="forfragningar.html" aria-label="${inquiryCount} öppna förfrågningar – öppna Förfrågningar">
+        <i data-feather="inbox" style="width:18px;height:18px;flex-shrink:0" aria-hidden="true"></i>
+        <div class="pv-active-work-body">
+          <span class="pv-active-work-count">${inquiryCount}</span>
+          <span class="pv-active-work-label">Öppna förfrågningar</span>
+        </div>
+        <i data-feather="chevron-right" style="width:16px;height:16px;flex-shrink:0;color:var(--color-text-dark)" aria-hidden="true"></i>
+      </a>
+    `;
+  }
+
+  container.innerHTML = html;
+  if (typeof feather !== 'undefined') feather.replace();
 }
 
 // ========================================

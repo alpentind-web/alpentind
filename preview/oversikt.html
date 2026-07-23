@@ -19,50 +19,46 @@
 
   <!-- Huvudinnehåll -->
   <main class="main" id="main-content">
-    <div class="page active" id="oversikt-page">
+    <div class="pv-oversikt">
 
-      <!-- Lägesbild -->
-      <div class="info-banner" id="info-banner" role="status" aria-label="Lägesbild"></div>
+      <!-- Plattformsnavigering – snabblänkar -->
+      <nav class="pv-nav-shortcuts" aria-label="Plattformsnavigering" id="oversikt-nav-shortcuts"></nav>
 
-      <div class="oversikt-workspace">
-        <div class="oversikt-primary-column">
-          <section class="content-section" aria-labelledby="oversikt-calendar-heading">
-            <div class="section-header">
-              <h2 id="oversikt-calendar-heading">Planeringskalender</h2>
-            </div>
-            <div id="operational-calendar"></div>
-          </section>
-
-          <section class="content-section" aria-labelledby="oversikt-agenda-heading">
-            <div class="section-header">
-              <h2 id="oversikt-agenda-heading">Veckoagenda</h2>
-            </div>
-            <div id="week-agenda-list"></div>
-          </section>
+      <!-- Sektion A: Kalender (Dominant) -->
+      <section class="content-section pv-section--dominant" aria-labelledby="oversikt-cal-heading">
+        <div class="section-header">
+          <h2 id="oversikt-cal-heading">Kalender</h2>
+          <a class="link" href="kalender.html" aria-label="Öppna kalendervy">
+            <i data-feather="external-link" style="width:14px;height:14px;vertical-align:middle"></i>
+            Öppna kalender
+          </a>
         </div>
+        <div id="oversikt-month-calendar"></div>
+      </section>
 
-        <div class="oversikt-aside-column">
-          <section class="content-section" aria-labelledby="oversikt-workqueue-heading">
-            <div class="section-header">
-              <h2 id="oversikt-workqueue-heading">Min arbetskö</h2>
-            </div>
-            <div id="oversikt-work-queue"></div>
-          </section>
+      <!-- Nedre sektioner: Uppmärksamhet + Aktivt arbete -->
+      <div class="pv-lower-grid">
 
-          <section class="content-section" aria-labelledby="oversikt-experiences-heading">
-            <div class="section-header">
-              <h2 id="oversikt-experiences-heading">Kommande upplevelser</h2>
-            </div>
-            <div id="experiences-grid"></div>
-          </section>
+        <!-- Sektion B: Uppmärksamhet (Platshållare) -->
+        <section class="content-section" aria-labelledby="oversikt-attention-heading">
+          <div class="section-header">
+            <h2 id="oversikt-attention-heading">
+              Uppmärksamhet
+              <span class="pv-placeholder-tag" title="Temporär platshållare – validerar placering">Platshållare</span>
+            </h2>
+          </div>
+          <div id="oversikt-attention"></div>
+        </section>
 
-          <section class="content-section" aria-labelledby="oversikt-quickactions-heading">
-            <div class="section-header">
-              <h2 id="oversikt-quickactions-heading">Snabbåtgärder</h2>
-            </div>
-            <div class="quick-actions" id="quick-actions"></div>
-          </section>
-        </div>
+        <!-- Sektion C: Aktivt arbete (Projektion) -->
+        <section class="content-section" aria-labelledby="oversikt-active-work-heading">
+          <div class="section-header">
+            <h2 id="oversikt-active-work-heading">Aktivt arbete</h2>
+            <span class="badge badge-info" title="Projektion – äger ingen information">Projektion</span>
+          </div>
+          <div id="oversikt-active-work"></div>
+        </section>
+
       </div>
 
     </div>
@@ -70,6 +66,7 @@
 
   <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
   <script src="js/mock-data.js"></script>
+  <script src="js/calendar-store.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/navigation.js"></script>
   <script>

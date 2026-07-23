@@ -699,6 +699,7 @@ const dialogues = [
 
 const navigationItems = [
   { id: 'nav-0',  label: 'Översikt',       featherIcon: 'home',           page: 'oversikt'       },
+  { id: 'nav-13', label: 'Kalender',       featherIcon: 'calendar',       page: 'kalender'       },
   { id: 'nav-1',  label: 'Min arbetsdag',  featherIcon: 'briefcase',      page: 'arbetsdag'      },
   { id: 'nav-12', label: 'Dialog',         featherIcon: 'message-circle', page: 'dialog'         },
   { id: 'nav-2',  label: 'Reseplanering',  featherIcon: 'compass',        page: 'reseplanering'  },

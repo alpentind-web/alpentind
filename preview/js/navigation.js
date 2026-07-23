@@ -21,6 +21,7 @@ function navigateTo(page, navId) {
   // Mappning av sidor till HTML-filer
   const pageMap = {
     'oversikt':       'oversikt.html',
+    'kalender':       'kalender.html',
     'arbetsdag':      'arbetsdag.html',
     'dialog':         'dialog.html',
     'reseplanering':  'planering.html',

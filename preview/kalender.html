@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalender – AlpenTind Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- Sidopanel -->
+  <aside class="sidebar" id="sidebar" aria-label="Sidopanel"></aside>
+
+  <!-- Sidhuvud -->
+  <header class="header" id="header" role="banner"></header>
+
+  <!-- Huvudinnehåll -->
+  <main class="main" id="main-content">
+    <div class="pv-kalender-layout">
+
+      <!-- Vänster: Månadskalender -->
+      <div class="pv-kalender-primary">
+        <section class="content-section" aria-labelledby="kalender-month-heading">
+          <div class="section-header">
+            <h2 id="kalender-month-heading">Kalender</h2>
+            <div style="display:flex;align-items:center;gap:var(--spacing-sm)">
+              <button class="btn btn-sm btn-tertiary" id="kalender-prev-btn" aria-label="Föregående månad">
+                <i data-feather="chevron-left" style="width:16px;height:16px"></i>
+              </button>
+              <button class="btn btn-sm btn-tertiary" id="kalender-today-btn">Idag</button>
+              <button class="btn btn-sm btn-tertiary" id="kalender-next-btn" aria-label="Nästa månad">
+                <i data-feather="chevron-right" style="width:16px;height:16px"></i>
+              </button>
+            </div>
+          </div>
+          <div id="kalender-month-grid"></div>
+        </section>
+      </div>
+
+      <!-- Höger: Dagsvy + anteckningar -->
+      <div class="pv-kalender-panel">
+
+        <!-- Vald dag: händelser -->
+        <section class="content-section" aria-labelledby="kalender-day-heading">
+          <div class="section-header">
+            <h3 id="kalender-day-heading" style="font-size:var(--font-size-base);margin:0">
+              <span id="kalender-selected-label">Välj en dag</span>
+            </h3>
+          </div>
+          <div id="kalender-day-events">
+            <p class="text-sm text-muted" style="margin:0">Klicka på en dag för att se händelser.</p>
+          </div>
+        </section>
+
+        <!-- Kalenderanteckningar -->
+        <section class="content-section" aria-labelledby="kalender-notes-heading">
+          <div class="section-header">
+            <h3 id="kalender-notes-heading" style="font-size:var(--font-size-base);margin:0">Anteckningar</h3>
+          </div>
+          <div id="kalender-notes-list"></div>
+          <div id="kalender-notes-add" style="margin-top:var(--spacing-md)">
+            <p class="text-sm text-muted" style="margin:0">Välj en dag för att lägga till anteckningar.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/calendar-store.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    // ── Kalender Platform View – state ────────────────────────────────────────
+    var kalenderState = {
+      year: null,
+      month: null,   // 0-indexed
+      selectedDate: null,  // 'YYYY-MM-DD' or null
+    };
+
+    function kalenderInit() {
+      if (!localStorage.getItem('alpentind-user-logged-in')) {
+        window.location.href = 'index.html';
+        return;
+      }
+      var today = new Date();
+      kalenderState.year  = today.getFullYear();
+      kalenderState.month = today.getMonth();
+      kalenderState.selectedDate = kalenderDateStr(today.getFullYear(), today.getMonth(), today.getDate());
+
+      initNavigation('nav-13');
+      kalenderRender();
+
+      document.getElementById('kalender-prev-btn').addEventListener('click', function() {
+        kalenderState.month--;
+        if (kalenderState.month < 0) { kalenderState.month = 11; kalenderState.year--; }
+        kalenderRender();
+      });
+      document.getElementById('kalender-next-btn').addEventListener('click', function() {
+        kalenderState.month++;
+        if (kalenderState.month > 11) { kalenderState.month = 0; kalenderState.year++; }
+        kalenderRender();
+      });
+      document.getElementById('kalender-today-btn').addEventListener('click', function() {
+        var t = new Date();
+        kalenderState.year  = t.getFullYear();
+        kalenderState.month = t.getMonth();
+        kalenderState.selectedDate = kalenderDateStr(t.getFullYear(), t.getMonth(), t.getDate());
+        kalenderRender();
+      });
+    }
+
+    function kalenderDateStr(year, month, day) {
+      return year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    }
+
+    function kalenderRender() {
+      kalenderRenderMonthGrid();
+      kalenderRenderDayPanel();
+    }
+
+    // ── Månadens namnlista ────────────────────────────────────────────────────
+    var MONTH_NAMES = [
+      'Januari','Februari','Mars','April','Maj','Juni',
+      'Juli','Augusti','September','Oktober','November','December'
+    ];
+    var DAY_NAMES = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+
+    var EVENT_COLORS = {
+      primary: 'var(--color-primary)',
+      danger:  'var(--color-danger)',
+      warning: 'var(--color-warning)',
+      info:    'var(--color-info)',
+      success: 'var(--color-success)',
+    };
+
+    function kalenderRenderMonthGrid() {
+      var year  = kalenderState.year;
+      var month = kalenderState.month;
+
+      // Update heading
+      document.getElementById('kalender-month-heading').textContent =
+        MONTH_NAMES[month] + ' ' + year;
+
+      // Projected events for this month
+      var allEvents = projectCalendarEvents(mockData.calendarEvents);
+      var prefix = year + '-' + String(month + 1).padStart(2, '0') + '-';
+      var eventsByDate = {};
+      allEvents.forEach(function(ev) {
+        if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
+        eventsByDate[ev.date].push(ev);
+      });
+
+      var firstDay = new Date(year, month, 1);
+      var lastDay  = new Date(year, month + 1, 0);
+      var startOffset = (firstDay.getDay() + 6) % 7; // Monday = 0
+      var totalDays = lastDay.getDate();
+
+      var today = new Date();
+      var todayStr = kalenderDateStr(today.getFullYear(), today.getMonth(), today.getDate());
+
+      var cells = '';
+
+      // Empty cells before first day
+      for (var i = 0; i < startOffset; i++) {
+        cells += '<div class="pv-cal-cell pv-cal-cell--empty" aria-hidden="true"></div>';
+      }
+
+      for (var d = 1; d <= totalDays; d++) {
+        var dateStr = kalenderDateStr(year, month, d);
+        var dayEvents = eventsByDate[dateStr] || [];
+        var isToday    = (dateStr === todayStr);
+        var isSelected = (dateStr === kalenderState.selectedDate);
+        var hasEvents  = dayEvents.length > 0;
+
+        var classList = 'pv-cal-cell';
+        if (isToday)    classList += ' pv-cal-cell--today';
+        if (isSelected) classList += ' pv-cal-cell--selected';
+        if (hasEvents)  classList += ' pv-cal-cell--has-events';
+
+        var evDots = dayEvents.slice(0, 3).map(function(ev) {
+          var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
+          return '<span class="pv-cal-dot" style="background:' + col + '" title="' + kalenderEsc(ev.title) + '"></span>';
+        }).join('');
+
+        cells += '<button class="' + classList + '" data-date="' + dateStr + '" '
+          + 'aria-label="' + d + ' ' + MONTH_NAMES[month] + (hasEvents ? ', ' + dayEvents.length + ' händelser' : '') + '" '
+          + 'aria-pressed="' + (isSelected ? 'true' : 'false') + '">'
+          + '<span class="pv-cal-day-num">' + d + '</span>'
+          + (evDots ? '<span class="pv-cal-dots" aria-hidden="true">' + evDots + '</span>' : '')
+          + '</button>';
+      }
+
+      var grid = document.getElementById('kalender-month-grid');
+      grid.innerHTML = '<div class="pv-cal-grid">'
+        + DAY_NAMES.map(function(n) {
+            return '<div class="pv-cal-day-header" aria-hidden="true">' + n + '</div>';
+          }).join('')
+        + cells
+        + '</div>';
+
+      // Wire up day clicks
+      grid.querySelectorAll('.pv-cal-cell[data-date]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          kalenderState.selectedDate = this.dataset.date;
+          kalenderRender();
+        });
+      });
+
+      if (typeof feather !== 'undefined') feather.replace();
+    }
+
+    function kalenderRenderDayPanel() {
+      var date = kalenderState.selectedDate;
+      var labelEl = document.getElementById('kalender-selected-label');
+      var eventsEl = document.getElementById('kalender-day-events');
+      var notesEl  = document.getElementById('kalender-notes-list');
+      var addEl    = document.getElementById('kalender-notes-add');
+
+      if (!date) {
+        labelEl.textContent = 'Välj en dag';
+        eventsEl.innerHTML = '<p class="text-sm text-muted" style="margin:0">Klicka på en dag för att se händelser.</p>';
+        notesEl.innerHTML  = '';
+        addEl.innerHTML    = '<p class="text-sm text-muted" style="margin:0">Välj en dag för att lägga till anteckningar.</p>';
+        return;
+      }
+
+      // Format selected date label
+      var parts = date.split('-');
+      var d     = parseInt(parts[2], 10);
+      var m     = parseInt(parts[1], 10) - 1;
+      var y     = parseInt(parts[0], 10);
+      labelEl.textContent = d + ' ' + MONTH_NAMES[m] + ' ' + y;
+
+      // ── Events ───────────────────────────────────────────────────────────────
+      var allEvents = projectCalendarEvents(mockData.calendarEvents)
+        .filter(function(ev) { return ev.date === date; });
+
+      if (allEvents.length === 0) {
+        eventsEl.innerHTML = '<p class="text-sm text-muted" style="margin:0">Inga händelser denna dag.</p>';
+      } else {
+        eventsEl.innerHTML = allEvents.map(function(ev) {
+          var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
+          return '<div class="pv-day-event">'
+            + '<span class="pv-day-event-bar" style="background:' + col + '"></span>'
+            + '<span class="pv-day-event-title">' + kalenderEsc(ev.title) + '</span>'
+            + '</div>';
+        }).join('');
+      }
+
+      // ── Notes ────────────────────────────────────────────────────────────────
+      kalenderRenderNotes(date);
+    }
+
+    function kalenderRenderNotes(date) {
+      var notesEl = document.getElementById('kalender-notes-list');
+      var addEl   = document.getElementById('kalender-notes-add');
+      var notes   = calendarNotesForDate(date);
+
+      if (notes.length === 0) {
+        notesEl.innerHTML = '<p class="text-sm text-muted" style="margin:0 0 var(--spacing-sm)">Inga anteckningar för denna dag.</p>';
+      } else {
+        notesEl.innerHTML = notes.map(function(note) {
+          return '<div class="pv-note-item" data-note-id="' + note.id + '">'
+            + '<div class="pv-note-text" id="pv-note-text-' + note.id + '">' + kalenderEsc(note.text) + '</div>'
+            + '<div class="pv-note-actions">'
+            + '<button class="btn btn-sm btn-tertiary pv-note-edit-btn" data-note-id="' + note.id + '" aria-label="Redigera anteckning">Redigera</button>'
+            + '<button class="btn btn-sm btn-tertiary pv-note-delete-btn" data-note-id="' + note.id + '" aria-label="Ta bort anteckning" style="color:var(--color-danger)">Ta bort</button>'
+            + '</div>'
+            + '</div>';
+        }).join('');
+
+        // Wire up edit and delete
+        notesEl.querySelectorAll('.pv-note-edit-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            kalenderNoteStartEdit(this.dataset.noteId, date);
+          });
+        });
+        notesEl.querySelectorAll('.pv-note-delete-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var noteId = this.dataset.noteId;
+            if (confirm('Ta bort anteckning?')) {
+              calendarNoteDelete(noteId);
+              kalenderRenderNotes(date);
+              kalenderRenderMonthGrid();
+            }
+          });
+        });
+      }
+
+      // Add new note form
+      addEl.innerHTML = '<div class="pv-note-add-form">'
+        + '<textarea id="pv-new-note-text" class="form-input" rows="2" placeholder="Ny anteckning för ' + kalenderEsc(labelForDate(date)) + '…" '
+        + 'style="resize:vertical;min-height:60px;font-size:var(--font-size-sm)"></textarea>'
+        + '<button class="btn btn-sm btn-primary" id="pv-new-note-save-btn" style="margin-top:var(--spacing-xs)">'
+        + '<i data-feather="plus" style="width:14px;height:14px"></i> Spara anteckning'
+        + '</button>'
+        + '</div>';
+
+      document.getElementById('pv-new-note-save-btn').addEventListener('click', function() {
+        var textarea = document.getElementById('pv-new-note-text');
+        var text = (textarea.value || '').trim();
+        if (!text) { textarea.focus(); return; }
+        calendarNoteCreate(date, text);
+        textarea.value = '';
+        kalenderRenderNotes(date);
+        kalenderRenderMonthGrid();
+      });
+
+      if (typeof feather !== 'undefined') feather.replace();
+    }
+
+    function kalenderNoteStartEdit(noteId, date) {
+      var store  = loadCalendarStore();
+      var note   = store.notes.find(function(n) { return n.id === noteId; });
+      if (!note) return;
+
+      var textEl = document.getElementById('pv-note-text-' + noteId);
+      if (!textEl) return;
+
+      var input = document.createElement('textarea');
+      input.className = 'form-input';
+      input.rows = 2;
+      input.value = note.text;
+      input.style.cssText = 'width:100%;resize:vertical;min-height:48px;font-size:var(--font-size-sm);';
+
+      textEl.replaceWith(input);
+      input.focus();
+      input.select();
+
+      function commitEdit() {
+        var newText = (input.value || '').trim();
+        if (newText && newText !== note.text) {
+          calendarNoteUpdate(noteId, newText);
+        }
+        kalenderRenderNotes(date);
+        kalenderRenderMonthGrid();
+      }
+
+      input.addEventListener('blur', commitEdit);
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); input.blur(); }
+        if (e.key === 'Escape') { kalenderRenderNotes(date); }
+      });
+    }
+
+    function labelForDate(dateStr) {
+      var parts = dateStr.split('-');
+      var d = parseInt(parts[2], 10);
+      var m = parseInt(parts[1], 10) - 1;
+      return d + ' ' + MONTH_NAMES[m];
+    }
+
+    function kalenderEsc(text) {
+      return String(text == null ? '' : text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    document.addEventListener('DOMContentLoaded', kalenderInit);
+  </script>
+</body>
+</html>
