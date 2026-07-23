@@ -101,10 +101,7 @@ function calendarAllNotes() {
 function normalizeCalendarSemantic(rawEvent) {
   var ev = rawEvent || {};
   var semantic = String(ev.semantic || '').trim().toLowerCase();
-  if (semantic === 'immediate_attention'
-    || semantic === 'important'
-    || semantic === 'informational'
-    || semantic === 'completed') {
+  if (Object.prototype.hasOwnProperty.call(CALENDAR_SEMANTIC_COLOR_TOKEN, semantic)) {
     return semantic;
   }
 
@@ -127,6 +124,21 @@ function calendarColorTokenForSemantic(semantic) {
   return CALENDAR_SEMANTIC_COLOR_TOKEN[semantic] || CALENDAR_SEMANTIC_COLOR_TOKEN.informational;
 }
 
+function isValidCalendarWorkspaceHref(href) {
+  var value = String(href || '').trim();
+  if (!value) return false;
+  if (value.indexOf('javascript:') === 0) return false;
+  return /^[a-z0-9-]+\.html(?:\?[a-z0-9=&_%.-]*)?$/i.test(value);
+}
+
+function buildWorkspaceHref(defaultHref, queryKey, queryValue, explicitHref) {
+  if (isValidCalendarWorkspaceHref(explicitHref)) return explicitHref;
+  if (queryValue) {
+    return defaultHref + '?' + queryKey + '=' + encodeURIComponent(queryValue);
+  }
+  return defaultHref;
+}
+
 function resolveCalendarWorkspaceTarget(rawEvent) {
   var ev = rawEvent || {};
   var workspaceType = String(ev.workspaceType || '').trim().toLowerCase();
@@ -140,22 +152,33 @@ function resolveCalendarWorkspaceTarget(rawEvent) {
   }
 
   if (workspaceType === 'journey') {
-    return { workspaceType: 'journey', href: ev.workspaceHref || 'resa.html' };
+    return {
+      workspaceType: 'journey',
+      href: buildWorkspaceHref('resa.html', 'id', ev.journeyId, ev.workspaceHref),
+    };
   }
   if (workspaceType === 'dialog') {
-    var dialogHref = ev.workspaceHref
-      || (ev.dialogId ? 'dialog.html?dialogId=' + encodeURIComponent(ev.dialogId) : 'dialog.html');
-    return { workspaceType: 'dialog', href: dialogHref };
+    return {
+      workspaceType: 'dialog',
+      href: buildWorkspaceHref('dialog.html', 'dialogId', ev.dialogId, ev.workspaceHref),
+    };
   }
   if (workspaceType === 'inquiry') {
-    var inquiryHref = ev.workspaceHref
-      || (ev.inquiryId ? 'forfragningar.html?id=' + encodeURIComponent(ev.inquiryId) : 'forfragningar.html');
-    return { workspaceType: 'inquiry', href: inquiryHref };
+    return {
+      workspaceType: 'inquiry',
+      href: buildWorkspaceHref('forfragningar.html', 'id', ev.inquiryId, ev.workspaceHref),
+    };
   }
   if (workspaceType === 'contact') {
-    var contactHref = ev.workspaceHref
-      || (ev.contactId ? 'kontakt-workspace.html?id=' + encodeURIComponent(ev.contactId) : 'kontakter.html');
-    return { workspaceType: 'contact', href: contactHref };
+    if (isValidCalendarWorkspaceHref(ev.workspaceHref)) {
+      return { workspaceType: 'contact', href: ev.workspaceHref };
+    }
+    return {
+      workspaceType: 'contact',
+      href: ev.contactId
+        ? 'kontakt-workspace.html?id=' + encodeURIComponent(ev.contactId)
+        : 'kontakter.html',
+    };
   }
 
   return { workspaceType: null, href: null };

@@ -247,12 +247,16 @@
       } else {
         eventsEl.innerHTML = allEvents.map(function(ev) {
           var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
-          var isNavigable = Boolean(ev.navigable && ev.workspaceHref);
+          var safeHref = kalenderSafeHref(ev.workspaceHref);
+          var isNavigable = Boolean(ev.navigable && safeHref);
           var eventTitle = kalenderEsc(ev.title);
           var containerTag = isNavigable ? 'a' : 'div';
-          var hrefAttr = isNavigable ? ' href="' + kalenderEsc(ev.workspaceHref) + '"' : '';
+          var hrefAttr = isNavigable ? ' href="' + kalenderEsc(safeHref) + '"' : '';
+          var ariaLabel = isNavigable
+            ? ' aria-label="Öppna ' + kalenderEsc(kalenderWorkspaceLabel(ev.workspaceType)) + ' för: ' + eventTitle + '"'
+            : '';
           var roleHint = isNavigable ? '<i data-feather="arrow-up-right" style="width:14px;height:14px;opacity:0.7" aria-hidden="true"></i>' : '';
-          return '<' + containerTag + ' class="pv-day-event' + (isNavigable ? ' pv-day-event--link' : '') + '"' + hrefAttr + '>'
+          return '<' + containerTag + ' class="pv-day-event' + (isNavigable ? ' pv-day-event--link' : '') + '"' + hrefAttr + ariaLabel + '>'
             + '<span class="pv-day-event-bar" style="background:' + col + '"></span>'
             + '<span class="pv-day-event-title">' + eventTitle + '</span>'
             + roleHint
@@ -367,6 +371,21 @@
       var d = parseInt(parts[2], 10);
       var m = parseInt(parts[1], 10) - 1;
       return d + ' ' + MONTH_NAMES[m];
+    }
+
+    function kalenderWorkspaceLabel(workspaceType) {
+      var type = String(workspaceType || '').toLowerCase();
+      if (type === 'journey') return 'Resa Workspace';
+      if (type === 'dialog') return 'Dialog Workspace';
+      if (type === 'inquiry') return 'Förfrågningar Workspace';
+      if (type === 'contact') return 'Kontakt Workspace';
+      return 'workspace';
+    }
+
+    function kalenderSafeHref(href) {
+      var value = String(href || '').trim();
+      if (!value || value.indexOf('javascript:') === 0) return '';
+      return /^[a-z0-9-]+\.html(?:\?[a-z0-9=&_%.-]*)?$/i.test(value) ? value : '';
     }
 
     function kalenderEsc(text) {

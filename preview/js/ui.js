@@ -636,6 +636,12 @@ function renderOversiktCalendar() {
     info:    'var(--color-info)',
     success: 'var(--color-success)',
   };
+  const isSafeWorkspaceHref = (href) => (
+    typeof href === 'string'
+      && href.trim().length > 0
+      && !href.trim().toLowerCase().startsWith('javascript:')
+      && /^[a-z0-9-]+\.html(?:\?[a-z0-9=&_%.-]*)?$/i.test(href.trim())
+  );
 
   let cells = '';
   for (let i = 0; i < startOffset; i++) {
@@ -650,8 +656,9 @@ function renderOversiktCalendar() {
 
     const evLines = dayEvents.slice(0, MAX_VISIBLE_EVENTS_PER_DAY).map(ev => {
       const col = colorMap[ev.color] || 'var(--color-primary)';
-      if (ev.navigable && ev.workspaceHref) {
-        return `<a class="pv-cal-event-label" style="background:${col}" title="${ev.title}" href="${ev.workspaceHref}">${ev.title}</a>`;
+      const safeHref = isSafeWorkspaceHref(ev.workspaceHref) ? ev.workspaceHref.trim() : '';
+      if (ev.navigable && safeHref) {
+        return `<a class="pv-cal-event-label" style="background:${col}" title="${ev.title}" href="${safeHref}">${ev.title}</a>`;
       }
       return `<span class="pv-cal-event-label" style="background:${col}" title="${ev.title}">${ev.title}</span>`;
     }).join('');
