@@ -60,11 +60,15 @@ The Senior Software Engineer is never responsible for business decisions. If imp
 ## 4. Development Lifecycle
 
 ```
-Business Need
+Significant Work Need
+      ↓
+ADR Classification
+      ↓
+PDR
       ↓
 Engineering Specification (ESR)
       ↓
-Approval
+Reference Implementation (RI)
       ↓
 Implementation
       ↓
@@ -72,20 +76,22 @@ Engineering Review
       ↓
 Architecture Review
       ↓
-Merge
+Business Validation (BVR)
+      ↓
+Discovery
 ```
 
 No step may be skipped. Each step produces a verifiable artefact or decision record.
 
 ### Business Engine Development Lifecycle Extension
 
-During the current phase of Business Engine Development, the lifecycle extends as follows:
+The authoritative documentation relationship remains:
 
 ```
-Discovery → PDR → ESR → Implementation → Architecture Review → Business Validation → Merge → Next Business Engine
+ADR → PDR → ESR → RI → BVR → Discovery
 ```
 
-The existing staged implementation process remains unchanged. Business Validation is added as a final stage after Architecture Review and before Merge. It does not replace or modify any preceding stage.
+Implementation work operates inside that chain. It may not bypass ADR classification, approved PDR ownership, or approved ESR interpretation.
 
 ---
 
@@ -95,7 +101,7 @@ The existing staged implementation process remains unchanged. Business Validatio
 Every technical decision serves a business purpose. Technology is a means, not an end.
 
 **Knowledge before Code**
-The ESR must be understood and approved before a single line of implementation is written.
+ADR classification, PDR ownership, and the ESR must be understood and approved before a single line of implementation is written.
 
 **Repository before Features**
 The health and integrity of the repository takes precedence over the speed of feature delivery.
@@ -126,10 +132,10 @@ A Business Engine is not accepted until it has demonstrated that it supports rea
 ## 6. Engineering Rules
 
 **Every implementation starts with an ESR.**
-No implementation work begins without an approved Engineering Specification. Work started without an ESR is not accepted for review.
+No significant implementation work begins without ADR classification, an approved PDR, and an approved Engineering Specification. Work started without that chain is not accepted for review.
 
-**Every implementation ends with Architecture Review.**
-No implementation is complete until the Technical Lead & Chief Software Architect has reviewed it against the ESR.
+**Every implementation ends with Architecture Review and Business Validation.**
+No implementation is complete until the Technical Lead & Chief Software Architect has reviewed it against the ESR and Business Validation has confirmed operational fitness.
 
 **Every Merge references an ESR.**
 The commit message and merge record must identify the ESR being satisfied. Commits without an ESR reference are not accepted.
@@ -155,20 +161,21 @@ Each future Business Engine ESR shall include a section documenting the planned 
 Implementation is complete only when:
 
 - ✅ ESR implemented — all acceptance criteria in the ESR are met.
+- ✅ RI captured — the reusable implementation outcome is documented in the correct reference layer.
 - ✅ Engineering Review completed — the implementation has been reviewed against the ESR.
 - ✅ Architecture Review approved — the Technical Lead & Chief Software Architect has approved the implementation.
 - ✅ Business Validation completed — the implementation has been validated against real operational workflows and the Product Owner has confirmed no blocking business issues remain.
-- ✅ Documentation updated — ESR status updated to Merged; any affected documentation reflects the current state.
+- ✅ Documentation updated — ESR, RI, and BVR documentation reflect the current state.
 - ✅ Commit approved — the commit references the ESR and has been accepted by the Architecture Review.
 - ✅ Merge completed — the implementation has been merged into the repository.
 
-Until all seven conditions are satisfied, the implementation is not done.
+Until all eight conditions are satisfied, the implementation is not done.
 
 ---
 
 ## 8. Business Validation
 
-Business Validation is the final stage of each Business Engine before Merge. It confirms that the implementation supports real operational work and is approved by the Product Owner.
+Business Validation is the stage that closes architecture for each Business Engine before Discovery continues. It confirms that the implementation supports real operational work and is approved by the Product Owner.
 
 Business Validation complements Architecture Review. It does not replace it. Architecture Review confirms technical correctness; Business Validation confirms operational readiness.
 

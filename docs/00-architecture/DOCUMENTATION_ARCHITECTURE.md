@@ -39,44 +39,44 @@ The purpose of this architecture is permanent clarity:
 
 Implementation may realize architecture, but implementation does not own architecture. Business Validation is the approved mechanism for evolving architecture after implementation has been tested against real work.
 
-## Documentation Hierarchy
+## Permanent Hierarchy
 
-The hierarchy is responsibility-driven and lifecycle-driven.
+The hierarchy is responsibility-driven.
 
 ```text
-New Idea
-  → ADR
-  → Classification
-  → Discovery
-  → PDR
-  → ESR
-  → RI
-  → BVR
-  → Further Discovery
+docs/
+  ├── 00-architecture/
+  ├── 10-platform/
+  ├── 20-business/
+  ├── 30-engineering/
+  ├── 40-reference/
+  ├── 50-standards/
+  └── 60-validation/
 ```
 
-Each stage refines the one before it:
+Each layer has one primary responsibility:
 
-- **ADR** records architectural intent
-- **PDR** records architectural responsibility
-- **ESR** records engineering interpretation
-- **RI** records implementation reference
-- **BVR** records business validation
-- **Further Discovery** records the feedback loop back into architecture
+- **00-architecture** records architectural intent, classification, and governance
+- **10-platform** records cross-engine platform responsibility
+- **20-business** records business-engine responsibility and business governance
+- **30-engineering** records engineering interpretation
+- **40-reference** records reusable implementation reference
+- **50-standards** records reusable normative standards
+- **60-validation** records business validation and release evidence
 
 ## Documentation Navigation
 
 ### New capability path
 
-New Idea → ADR → Classification → Discovery → PDR → ESR → RI → BVR → Further Discovery
+New Idea → ADR → PDR → ESR → RI → BVR → Discovery
 
 ### Understand a Business Engine
 
-PDR → ESR → RI → BVR
+PDR → ESR → RI → BVR → Discovery
 
 ### Understand Platform Architecture
 
-ADR → Platform docs
+ADR → PDR → SDS / RI → BVR
 
 Use [docs/README.md](../README.md) as the entrypoint for these paths.
 
@@ -89,9 +89,11 @@ The lifecycle relationship model is normative:
 Knowledge evolves through that chain:
 
 1. **Architecture intent** is established in ADRs.
-2. **Engineering interpretation** is established in ESRs after the responsible PDR exists.
-3. **Implementation validation** is established through RI and BVR artifacts.
-4. **Business feedback loop** returns validated learning to Discovery and future ADR/PDR changes.
+2. **Architectural responsibility** is fixed in the responsible PDR.
+3. **Engineering interpretation** is established in ESRs after the responsible PDR exists.
+4. **Implementation reference** is captured in RI artifacts before architecture is treated as complete.
+5. **Business validation** confirms operational fitness in BVR artifacts.
+6. **Discovery** returns validated learning to future ADR/PDR work.
 
 This model ensures that architecture is intentional, implementation is traceable, and learning is captured through approved governance rather than accidental drift.
 
@@ -122,14 +124,16 @@ The same placement rule applies to cross-engine documents such as register, plan
 The following rules are normative:
 
 - **ADR-001 classification is required for significant capabilities.**
-- **Architectural concepts must be documented before implementation.**
-- **Business Validation is the approved mechanism to evolve architecture.**
-- **Implementation alone cannot redefine architecture.**
+- **PDR is required before ESR.**
+- **ESR is required before RI.**
+- **BVR is required before architecture is considered complete.**
+- **Architecture evolves through validated business learning, not implementation alone.**
 
 Additional governance rules:
 
 - no document may bypass its upstream architectural owner
 - path placement must follow architectural responsibility, never chronology
+- no document class may overlap another document class's responsibility
 - numbering must remain stable after publication
 - links must always point to the current authoritative path
 
@@ -137,7 +141,7 @@ Additional governance rules:
 
 The official development lifecycle is normative:
 
-**New Idea → ADR → Discovery → PDR → ESR → RI → BVR → Further Discovery**
+**New Idea → ADR → PDR → ESR → RI → BVR → Discovery**
 
 Mandatory gates:
 
@@ -145,6 +149,7 @@ Mandatory gates:
 - no PDR without prior classification
 - no ESR without approved PDR
 - no RI without approved ESR
+- no BVR without RI
 - no architecture considered complete before Business Validation
 
 ## Documentation Lifecycle
@@ -153,12 +158,11 @@ The lifecycle is both a delivery sequence and a governance sequence.
 
 1. A **New Idea** triggers architecture work.
 2. An **ADR** establishes architectural intent and classification.
-3. **Discovery** explores the proposal inside the classified scope.
-4. A **PDR** records the approved architectural responsibility.
-5. An **ESR** records the engineering contract for implementation.
-6. An **RI** records the reusable implementation outcome.
-7. A **BVR** records business validation and operational feedback.
-8. **Further Discovery** feeds validated knowledge back into future architectural evolution.
+3. A **PDR** records the approved architectural responsibility.
+4. An **ESR** records the engineering contract for implementation.
+5. An **RI** records the reusable implementation outcome.
+6. A **BVR** records business validation and operational feedback.
+7. **Discovery** feeds validated knowledge back into future architectural evolution.
 
 Architecture is not complete when code exists. Architecture is complete only when Business Validation confirms the implemented capability in real operational use.
 

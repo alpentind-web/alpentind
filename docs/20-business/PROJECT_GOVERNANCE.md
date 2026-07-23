@@ -2,7 +2,7 @@
 
 ## Syfte
 
-Governance-dokumenten definierar **varför** AlpenTind Platform byggs och **hur** projektet styrs. De ligger i toppen av dokumenthierarkin och vägleder alla beslut nedåt.
+Governance-dokumenten definierar **varför** AlpenTind Platform byggs och **hur** projektet styrs. De ligger i business-lagret eftersom de äger verksamhetens styrning och vägleder beslut inom sina ansvar.
 
 ---
 
@@ -18,13 +18,13 @@ Governance-dokumenten ger projektet ett stabilt fundament.
 
 ---
 
-## Varför ligger de över övriga dokument?
+## Varför är de styrande?
 
 Governance definierar spelreglerna. Arkitektur, design och kod måste följa dessa regler – inte tvärtom.
 
 **AlpenTind Way är projektets högsta verksamhetsdokument och ägs av Produktägaren.**
 
-Se [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) för hela kedjan.
+Se [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) för den ansvarsstyrda modellen.
 
 ---
 
@@ -34,7 +34,7 @@ Se [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) för hela kedja
 |----------|-------------|
 | [ALPENTIND_WAY.md](./ALPENTIND_WAY.md) | AlpenTinds verksamhetsfilosofi och arbetssätt (ägs av Produktägaren) |
 | [UTVECKLINGSSTADGA.md](../30-engineering/UTVECKLINGSSTADGA.md) | Tekniska regler och arkitekturella ramar för all utveckling |
-| [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) | Dokumentens beroenden och prioriteringsordning |
+| [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) | Dokumentens ansvar, relationer och placeringsregler |
 | [ROADMAP.md](./ROADMAP.md) | Projektets färdplan och sprintstruktur |
 
 ---
