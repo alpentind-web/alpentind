@@ -55,4 +55,4 @@
 
 ## Arkitekturella regler
 
-Se [../20-architecture/ADR-0001.md](../20-architecture/ADR-0001.md), [ADR-0003.md](../20-architecture/ADR-0003.md) och [ADR-0004.md](../20-architecture/ADR-0004.md) för arkitekturella beslut som stödjer dessa regler.
+Se [../00-architecture/ADR-0001.md](../00-architecture/ADR-0001.md), [ADR-0003.md](../00-architecture/ADR-0003.md) och [ADR-0004.md](../00-architecture/ADR-0004.md) för arkitekturella beslut som stödjer dessa regler.

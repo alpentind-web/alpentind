@@ -439,15 +439,15 @@ No step may be skipped. No implementation begins without an approved ESR.
 
 | Document | Location | Relationship |
 |----------|----------|-------------|
-| Engineering Constitution | `docs/50-engineering/ENGINEERING_CONSTITUTION.md` | Authoritative engineering governance. Defines how all implementation work is performed and reviewed. |
-| Workspace Architecture (WS-001) | `docs/20-business/WORKSPACE_ARCHITECTURE.md` | Defines the Workspace Pattern (Situation → Work → Context → Actions) and all implemented Workspaces. |
-| Workspace Design Standard (WS-002) | `docs/20-business/WORKSPACE_DESIGN_STANDARD.md` | Prescribes design principles for all Workspace implementations. Applies to Workspaces only, not Registers. |
-| PDR-004 – Register and Workspace Separation | `docs/20-architecture/PDR-004-Register-Workspace-Separation.md` (note: PDR-004 lives in `20-architecture/`; PDR-005 and PDR-006 live in `20-business/` — this reflects the existing repository structure) | Establishes the architectural separation between Registers (discovery) and Workspaces (execution). Defines the Register → Category → List → Workspace navigation pattern. |
-| PDR-005 – Planning Architecture | `docs/20-business/PDR-005_PLANNING_ARCHITECTURE.md` | Establishes Planning as the third primary architectural environment. Defines Planning Projects, Planning Areas, planning lifecycle states, and the relationship between Planning, Registers, and Workspaces. |
-| PDR-006 – Register Architecture | `docs/20-business/PDR-006_REGISTER_ARCHITECTURE.md` | Establishes Registers as the persistent knowledge environment. Defines the Register lifecycle (Create → Maintain → Reuse → Retire) and the principle that business objects are never duplicated. |
-| ESR-006 – Booking | `docs/50-engineering/` | Engineering specification for UJ-005 Booking. Implements the booking stage of the operational flow. |
-| ESR-007 – Planning | `docs/50-engineering/` | Engineering specification for UJ-006 Planning. Implements Planning environment capabilities. |
-| ESR-008 – Resa | `docs/50-engineering/` | Engineering specification for UJ-007 Resa. Implements the Resa Workspace for operational journey execution. |
+| Engineering Constitution | `docs/30-engineering/ENGINEERING_CONSTITUTION.md` | Authoritative engineering governance. Defines how all implementation work is performed and reviewed. |
+| Workspace Architecture (WS-001) | `docs/10-platform/WORKSPACE_ARCHITECTURE.md` | Defines the Workspace Pattern (Situation → Work → Context → Actions) and all implemented Workspaces. |
+| Workspace Design Standard (WS-002) | `docs/50-standards/WORKSPACE_DESIGN_STANDARD.md` | Prescribes design principles for all Workspace implementations. Applies to Workspaces only, not Registers. |
+| PDR-004 – Register and Workspace Separation | `docs/10-platform/PDR-004-Register-Workspace-Separation.md` | Establishes the architectural separation between Registers (discovery) and Workspaces (execution). Defines the Register → Category → List → Workspace navigation pattern. |
+| PDR-005 – Planning Architecture | `docs/10-platform/PDR-005_PLANNING_ARCHITECTURE.md` | Establishes Planning as the third primary architectural environment. Defines Planning Projects, Planning Areas, planning lifecycle states, and the relationship between Planning, Registers, and Workspaces. |
+| PDR-006 – Register Architecture | `docs/10-platform/PDR-006_REGISTER_ARCHITECTURE.md` | Establishes Registers as the persistent knowledge environment. Defines the Register lifecycle (Create → Maintain → Reuse → Retire) and the principle that business objects are never duplicated. |
+| ESR-006 – Booking | `docs/30-engineering/` | Engineering specification for UJ-005 Booking. Implements the booking stage of the operational flow. |
+| ESR-007 – Planning | `docs/30-engineering/` | Engineering specification for UJ-006 Planning. Implements Planning environment capabilities. |
+| ESR-008 – Resa | `docs/30-engineering/` | Engineering specification for UJ-007 Resa. Implements the Resa Workspace for operational journey execution. |
 
 ---
 

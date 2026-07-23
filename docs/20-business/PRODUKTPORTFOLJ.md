@@ -47,4 +47,4 @@ Avgång (schemalagd resa)
 Bokning (kund + avgång)
 ```
 
-Se [DOMAIN_DICTIONARY.md](../20-architecture/DOMAIN_DICTIONARY.md) för fullständig domänmodell.
+Se [DOMAIN_DICTIONARY.md](../40-reference/DOMAIN_DICTIONARY.md) för fullständig domänmodell.

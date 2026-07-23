@@ -80,7 +80,7 @@ preview/
 
 ## Designprinciper
 
-Se [docs/10-business/UPPLEVELSEMODELL.md](docs/10-business/UPPLEVELSEMODELL.md) för fullständig beskrivning.
+Se [docs/20-business/UPPLEVELSEMODELL.md](docs/20-business/UPPLEVELSEMODELL.md) för fullständig beskrivning.
 
 Kortfattat:
 
@@ -95,7 +95,7 @@ Kortfattat:
 
 Backend-arkitekturen (Python, FastAPI, SQLite) finns under `src/`.
 
-Se [docs/20-architecture/ARCHITECTURE.md](docs/20-architecture/ARCHITECTURE.md) och [docs/20-architecture/DOMAIN_MODEL.md](docs/20-architecture/DOMAIN_MODEL.md) för mer information.
+Se [docs/10-platform/ARCHITECTURE.md](docs/10-platform/ARCHITECTURE.md) och [docs/40-reference/DOMAIN_MODEL.md](docs/40-reference/DOMAIN_MODEL.md) för mer information.
 
 ---
 
@@ -119,7 +119,7 @@ open preview/index.html
 
 ## Roadmap
 
-Se [docs/00-governance/ROADMAP.md](docs/00-governance/ROADMAP.md) för planerade sprints.
+Se [docs/20-business/ROADMAP.md](docs/20-business/ROADMAP.md) för planerade sprints.
 
 - PREVIEW-001 ✅ Teknisk grund
 - PREVIEW-002 ✅ Varumärke och användarupplevelse

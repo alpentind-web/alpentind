@@ -1,4 +1,4 @@
-# 00-governance – Styrande dokument
+# Project Governance
 
 ## Syfte
 
@@ -24,7 +24,7 @@ Governance definierar spelreglerna. Arkitektur, design och kod måste följa des
 
 **AlpenTind Way är projektets högsta verksamhetsdokument och ägs av Produktägaren.**
 
-Se [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) för hela kedjan.
+Se [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) för hela kedjan.
 
 ---
 
@@ -33,8 +33,8 @@ Se [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) för hela kedjan.
 | Dokument | Beskrivning |
 |----------|-------------|
 | [ALPENTIND_WAY.md](./ALPENTIND_WAY.md) | AlpenTinds verksamhetsfilosofi och arbetssätt (ägs av Produktägaren) |
-| [UTVECKLINGSSTADGA.md](./UTVECKLINGSSTADGA.md) | Tekniska regler och arkitekturella ramar för all utveckling |
-| [DOKUMENTHIERARKI.md](./DOKUMENTHIERARKI.md) | Dokumentens beroenden och prioriteringsordning |
+| [UTVECKLINGSSTADGA.md](../30-engineering/UTVECKLINGSSTADGA.md) | Tekniska regler och arkitekturella ramar för all utveckling |
+| [DOKUMENTHIERARKI.md](../00-architecture/DOKUMENTHIERARKI.md) | Dokumentens beroenden och prioriteringsordning |
 | [ROADMAP.md](./ROADMAP.md) | Projektets färdplan och sprintstruktur |
 
 ---
