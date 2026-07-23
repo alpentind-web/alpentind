@@ -127,7 +127,6 @@ function calendarColorTokenForSemantic(semantic) {
 function isValidCalendarWorkspaceHref(href) {
   var value = String(href || '').trim();
   if (!value) return false;
-  if (value.indexOf('javascript:') === 0) return false;
   return /^[a-z0-9-]+\.html(?:\?[a-z0-9=&_%.-]*)?$/i.test(value);
 }
 

@@ -247,7 +247,7 @@
       } else {
         eventsEl.innerHTML = allEvents.map(function(ev) {
           var col = EVENT_COLORS[ev.color] || 'var(--color-primary)';
-          var safeHref = kalenderSafeHref(ev.workspaceHref);
+          var safeHref = kalenderSafeWorkspaceHref(ev.workspaceHref);
           var isNavigable = Boolean(ev.navigable && safeHref);
           var eventTitle = kalenderEsc(ev.title);
           var containerTag = isNavigable ? 'a' : 'div';
@@ -382,9 +382,12 @@
       return 'workspace';
     }
 
-    function kalenderSafeHref(href) {
+    function kalenderSafeWorkspaceHref(href) {
       var value = String(href || '').trim();
-      if (!value || value.indexOf('javascript:') === 0) return '';
+      if (!value) return '';
+      if (typeof isValidCalendarWorkspaceHref === 'function') {
+        return isValidCalendarWorkspaceHref(value) ? value : '';
+      }
       return /^[a-z0-9-]+\.html(?:\?[a-z0-9=&_%.-]*)?$/i.test(value) ? value : '';
     }
 
