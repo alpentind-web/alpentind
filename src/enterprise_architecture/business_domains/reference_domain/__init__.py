@@ -1,0 +1,1 @@
+"""Reference Domain architectural boundary."""

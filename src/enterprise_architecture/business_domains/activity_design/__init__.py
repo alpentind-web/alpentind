@@ -1,0 +1,1 @@
+"""Activity Design architectural boundary."""

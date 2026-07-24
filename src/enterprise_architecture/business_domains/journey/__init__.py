@@ -1,0 +1,1 @@
+"""Journey architectural boundary."""
