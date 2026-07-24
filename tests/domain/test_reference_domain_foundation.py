@@ -106,6 +106,9 @@ def test_business_object_validation_and_invariants() -> None:
         Area(area_id="", name="A", country_code="CH", route_count=1)
 
     with pytest.raises(ReferenceDomainValidationError):
+        Area(area_id="zermatt", name="   ", country_code="CH", route_count=1)
+
+    with pytest.raises(ReferenceDomainValidationError):
         Accommodation(
             accommodation_id="hut-1",
             name="hut",
