@@ -23,7 +23,7 @@ PDS-001 governs process. It does not define business concepts, architecture desi
 |---|---|
 | **ADR-003** | Enterprise Architecture Standard |
 | **ESR-001** | Engineering Implementation Standard |
-| **ESR-002** | ESR-002 – Minimum Viable Platform (MVP-001) |
+| **ESR-002** | Minimum Viable Platform |
 
 ---
 
