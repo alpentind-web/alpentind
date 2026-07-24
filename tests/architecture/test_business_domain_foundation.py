@@ -42,3 +42,15 @@ def test_business_domains_depend_only_on_shared_technical() -> None:
             package,
             "src.enterprise_architecture.shared_technical",
         )
+
+
+def test_reference_domain_documents_ri002_scope() -> None:
+    content = (
+        REPO_ROOT
+        / "src/enterprise_architecture/business_domains/reference_domain/README.md"
+    ).read_text(encoding="utf-8")
+    assert "## Business Objects" in content
+    assert "- Area" in content
+    assert "- Accommodation" in content
+    assert "- Trail" in content
+    assert "No additional Business Objects are implemented in RI-002." in content

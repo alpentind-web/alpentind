@@ -52,10 +52,13 @@ MODULES = {
     "src.enterprise_architecture.business_domains.reference_domain": ModuleDescriptor(
         package="src.enterprise_architecture.business_domains.reference_domain",
         role="Business Domain",
-        ownership="Trusted professional reference knowledge only.",
+        ownership=(
+            "Trusted knowledge, reference objects, reference validation, reference "
+            "relationships, and reference lifecycle semantics."
+        ),
         responsibilities=(
-            "reserve the Reference Domain ownership boundary",
-            "keep future reference implementation isolated from other domains",
+            "own Area, Accommodation, and Trail as authoritative business objects",
+            "enforce reference-domain invariants via domain model and services",
         ),
         allowed_dependencies=(
             "src.enterprise_architecture.business_domains.reference_domain",
