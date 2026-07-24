@@ -33,7 +33,9 @@ class ReferenceDomainService:
         """Register Accommodation in an existing active Area."""
         area = self._required_active_area(accommodation.area_id)
         if not area.is_active:
-            raise ReferenceDomainValidationError("Accommodation can only be registered in active Areas.")
+            raise ReferenceDomainValidationError(
+                "Accommodation can only be registered in active Areas."
+            )
         self.accommodation_repository.add(accommodation)
 
     def register_trail(self, trail: Trail) -> None:

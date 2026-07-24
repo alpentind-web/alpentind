@@ -31,7 +31,11 @@ class Area:
         object.__setattr__(
             self, "country_code", require_non_empty_text("country_code", self.country_code)
         )
-        object.__setattr__(self, "route_count", require_non_negative_int("route_count", self.route_count))
+        object.__setattr__(
+            self,
+            "route_count",
+            require_non_negative_int("route_count", self.route_count),
+        )
 
     def deactivate(self) -> "Area":
         """Return a deactivated Area while preserving identity and facts."""
@@ -62,7 +66,11 @@ class Accommodation:
             "altitude_meters",
             require_non_negative_int("altitude_meters", self.altitude_meters),
         )
-        object.__setattr__(self, "bed_capacity", require_positive_int("bed_capacity", self.bed_capacity))
+        object.__setattr__(
+            self,
+            "bed_capacity",
+            require_positive_int("bed_capacity", self.bed_capacity),
+        )
 
     def delist(self) -> "Accommodation":
         """Return the same accommodation as unavailable for future planning."""
@@ -86,13 +94,21 @@ class Trail:
         object.__setattr__(self, "trail_id", require_non_empty_text("trail_id", self.trail_id))
         object.__setattr__(self, "name", require_non_empty_text("name", self.name))
         object.__setattr__(self, "area_id", require_non_empty_text("area_id", self.area_id))
-        object.__setattr__(self, "source_system", require_non_empty_text("source_system", self.source_system))
+        object.__setattr__(
+            self,
+            "source_system",
+            require_non_empty_text("source_system", self.source_system),
+        )
         object.__setattr__(
             self,
             "elevation_gain_meters",
             require_non_negative_int("elevation_gain_meters", self.elevation_gain_meters),
         )
-        object.__setattr__(self, "distance_km", require_positive_float("distance_km", self.distance_km))
+        object.__setattr__(
+            self,
+            "distance_km",
+            require_positive_float("distance_km", self.distance_km),
+        )
         object.__setattr__(
             self,
             "estimated_duration_hours",
