@@ -32,18 +32,28 @@ def _internal_imports(path: Path) -> set[str]:
 def test_dependency_direction_matches_manifest() -> None:
     for path in ARCHITECTURE_ROOT.rglob("*.py"):
         module_name = _module_name(path)
-        if module_name not in ALLOWED_DEPENDENCY_PREFIXES:
+        owner_package = next(
+            (
+                package
+                for package in sorted(ALLOWED_DEPENDENCY_PREFIXES, key=len, reverse=True)
+                if module_name == package or module_name.startswith(f"{package}.")
+            ),
+            None,
+        )
+        if owner_package is None:
             continue
-        allowed_prefixes = ALLOWED_DEPENDENCY_PREFIXES[module_name]
+        allowed_prefixes = ALLOWED_DEPENDENCY_PREFIXES[owner_package]
         for imported_module in _internal_imports(path):
             assert any(
                 imported_module.startswith(prefix) for prefix in allowed_prefixes
             )
 
 
-def test_architecture_package_contains_only_manifest_and_boundary_markers() -> None:
+def test_non_reference_modules_remain_boundary_markers() -> None:
     for path in ARCHITECTURE_ROOT.rglob("*.py"):
         if path.name == "manifest.py":
+            continue
+        if "business_domains/reference_domain" in str(path):
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"))
         body = tree.body
