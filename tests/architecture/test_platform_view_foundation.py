@@ -28,4 +28,7 @@ def test_platform_views_have_local_documentation() -> None:
 def test_platform_views_do_not_allow_infrastructure_dependencies() -> None:
     for package in PLATFORM_VIEW_PACKAGES:
         allowed_dependencies = MODULES[package].allowed_dependencies
-        assert "src.enterprise_architecture.infrastructure" not in allowed_dependencies
+        assert not any(
+            dependency.startswith("src.enterprise_architecture.infrastructure")
+            for dependency in allowed_dependencies
+        )

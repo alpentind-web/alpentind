@@ -36,7 +36,9 @@ def test_dependency_direction_matches_manifest() -> None:
             continue
         allowed_prefixes = ALLOWED_DEPENDENCY_PREFIXES[module_name]
         for imported_module in _internal_imports(path):
-            assert imported_module.startswith(allowed_prefixes)
+            assert any(
+                imported_module.startswith(prefix) for prefix in allowed_prefixes
+            )
 
 
 def test_architecture_package_contains_only_manifest_and_boundary_markers() -> None:
