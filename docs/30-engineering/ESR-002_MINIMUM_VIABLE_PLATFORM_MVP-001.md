@@ -155,7 +155,7 @@ Do not implement:
 - AI capabilities
 - External integrations
 - Automation / scheduling engine
-- mobile optimization / offline support
+- Mobile optimization / offline support
 - advanced search
 
 ---
