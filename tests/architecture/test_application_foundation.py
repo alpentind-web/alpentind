@@ -2,7 +2,6 @@ from pathlib import Path
 
 from src.enterprise_architecture.manifest import MODULES
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 APPLICATION_PACKAGE = "src.enterprise_architecture.application"
 

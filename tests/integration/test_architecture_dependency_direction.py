@@ -3,7 +3,6 @@ from pathlib import Path
 
 from src.enterprise_architecture.manifest import ALLOWED_DEPENDENCY_PREFIXES
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ARCHITECTURE_ROOT = REPO_ROOT / "src/enterprise_architecture"
 

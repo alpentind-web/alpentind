@@ -2,7 +2,6 @@ from pathlib import Path
 
 from src.enterprise_architecture.manifest import BUSINESS_DOMAIN_PACKAGES, MODULES
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REQUIRED_SECTIONS = (
     "## Purpose",
