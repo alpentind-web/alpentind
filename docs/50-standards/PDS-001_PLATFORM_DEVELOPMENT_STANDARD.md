@@ -1,6 +1,6 @@
 # PDS-001 – Platform Development Standard
 
-**Status:** Approved  
+**Status:** Approved
 **Mode:** Documentation-only
 
 ---
@@ -23,7 +23,7 @@ PDS-001 governs process. It does not define business concepts, architecture desi
 |---|---|
 | **ADR-003** | Enterprise Architecture Standard |
 | **ESR-001** | Engineering Implementation Standard |
-| **ESR-002** | Minimum Viable Platform (MVP-001) |
+| **ESR-002** | ESR-002 – Minimum Viable Platform (MVP-001) |
 
 ---
 
@@ -111,7 +111,7 @@ Lifecycle interpretation:
 - **Operational Reality** provides the source conditions, constraints, and evidence
 - **Discovery** captures what operations reveal needs attention or clarification
 - **ADR** governs architectural direction
-- **PDR** fixes the responsible architecture in the correct governing layer
+- **PDR** documents the responsible architecture in the correct governing layer
 - **AVR** confirms architectural revision or alignment when required
 - **ESR** governs engineering interpretation of approved architecture
 - **RI** captures the implementation reference for reusable realization
@@ -204,7 +204,7 @@ The following rules govern all platform development:
 - architectural change requires formal governance
 - ownership boundaries must remain explicit
 - implementation must deliver operational value
-- delivery proceeds through the smallest operational increment
+- delivery proceeds through the smallest operational increment that can be validated in real work
 
 Additional rules:
 
