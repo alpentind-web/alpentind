@@ -97,36 +97,36 @@ Publication may be manual in initial MVP operation.
 
 ### 3.1 Reference Domain
 
-- create Areas
-- create Accommodation
-- create Trails
+- Create Areas
+- Create Accommodation
+- Create Trails
 
 ### 3.2 Activity Design
 
-- create Activity Design
-- select Reference Objects
-- maintain Selection Objects
-- perform Professional Approval (human)
+- Create Activity Design
+- Select Reference Objects
+- Maintain Selection Objects
+- Perform Professional Approval (human)
 
 ### 3.3 Journey
 
-- create Journey
-- view Journey
-- activate Journey
+- Create Journey
+- View Journey
+- Activate Journey
 
 ### 3.4 Execution
 
-- generate Operational Commitments
-- update commitment status
-- add operational comments
-- maintain deadlines
-- complete commitments
+- Generate Operational Commitments
+- Update commitment status
+- Add operational comments
+- Maintain deadlines
+- Complete commitments
 
 ### 3.5 Follow-up View
 
-- display commitments requiring attention
-- display attention reason
-- navigate directly to affected commitment
+- Display commitments requiring attention
+- Display attention reason
+- Navigate directly to affected commitment
 
 ---
 
@@ -156,7 +156,7 @@ Do not implement:
 - External integrations
 - Automation / scheduling engine
 - Mobile optimization / offline support
-- advanced search
+- Advanced search
 
 ---
 
