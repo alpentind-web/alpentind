@@ -99,6 +99,15 @@ Se [docs/10-platform/ARCHITECTURE.md](docs/10-platform/ARCHITECTURE.md) och [doc
 
 ---
 
+
+## Arkitekturreferens RI-001
+
+`src/enterprise_architecture/` innehåller en arkitektur-only referensimplementation som gör godkända Business Domains, Platform Views och tvärgående lager fysiskt synliga utan att införa affärsbeteende.
+
+Se även:
+- [docs/40-reference/RI-001_ENTERPRISE_ARCHITECTURE_REFERENCE_IMPLEMENTATION.md](docs/40-reference/RI-001_ENTERPRISE_ARCHITECTURE_REFERENCE_IMPLEMENTATION.md)
+- [src/enterprise_architecture/README.md](src/enterprise_architecture/README.md)
+
 ## Bygga och testa
 
 ```bash
